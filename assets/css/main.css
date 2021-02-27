@@ -1,3 +1,4 @@
+/* font FACE  */
 @font-face {
   font-family: "Playfair Display";
   src: url("../fonts/Playfair/PlayfairDisplay-ExtraBold.ttf") format("truetype");
@@ -97,4 +98,22 @@
   font-weight: 800;
   font-style: italic;
   font-display: swap;
+}
+html {
+  font-family: "Playfair Display", Arial, sans-serif;
+  font-size: 16px;
+  word-spacing: 2px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
