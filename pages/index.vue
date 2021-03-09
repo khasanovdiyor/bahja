@@ -87,6 +87,7 @@
         </splide-slide>
       </splide>
     </div>
+    <TheFooter />
   </div>
   <!-- END OF CONTAINER -->
 </template>
