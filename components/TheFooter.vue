@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="border-t-2 border-gray-400">
     <div class=" footer px-5 lg:px-16 pt-10 block md:flex justify-between">
       <div
         class=" row flex w-2/5 justify-between
@@ -8,16 +8,16 @@
         <div class="col-5 md:col-3 categories leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">KATEGORIYA</h3>
           <ul class="text-gray-600">
-            <li><a href="#" class="">Ayollar </a></li>
-            <li><a href="#" class="">Erkaklar</a></li>
-            <li><a href="#" class="">Aksessuarlar</a></li>
+            <li><a href="#" class="hover:underline">Ayollar </a></li>
+            <li><a href="#" class="hover:underline">Erkaklar</a></li>
+            <li><a href="#" class="hover:underline">Aksessuarlar</a></li>
           </ul>
         </div>
         <div class="col-5 md:col-3 information leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">MA'LUMOTLAR</h3>
           <ul class="text-gray-600">
-            <li><a href="#" class="">Biz haqimizda</a></li>
-            <li><a href="#" class="">Bog'lanish</a></li>
+            <li><a href="#" class="hover:underline">Biz haqimizda</a></li>
+            <li><a href="#" class="hover:underline">Bog'lanish</a></li>
           </ul>
         </div>
       </div>
@@ -29,10 +29,10 @@
         <div class="col-5 md:col-3 links leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">FOYDALI LINKLAR</h3>
           <ul class="text-gray-600">
-            <li><a href="#" class="">Xarid qilish </a></li>
-            <li><a href="#" class="">Yetkazib berish</a></li>
+            <li><a href="#" class="hover:underline">Xarid qilish </a></li>
+            <li><a href="#" class="hover:underline">Yetkazib berish</a></li>
             <li>
-              <a href="#" class="">Qaytarish va almashtirish</a>
+              <a href="#" class="hover:underline">Qaytarish va almashtirish</a>
             </li>
           </ul>
         </div>
