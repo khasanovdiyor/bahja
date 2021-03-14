@@ -1,12 +1,13 @@
 <template>
   <div
-    class="py-4 px-16 flex items-center justify-between border-b border-black"
+    class="py-4 px-5 md:px-16 block md:flex items-center justify-between border-b border-black"
   >
-    <div>
-      <img src="../assets/images/bahja.png" alt="bahja logo" class="w-20" />
+    <div class="">
+      <img src="@/assets/images/bahja.png" alt="bahja logo" class="w-20" />
     </div>
+
     <!-- NAVIGATION LINKS -->
-    <nav class="w-1/2">
+    <nav class="w-1/2 ">
       <ul class="flex justify-between">
         <li>
           <nuxt-link to="mahalliy" class="text-black"
@@ -25,11 +26,11 @@
         </li>
       </ul>
     </nav>
-    <div class="flex w-1/6 justify-between">
-      <img src="../assets/images/loupe.svg" alt="search icon" class="w-6" />
-      <img src="../assets/images/user.svg" alt="user icon" class="w-6" />
+    <div class="flex w-1/6 justify-between ">
+      <img src="@/assets/images/loupe.svg" alt="search icon" class="w-6" />
+      <img src="@/assets/images/user.svg" alt="user icon" class="w-6" />
       <img
-        src="../assets/images/shopping-bag.svg"
+        src="@/assets/images/shopping-bag.svg"
         alt="shopping bag icon"
         class="w-6"
       />

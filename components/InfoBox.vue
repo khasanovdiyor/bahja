@@ -1,25 +1,25 @@
 <template>
-  <div class="flex justify-between px-16">
-    <div class="flex items-center justify-between w-1/6">
-      <img src="../assets/images/truck.svg" alt="truck icon" class="w-16" />
+  <div class="flex justify-between px-5 md:px-16">
+    <div class="block md:flex items-center justify-between  md:w-1/6">
+      <img src="../assets/images/truck.svg" alt="truck icon" class="w-14" />
       <div>
         <h3>Title</h3>
         <span>Paragraph text</span>
       </div>
     </div>
-    <div class="flex items-center justify-between w-1/6">
+    <div class="block md:flex items-center justify-between  md:w-1/6">
       <img
         src="../assets/images/star-badge.svg"
         alt="truck icon"
-        class="w-16"
+        class="w-14"
       />
       <div>
         <h3>Title</h3>
         <span>Paragraph text</span>
       </div>
     </div>
-    <div class="flex items-center justify-between w-1/6">
-      <img src="../assets/images/headset.svg" alt="truck icon" class="w-16" />
+    <div class="block md:flex items-center justify-between  md:w-1/6">
+      <img src="../assets/images/headset.svg" alt="truck icon" class="w-14" />
       <div>
         <h3>Title</h3>
         <span>Paragraph text</span>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="w-full md:w-1/3 px-5 flex items-center float-right pl-5 font-semibold h-8 bg-gray-700  text-gray-400"
+      class="w-full md:w-1/3 px-5 flex items-center float-right pl-5 font-semibold h-8 bg-black text-white"
     >
       QIDIRIV
     </div>
@@ -36,7 +36,7 @@
       </div>
 
       <hr class="mb-4" />
-      <p class="text-gray-700 mb-5 font-bold">
+      <p class="text-black mb-5 font-bold">
         QAYSI MAHSULOT KERAK?
       </p>
       <div class="h-56 scroll overflow-y-scroll">
@@ -54,10 +54,12 @@
           </a>
 
           <span class="px-5">
-            <h2 class="font-semibold text-gray-600">
+            <h2 class="font-semibold text-gray-400">
               {{ product.cardName }}
             </h2>
-            <p class="font-bold text-gray-700 text-lg">{{ product.price }}</p>
+            <p class="font-bold text-gray-700 text-lg">
+              {{ product.price }}
+            </p>
           </span>
         </div>
       </div>

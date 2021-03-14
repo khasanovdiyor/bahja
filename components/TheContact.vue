@@ -1,42 +1,46 @@
 <template>
-  <div class="bg-black text-white px-16 flex justify-between py-4">
+  <div
+    class="bg-black text-white px-5 md:px-16 block sm:flex justify-between py-1"
+  >
     <!-- LEFT OF CONTACT BOX -->
-    <div class="flex justify-between w-1/2">
-      <div class="flex w-1/3 items-center">
-        <img src="../assets/images/call.svg" alt="phone" class="w-4 mr-2" />
+    <div class="flex sm:w-3/4 justify-between md:justify-start text-sm">
+      <div class="flex items-center mr-4 md:mr-5">
+        <img src="../assets/images/call.svg" alt="phone" class="w-4 mr-1" />
         <span>+998998998998</span>
       </div>
-      <div class="flex w-1/3 items-center">
+      <div class="flex items-center mr-4 md:mr-5">
         <img
           src="../assets/images/location.svg"
           alt="location"
-          class="w-4 mr-2"
+          class="w-4 mr-1"
         />
-        <span>Uzbekistan,Tashkent</span>
+        <span>Tashkent</span>
       </div>
-      <div class="flex w-1/3   items-center">
+      <div class="flex items-center">
         <img src="../assets/images/clock.svg" alt="clock" class="w-4 mr-2" />
-        <span>All week,24/7</span>
+        <span>Ish vaqti 24/7</span>
       </div>
     </div>
     <!-- RIGHT OF CONTACT BOX -->
-    <div class="w-1/2">
-      <div class="flex justify-between w-1/6 ml-auto">
-        <nuxt-link to="instagram.com"
-          ><img
-            src="../assets/images/instagram.svg"
-            alt="instagram logo"
-            class="w-4"
-          />
-        </nuxt-link>
-        <nuxt-link to="telegram.me">
-          <img
-            src="../assets/images/telegram.svg"
-            alt="telegram logo"
-            class="w-4"
-          />
-        </nuxt-link>
-      </div>
+
+    <div
+      class="flex justify-center mt-2 sm:mt-0 sm:justify-end w-full sm:w-1/4"
+    >
+      <nuxt-link to="instagram.com"
+        ><img
+          src="../assets/images/instagram.svg"
+          alt="instagram logo"
+          class="w-5 mr-5"
+        />
+      </nuxt-link>
+
+      <nuxt-link to="telegram.me">
+        <img
+          src="../assets/images/telegram.svg"
+          alt="telegram logo"
+          class="w-5"
+        />
+      </nuxt-link>
     </div>
   </div>
 </template>

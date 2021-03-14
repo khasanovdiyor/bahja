@@ -12,25 +12,27 @@
       <!-- SHOWCASE -->
       <div class="py-10">
         <TheShowcase :slides="slides" />
-        <div class="py-5 border-b border-black">
-          <InfoBox />
-        </div>
+        <div class="py-5 border-b border-black"></div>
       </div>
       <!-- PRODUCTS -->
-      <div class="px-16">
+      <div class="px-5 md:px-16">
         <div>
           <ul class="flex justify-between">
-            <li class="uppercase font-semibold cursor-pointer">
-              Yangi mahsulotlar
-            </li>
-            <li class="uppercase">Eng ko`p sotilgan</li>
-            <li class="uppercase">Chegirma narxlarda</li>
-            <li class="uppercase">Taniqli brandlar</li>
+            <span class="block sm:flex justify-around">
+              <li class="uppercase font-semibold cursor-pointer">
+                Yangi mahsulotlar
+              </li>
+              <li class="uppercase">Eng ko`p sotilgan</li>
+            </span>
+            <span class="block sm:flex justify-around">
+              <li class="uppercase">Chegirma narxlarda</li>
+              <li class="uppercase">Taniqli brandlar</li>
+            </span>
           </ul>
         </div>
         <div>
           <!-- PRODUCTS CONTAINER -->
-          <div class="mt-10 flex justify-between flex-wrap">
+          <div class="mt-10 flex justify-between flex-grow">
             <!-- Product card -->
             <ProductCard
               v-for="product in products"
@@ -48,7 +50,7 @@
     </div>
     <!-- END OF SHOWCASE CONTAINER -->
     <!-- SALES -->
-    <div class="px-16 py-10">
+    <div class="px-5 md:px-16 py-10">
       <div class="flex justify-between h-56 pb-16">
         <div
           class="w-2/5 h-full bg-cover flex items-center justify-center"
@@ -87,6 +89,7 @@
         </splide-slide>
       </splide>
     </div>
+    <InfoBox />
     <TheFooter />
   </div>
   <!-- END OF CONTAINER -->
