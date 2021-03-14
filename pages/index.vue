@@ -36,7 +36,7 @@
             <!-- Product card -->
             <ProductCard
               v-for="product in products"
-              :key="product.image"
+              :key="product.name"
               :product="product"
             />
           </div>
@@ -80,7 +80,7 @@
       <splide :options="options" :slides="products">
         <splide-slide
           v-for="product in products"
-          :key="product.image"
+          :key="product.name"
           class="h-full"
         >
           <ProductCard :product="product" />
