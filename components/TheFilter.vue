@@ -1,15 +1,17 @@
 <template>
   <div>
     <div
-      class="filter px-5 md:px-16 p-5 block sm:flex justify-between w-full bg-gray-200 "
+      class="filter block sm:flex justify-center md:justify-between px-5 md:px-8 mx-0 md:mx-16 p-5  bg-gray-200 "
     >
-      <div class="flex w-2/5 justify-between">
-        <div class="leading-loose w-1/6 ">
+      <div
+        class="flex w-8/12 mx-auto md:w-1/2 sm:mr-10 md:mr-0 justify-between"
+      >
+        <div class="leading-8 w-2/5">
           <h2 class="font-semibold mb-3 text-gray-700">RANGI</h2>
           <div class="h-40 scroll overflow-y-scroll">
             <ul class=" text-gray-600">
               <li
-                class="text-sm  capitalize"
+                class="text-sm capitalize"
                 :class="{ 'font-bold text-md text-gray-800': color.isCheked }"
                 v-for="color in colors"
                 :key="color.colorName"
@@ -23,9 +25,8 @@
                     class="hidden"
                     v-model="color.isCheked"
                   />
-
                   <div
-                    class="rounded-full w-4 h-4 inline-block"
+                    class="rounded-full w-4 h-4  inline-block"
                     :class="color.className"
                   ></div>
                   {{ color.colorName }}</label
@@ -34,7 +35,7 @@
             </ul>
           </div>
         </div>
-        <div class="leading-loose w-1/6">
+        <div class="leading-loose w-2/5">
           <h2 class="font-semibold mb-3 text-gray-700">O'LCHAMI</h2>
           <ul class="text-gray-600">
             <li
@@ -53,8 +54,10 @@
         </div>
       </div>
 
-      <div class="flex w-2/5 justify-between">
-        <div class="leading-loose w-1/6">
+      <div
+        class="flex w-8/12 mx-auto md:w-5/12 mt-5 sm:mt-0 justify-end justify-between"
+      >
+        <div class="leading-7 w-2/5">
           <h2 class="font-semibold mb-3 text-gray-700">BRENDI</h2>
           <ul class="text-gray-600">
             <li>
@@ -79,7 +82,7 @@
             </li>
           </ul>
         </div>
-        <div class="leading-loose w-1/6">
+        <div class="leading-7 w-2/5">
           <h2 class="font-semibold mb-3 text-gray-700">NARXI</h2>
           <ul class="text-gray-600">
             <li>
@@ -153,6 +156,21 @@ export default {
           colorName: "binafsha",
           className: "bg-purple-500",
           isCheked: false
+        },
+        {
+          colorName: "pushti",
+          className: "bg-pink-500",
+          isCheked: false
+        },
+        {
+          colorName: "kulrang",
+          className: "bg-gray-500",
+          isCheked: false
+        },
+        {
+          colorName: "binafsha",
+          className: "bg-purple-500",
+          isCheked: false
         }
       ],
       sizes: [
@@ -187,5 +205,9 @@ export default {
 }
 .scroll::-webkit-scrollbar-thumb {
   background: #888;
+}
+::-webkit-scrollbar-track {
+  background: #dbdada;
+  border-radius: 10px;
 }
 </style>
