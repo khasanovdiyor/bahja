@@ -1,11 +1,14 @@
 <template>
-  <div class="border-t-2 border-gray-400">
-    <div class=" footer px-5 lg:px-16 pt-10 block md:flex justify-between">
+  <div class="border-gray-400">
+    <div
+      class="footer px-5 md:px-16 pt-10 bg-gray-200 block md:flex justify-center justify-between"
+    >
       <div
-        class=" row flex w-2/5 justify-between
+        class="flex w-12/12 md:w-1/2 mx-auto mr-0 md:mr-10 sm:mr-10 lg:mr-0
+         justify-between
       "
       >
-        <div class="col-5 md:col-3 categories leading-loose">
+        <div class="categories w-2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">KATEGORIYA</h3>
           <ul class="text-gray-600">
             <li><a href="#" class="hover:underline">Ayollar </a></li>
@@ -13,7 +16,7 @@
             <li><a href="#" class="hover:underline">Aksessuarlar</a></li>
           </ul>
         </div>
-        <div class="col-5 md:col-3 information leading-loose">
+        <div class="information w-2/5  leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">MA'LUMOTLAR</h3>
           <ul class="text-gray-600">
             <li><a href="#" class="hover:underline">Biz haqimizda</a></li>
@@ -23,20 +26,30 @@
       </div>
 
       <div
-        class=" row flex w-2/5 justify-between
+        class="flex w-12/12 md:w-1/2 mx-auto sm:mr-10 md:mr-0 mt-5 md:mt-0
+         justify-between
       "
       >
-        <div class="col-5 md:col-3 links leading-loose">
-          <h3 class="font-semibold mb-3 text-gray-700">FOYDALI LINKLAR</h3>
-          <ul class="text-gray-600">
-            <li><a href="#" class="hover:underline">Xarid qilish </a></li>
-            <li><a href="#" class="hover:underline">Yetkazib berish</a></li>
-            <li>
-              <a href="#" class="hover:underline">Qaytarish va almashtirish</a>
-            </li>
-          </ul>
+        <div class="links w-2/5 leading-loose">
+          <h3 class="font-semibold mb-3 text-gray-700">IJTIMOIY TARMOQLAR</h3>
+
+          <nuxt-link to="instagram.com" class="flex text-gray-600"
+            ><img
+              src="../assets/images/instagramblack.svg"
+              alt="instagram logo"
+              class="w-5 mr-5"
+            />instagram
+          </nuxt-link>
+
+          <nuxt-link to="telegram.me" class="flex text-gray-600">
+            <img
+              src="../assets/images/telegramblack.svg"
+              alt="telegram logo"
+              class="w-5 mr-5"
+            />telegram
+          </nuxt-link>
         </div>
-        <div class="col-5 md:col-3 contacts leading-loose">
+        <div class="contacts w-2/5 md:3/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">BOG'LANISH</h3>
           <ul class="text-gray-600">
             <li>
@@ -52,7 +65,7 @@
             <li>
               <p class="flex">
                 <img src="../assets/images/phone.svg" alt="" class="w-5 mr-3" />
-                +998 93 627 58 98
+                +93 627-58-98
               </p>
             </li>
             <li>
@@ -68,13 +81,11 @@
         </div>
       </div>
     </div>
-    <div class="bg-gray-200 h-10">
-      <!-- <hr class="" /> -->
-      <span
-        class="w-full text-center block mx-auto mt-5 py-2 text-sm text-gray-500"
-        >Bahja.uz Copyright &copy; 2021
-      </span>
-    </div>
+
+    <span
+      class="w-full text-center border-t border-gray-400 block mx-auto py-2 text-sm bg-gray-200 text-gray-500"
+      >Bahja.uz Copyright &copy; 2021
+    </span>
   </div>
 </template>
 
