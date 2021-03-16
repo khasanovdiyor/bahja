@@ -1,13 +1,19 @@
 <template>
   <div>
     <div
-      class="w-full md:w-1/3 px-5 flex items-center float-right pl-5 font-semibold h-8 bg-black text-white"
+      class="w-full relative px-5 flex text-xl items-center float-right py-8 font-semibold h-8 bg-black text-white"
     >
-      SHOPPING CARD
+      SHOPPING CART
+      <img
+        src="@/assets/images/close.svg"
+        class="close-btn absolute right-10 w-4 cursor-pointer"
+        alt="close icon"
+        @click="$emit('toggleCard')"
+      />
     </div>
 
-    <div class="mb-5 w-full md:w-1/3 px-5 ml-auto border-2 border-gray-300">
-      <div class="h-96 w-full py-5 scroll mt-12 overflow-y-scroll">
+    <div class="mb-5 w-full px-5 ml-auto">
+      <div class=" w-full py-5 scroll mt-12 overflow-y-scroll">
         <div
           class="flex mb-5"
           v-for="(product, index) in categories"
@@ -41,7 +47,7 @@
               </span>
 
               <p class="font-bold ml-5 text-gray-700 text-lg">
-                {{ product.price }}
+                {{ product.price }} UZS
               </p>
               <img
                 class="w-5 ml-auto cursor-pointer"
@@ -65,37 +71,33 @@ export default {
 
       categories: [
         {
+          id: 1,
           imgUrl: require("@/assets/images/koylak.jpg"),
           cardName: "Ayollar ko'ylagi",
           colorName: "Ko'k",
           size: "X",
-          price: "USD 189.000"
+          price: "189,000"
         },
         {
+          id: 2,
           imgUrl: require("@/assets/images/koylak.jpg"),
           cardName: "Ayollar ko'ylagi",
           colorName: "Qizil",
           size: "XL",
-          price: "USD 200.000"
+          price: "200,000"
         },
         {
+          id: 3,
           imgUrl: require("@/assets/images/koylak.jpg"),
           cardName: "Ayollar ko'ylagi",
           colorName: "Yashil",
           size: "S",
-          price: "USD 183.000"
+          price: "183,000"
         }
       ]
     };
   },
-  methods: {
-    countInc() {
-      this.count--;
-    },
-    countDeInc() {
-      this.count++;
-    }
-  }
+  methods: {}
 };
 </script>
 
