@@ -2,7 +2,7 @@
   <div>
     <TheContact />
     <TheHeader />
-    <div class="px-16 bg-gray-200 flex flex-col py-6">
+    <div class="px-5 md:px-16 bg-gray-200 flex flex-col ">
       <h2 class="font-bold text-4xl self-center">Product name</h2>
       <div class="flex justify-between">
         <div class="flex">
@@ -18,11 +18,11 @@
           </star-rating
           ><span class="ml-2">2 ta fikr</span>
         </div>
-        <div>Avilability: <span class="font-bold">In stock</span></div>
+        <div>Mavjudligi: <span class="font-bold">mavjud </span></div>
       </div>
     </div>
-    <div class="px-16 py-10 flex">
-      <div>
+    <div class="px-5 lg:px-16 py-10 block lg:flex">
+      <div class="w-full lg:w-1/2 mb-0 lg:mb-10">
         <splide :options="primaryOptions" ref="primary">
           <splide-slide v-for="slide in slides" :key="slide.src" class="">
             <img :src="slide.src" alt="" class="" />
@@ -34,25 +34,25 @@
           </splide-slide>
         </splide>
       </div>
-      <div class="ml-10 w-1/2 border-b-2 border-gray-200">
-        <div class="mb-6 w-1/2">
+      <div class="ml-10 lg:w-1/2 border-b-2 border-gray-200">
+        <div class="mb-6 w-full flex justify-around mx-auto lg:mx-0 lg:w-1/2 ">
           <h4 class="uppercase mb-4">
             Color: <span class="font-bold capitalize">{{ selectedColor }}</span>
           </h4>
-          <div class="flex justify-between">
+          <div class="flex  justify-between">
             <img
               v-for="slide in slides"
               :key="slide.src"
               @click="selectColor(slide.name)"
               :src="slide.src"
-              class="w-16 fit-cover border-2 border-white"
+              class="w-24 fit-cover mr-2 border-2 border-white"
               :class="{
                 'border-blue-400': selectedColor == slide.name
               }"
             />
           </div>
         </div>
-        <div class="w-1/2">
+        <div class="w-1/2 mx-auto lg:mx-0 ">
           <h4 class="mb-4 uppercase">
             Size: <span class="font-bold capitalize">{{ selectedSize }}</span>
           </h4>
@@ -68,16 +68,9 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center mt-10 border-b-2 border-gray-200 pb-10">
-          <img
-            src="../assets/images/clothes-hanger.svg"
-            class="w-10"
-            alt="clothes-hanger"
-          />
-          <span class="ml-6">Size guide</span>
-        </div>
+
         <div class="mt-6 flex items-center border-b-2 border-gray-200 pb-8">
-          <span class="font-bold text-2xl">200,000 so'm</span>
+          <span class="font-bold text-2xl">200,000 UZS</span>
           <button class="uppercase bg-black text-white py-2 px-4 mx-4">
             Savatchaga qo'shish
           </button>
@@ -269,6 +262,14 @@ export default {
         {
           id: 1,
           size: "M"
+        },
+        {
+          id: 1,
+          size: "S"
+        },
+        {
+          id: 1,
+          size: "XS"
         }
       ],
       product: {
@@ -278,7 +279,7 @@ export default {
         perPage: 1,
         perMove: 1,
         type: "fade",
-        width: 600,
+        minwidth: 600,
         height: 400,
         pagination: false,
         arrows: true,
@@ -287,7 +288,7 @@ export default {
       secondaryOptions: {
         type: "slide",
         rewind: true,
-        width: 600,
+        minwidth: 600,
         height: 100,
         gap: "1rem",
         pagination: false,
