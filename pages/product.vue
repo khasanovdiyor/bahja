@@ -2,7 +2,7 @@
   <div>
     <TheContact />
     <TheHeader />
-    <div class="px-5 md:px-16 bg-gray-200 flex flex-col ">
+    <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
       <h2 class="font-bold text-4xl self-center">Product name</h2>
       <div class="flex justify-between">
         <div class="flex">
