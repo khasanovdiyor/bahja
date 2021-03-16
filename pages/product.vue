@@ -78,10 +78,8 @@
         </div>
 
         <div class="mt-6 flex items-center border-b-2 border-gray-200 pb-8">
-<<<<<<< HEAD
           <span class="font-bold text-2xl">200,000 UZS</span>
           <button class="uppercase bg-black text-white py-2 px-4 mx-4">
-=======
           <span class="flex items-center  h-6  bg-gray-200 mr-8">
             <button v-on:click="decrement()" class="w-6 text-lg font-bold">
               -
@@ -96,7 +94,6 @@
             @click="saveToCart"
             class="uppercase bg-black text-white py-2 px-4 mx-4"
           >
->>>>>>> 6c846bee09aba094946a8cb2985791e3b4c6c37e
             Savatchaga qo'shish
           </button>
           <div class="">
