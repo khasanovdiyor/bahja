@@ -3,8 +3,7 @@
     <div class="block md:flex items-center justify-between  md:w-1/6">
       <img src="../assets/images/truck.svg" alt="truck icon" class="w-14" />
       <div>
-        <h3>Title</h3>
-        <span>Paragraph text</span>
+        <h3 class="ml-4">Yetkazib berish xizmati</h3>
       </div>
     </div>
     <div class="block md:flex items-center justify-between  md:w-1/6">
@@ -14,15 +13,13 @@
         class="w-14"
       />
       <div>
-        <h3>Title</h3>
-        <span>Paragraph text</span>
+        <h3>Sifatli mahsulotlar</h3>
       </div>
     </div>
     <div class="block md:flex items-center justify-between  md:w-1/6">
       <img src="../assets/images/headset.svg" alt="truck icon" class="w-14" />
       <div>
-        <h3>Title</h3>
-        <span>Paragraph text</span>
+        <h3 class="ml-4">Qo'llab quvvatlash xizmati</h3>
       </div>
     </div>
   </div>
