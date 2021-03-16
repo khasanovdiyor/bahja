@@ -1,6 +1,6 @@
 <template>
   <div class="relative shadow py-5">
-    <div class="w-64">
+    <div class="w-full h-72">
       <img
         :src="product.image"
         alt="product image"
@@ -8,23 +8,25 @@
       />
     </div>
 
-    <span class="bg-red-400 px-2 py-1 absolute top-0">{{ product.sale }}</span>
+    <!-- <span class="bg-red-600 px-2 py-1 text-white absolute top-0">{{
+      product.sale
+    }}</span>
     <span
       v-if="product.isImport"
-      class="bg-blue-400 px-2 py-1 absolute top-0 right-0"
+      class="bg-blue-600 px-2 py-1 absolute top-0 right-0 text-white"
       >Import</span
-    >
+    > -->
     <div class="pl-5">
-      <h4 class="text-gray-600">{{ product.name }}</h4>
-      <span class="font-bold">{{ product.priceWithSale }} so'm</span>
-      <del>{{ product.price }} so'm</del>
+      <h4 class="text-gray-500 mt-2 font-bold">{{ product.name }}</h4>
+      <span class="font-bold text-lg">{{ product.priceWithSale }} UZS</span>
+      <!-- <del>{{ product.price }} UZS</del> -->
 
       <star-rating
         :increment="0.5"
         :rating="product.rating"
         :max-rating="5"
         inactive-color="#ccc"
-        active-color="yellow"
+        active-color="gold"
         :star-size="15"
       >
       </star-rating>
