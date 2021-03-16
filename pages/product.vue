@@ -43,7 +43,7 @@
         </splide>
       </div>
       <div class="ml-10 lg:w-1/2 border-b-2 border-gray-200">
-        <div class="mb-6 w-full flex justify-around mx-auto lg:mx-0 lg:w-1/2 ">
+        <div class="mb-6 w-full mx-auto lg:mx-0 lg:w-1/2">
           <h4 class="uppercase mb-4">
             Color: <span class="font-bold capitalize">{{ product.color }}</span>
           </h4>
@@ -53,7 +53,7 @@
               :key="slide.src"
               @click="selectColor(slide.name)"
               :src="slide.src"
-              class="w-24 fit-cover mr-2 border-2 border-white"
+              class="w-16 h-16 object-cover mr-2 border-2 border-white"
               :class="{
                 'border-blue-400': product.color == slide.name
               }"
@@ -78,8 +78,6 @@
         </div>
 
         <div class="mt-6 flex items-center border-b-2 border-gray-200 pb-8">
-          <span class="font-bold text-2xl">200,000 UZS</span>
-          <button class="uppercase bg-black text-white py-2 px-4 mx-4">
           <span class="flex items-center  h-6  bg-gray-200 mr-8">
             <button v-on:click="decrement()" class="w-6 text-lg font-bold">
               -
