@@ -2,34 +2,40 @@
   <!--CONTAINER -->
   <div>
     <!-- CONTACT BOX  -->
-    <TheContact />
+    <div class="fixed z-40 w-full top-0">
+      <TheContact />
+    </div>
     <!-- END OF CONTACT BOX -->
 
     <!-- SHOWCASE CONTAINER -->
-    <div class="">
+    <div class="pt-28">
       <!-- HEADER - NAVIGATION -->
-      <TheHeader />
+      <div class="fixed top-12 z-40 w-full bg-white">
+        <TheHeader />
+      </div>
+
       <!-- SHOWCASE -->
-      <div class="py-10">
+      <div class="py-10 ">
         <TheShowcase :slides="slides" />
         <div class="py-5 border-b border-black"></div>
       </div>
       <!-- PRODUCTS -->
       <div class="px-5 md:px-16">
-        <div>
-          <ul class="flex justify-between">
-            <span class="block sm:flex justify-around">
-              <li class="uppercase font-semibold cursor-pointer">
-                Yangi mahsulotlar
-              </li>
-              <li class="uppercase">Eng ko`p sotilgan</li>
+        <div class="flex justify-between  text-xl uppercase">
+          <div class="flex w-2/5 justify-between">
+            <span class="cursor-pointer font-bold">
+              Yangi mahsulotlar
             </span>
-            <span class="block sm:flex justify-around">
-              <li class="uppercase">Chegirma narxlarda</li>
-              <li class="uppercase">Taniqli brandlar</li>
+            <span class="cursor-pointer">Eng ko'p sotilgan</span>
+          </div>
+          <div class="flex w-2/5 justify-between">
+            <span class="cursor-pointer">
+              Chegirma narxlarda
             </span>
-          </ul>
+            <span class="cursor-pointer">Taniqli brandlar</span>
+          </div>
         </div>
+
         <div>
           <!-- PRODUCTS CONTAINER -->
           <div class="mt-10 flex justify-between flex-grow">
@@ -38,10 +44,13 @@
               v-for="product in products"
               :key="product.name"
               :product="product"
+              class="w-64"
             />
           </div>
           <div class="py-5">
-            <button class="w-full bg-gray-400 mx-auto uppercase py-2 px-4">
+            <button
+              class="w-full bg-gray-200 font-bold mx-auto uppercase py-2 px-4"
+            >
               Barchasini ko'rish
             </button>
           </div>
@@ -74,8 +83,8 @@
     </div>
     <!-- TODAY'S HIT -->
     <div class="px-16 pb-10">
-      <h2 class="my-10 font-bold text-4xl uppercase">
-        Bugungi eng qaynoq mahsulotlar
+      <h2 class="my-10 font-bold text-2xl uppercase">
+        Xit tovarlar
       </h2>
       <splide :options="options" :slides="products">
         <splide-slide
@@ -103,6 +112,7 @@ export default {
         type: "fade",
         autoplay: true,
         rewind: true,
+        perMove: 1,
         width: "100%",
         type: "loop",
         perPage: 4,
@@ -131,7 +141,7 @@ export default {
             "https://cdn.pixabay.com/photo/2016/03/27/19/31/fashion-1283863_960_720.jpg",
           price: "400000",
           sale: "50%",
-          priceWithSale: "200000",
+          priceWithSale: "200,000",
           rating: 5,
           isImport: true
         },
@@ -141,7 +151,7 @@ export default {
             "https://cdn.pixabay.com/photo/2016/03/27/19/31/fashion-1283863_960_720.jpg",
           price: "400000",
           sale: "50%",
-          priceWithSale: "200000",
+          priceWithSale: "200,000",
           rating: 4,
           isImport: false
         },
@@ -151,7 +161,7 @@ export default {
             "https://cdn.shophumm.com/humm/uploads/sites/3/Fashion-bright-stylish-woman_Tile-default.jpg",
           price: "400000",
           sale: "50%",
-          priceWithSale: "200000",
+          priceWithSale: "200,000",
           rating: 3.5,
           isImport: true
         },
@@ -161,7 +171,7 @@ export default {
             "https://cdn.shophumm.com/humm/uploads/sites/3/Fashion-bright-stylish-woman_Tile-default.jpg",
           price: "400000",
           sale: "50%",
-          priceWithSale: "200000",
+          priceWithSale: "200,000",
           rating: 4.5,
           isImport: false
         }

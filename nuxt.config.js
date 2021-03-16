@@ -32,8 +32,16 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ["@nuxtjs/google-fonts", "@nuxtjs/axios"],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+  googleFonts: {
+    families: {
+      Montserrat: true
+    }
+  },
+  axios: {
+    baseURL: "http://localhost:8000/api/" // Used as fallback if no runtime config is provided
+  }
 };

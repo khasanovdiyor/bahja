@@ -1,45 +1,50 @@
 <template>
   <div>
     <div
-      class="w-full md:w-1/3 px-5 flex items-center float-right pl-5 font-semibold h-8 bg-black text-white"
+      class="w-full px-5 flex items-center text-xl float-right py-8 font-semibold h-8 bg-black text-white"
     >
       QIDIRIV
+      <img
+        src="@/assets/images/close.svg"
+        class="close-btn absolute right-10 w-4 cursor-pointer"
+        alt="close icon"
+        @click="$emit('toggleSearch')"
+      />
     </div>
 
-    <div class="w-full md:w-1/3 px-5 ml-auto border-2 border-gray-300">
+    <div class="w-full px-5 ml-auto ">
       <select
         name="category"
-        class="w-full  mt-5 p-1 pl-3 rounded-md border-2 border-gray-300 bg-gray-100"
+        class="w-full  mt-5 py-2 px-2  bg-gray-100"
         id="cars"
         v-model="selectedCategory"
       >
         <option disabled value="">Barcha ketegoriyalar</option>
-        <option>Ayollar</option>
-        <option>Erkaklar</option>
-        <option>Aksessuarlar</option>
+        <option>Mahalliy mahsulotlar</option>
+        <option>Import mahsulotlar</option>
       </select>
-      <div class="w-full right-0 flex">
-        <form class="searchbar w-full">
-          <div class="flex searchbar-input py-5">
-            <span class="rounded-md border-2 flex w-full border-gray-300 ">
-              <input
-                type="search"
-                class="p-1 pl-3 w-11/12 bg-gray-100 focus:outline-none "
-                placeholder="Qidiruv..."
-              />
-              <button type="btn" class="w-1/12 bg-gray-100 focus:outline-none">
-                <img src="../assets/images/search.svg" class="w-5" alt="" />
-              </button>
-            </span>
+      <div class="w-full flex border-b-2 border-gray-200 mb-6">
+        <div class="flex w-full py-5">
+          <div class="rounded-md  flex w-full  focus:outline">
+            <input
+              type="search"
+              class="py-2 px-3 w-full bg-gray-100 outline-none"
+              placeholder="Qidiruv..."
+            />
+            <button
+              type="btn"
+              class="w-1/12 bg-gray-100 flex items-center justify-center"
+            >
+              <img src="../assets/images/search.svg" class="w-5" alt="" />
+            </button>
           </div>
-        </form>
+        </div>
       </div>
 
-      <hr class="mb-4" />
       <p class="text-black mb-5 font-bold">
         QAYSI MAHSULOT KERAK?
       </p>
-      <div class="h-56 scroll overflow-y-scroll">
+      <div class="h-screen scroll overflow-y-scroll pb-10">
         <div
           class="flex  mb-5"
           v-for="(product, index) in categories"

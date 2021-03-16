@@ -8,7 +8,7 @@
         <div class="flex">
           <star-rating
             :increment="0.5"
-            :rating="product.rating"
+            :rating="selectedProduct.rating"
             :show-rating="false"
             :max-rating="5"
             inactive-color="#ccc"
@@ -24,12 +24,20 @@
     <div class="px-5 lg:px-16 py-10 block lg:flex">
       <div class="w-full lg:w-1/2 mb-0 lg:mb-10">
         <splide :options="primaryOptions" ref="primary">
-          <splide-slide v-for="slide in slides" :key="slide.src" class="">
+          <splide-slide
+            v-for="slide in selectedProduct.slides"
+            :key="slide.src"
+            class=""
+          >
             <img :src="slide.src" alt="" class="" />
           </splide-slide>
         </splide>
         <splide :options="secondaryOptions" ref="secondary">
-          <splide-slide v-for="slide in slides" :key="slide.src" class="">
+          <splide-slide
+            v-for="slide in selectedProduct.slides"
+            :key="slide.src"
+            class=""
+          >
             <img :src="slide.src" alt="" />
           </splide-slide>
         </splide>
@@ -37,32 +45,32 @@
       <div class="ml-10 lg:w-1/2 border-b-2 border-gray-200">
         <div class="mb-6 w-full flex justify-around mx-auto lg:mx-0 lg:w-1/2 ">
           <h4 class="uppercase mb-4">
-            Color: <span class="font-bold capitalize">{{ selectedColor }}</span>
+            Color: <span class="font-bold capitalize">{{ product.color }}</span>
           </h4>
           <div class="flex  justify-between">
             <img
-              v-for="slide in slides"
+              v-for="slide in selectedProduct.slides"
               :key="slide.src"
               @click="selectColor(slide.name)"
               :src="slide.src"
               class="w-24 fit-cover mr-2 border-2 border-white"
               :class="{
-                'border-blue-400': selectedColor == slide.name
+                'border-blue-400': product.color == slide.name
               }"
             />
           </div>
         </div>
         <div class="w-1/2 mx-auto lg:mx-0 ">
           <h4 class="mb-4 uppercase">
-            Size: <span class="font-bold capitalize">{{ selectedSize }}</span>
+            Size: <span class="font-bold capitalize">{{ product.size }}</span>
           </h4>
           <div class="flex justify-between">
             <div
               class="w-10 h-10 inline-flex items-center justify-center bg-gray-200 border-2 border-white"
-              :class="{ 'border-blue-400': selectedSize == size.size }"
+              :class="{ 'border-blue-400': product.size == size.size }"
               @click="selectSize(size.size)"
               v-for="size in sizes"
-              :key="size.id"
+              :key="size.size"
             >
               {{ size.size }}
             </div>
@@ -70,8 +78,25 @@
         </div>
 
         <div class="mt-6 flex items-center border-b-2 border-gray-200 pb-8">
+<<<<<<< HEAD
           <span class="font-bold text-2xl">200,000 UZS</span>
           <button class="uppercase bg-black text-white py-2 px-4 mx-4">
+=======
+          <span class="flex items-center  h-6  bg-gray-200 mr-8">
+            <button v-on:click="decrement()" class="w-6 text-lg font-bold">
+              -
+            </button>
+            <p class="w-6 text-lg text-center">{{ product.count }}</p>
+            <button v-on:click="increment()" class="w-6 text-lg font-bold">
+              +
+            </button>
+          </span>
+          <span class="font-bold text-2xl">200,000 so'm</span>
+          <button
+            @click="saveToCart"
+            class="uppercase bg-black text-white py-2 px-4 mx-4"
+          >
+>>>>>>> 6c846bee09aba094946a8cb2985791e3b4c6c37e
             Savatchaga qo'shish
           </button>
           <div class="">
@@ -119,7 +144,7 @@
             <div>
               <span class="font-bold">Rangi: </span
               ><span
-                v-for="color in slides"
+                v-for="color in selectedProduct.slides"
                 :key="color.name"
                 class="text-gray-600"
                 >{{ color.name }},
@@ -145,7 +170,7 @@
           <div class="flex">
             <star-rating
               :increment="0.5"
-              :rating="product.rating"
+              :rating="selectedProduct.rating"
               :show-rating="false"
               :max-rating="5"
               inactive-color="#ccc"
@@ -222,30 +247,48 @@
 export default {
   data() {
     return {
-      selectedColor: "",
-      selectedSize: "",
       showCommentBox: false,
-      slides: [
-        {
-          src:
-            "https://miro.medium.com/max/10370/1*FbAVZD_gQJtd2FX21S7c5w.jpeg",
-          name: "Red"
-        },
-        {
-          src:
-            "https://cdn.pixabay.com/photo/2015/07/27/20/21/beauty-863439_960_720.jpg",
-          name: "White"
-        },
-        {
-          src:
-            "https://cdn.pixabay.com/photo/2016/08/26/20/44/elan-1623085_960_720.jpg",
-          name: "Black"
-        },
-        {
-          src: "https://www.coverstory.co.in/media/cms/home/category/work.jpg",
-          name: "Green"
-        }
-      ],
+      products: [],
+      selectedProduct: {
+        id: 1,
+        name: "Adidas Fly N1",
+        image:
+          "https://cdn.pixabay.com/photo/2016/03/27/19/31/fashion-1283863_960_720.jpg",
+        slides: [
+          {
+            src:
+              "https://miro.medium.com/max/10370/1*FbAVZD_gQJtd2FX21S7c5w.jpeg",
+            name: "Red"
+          },
+          {
+            src:
+              "https://cdn.pixabay.com/photo/2015/07/27/20/21/beauty-863439_960_720.jpg",
+            name: "White"
+          },
+          {
+            src:
+              "https://cdn.pixabay.com/photo/2016/08/26/20/44/elan-1623085_960_720.jpg",
+            name: "Black"
+          },
+          {
+            src:
+              "https://www.coverstory.co.in/media/cms/home/category/work.jpg",
+            name: "Green"
+          }
+        ],
+
+        price: "400000",
+        sale: "50%",
+        priceWithSale: "200,000",
+        rating: 5,
+        isImport: true
+      },
+      product: {
+        count: 1,
+        id: 5,
+        color: null,
+        size: null
+      },
       sizes: [
         {
           id: 1,
@@ -272,9 +315,6 @@ export default {
           size: "XS"
         }
       ],
-      product: {
-        rating: 4.5
-      },
       primaryOptions: {
         perPage: 1,
         perMove: 1,
@@ -301,11 +341,37 @@ export default {
     };
   },
   methods: {
-    selectColor(colorName) {
-      this.selectedColor = colorName;
+    increment() {
+      this.product.count++;
     },
+    decrement() {
+      this.product.count--;
+    },
+    selectColor(colorName) {
+      this.product.color = colorName;
+    },
+
     selectSize(size) {
-      this.selectedSize = size;
+      this.product.size = size;
+    },
+    saveToCart() {
+      this.saveProduct();
+      // console.log("Mahsulot cartga qoshildi!");
+      // const products = JSON.parse(localStorage.getItem("products"));
+      console.log("Localstorage: ", localStorage.products);
+      console.log("Localstorage: ", JSON.parse(localStorage.products));
+    },
+    saveProduct() {
+      let newList = [];
+      newList.push(this.product);
+      console.log("newList.push(this.product);", this.product);
+      let old = localStorage.getItem("products");
+      console.log("old", old);
+      if (old) newList = [...newList, ...JSON.parse(old)];
+      console.log("new", newList);
+      const parsed = JSON.stringify(newList);
+      console.log(JSON.parse(localStorage.getItem(newList)));
+      localStorage.setItem("products", parsed);
     }
   },
   mounted() {
