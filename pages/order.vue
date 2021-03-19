@@ -9,7 +9,11 @@
         buyurtma
       </p>
       <div class="w-full px-5 mx-auto">
+<<<<<<< HEAD
         <form class="w-full" method="post" enctype="multipart/form-data">
+=======
+        <form class="w-full">
+>>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
           <div class="input-group my-8">
             <label for="input" class="font-semibold text-sm uppercase"
               >ismingiz</label
@@ -18,7 +22,10 @@
               type="text"
               class="p-2 pl-3 mt-2 w-full bg-gray-200 "
               placeholder="Ism"
+<<<<<<< HEAD
               v-model="name"
+=======
+>>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
             />
           </div>
           <div class="input-group">
@@ -26,17 +33,26 @@
               >Telefon raqamingiz</label
             >
             <input
+<<<<<<< HEAD
               type="tel"
               class="p-2 pl-3 mt-2 w-full bg-gray-200 "
               placeholder="+998-**-***-**-**"
               v-model="phone"
+=======
+              type=""
+              class="p-2 pl-3 mt-2 w-full bg-gray-200 "
+              placeholder="+998-**-***-**-**"
+>>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
             />
           </div>
         </form>
         <hr class="my-8" />
         <button
           type="submit"
+<<<<<<< HEAD
           @click.prevent="sendOrder"
+=======
+>>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
           class="w-1/2 flex items-center justify-center mx-auto text-sm font-semibold uppercase  py-6 h-8 bg-black text-white"
         >
           buyurtma berish
@@ -46,6 +62,7 @@
     <TheFooter />
   </div>
 </template>
+<<<<<<< HEAD
 
 <script>
 import global from "~/mixins.js/global.js";
@@ -88,3 +105,5 @@ export default {
   }
 };
 </script>
+=======
+>>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
