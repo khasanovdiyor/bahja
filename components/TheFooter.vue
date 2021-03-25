@@ -1,10 +1,10 @@
 <template>
   <div class="border-gray-400">
     <div
-      class="footer px-5 md:px-16 pt-10 bg-gray-200 block md:flex justify-center justify-between"
+      class="footer px-5 md:px-16 pt-10 bg-gray-200 block md:flex  justify-between"
     >
       <div
-        class="flex w-12/12 md:w-1/2 mx-auto mr-0 md:mr-10 sm:mr-10 lg:mr-0
+        class="sm:flex w-full md:w-1/2 mx-auto mr-0 md:mr-10 sm:mr-10 lg:mr-0
          justify-between
       "
       >
@@ -26,7 +26,7 @@
       </div>
 
       <div
-        class="flex w-12/12 md:w-1/2 mx-auto sm:mr-10 md:mr-0 mt-5 md:mt-0
+        class="sm:flex  w-full md:w-1/2 mx-auto sm:mr-10 md:mr-0 mt-5 md:mt-0
          justify-between
       "
       >
@@ -49,7 +49,7 @@
             />telegram
           </nuxt-link>
         </div>
-        <div class="contacts w-2/5 md:3/5 leading-loose">
+        <div class="contacts md:2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">BOG'LANISH</h3>
           <ul class="text-gray-600">
             <li>

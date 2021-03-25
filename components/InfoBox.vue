@@ -1,23 +1,39 @@
 <template>
-  <div class="flex justify-between px-5 md:px-16">
-    <div class="block md:flex items-center justify-between  md:w-1/6">
-      <img src="../assets/images/truck.svg" alt="truck icon" class="w-14" />
+  <div
+    class="sm:flex mx-auto text-center sm:text-normal justify-between px-5 md:px-16"
+  >
+    <div
+      class="block my-2 sm:my-0 md:flex items-center justify-between  lg:w-1/4"
+    >
+      <img
+        src="../assets/images/truck.svg"
+        alt="truck icon"
+        class="mx-auto w-14"
+      />
       <div>
         <h3 class="ml-4">Yetkazib berish xizmati</h3>
       </div>
     </div>
-    <div class="block md:flex items-center justify-between  md:w-1/6">
+    <div
+      class="block my-2 sm:my-0 md:flex items-center justify-between  lg:w-1/4"
+    >
       <img
         src="../assets/images/star-badge.svg"
         alt="truck icon"
-        class="w-14"
+        class="w-14 mx-auto"
       />
       <div>
         <h3>Sifatli mahsulotlar</h3>
       </div>
     </div>
-    <div class="block md:flex items-center justify-between  md:w-1/6">
-      <img src="../assets/images/headset.svg" alt="truck icon" class="w-14" />
+    <div
+      class="block my-2 sm:my-0 md:flex items-center justify-between  lg:w-1/4"
+    >
+      <img
+        src="../assets/images/headset.svg"
+        alt="truck icon"
+        class="w-14 mx-auto"
+      />
       <div>
         <h3 class="ml-4">Qo'llab quvvatlash xizmati</h3>
       </div>
