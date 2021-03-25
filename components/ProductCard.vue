@@ -1,10 +1,10 @@
 <template>
-  <div class="relative shadow py-5">
+  <div class="relative shadow pb-6 ">
     <div class="w-full h-72">
       <img
-        :src="product.image"
+        :src="product.variation_image"
         alt="product image"
-        class="object-cover w-full h-full"
+        class="object-cover object-top w-full h-full"
       />
     </div>
 
@@ -18,18 +18,20 @@
     > -->
     <div class="pl-5">
       <h4 class="text-gray-500 mt-2 font-bold">{{ product.name }}</h4>
-      <span class="font-bold text-lg">{{ product.priceWithSale }} UZS</span>
+      <span class="font-bold text-lg"
+        >{{ product.price.toLocaleString() }} so'm</span
+      >
       <!-- <del>{{ product.price }} UZS</del> -->
 
-      <star-rating
+      <!-- <star-rating
         :increment="0.5"
-        :rating="product.rating"
+        :rating="4"
         :max-rating="5"
         inactive-color="#ccc"
         active-color="gold"
         :star-size="15"
       >
-      </star-rating>
+      </star-rating> -->
     </div>
   </div>
 </template>
@@ -41,6 +43,9 @@ export default {
       type: Object,
       required: true
     }
+  },
+  mounted() {
+    this.product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 };
 </script>
