@@ -2,18 +2,16 @@
   <div>
     <TheContact />
     <TheHeader />
-    <div class="w-1/3 mx-auto border-2 my-8 border-gray-200 pb-8">
+    <div
+      class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-8 border-gray-200 pb-8"
+    >
       <p
         class="w-full px-5 flex items-center py-6 h-8 text-sm mx-auto font-semibold bg-black text-white uppercase"
       >
         buyurtma
       </p>
       <div class="w-full px-5 mx-auto">
-<<<<<<< HEAD
         <form class="w-full" method="post" enctype="multipart/form-data">
-=======
-        <form class="w-full">
->>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
           <div class="input-group my-8">
             <label for="input" class="font-semibold text-sm uppercase"
               >ismingiz</label
@@ -22,10 +20,7 @@
               type="text"
               class="p-2 pl-3 mt-2 w-full bg-gray-200 "
               placeholder="Ism"
-<<<<<<< HEAD
               v-model="name"
-=======
->>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
             />
           </div>
           <div class="input-group">
@@ -33,26 +28,17 @@
               >Telefon raqamingiz</label
             >
             <input
-<<<<<<< HEAD
               type="tel"
               class="p-2 pl-3 mt-2 w-full bg-gray-200 "
               placeholder="+998-**-***-**-**"
               v-model="phone"
-=======
-              type=""
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 "
-              placeholder="+998-**-***-**-**"
->>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
             />
           </div>
         </form>
         <hr class="my-8" />
         <button
           type="submit"
-<<<<<<< HEAD
           @click.prevent="sendOrder"
-=======
->>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
           class="w-1/2 flex items-center justify-center mx-auto text-sm font-semibold uppercase  py-6 h-8 bg-black text-white"
         >
           buyurtma berish
@@ -62,7 +48,6 @@
     <TheFooter />
   </div>
 </template>
-<<<<<<< HEAD
 
 <script>
 import global from "~/mixins.js/global.js";
@@ -78,9 +63,9 @@ export default {
     };
   },
   mounted() {
-    this.product0 = JSON.parse(localStorage.products)[0].id;
-    this.product1 = JSON.parse(localStorage.products)[0].id;
-    this.products = JSON.parse(localStorage.products);
+    // this.product0 = JSON.parse(localStorage.products)[0].id;
+    // this.product1 = JSON.parse(localStorage.products)[0].id;
+    // this.products = JSON.parse(localStorage.products);
   },
   methods: {
     sendOrder() {
@@ -90,13 +75,18 @@ export default {
       formData.append("count0", 2);
       formData.append("product0", this.product0);
       formData.append("product1", this.product1);
-      formData.append("length", this.products.length);
+      formData.append("leng", this.products.length);
       formData.append("count1", 2);
 
       this.$axios
         .post(`cart/orderbeta-create/`, formData)
         .then(res => {
           console.log(res);
+          let products = JSON.parse(localStorage.products);
+          products = [];
+          const parsed = JSON.stringify(products);
+          // console.log(JSON.parse(localStorage.getItem(newList)));
+          localStorage.setItem("products", parsed);
         })
         .catch(err => {
           console.log(err);
@@ -105,5 +95,3 @@ export default {
   }
 };
 </script>
-=======
->>>>>>> bd7cc60b864ce51abe3b2dd4de12363d00f0bb51
