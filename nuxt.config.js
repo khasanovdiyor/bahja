@@ -14,16 +14,24 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["~/assets/css/main.css"],
+  css: [
+    "vue-multiselect/dist/vue-multiselect.min.css",
+    "vue-tabs-component/docs/resources/tabs-component.css",
+    "~/assets/css/main.css"
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/splide.client.js", ssr: false },
-    { src: "~/plugins/star-rating.js", mode: "client" }
+    { src: "~/plugins/star-rating.js", mode: "client" },
+    { src: "~/plugins/vue-multiselect.js", mode: "client" },
+    { src: "~/plugins/vue-tabs-component.js", mode: "client" },
+    { src: "~/plugins/swiper.js", mode: "client" },
+    { src: "~/plugins/lingallery.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: ["~/components", "~/components/admin"],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
