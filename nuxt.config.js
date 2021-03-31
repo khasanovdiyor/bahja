@@ -26,8 +26,7 @@ export default {
     { src: "~/plugins/star-rating.js", mode: "client" },
     { src: "~/plugins/vue-multiselect.js", mode: "client" },
     { src: "~/plugins/vue-tabs-component.js", mode: "client" },
-    { src: "~/plugins/swiper.js", mode: "client" },
-    { src: "~/plugins/lingallery.js", mode: "client" }
+    { src: "~/plugins/swiper.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
