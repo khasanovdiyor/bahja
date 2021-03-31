@@ -202,6 +202,11 @@
 
             <div class="mt-8 flex justify-between">
               <h2 class="text-xl font-bold">Zakazlar</h2>
+              <nuxt-link
+                to="/admin/order-create/"
+                class="font-bold text-2xl bg-gray-800 text-white px-4"
+                >+</nuxt-link
+              >
               <!-- <div>
                 Status bo'yicha saralash
                 <select name="filter-orders" id="" class="block">
@@ -307,10 +312,7 @@
                           class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="relative">
-                            <div
-                              v-if="showStatus"
-                              class="w-32  bg-gray-200 py-2 px-4"
-                            >
+                            <div v-if="showStatus" class="w-32 py-2 px-4">
                               <span
                                 v-for="status in statuses"
                                 :key="status"

@@ -1,7 +1,7 @@
 <template>
-  <div class="flex ">
+  <div class="flex min-h-screen">
     <AdminSidebar />
-    <div class="px-16 ">
+    <div class="px-16 w-2/3">
       <div class="mb-6">
         <div class="input-group block my-4">
           <h2 class="text-xl font-bold mb-10 uppercase">Kategoriya qoshish</h2>
@@ -14,16 +14,60 @@
             v-model="newCategory.name"
           />
         </div>
+        <div>
+          <label for="input" class="block font-bold uppercase text-sm mb-2"
+            >Parent kategoriya {{ newCategory.parent_id }}</label
+          >
+          <multiselect
+            v-model="selectedCategory"
+            :options="categories"
+            placeholder="Kategoriya tanlang"
+            label="name"
+            track-by="name"
+            @select="selectCategory"
+            @remove="removeCategory"
+          ></multiselect>
+        </div>
+        <div>
+          <label for="input" class="block font-bold uppercase text-sm mb-2"
+            >Tartib raqami</label
+          >
+          <input
+            type="text"
+            class="border-2 text-sm w-1/2 py-2 pl-5"
+            v-model="newCategory.order"
+          />
+        </div>
+        <div class="my-4">
+          <label class="block font-bold uppercase text-sm mb-2"
+            >rasm qo'yish</label
+          ><input
+            type="file"
+            accept="image/*"
+            @change="previewImage"
+            class="w-1/2 border-2 text-sm py-2 pl-5"
+          />
+          <div v-if="preview">
+            <div>
+              <div class="w-56 h-56">
+                <img
+                  :src="preview"
+                  class="object-cover object-top w-full h-full"
+                />
+              </div>
+              <p class="">Rasm Nomi: {{ image.name }}</p>
+              <p class="">Rasm hajmi: {{ image.size / 1024 }}KB</p>
+            </div>
+          </div>
+          <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+        </div>
 
-        <button
-          @click="createCategory"
-          class="bg-green-400 text-white py-2 px-4"
-        >
+        <base-button :clickFunction="createCategory">
           Kategoriya yaratish
-        </button>
+        </base-button>
       </div>
-      <div>
-        <table class="min-w-full divide-y divide-gray-200 ">
+      <div class="mb-10">
+        <table class="min-w-full divide-y  divide-gray-200 ">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -32,6 +76,7 @@
               >
                 id
               </th>
+
               <th
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
@@ -42,7 +87,13 @@
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
               >
-                O'chirish
+                Kategoriya rasmi
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              >
+                Kategoriya Qo'shish/O'chirish
               </th>
             </tr>
           </thead>
@@ -57,13 +108,29 @@
                   {{ category.id }}
                 </div>
               </td>
+
               <td class="px-6 py-1 border">
                 <div class="flex items-center text-gray-500">
                   {{ category.name }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500 justify-center">
+                <div class="flex items-center text-gray-500">
+                  <img
+                    :src="category.image"
+                    :alt="`${category.name} image`"
+                    class="w-24 h-24 object-cover ovject-center"
+                  />
+                </div>
+              </td>
+              <td class="px-6 py-1 border">
+                <div class="flex items-center text-gray-500 justify-between">
+                  <div
+                    @click="newCategory.parent_id = category.id"
+                    class="cursor-pointer text-2xl bg-gray-800 text-white px-2 "
+                  >
+                    +
+                  </div>
                   <div
                     @click="
                       showDeleteDialog = true;
@@ -80,7 +147,7 @@
                 </div>
               </td>
               <div
-                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
+                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
                 v-if="showDeleteDialog"
               >
                 <div class="w-1/3 bg-white py-4 px-10">
@@ -89,10 +156,10 @@
                   >
                   <div class="flex justify-between">
                     <button
-                      @click="deleteCategory(selectedProductID)"
+                      @click="deleteCategory(selectedCategoryID)"
                       class="bg-red-600 text-white py-2 px-4"
                     >
-                      Ha {{ selectedProductID }}
+                      Ha
                     </button>
                     <button
                       @click="showDeleteDialog = false"
@@ -113,36 +180,60 @@
 
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-
+import BaseButton from "../../components/admin/BaseButton.vue";
+import global from "~/mixins.js/global.js";
 export default {
+  mixins: [global],
   components: {
-    AdminSidebar
+    AdminSidebar,
+    BaseButton
   },
   data() {
     return {
       showDeleteDialog: false,
-      selectedCategoryID: null,
-      categories: [],
+      selectedCategory: {},
+      showChildInput: false,
+      image: null,
+      preview: null,
+      // categories: [],
+      image: null,
       newCategory: {
-        name: ""
+        name: "",
+        parent_id: 0,
+        order: 0
       }
     };
   },
   methods: {
-    getCategories() {
-      this.$axios.get("product/category-list").then(res => {
-        console.log(res.data);
-        this.categories = res.data;
-      });
+    selectCategory(value, _s) {
+      this.newCategory.parent_id = value.id;
+    },
+    removeCategory(value, id) {
+      this.newCategory.parent_id = 0;
+    },
+    previewImage: function(event) {
+      var input = event.target;
+      if (input.files) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.preview = e.target.result;
+        };
+        this.image = input.files[0];
+        reader.readAsDataURL(this.image);
+      }
     },
     createCategory() {
-      this.$axios
-        .post("product/category-create", this.newCategory)
-        .then(res => {
-          console.log(res.data);
-        });
+      const formData = new FormData();
+      for (let key in this.newCategory) {
+        formData.append(key, this.newCategory[key]);
+      }
+      formData.append("image", this.image);
+      this.$axios.post("product/category-create/", formData).then(res => {
+        console.log(res.data);
+        this.getCategories();
+      });
     },
-    deleteOrder(id) {
+    deleteCategory(id) {
       this.$axios
         .delete(`product/category-delete/${id}`)
         .then(res => {
@@ -161,4 +252,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.multiselect {
+  width: 50%;
+}</style
+>>

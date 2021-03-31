@@ -2,7 +2,7 @@
   <div class="relative shadow pb-6 ">
     <div class="w-full h-72">
       <img
-        :src="product.variation_image"
+        :src="product.image"
         alt="product image"
         class="object-cover object-top w-full h-full"
       />

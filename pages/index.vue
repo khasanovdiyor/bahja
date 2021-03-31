@@ -177,7 +177,7 @@ export default {
     },
     getProducts() {
       this.$axios
-        .get("product/variation-list/")
+        .get("product/list/")
         .then(res => {
           console.log("variation-list", res.data);
           this.products = res.data;

@@ -3,9 +3,9 @@
     :class="
       sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
     "
-    class="fixed z-30 inset-y-0 pb-10  left-0 w-80 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
+    class="fixed z-30 inset-y-0 pb-10  left-0 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
   >
-    <div class="flex items-center justify-center mt-8">
+    <div class="flex items-center  justify-center mt-8">
       <div class="flex items-center">
         <svg
           class="h-12 w-12"
@@ -208,27 +208,7 @@
 
         <span class="mx-3">Brandlar</span>
       </nuxt-link>
-      <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-        to="/admin/colors"
-      >
-        <svg
-          class="h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-          ></path>
-        </svg>
-
-        <span class="mx-3">Ranglar</span>
-      </nuxt-link>
+      
     </nav>
   </div>
 </template>
@@ -249,6 +229,7 @@ a.nuxt-link-exact-active {
   background: rgb(173, 173, 173);
 
 }
+
 </style>>
 
 </style>
