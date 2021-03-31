@@ -2,7 +2,15 @@
   <div class="flex h-screen">
     <AdminSidebar />
     <div class="px-16 w-4/5 pt-10">
-      <h1 class="font-bold text-xl mb-6">Mavjud Mahsulotlar</h1>
+      <div class="flex items-center justify-between">
+        <h1 class="font-bold text-xl mb-6">Mavjud Mahsulotlar</h1>
+        <nuxt-link
+          to="/admin/product-create"
+          class="bg-gray-800 py-1 px-4 text-font-bold text-2xl text-white"
+          >+</nuxt-link
+        >
+      </div>
+
       <table class="min-w-full divide-y divide-gray-200 ">
         <thead class="bg-gray-200">
           <tr>
@@ -75,7 +83,7 @@
             </td>
             <td class="px-6 py-1 border">
               <div class="flex items-center text-gray-500">
-                {{ product.color.name }}
+                color
               </div>
             </td>
             <td class="px-6 py-1 border">
@@ -115,7 +123,7 @@
               </div>
             </td>
             <div
-              class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
+              class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-25 flex items-center justify-center"
               v-if="showDeleteDialog"
             >
               <div class="w-1/3 bg-white py-4 px-10">
@@ -160,16 +168,14 @@ export default {
   },
   methods: {
     getProducts() {
-      this.$axios.get("product/variation-list").then(res => {
+      this.$axios.get("product/list/?parent_id=0").then(res => {
         console.log(res.data);
         this.products = res.data;
       });
     },
     deleteProduct(id) {
-      const formData = new FormData();
-      formData.append("is_active", false);
       this.$axios
-        .patch(`product/variation-update/${id}`, formData)
+        .delete(`product/delete/${id}`)
         .then(res => {
           console.log(res);
           this.showDeleteDialog = false;

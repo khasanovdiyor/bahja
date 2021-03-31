@@ -130,9 +130,16 @@ export default {
         reader.onload = e => {
           this.preview = e.target.result;
         };
+
         this.slider.image = input.files[0];
         reader.readAsDataURL(input.files[0]);
       }
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        console.log("RESULT", reader.result);
+      };
+      reader.readAsDataURL(file);
     },
     getCategories() {
       this.$axios

@@ -83,25 +83,13 @@
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
               >
-                mahsulot id
+                mahsulot kodi
               </th>
               <th
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
               >
                 mahsulot nomi
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-              >
-                kategoriyasi
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-              >
-                brendi
               </th>
               <th
                 scope="col"
@@ -143,22 +131,12 @@
             >
               <td class="px-6 py-1 border">
                 <div class="flex items-center text-gray-500 ">
-                  {{ product.product.id }}
+                  {{ product.product_code }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
                 <div class="flex items-center text-gray-500">
                   {{ product.product.name }}
-                </div>
-              </td>
-              <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
-                  {{ product.product.category.name }}
-                </div>
-              </td>
-              <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
-                  {{ product.product.brand.name }}
                 </div>
               </td>
               <td class="px-6 py-1 border">

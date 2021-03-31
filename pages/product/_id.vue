@@ -3,7 +3,10 @@
     <TheContact />
     <TheHeader />
     <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
-      <h2 class="font-bold sm:text-4xl text-xl self-center">
+      <h2
+        class="font-bold sm:text-4xl text-xl self-center "
+        @click="changeSlider"
+      >
         {{ product.name }}
       </h2>
       <div class="flex justify-between">
@@ -20,29 +23,60 @@
           </star-rating
           ><span class="ml-2">2 ta fikr</span>
         </div> -->
-        <div>Mavjudligi: <span class="font-bold">Omborda mavjud </span></div>
+        <div>
+          Mavjudligi: <span class="font-bold">bor {{ sliderImages }}</span>
+        </div>
       </div>
     </div>
     <div class="px-5 md:px-16 py-10 block md:flex">
       <div class="md:w-1/2 mb-0 lg:mb-10">
-        <splide :options="primaryOptions" ref="primary">
-          <splide-slide
-            v-for="slide in product.variations[0].images"
-            :key="slide.images"
-            class="h-96"
-          >
-            <img :src="slide.images" alt="" class="object-cover h-96 w-full" />
+        <!-- <splide :options="primaryOptions" ref="primary">
+          <splide-slide v-for="slide in sliderImages" :key="slide" class="h-96">
+            <img :src="slide" alt="" class="object-cover h-96 w-full" />
           </splide-slide>
         </splide>
         <splide :options="secondaryOptions" ref="secondary">
-          <splide-slide
-            v-for="slide in product.variations[0].images"
-            :key="slide.images"
-            class="h-48"
-          >
-            <img :src="slide.images" alt="" class="object-cover" />
+          <splide-slide v-for="slide in sliderImages" :key="slide" class="h-48">
+            <img :src="slide" alt="" class="object-cover" />
           </splide-slide>
-        </splide>
+        </splide> -->
+        <!-- swiper1 -->
+        <swiper
+          class="swiper gallery-top"
+          :options="swiperOptionTop"
+          ref="swiperTop"
+        >
+          <swiper-slide
+            class="object-cover object-center"
+            v-for="image in sliderImages"
+            :key="image"
+            :style="{ backgroundImage: 'url(' + image + ')' }"
+          >
+            <!-- <img :src="image" alt="" class="h-72   object-center" /> -->
+          </swiper-slide>
+          <div
+            class="swiper-button-next swiper-button-white"
+            slot="button-next"
+          ></div>
+          <div
+            class="swiper-button-prev swiper-button-white"
+            slot="button-prev"
+          ></div>
+        </swiper>
+        <!-- swiper2 Thumbs -->
+        <swiper
+          class="swiper gallery-thumbs"
+          :options="swiperOptionThumbs"
+          ref="swiperThumbs"
+        >
+          <swiper-slide
+            class="object-fit object-center"
+            v-for="image in sliderImages"
+            :key="image"
+          >
+            <img :src="image" alt="" class="h-24 w-36 object-cover" />
+          </swiper-slide>
+        </swiper>
       </div>
       <div class="md:ml-10 md:w-1/2 border-b-2 border-gray-200">
         <div class="mb-6 w-full mx-auto lg:mx-0 lg:w-1/2">
@@ -52,16 +86,16 @@
           </h4>
           <div class="flex ">
             <img
-              v-for="product in product.variations"
-              :key="product.color.name"
+              v-for="color in product.available_colors"
+              :key="color.color"
               @click="
-                selectColor(product.color.name);
+                selectColor(color.color);
                 getFilteredProducts(product.color.id, '');
               "
-              :src="product.variation_image"
+              :src="color.image"
               class="w-16 h-16 object-cover object-top cursor-pointer mr-2 border-2 border-white filter"
               :class="{
-                'border-blue-400': selectedColor == product.color.name
+                'border-blue-400': selectedColor == color.color
               }"
             />
           </div>
@@ -77,11 +111,11 @@
               :class="{ 'border-blue-400': selectedSize == size.size }"
               @click="
                 selectSize(size.size);
-                getSelectedId(product.variations[0].id);
+                getSelectedId(product.id);
                 getFilteredProducts('', size.size);
               "
               v-for="size in product.variations"
-              :key="size.size"
+              :key="size"
             >
               {{ size.size }}
             </div>
@@ -135,7 +169,7 @@
             <div>
               <span class="font-bold">Rangi: </span
               ><span
-                v-for="color in product.available_colors"
+                v-for="color in product.variations"
                 :key="color.id"
                 class="text-gray-600"
                 >{{ color.name }},
@@ -237,11 +271,34 @@
 
 <script>
 import global from "~/mixins.js/global.js";
+import { directive } from "vue-awesome-swiper";
 export default {
+  directives: {
+    swiper: directive
+  },
   mixins: [global],
   data() {
     return {
+      currentId: null,
       slides: [],
+      swiperOptionTop: {
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        }
+      },
+      swiperOptionThumbs: {
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+      },
       // slides: [
       //   {
       //     images:
@@ -262,6 +319,11 @@ export default {
       filteredProducts: [],
       selectedColor: "",
       selectedSize: "",
+      product: {},
+      sliderImages: [],
+      availableColors: [],
+      availableSizes: [],
+      // product: {},
       selectedProduct: {
         count: 1,
         id: null
@@ -295,11 +357,15 @@ export default {
   //     }
   //   );
   // },
-  async asyncData({ params, $axios }) {
-    const product = await $axios.$get(`product/detail/${params.id}`);
-    return { product };
-  },
+  // async asyncData({ params, $axios }) {
+  //   const product = await $axios.$get(`product/detail/${params.id}`);
+  //   const sliderImages = product.images;
+  //   return { product, sliderImages };
+  // },
   methods: {
+    changeSlider() {
+      this.sliderImages = this.product.variations[0].images;
+    },
     getSelectedId(id) {
       this.selectedProduct.id = id;
     },
@@ -308,30 +374,18 @@ export default {
     //   console.log("product", this.product);
     //   // return { product };
     // },
-    getProducts() {
+    getProduct() {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
           console.log(res.data);
           this.product = res.data;
-          if (this.product.variations) console.log(this.slides);
+          this.sliderImages = this.product.images;
         })
         .catch(err => {
           console.log(err);
         });
       console.log(this.$route.params);
-    },
-    getFilteredProducts(color, size) {
-      this.$axios
-        .get(
-          `product/variation-list/?parent=${this.$route.params.id}&color=${color}&size=${size}`
-        )
-        .then(res => {
-          this.filteredProducts = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
     },
 
     increment() {
@@ -366,14 +420,31 @@ export default {
       console.log(JSON.parse(localStorage.getItem(newList)));
       localStorage.setItem("products", parsed);
     }
+    // checkProduct() {
+    //   let id = this.$route.params.id;
+    //   if (id === this.product.id) {
+    //     this.sliderImages = this.product.images;
+    //   } else {
+    //     const product = this.product.variations.find(variation => {
+    //       variation.id = id;
+    //     });
+    //     this.sliderImages = product.images;
+    //   }
+    // }
   },
   // async created() {
   //   this.products;
   // },
   mounted() {
-    // this.getProducts();
-    this.$refs.primary.sync(this.$refs.secondary.splide);
+    this.getProduct();
+    // this.$refs.primary.sync(this.$refs.secondary.splide);
     console.log("Localstorage: ", JSON.parse(localStorage.getItem("products")));
+    this.$nextTick(() => {
+      const swiperTop = this.$refs.swiperTop.$swiper;
+      const swiperThumbs = this.$refs.swiperThumbs.$swiper;
+      swiperTop.controller.control = swiperThumbs;
+      swiperThumbs.controller.control = swiperTop;
+    });
   }
 };
 </script>
@@ -382,5 +453,21 @@ export default {
 .filter {
   opacity: 0.5;
   cursor: default;
+}
+.gallery-top {
+  height: 50%;
+  width: 100%;
+}
+.gallery-thumbs {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 0;
+}
+.gallery-thumbs .swiper-slide {
+  width: 30%;
+  height: 100%;
+}
+.gallery-thumbs .swiper-slide-active {
+  opacity: 1;
 }
 </style>

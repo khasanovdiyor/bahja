@@ -31,7 +31,7 @@
           </div>
           <div class="my-4">
             <label class="block font-bold uppercase text-sm mb-2"
-              >Buyurtmachi raqami</label
+              >Buyurtmachi telefon raqami</label
             >
             <input
               type="tel"
@@ -47,7 +47,7 @@
               class="w-1/2 border-2 px-3 text-sm py-2"
               v-model="selectedOrder.status"
             >
-              <option disabled selected value="">mahsulotni tanlang </option>
+              <option disabled selected value="">Status tanlang </option>
               <option
                 class=""
                 :value="status"
@@ -59,7 +59,7 @@
             </select>
           </div>
           <button
-            class="bg-green-400 mb-6 text-white py-2 px-4"
+            class="bg-gray-800 mb-6 text-white py-2 px-4"
             @click="updateOrder"
           >
             Ma'lumotlarni yangilash
@@ -72,25 +72,13 @@
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    mahsulot id
+                    kodi
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    mahsulot nomi
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
-                    kategoriyasi
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
-                    brendi
+                    nomi
                   </th>
                   <th
                     scope="col"
@@ -108,7 +96,7 @@
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    mahsulot narxi
+                    narxi
                   </th>
                   <th
                     scope="col"
@@ -122,6 +110,12 @@
                   >
                     jami narxi
                   </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    O'chirish
+                  </th>
                 </tr>
               </thead>
               <tbody class="bg-white">
@@ -133,22 +127,12 @@
                 >
                   <td class="px-6 py-1 border">
                     <div class="flex items-center text-gray-500 ">
-                      {{ product.product.id }}
+                      {{ product.product.product_code }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
                     <div class="flex items-center text-gray-500">
                       {{ product.product.name }}
-                    </div>
-                  </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.category.name }}
-                    </div>
-                  </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.brand.name }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -178,7 +162,20 @@
                       {{ product.single_overall_price }}
                     </div>
                   </td>
-                  <!-- <div
+                  <div
+                    @click="
+                      showDeleteDialog = true;
+                      selectedProductID = product.id;
+                    "
+                    class="cursor-pointer"
+                  >
+                    <img
+                      src="~/assets/images/delete.svg"
+                      class="w-5 h-5"
+                      alt="pencil icon"
+                    />
+                  </div>
+                  <div
                     class="fixed top-0 bottom-0 right-0 left-0 bg-gray-600 flex items-center justify-center"
                     v-if="showDeleteDialog"
                   >
@@ -199,77 +196,42 @@
                         Yo'q
                       </button>
                     </div>
-                  </div> -->
+                  </div>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="my-4">
+            <h2 class="font-bold text-2xl mb-4">Mahsulot qo'shish</h2>
             <label class="block font-bold uppercase text-sm mb-2"
-              >Mahsulot</label
+              >Mahsulot tanlang</label
             >
-            <select
-              class="w-1/2 border-2 px-3 text-sm py-2"
-              v-model="selectedProduct.product.id"
+            <multiselect
+              v-model="selectedProduct"
+              :options="products"
+              placeholder="Brand tanlang"
+              label="codesize"
+              @select="selectProduct"
             >
-              <option disabled selected value="">mahsulotni tanlang</option>
-              <option
-                class=""
-                :value="product.id"
-                v-for="product in products"
-                :key="product.id"
-                >ID: {{ product.id }} Nomi: {{ product.name }}</option
-              >
-            </select>
-          </div>
-          <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2">rangi</label>
-            <select
-              class="w-1/2 border-2 px-3 text-sm py-2 "
-              v-model="selectedProduct.product.color.id"
-            >
-              <option disabled selected value="">Rangini tanlang</option>
-              <option
-                class=""
-                :value="color.id"
-                v-for="color in colors"
-                :key="color.id"
-                >{{ color.name }}</option
-              >
-            </select>
+              <template
+                ><span slot="noResult">Bunday mahsulot topilmadi!</span>
+              </template>
+            </multiselect>
           </div>
           <div class="my-4">
             <label class="block font-bold uppercase text-sm mb-2">soni</label>
             <input
-              type="string"
-              class="w-1/2 border-2 text-sm  py-2 px-4"
-              v-model="selectedProduct.count"
-            />
-          </div>
-          <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2"
-              >o'lchami</label
-            >
-            <input
-              type="string"
+              type="text"
               class="w-1/2 border-2 text-sm py-2 px-4"
-              v-model="selectedProduct.product.size"
-            />
-          </div>
-          <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2">narxi</label>
-            <input
-              type="string"
-              class="w-1/2 border-2 text-sm py-2 px-4"
-              v-model="selectedProduct.product.price"
+              v-model="newProduct.count"
             />
           </div>
 
           <button
-            class="bg-green-400 text-white py-2 px-4"
-            @click="updateOrderProduct"
+            class="bg-gray-800 text-white py-2 px-4"
+            @click="createOrderProduct"
           >
-            Ma'lumotlarni yangilash
+            Ma'lumotlarni saqlash
           </button>
         </div>
       </div>
@@ -290,10 +252,11 @@ export default {
       showNotification: false,
       showProductForm: false,
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      selectedProduct: {
-        product: {
-          color: {}
-        }
+      selectedProduct: {},
+      newProduct: {
+        order_id: this.$route.params.id,
+        count: 0,
+        proudct_id: null
       },
       selectedOrder: {
         name: "",
@@ -307,13 +270,15 @@ export default {
     };
   },
   methods: {
+    selectProduct(value, id) {
+      this.newProduct.id = value.id;
+    },
     updateOrder() {
-      const formData = new FormData();
-      formData.append("name", this.selectedOrder.name);
-      formData.append("phone-number", this.selectedOrder.phone_number);
-      formData.append("status", this.selectedOrder.status);
       this.$axios
-        .patch(`cart/orderbeta-update/${this.$route.params.id}`, formData)
+        .patch(
+          `cart/orderbeta-update/${this.$route.params.id}`,
+          this.selectProduct
+        )
         .then(res => {
           console.log(res.data);
         })
@@ -321,16 +286,9 @@ export default {
           console.log(err);
         });
     },
-    updateOrderProduct() {
-      const formData = new FormData();
-      formData.append("product0", this.selectedOrder.name);
-      formData.append("count0", this.selectedOrder.phone_number);
-      formData.append("status", this.selectedOrder.status);
+    createOrderProduct() {
       this.$axios
-        .patch(
-          `cart/orderproductbeta-update/${this.$route.params.id}`,
-          this.selectedProduct
-        )
+        .post("cart/orderproductbeta-create/", this.newProduct)
         .then(res => {
           console.log(res.data);
         })
@@ -345,27 +303,9 @@ export default {
           this.order = res.data;
           console.log("Order: ", this.order);
           this.selectedOrder = this.order;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    getOrderProduct(id) {
-      this.$axios
-        .get(`cart/orderproductbeta-detail/${id}`)
-        .then(res => {
-          console.log(res);
-          this.selectedProduct = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    getColors() {
-      this.$axios
-        .get(`product/color-list/`)
-        .then(res => {
-          this.colors = res.data;
+          delete this.selectedOrder.orderproducts;
+          delete this.selectedOrder.id;
+          delete this.selectedOrder.finish_price;
         })
         .catch(err => {
           console.log(err);
@@ -373,12 +313,10 @@ export default {
     },
     getProducts() {
       this.$axios
-        .get(`product/list/`)
+        .get(`product/codesize/`)
         .then(res => {
           this.products = res.data;
           console.log("Selected Product", res.data);
-
-          // this.productVariation.color = this.selectedVariation.color.name;
         })
         .catch(err => {
           console.log(err);
@@ -387,7 +325,6 @@ export default {
   },
   mounted() {
     this.getOrder();
-    this.getColors();
     this.getProducts();
   }
 };

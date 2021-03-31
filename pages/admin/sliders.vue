@@ -1,9 +1,9 @@
 <template>
   <div class="flex h-screen">
     <AdminSidebar />
-    <div class="px-16 pt-10">
+    <div class="px-16 w-2/3 pt-10">
       <h1 class="font-bold text-xl mb-6">Mavjud Mahsulotlar</h1>
-      <table class="min-w-full divide-y divide-gray-200 ">
+      <table class=" divide-y divide-gray-200 ">
         <thead class="bg-gray-200">
           <tr>
             <th
