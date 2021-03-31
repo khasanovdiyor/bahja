@@ -1,0 +1,316 @@
+<template>
+  <div>
+    <div class="flex ">
+      <AdminSidebar />
+      <div class="px-5 mx-auto w-4/5 pt-10">
+        <div
+          v-if="showNotification"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+        >
+          Mahsulot yangilandi
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showNotification = false"
+            >X</span
+          >
+        </div>
+
+        <div class="pb-10">
+          <h2 class="font-bold text-xl uppercase my-8">
+            Buyurtmani o'zgartirish
+          </h2>
+          <div class="my-4">
+            <label class="block font-bold uppercase text-sm mb-2"
+              >Buyurtmachi</label
+            >
+            <input
+              type="string"
+              class="w-1/2 border-2 text-sm  py-2 pl-5"
+              v-model="newOrder.name"
+            />
+          </div>
+          <div class="my-4">
+            <label class="block font-bold uppercase text-sm mb-2"
+              >Buyurtmachi telefon raqami</label
+            >
+            <input
+              type="tel"
+              class="w-1/2 border-2 text-sm  py-2 pl-5"
+              v-model="newOrder.phone_number"
+            />
+          </div>
+          <button
+            class="bg-gray-800 mb-6 text-white py-2 px-4"
+            @click="updateOrder"
+          >
+            Buyurtma qo'shish
+          </button>
+          <div v-if="order">
+            <table class="min-w-full divide-y divide-gray-200 ">
+              <thead class="bg-gray-200">
+                <tr>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    kodi
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    nomi
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    o'lchami
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    rangi
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    narxi
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    soni
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    jami narxi
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  >
+                    O'chirish
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr
+                  @click="getOrderProduct(product.id)"
+                  class="border cursor-pointer"
+                  v-for="product in order.orderproducts"
+                  :key="product.id"
+                >
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-gray-500 ">
+                      {{ product.product.product_code }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-gray-500">
+                      {{ product.product.name }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-gray-500">
+                      {{ product.product.size }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-gray-500">
+                      {{ product.product.color.name }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-gray-500">
+                      {{ product.product.price }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-gray-500">
+                      {{ product.count }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div
+                      class="flex items-center text-gray-500 justify-between"
+                    >
+                      {{ product.single_overall_price }}
+                    </div>
+                  </td>
+                  <div
+                    @click="
+                      showDeleteDialog = true;
+                      selectedProductID = product.id;
+                    "
+                    class="cursor-pointer"
+                  >
+                    <img
+                      src="~/assets/images/delete.svg"
+                      class="w-5 h-5"
+                      alt="pencil icon"
+                    />
+                  </div>
+                  <div
+                    class="fixed top-0 bottom-0 right-0 left-0 bg-gray-600 flex items-center justify-center"
+                    v-if="showDeleteDialog"
+                  >
+                    <div class="w-1/3 bg-white py-4 px-8">
+                      <span class="font-bold text-xl block mb-6"
+                        >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
+                      >
+                      <button
+                        @click="deleteProduct(product.id)"
+                        class="bg-red-400 text-white py-2 px-4"
+                      >
+                        Ha
+                      </button>
+                      <button
+                        @click="showDeleteDialog = false"
+                        class="bg-gray-400 text-white py-2 px-4"
+                      >
+                        Yo'q
+                      </button>
+                    </div>
+                  </div>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="my-4">
+            <h2 class="font-bold text-2xl mb-4">Mahsulot qo'shish</h2>
+            <label class="block font-bold uppercase text-sm mb-2"
+              >Mahsulot tanlang</label
+            >
+            <multiselect
+              v-model="selectedProduct"
+              :options="products"
+              placeholder="Mahsulot tanlang"
+              label="codesize"
+              @select="selectProduct"
+            >
+              <template
+                ><span slot="noResult">Bunday mahsulot topilmadi!</span>
+              </template>
+            </multiselect>
+          </div>
+          <div class="my-4">
+            <label class="block font-bold uppercase text-sm mb-2">soni</label>
+            <input
+              type="text"
+              class="w-1/2 border-2 text-sm py-2 px-4"
+              v-model="newProduct.count"
+            />
+          </div>
+
+          <button
+            class="bg-gray-800 text-white py-2 px-4"
+            @click="createOrderProduct"
+          >
+            Mahsulot qo'shish
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import AdminSidebar from "~/components/admin/AdminSidebar.vue";
+import TheNotification from "~/components/admin/TheNotification.vue";
+export default {
+  components: {
+    AdminSidebar,
+    TheNotification
+  },
+  data() {
+    return {
+      token: "58ef58a77940fd18fa91351c61773eada4859475",
+      showNotification: false,
+      showProductForm: false,
+      statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      selectedProduct: {},
+      newProduct: {
+        count: null,
+        product_id: null
+      },
+      newOrder: {
+        name: null,
+        phone_number: null,
+        products: []
+      },
+      selectedOrder: {
+        name: "",
+        phone_number: "",
+        status: ""
+      },
+      colors: [],
+      brands: [],
+      products: [],
+      order: {}
+    };
+  },
+  methods: {
+    selectProduct(value, id) {
+      this.newProduct.product_id = value.id;
+    },
+    updateOrder() {
+      this.$axios
+        .patch(
+          `cart/orderbeta-update/${this.$route.params.id}`,
+          this.selectProduct
+        )
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    createOrderProduct() {
+      this.$axios
+        .post("cart/orderproductbeta-create/", this.newProduct)
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getOrder() {
+      this.$axios
+        .get(`cart/orderbeta-detail/${this.$route.params.id}`)
+        .then(res => {
+          this.order = res.data;
+          console.log("Order: ", this.order);
+          this.selectedOrder = this.order;
+          delete this.selectedOrder.orderproducts;
+          delete this.selectedOrder.id;
+          delete this.selectedOrder.finish_price;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getProducts() {
+      this.$axios
+        .get(`product/codesize/`)
+        .then(res => {
+          this.products = res.data;
+          console.log("Selected Product", res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  mounted() {
+    this.getOrder();
+    this.getProducts();
+  }
+};
+</script>
