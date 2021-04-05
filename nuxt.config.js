@@ -26,7 +26,9 @@ export default {
     { src: "~/plugins/star-rating.js", mode: "client" },
     { src: "~/plugins/vue-multiselect.js", mode: "client" },
     { src: "~/plugins/vue-tabs-component.js", mode: "client" },
-    { src: "~/plugins/swiper.js", mode: "client" }
+    { src: "~/plugins/swiper.js", mode: "client" },
+    { src: "~/plugins/vue-mask.js", mode: "client" },
+    { src: "~/plugins/vue-loading.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,7 +41,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/google-fonts", "@nuxtjs/axios"],
+  modules: ["@nuxtjs/google-fonts", "@nuxtjs/axios", "@nuxtjs/auth-next"],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
@@ -49,8 +51,30 @@ export default {
     }
   },
   axios: {
-    baseURL: "http://127.0.0.1:8000/api/"
+    baseURL: "http://192.168.43.58:8000/api/"
 
     // Used as fallback if no runtime config is provided
+  },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: "token",
+          type: "Token",
+          maxAge: 24 * 3600
+        },
+        user: {
+          property: "data.user"
+        },
+        endpoints: {
+          login: { url: "login/", method: "post" },
+          logout: { url: "logout/", method: "delete" },
+          user: { url: "me/", method: "get" }
+        }
+      }
+    }
   }
+  // router: {
+  //   middleware: ["auth"]
+  // }
 };
