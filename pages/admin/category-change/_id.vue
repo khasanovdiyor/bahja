@@ -113,12 +113,10 @@
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import BaseButton from "~/components/admin/BaseButton.vue";
-import TheNotification from "~/components/admin/TheNotification.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton,
-    TheNotification
+    BaseButton
   },
   data() {
     return {

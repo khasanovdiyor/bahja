@@ -758,12 +758,10 @@
 </template>
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import TheNotification from "~/components/admin/TheNotification.vue";
 import BaseButton from "../../components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    TheNotification,
     BaseButton
   },
   data() {
