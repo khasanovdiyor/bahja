@@ -19,7 +19,7 @@
     <div class="pl-5">
       <h4 class="text-gray-500 mt-2 font-bold">{{ product.name }}</h4>
       <span class="font-bold text-lg"
-        >{{ product.price.toLocaleString() }} so'm</span
+        >{{ product.price.toLocaleString() }} so'm{{ product.id }}</span
       >
       <!-- <del>{{ product.price }} UZS</del> -->
 

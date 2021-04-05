@@ -8,7 +8,7 @@ export default {
   methods: {
     getCategories() {
       this.$axios
-        .get("product/category-all")
+        .get("product/category-all/")
         .then(res => {
           this.categories = res.data;
           console.log("global categories", this.categories);

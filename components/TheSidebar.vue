@@ -15,15 +15,34 @@
               </div>
             </div>
           </li>
-          <li v-for="category in categories" :key="category.id">
+          <li
+            v-for="category in categories"
+            :key="category.id"
+            @click="getChildCategories(category.id)"
+          >
             <nuxt-link
-              :to="`/products/${currentLink}/category/${category.id}`"
+              :to="`/products/${currentLink}/category/${category.slug}`"
               class="relative flex flex-row items-center h-11 focus:outline-none  text-gray-600 hover:text-black border-l-4 border-transparent hover:border-black pr-6"
             >
               <span class="ml-6  tracking-wide truncate capitalize">{{
                 category.name
               }}</span>
             </nuxt-link>
+            <ul v-if="childCategories">
+              <li
+                v-for="childCategory in childCategories"
+                :key="childCategory.id"
+              >
+                <nuxt-link
+                  :to="`/products/${currentLink}/category/${category.slug}`"
+                  class="relative flex flex-row items-center h-11 focus:outline-none  text-gray-600 hover:text-black border-l-4 border-transparent hover:border-black pr-6"
+                >
+                  <span class="ml-6  tracking-wide truncate capitalize">{{
+                    category.name
+                  }}</span>
+                </nuxt-link>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -42,7 +61,8 @@ export default {
   },
   data() {
     return {
-      categories: []
+      categories: [],
+      childCategories: []
     };
   },
   methods: {
@@ -52,6 +72,17 @@ export default {
         .then(res => {
           console.log("category-list", res.data);
           this.categories = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getChildCategories(parentId) {
+      this.$axios
+        .get(`product/category-childs/${parentId}`)
+        .then(res => {
+          console.log("category-childs", res.data);
+          this.childCategories = res.data;
         })
         .catch(err => {
           console.log(err);
