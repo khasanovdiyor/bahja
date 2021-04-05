@@ -2,6 +2,33 @@
   <div class="flex min-h-screen">
     <AdminSidebar />
     <div class="px-16 w-2/3">
+      <div
+        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-600 text-white"
+        v-if="showSuccess"
+      >
+        <div>
+          <span>Kategoriya qo'shildi</span>
+        </div>
+        <div
+          class="text-white px-4 cursor-pointer"
+          @click="showSuccess = false"
+        >
+          X
+        </div>
+      </div>
+      <div
+        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-600 text-white"
+        v-if="showFail"
+      >
+        <div>
+          <span
+            >Kategoriya qo'shishda xatolik yuz berdi, qayta urinib koring</span
+          >
+        </div>
+        <div class="text-white px-4 cursor-pointer" @click="showFail = false">
+          X
+        </div>
+      </div>
       <div class="mb-6">
         <div class="input-group block my-4">
           <h2 class="text-xl font-bold mb-10 uppercase">Kategoriya qoshish</h2>
@@ -36,6 +63,16 @@
             type="text"
             class="border-2 text-sm w-1/2 py-2 pl-5"
             v-model="newCategory.order"
+          />
+        </div>
+        <div>
+          <label for="input" class="block font-bold uppercase text-sm mb-2"
+            >is_slider</label
+          >
+          <input
+            type="checkbox"
+            class="border-2 text-sm w-6 py-2 pl-5"
+            v-model="newCategory.is_slider"
           />
         </div>
         <div class="my-4">
@@ -131,6 +168,16 @@
                   >
                     +
                   </div>
+                  <nuxt-link
+                    :to="`/admin/category-change/${category.id}`"
+                    class="cursor-pointer"
+                  >
+                    <img
+                      src="~/assets/images/pencil.svg"
+                      class="w-5 h-5"
+                      alt="pencil icon"
+                    />
+                  </nuxt-link>
                   <div
                     @click="
                       showDeleteDialog = true;
@@ -191,6 +238,8 @@ export default {
   data() {
     return {
       showDeleteDialog: false,
+      showSuccess: false,
+      showFail: false,
       selectedCategory: {},
       showChildInput: false,
       image: null,
@@ -200,7 +249,8 @@ export default {
       newCategory: {
         name: "",
         parent_id: 0,
-        order: 0
+        order: 0,
+        is_slider: false
       }
     };
   },
@@ -223,19 +273,29 @@ export default {
       }
     },
     createCategory() {
+      let loader = this.$loading.show();
       const formData = new FormData();
       for (let key in this.newCategory) {
         formData.append(key, this.newCategory[key]);
       }
       formData.append("image", this.image);
-      this.$axios.post("product/category-create/", formData).then(res => {
-        console.log(res.data);
-        this.getCategories();
-      });
+      this.$axios
+        .post("product/category-create/", formData)
+        .then(res => {
+          loader.hide();
+          this.showSuccess = true;
+          console.log(res.data);
+          this.getCategories();
+        })
+        .catch(err => {
+          loader.hide();
+          this.showFail = true;
+          console.log(err);
+        });
     },
     deleteCategory(id) {
       this.$axios
-        .delete(`product/category-delete/${id}`)
+        .delete(`product/categoryDelete/${id}`)
         .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;

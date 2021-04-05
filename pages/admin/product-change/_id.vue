@@ -4,13 +4,24 @@
       <AdminSidebar class="w-1/3" />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
-          v-if="showNotification"
+          v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
           Mahsulot yangilandi
           <span
             class="absolute right-6 cursor-pointer"
-            @click="showNotification = false"
+            @click="showSuccess = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showSuccess"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+        >
+          Mahsulot yangilashda xatolik yuz berdi, qayta urinib koring
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showSuccess = false"
             >X</span
           >
         </div>
@@ -189,11 +200,7 @@
 
                     <td class="px-6 py-1 border">
                       <div class="flex items-center text-gray-500">
-                        <input
-                          type="text"
-                          class=" w-full border-2 text-sm py-2 pl-5"
-                          v-model="attr.key"
-                        />
+                        {{ attr.key }}
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
@@ -316,12 +323,7 @@
               </div>
             </div>
             <button
-              @click="
-                updateProduct();
-                updateImages();
-                updateAttributes();
-                updateCategory();
-              "
+              @click="sendAll"
               class="bg-gray-800 text-white my-4 py-2 px-4"
             >
               Ma'lumotlarni yangilash
@@ -344,7 +346,8 @@ export default {
     return {
       token: "58ef58a77940fd18fa91351c61773eada4859475",
       newImage: null,
-      showNotification: false,
+      showSuccess: false,
+      showFail: false,
       showProductForm: false,
       showAddNewKey: false,
       showDeleteDialog: false,
@@ -353,6 +356,8 @@ export default {
       productCategories: [],
       image: null,
       newImages: [],
+      images: [],
+      deletedImages: [],
       newProduct: {},
       categories: [],
       brands: [],
@@ -389,6 +394,7 @@ export default {
       this.selectedCategories.push(newTag);
     },
     removeImage(index) {
+      this.deletedImages.push(this.newImages[index]);
       console.log(this.preview_list);
       this.newImages.splice(index, 1);
     },
@@ -412,7 +418,7 @@ export default {
           var reader = new FileReader();
           reader.onload = e => {
             this.newImages.push(e.target.result);
-            console.log("RESULT" + index, e.target.result);
+            this.images.push(e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -463,7 +469,8 @@ export default {
     updateImages() {
       let images = {
         product: this.$route.params.id,
-        images: this.newImages
+        images: this.images,
+        deleted_images: this.deletedImages
       };
       this.$axios
         .post("product/update-images/", images)
@@ -488,12 +495,29 @@ export default {
           console.log(err);
         });
     },
+    sendAll() {
+      let loader = this.$loading.show();
+      this.updateProduct();
+      this.updateCategory();
+      this.updateImages();
+      this.updateAttributes();
+      loader.hide();
+    },
     getProduct() {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
           this.image = res.data.image;
-          this.newAttributes = res.data.attributes;
+          let i = 0;
+          for (const key1 in res.data.attributes) {
+            let attribute = {};
+            attribute.key = Object.keys(res.data.attributes)[i];
+            i++;
+            for (const key2 in res.data.attributes[key1]) {
+              attribute[key2] = res.data.attributes[key1][key2];
+            }
+            this.newAttributes.push(attribute);
+          }
           this.productCategories = res.data.categories;
           let categories = [];
           res.data.categories.forEach(category => {

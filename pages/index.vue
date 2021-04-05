@@ -22,16 +22,9 @@
       <div class="px-5 lg:px-16 mt-10">
         <div class="sm:flex justify-between  sm:text-xl uppercase">
           <div class="flex mb-6 sm:mb-0 lg:w-2/5  justify-between">
-            <span class="cursor-pointer mr-6 font-bold">
+            <span class="mr-6 font-bold">
               Yangi mahsulotlar
             </span>
-            <span class="cursor-pointer">Eng ko'p sotilgan</span>
-          </div>
-          <div class="flex lg:w-2/5 justify-between">
-            <span class="cursor-pointer mr-6">
-              Chegirma narxlarda
-            </span>
-            <span class="cursor-pointer">Taniqli brandlar</span>
           </div>
         </div>
 
@@ -41,7 +34,7 @@
             <!-- Product card -->
             <nuxt-link
               class="mb-6 mx-auto sm:mx-0 cursor-pointer transition duration-150 transform hover:scale-105"
-              :to="'product/' + product.parent_id"
+              :to="'product/' + product.id"
               v-for="product in products"
               :key="product.id"
             >
@@ -96,7 +89,7 @@
         >
           <nuxt-link
             class="mb-6 cursor-pointer transition duration-150 transform hover:scale-105"
-            :to="'product/' + product.parent_id"
+            :to="'product/' + product.id"
           >
             <ProductCard :product="product" class="sm:w-64 w-72 inline-block" />
           </nuxt-link>

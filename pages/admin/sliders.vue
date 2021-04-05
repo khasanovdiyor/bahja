@@ -1,8 +1,16 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex min-h-screen">
     <AdminSidebar />
     <div class="px-16 w-2/3 pt-10">
-      <h1 class="font-bold text-xl mb-6">Mavjud Mahsulotlar</h1>
+      <div class="flex items-center justify-between">
+        <h1 class="font-bold text-xl mb-6">Mavjud sliderlar</h1>
+        <nuxt-link
+          to="/admin/slider-create"
+          class="bg-gray-800 py-1 px-4 text-font-bold text-2xl text-white"
+          >+</nuxt-link
+        >
+      </div>
+
       <table class=" divide-y divide-gray-200 ">
         <thead class="bg-gray-200">
           <tr>
@@ -22,7 +30,7 @@
               scope="col"
               class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
             >
-              Slider category id
+              Slider category
             </th>
 
             <th
@@ -47,7 +55,7 @@
             </td>
             <td class="px-6 py-1 border">
               <div class="flex items-center text-gray-500">
-                {{ slider.category }}
+                {{ slider.category.name }}
               </div>
             </td>
 
@@ -56,6 +64,13 @@
                 <nuxt-link :to="`/admin/slider-detail/${slider.id}`">
                   <img
                     src="~/assets/images/eye.svg"
+                    class="w-5 h-5"
+                    alt="eye icon"
+                  />
+                </nuxt-link>
+                <nuxt-link :to="`/admin/slider-change/${slider.id}`">
+                  <img
+                    src="~/assets/images/pencil.svg"
                     class="w-5 h-5"
                     alt="eye icon"
                   />
@@ -88,7 +103,7 @@
             >
               <div class="w-1/3 bg-white py-4 px-10">
                 <span class="font-bold text-xl block mb-6"
-                  >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
+                  >Ushbu sliderni o'chirishni xohlaysizmi?</span
                 >
                 <div class="flex justify-between">
                   <button

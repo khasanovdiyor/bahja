@@ -4,10 +4,21 @@
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
-          v-if="showNotification"
+          v-if="showSuccess"
           class="fixed z-40 font-bold text-xl top-0 px-4 py-4 w-2/3 bg-green-400 text-white text-center"
         >
           Mahsulot yaratildi
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showNotification = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showFail"
+          class="fixed z-40 font-bold text-xl top-0 px-4 py-4 w-2/3 bg-green-400 text-white text-center"
+        >
+          Mahsulot yaratishda xatolik yuz berdi, qayta urinib koring
           <span
             class="absolute right-6 cursor-pointer"
             @click="showNotification = false"
@@ -69,7 +80,7 @@
               </div>
               <div class="my-4">
                 <label class="w-1/2 block font-bold uppercase text-sm mb-2"
-                  >kategoriyasi {{ selectedCategories }}</label
+                  >kategoriyasi</label
                 >
                 <multiselect
                   v-model="selectedCategories"
@@ -145,7 +156,7 @@
                       class="object-cover object-top w-full h-full"
                     />
                     <span
-                      @click="removeImage(index)"
+                      @click="removeImage(index, product.images)"
                       class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full "
                       >X</span
                     >
@@ -155,7 +166,7 @@
               </div>
               <div class="my-4">
                 <label class="block font-bold uppercase text-sm mb-2"
-                  >Import {{ product }}</label
+                  >Import</label
                 >
                 <input
                   type="checkbox"
@@ -394,7 +405,7 @@
               </div>
               <div class="my-4">
                 <label class="w-1/2 block font-bold uppercase text-sm mb-2"
-                  >kategoriyasi {{ selectedVariationCategories }}</label
+                  >kategoriyasi</label
                 >
                 <multiselect
                   v-model="selectedVariationCategories"
@@ -471,7 +482,7 @@
                       class="object-cover object-top w-full h-full"
                     />
                     <span
-                      @click="removeImage(index)"
+                      @click="removeImage(index, variation.images)"
                       class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full "
                       >X</span
                     >
@@ -762,11 +773,12 @@ export default {
       selectedVariationCategories: [],
       previewProduct: null,
       previewVariation: null,
-      token: "58ef58a77940fd18fa91351c61773eada4859475",
+      token: "8939c3ce7bdfcb37d68303016230815fc5d555af",
       image: null,
       preview_list: [],
       image_list: [],
-      showNotification: false,
+      showSuccess: false,
+      showFail: false,
       showDeleteDialog: false,
       showVariationForm: false,
       showProductForm: false,
@@ -819,6 +831,12 @@ export default {
     },
     addProductAttribute() {
       this.product.attributes.push(this.attribute);
+      this.variation = Object.assign({}, this.product);
+      delete this.variation.brand;
+      delete this.variation.is_import;
+      delete this.variation.variations;
+      this.variation.image = "";
+      this.variation.images = [];
       this.attribute = {};
       this.showAddNewKey = false;
     },
@@ -846,10 +864,8 @@ export default {
     addTag(newTag) {
       this.selectedCategories.push(newTag);
     },
-    removeImage(index) {
-      console.log(this.preview_list);
-      this.preview_list.splice(index, 1);
-      this.image_list.splice(index, 1);
+    removeImage(index, images) {
+      images.splice(index, 1);
     },
     previewProductImage(event) {
       var input = event.target;
@@ -870,12 +886,6 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
       }
-      // var reader = new FileReader();
-      // reader.onloadend = function() {
-      //   console.log("RESULT", reader.result);
-      //   this.variation.image = reader.result;
-      // };
-      // reader.readAsDataURL(image);
     },
     previewProductMultiImage(event) {
       var input = event.target;
@@ -922,27 +932,27 @@ export default {
         });
     },
     createProduct() {
+      let loader = this.$loading.show();
       this.product.brand = this.selectedBrand.id;
       this.$axios
         .post("product/create/", this.product, {
           headers: {
-            Authorization: `Basic ${this.token}`
+            Authorization: `Token ${this.token}`
           }
         })
         .then(res => {
           console.log(res);
-          this.showNotification = true;
+          this.showSuccess = true;
           this.productVariation = {};
           this.image_list = [];
           this.preview_list = [];
           this.image = null;
           this.preview = null;
-          var v = this;
-          setTimeout(function() {
-            v.showNotification = false;
-          }, 3000);
+          loader.hide();
         })
         .catch(err => {
+          loader.hide();
+          showFail = true;
           console.log(err);
         });
     }

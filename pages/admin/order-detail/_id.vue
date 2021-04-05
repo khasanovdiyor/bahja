@@ -68,7 +68,7 @@
               <tr class="border">
                 <td class="px-6 py-2 border">
                   <div class="flex items-center text-gray-500">
-                    {{ order.finish_price }}
+                    {{ order.finish_price.toLocaleString() }} so'm
                   </div>
                 </td>
               </tr>
@@ -95,14 +95,9 @@
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
               >
-                o'lchami
+                Attributlari
               </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-              >
-                rangi
-              </th>
+
               <th
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
@@ -140,18 +135,19 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
-                  {{ product.product.size }}
+                <div class=" text-gray-500">
+                  <span
+                    v-for="attr in product.product.attributes"
+                    class="block"
+                    :key="attr.id"
+                  >
+                    {{ attr.label }}: {{ attr.value }}
+                  </span>
                 </div>
               </td>
               <td class="px-6 py-1 border">
                 <div class="flex items-center text-gray-500">
-                  {{ product.product.color.name }}
-                </div>
-              </td>
-              <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
-                  {{ product.product.price }}
+                  {{ product.product.price.toLocaleString() }} so'm
                 </div>
               </td>
               <td class="px-6 py-1 border">
@@ -161,7 +157,7 @@
               </td>
               <td class="px-6 py-1 border">
                 <div class="flex items-center text-gray-500 justify-between">
-                  {{ product.single_overall_price }}
+                  {{ product.single_overall_price.toLocaleString() }} so'm
                 </div>
               </td>
               <div

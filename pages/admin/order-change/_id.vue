@@ -4,13 +4,24 @@
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
-          v-if="showNotification"
+          v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
-          Mahsulot yangilandi
+          {{ message }}
           <span
             class="absolute right-6 cursor-pointer"
-            @click="showNotification = false"
+            @click="showSuccess = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showFail"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+        >
+          {{ message }}
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showFail = false"
             >X</span
           >
         </div>
@@ -249,8 +260,9 @@ export default {
   data() {
     return {
       token: "58ef58a77940fd18fa91351c61773eada4859475",
-      showNotification: false,
-      showProductForm: false,
+      showSuccess: false,
+      showFail: false,
+      message: "",
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
       selectedProduct: {},
       newProduct: {
@@ -274,25 +286,41 @@ export default {
       this.newProduct.id = value.id;
     },
     updateOrder() {
+      let loader = this.$loading.show();
       this.$axios
         .patch(
           `cart/orderbeta-update/${this.$route.params.id}`,
           this.selectProduct
         )
         .then(res => {
+          loader.hide();
+          this.message = "Ma'lumotlar yangilandi";
+          this.showSuccess = true;
           console.log(res.data);
         })
         .catch(err => {
+          loader.hide();
+          this.message =
+            "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
+          this.showFail = true;
           console.log(err);
         });
     },
     createOrderProduct() {
+      let loader = this.$loading.show();
       this.$axios
         .post("cart/orderproductbeta-create/", this.newProduct)
         .then(res => {
+          this.message = "Yangi mahsulot qo'shildi";
+          this.showSuccess = true;
           console.log(res.data);
+          loader.hide();
         })
         .catch(err => {
+          this.message =
+            "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
+          this.showFail = true;
+          loader.hide();
           console.log(err);
         });
     },

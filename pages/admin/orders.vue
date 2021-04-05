@@ -200,20 +200,39 @@
               </div>
             </div> -->
 
-            <div class="mt-8 flex justify-between">
+            <div class="mt-8 flex items-center justify-between">
               <h2 class="text-xl font-bold">Zakazlar</h2>
-              <nuxt-link
-                to="/admin/order-create/"
-                class="font-bold text-2xl bg-gray-800 text-white px-4"
-                >+</nuxt-link
-              >
-              <!-- <div>
-                Status bo'yicha saralash
-                <select name="filter-orders" id="" class="block">
-                  <option value="active">Active</option>
-                  <option value="completed">Yetkazib berilgan</option>
-                </select>
-              </div> -->
+
+              <div class="mt-8 flex items-center">
+                <nuxt-link
+                  to="/admin/order-create/"
+                  class="font-bold text-2xl bg-gray-800 text-white px-4 mr-6"
+                  >+</nuxt-link
+                >
+                <div>
+                  Status bo'yicha saralash
+                  <select
+                    name="filter-orders"
+                    v-model="activeStatus"
+                    id=""
+                    class="block"
+                  >
+                    <option value="">Barchasini ko'rsatish</option>
+                    <option
+                      :value="status"
+                      v-for="(status, index) in statuses"
+                      :key="index"
+                      >{{ status }}</option
+                    >
+                  </select>
+                  <button
+                    @click="getOrders"
+                    class="bg-gray-800 my-2 px-4 text-white py-2"
+                  >
+                    Saralash
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div class="flex flex-col mt-8">
@@ -418,6 +437,7 @@ export default {
       showDeleteDialog: false,
       deleteOrderID: null,
       orders: [],
+      activeStatus: "",
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
       showStatus: false
     };
@@ -425,7 +445,11 @@ export default {
   methods: {
     getOrders() {
       this.$axios
-        .get("cart/orderbeta-list/")
+        .get("cart/orderbeta-list/", {
+          params: {
+            status: this.activeStatus
+          }
+        })
         .then(res => {
           console.log(res.data);
           this.orders = res.data;

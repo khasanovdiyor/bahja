@@ -41,11 +41,11 @@
           </div>
           <button
             class="bg-gray-800 mb-6 text-white py-2 px-4"
-            @click="updateOrder"
+            @click="createOrder"
           >
             Buyurtma qo'shish
           </button>
-          <div v-if="order">
+          <div v-if="addedProducts">
             <table class="min-w-full divide-y divide-gray-200 ">
               <thead class="bg-gray-200">
                 <tr>
@@ -59,25 +59,7 @@
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    nomi
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
                     o'lchami
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
-                    rangi
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
-                    narxi
                   </th>
                   <th
                     scope="col"
@@ -89,46 +71,24 @@
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    jami narxi
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
                     O'chirish
                   </th>
                 </tr>
               </thead>
               <tbody class="bg-white">
                 <tr
-                  @click="getOrderProduct(product.id)"
                   class="border cursor-pointer"
-                  v-for="product in order.orderproducts"
-                  :key="product.id"
+                  v-for="(product, index) in addedProducts"
+                  :key="product.product_id"
                 >
                   <td class="px-6 py-1 border">
                     <div class="flex items-center text-gray-500 ">
-                      {{ product.product.product_code }}
+                      {{ product.product_code }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
                     <div class="flex items-center text-gray-500">
-                      {{ product.product.name }}
-                    </div>
-                  </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.size }}
-                    </div>
-                  </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.color.name }}
-                    </div>
-                  </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.price }}
+                      {{ product.size }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -136,20 +96,7 @@
                       {{ product.count }}
                     </div>
                   </td>
-                  <td class="px-6 py-1 border">
-                    <div
-                      class="flex items-center text-gray-500 justify-between"
-                    >
-                      {{ product.single_overall_price }}
-                    </div>
-                  </td>
-                  <div
-                    @click="
-                      showDeleteDialog = true;
-                      selectedProductID = product.id;
-                    "
-                    class="cursor-pointer"
-                  >
+                  <div @click="removeProduct(index)" class="cursor-pointer">
                     <img
                       src="~/assets/images/delete.svg"
                       class="w-5 h-5"
@@ -183,7 +130,9 @@
             </table>
           </div>
           <div class="my-4">
-            <h2 class="font-bold text-2xl mb-4">Mahsulot qo'shish</h2>
+            <h2 class="font-bold text-2xl mb-4">
+              Mahsulot qo'shish
+            </h2>
             <label class="block font-bold uppercase text-sm mb-2"
               >Mahsulot tanlang</label
             >
@@ -208,10 +157,7 @@
             />
           </div>
 
-          <button
-            class="bg-gray-800 text-white py-2 px-4"
-            @click="createOrderProduct"
-          >
+          <button class="bg-gray-800 text-white py-2 px-4" @click="addProduct">
             Mahsulot qo'shish
           </button>
         </div>
@@ -232,8 +178,10 @@ export default {
       token: "58ef58a77940fd18fa91351c61773eada4859475",
       showNotification: false,
       showProductForm: false,
-      statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      selectedProduct: {},
+      selectedProduct: {
+        id: null,
+        codesize: null
+      },
       newProduct: {
         count: null,
         product_id: null
@@ -248,51 +196,44 @@ export default {
         phone_number: "",
         status: ""
       },
-      colors: [],
-      brands: [],
       products: [],
-      order: {}
+      addedProducts: []
     };
   },
   methods: {
+    addProduct() {
+      this.newOrder.products.push(this.newProduct);
+      let product = this.newProduct;
+      let codesize = this.selectedProduct.codesize;
+      console.log("olcham", codesize.indexOf("d: "));
+      let product_code = codesize
+        .substring(codesize.indexOf("d: ") + 2, codesize.indexOf("o`"))
+        .trim();
+      let size = codesize
+        .substring(codesize.indexOf("m: ") + 3, codesize.length)
+        .trim();
+      product.product_code = product_code;
+      product.size = size;
+      this.addedProducts.push(product);
+      this.getProducts();
+    },
+    removeProduct(index) {
+      this.newOrder.products.splice(index, 1);
+      this.addedProducts.splice(index, 1);
+    },
     selectProduct(value, id) {
       this.newProduct.product_id = value.id;
     },
-    updateOrder() {
+    createOrder() {
+      let loader = this.$loading.show();
       this.$axios
-        .patch(
-          `cart/orderbeta-update/${this.$route.params.id}`,
-          this.selectProduct
-        )
+        .post(`cart/orderbeta-create/`, this.newOrder)
         .then(res => {
+          loader.hide();
           console.log(res.data);
         })
         .catch(err => {
-          console.log(err);
-        });
-    },
-    createOrderProduct() {
-      this.$axios
-        .post("cart/orderproductbeta-create/", this.newProduct)
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    getOrder() {
-      this.$axios
-        .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then(res => {
-          this.order = res.data;
-          console.log("Order: ", this.order);
-          this.selectedOrder = this.order;
-          delete this.selectedOrder.orderproducts;
-          delete this.selectedOrder.id;
-          delete this.selectedOrder.finish_price;
-        })
-        .catch(err => {
+          loader.hide();
           console.log(err);
         });
     },
@@ -309,8 +250,12 @@ export default {
     }
   },
   mounted() {
-    this.getOrder();
     this.getProducts();
   }
 };
 </script>
+<style>
+.multiselect {
+  width: 50%;
+}
+</style>

@@ -172,7 +172,7 @@
           <tbody class="bg-white">
             <tr
               class="border"
-              v-for="attrib in product.attributes"
+              v-for="(attrib, index) in product.attributes"
               :key="attrib"
             >
               <td class="px-6 py-1 border">
@@ -180,7 +180,7 @@
               </td>
 
               <td class="px-6 py-1 border">
-                {{ attrib.key }}
+                {{ index }}
               </td>
               <td class="px-6 py-1 border">
                 {{ attrib.label }}
@@ -193,7 +193,14 @@
         </table>
       </div>
       <div class="mb-10">
-        <h2 class="font-bold text-xl my-4">O'zgarishlari</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="font-bold text-xl my-4">O'zgarishlari</h2>
+          <nuxt-link
+            :to="`/admin/variation-create/${$route.params.id}`"
+            class="bg-gray-800 py-1 px-4 text-font-bold text-2xl text-white"
+            >+</nuxt-link
+          >
+        </div>
         <table class="min-w-full divide-y divide-gray-200 ">
           <thead class="bg-gray-200">
             <tr>
@@ -320,7 +327,7 @@
                   <tbody class="bg-white">
                     <tr
                       class="border"
-                      v-for="attrib in variation.attributes"
+                      v-for="(attrib, index) in variation.attributes"
                       :key="attrib"
                     >
                       <td class="px-6 py-1 border">
@@ -328,7 +335,7 @@
                       </td>
 
                       <td class="px-6 py-1 border">
-                        {{ attrib.key }}
+                        {{ index }}
                       </td>
                       <td class="px-6 py-1 border">
                         {{ attrib.label }}

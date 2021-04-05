@@ -1,7 +1,32 @@
 <template>
-  <div class="flex">
+  <div class="flex min-h-screen">
     <AdminSidebar />
     <div class="px-16">
+      <div
+        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-600 text-white"
+        v-if="showSuccess"
+      >
+        <div>
+          <span>Brand qo'shildi</span>
+        </div>
+        <div
+          class="text-white px-4 cursor-pointer"
+          @click="showSuccess = false"
+        >
+          X
+        </div>
+      </div>
+      <div
+        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-600 text-white"
+        v-if="showFail"
+      >
+        <div>
+          <span>Brand qo'shishda xatolik yuz berdi, qayta urinib koring</span>
+        </div>
+        <div class="text-white px-4 cursor-pointer" @click="showFail = false">
+          X
+        </div>
+      </div>
       <div class="mb-6">
         <div class="input-group block my-4">
           <h2 class="text-xl font-bold mb-10 uppercase">Brand qoshish</h2>
@@ -10,13 +35,13 @@
           >
           <input
             type="text"
-            class="border-2 text-sm w-1/2 py-2 pl-5"
+            class="border-2 text-sm w-2/3 py-2 pl-5"
             v-model="newBrand.name"
           />
         </div>
 
-        <button @click="createBrand" class="bg-green-400 text-white py-2 px-4">
-          Kategoriya yaratish
+        <button @click="createBrand" class="bg-gray-800 text-white py-2 px-4">
+          Brand yaratish
         </button>
       </div>
       <div>
@@ -73,7 +98,7 @@
                 </div>
               </td>
               <div
-                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
+                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
                 v-if="showDeleteDialog"
               >
                 <div class="w-1/3 bg-white py-4 px-10">
@@ -82,10 +107,10 @@
                   >
                   <div class="flex justify-between">
                     <button
-                      @click="deleteCategory(selectedBrandID)"
+                      @click="deleteBrand(selectedBrandID)"
                       class="bg-red-600 text-white py-2 px-4"
                     >
-                      Ha {{ selectedBrandID }}
+                      Ha
                     </button>
                     <button
                       @click="showDeleteDialog = false"
@@ -112,6 +137,8 @@ export default {
   data() {
     return {
       showDeleteDialog: false,
+      showSuccess: false,
+      showFail: false,
       selectedBrandID: null,
       brands: [],
       newBrand: {
@@ -127,9 +154,21 @@ export default {
       });
     },
     createBrand() {
-      this.$axios.post("product/brand-create", this.newBrand).then(res => {
-        console.log(res.data);
-      });
+      let loader = this.$loading.show();
+      this.$axios
+        .post("product/brand-create/", this.newBrand)
+        .then(res => {
+          console.log(res.data);
+          loader.hide();
+          this.showSuccess = true;
+          this.getBrands();
+        })
+        .catch(err => {
+          loader.hide();
+          this.showFail = true;
+          
+          console.log(err);
+        });
     },
     deleteBrand(id) {
       this.$axios
@@ -140,6 +179,7 @@ export default {
           this.getBrands();
         })
         .catch(err => {
+          this.showDeleteDialog = false;
           console.log(err);
         });
     }

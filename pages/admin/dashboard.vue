@@ -182,7 +182,7 @@
 
                     <div class="mx-5">
                       <h4 class="text-2xl font-semibold text-gray-700">
-                        {{ newOrderMoney }} so'm
+                        {{ newOrderMoney.toLocaleString() }} so'm
                       </h4>
                       <div class="text-gray-500">Jami daromad</div>
                     </div>
@@ -255,10 +255,25 @@
               <h2 class="text-xl font-bold">Zakazlar</h2>
               <div>
                 Status bo'yicha saralash
-                <select name="filter-orders" id="" class="block">
-                  <option value="active">Active</option>
-                  <option value="completed">Yetkazib berilgan</option>
+                <select
+                  name="filter-orders"
+                  v-model="activeStatus"
+                  id=""
+                  class="block"
+                >
+                  <option
+                    :value="status"
+                    v-for="(status, index) in statuses"
+                    :key="index"
+                    >{{ status }}</option
+                  >
                 </select>
+                <button
+                  @click="getOrders"
+                  class="bg-gray-800 my-2 px-4 text-white py-2"
+                >
+                  Saralash
+                </button>
               </div>
             </div>
 
@@ -469,6 +484,7 @@ export default {
       showSortMoney: false,
       showSortProduct: false,
       orders: [],
+      activeStatus: "Tushgan",
       showStatus: false,
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
 
@@ -507,7 +523,11 @@ export default {
   methods: {
     getOrders() {
       this.$axios
-        .get("cart/orderbeta-list/")
+        .get("cart/orderbeta-list/", {
+          params: {
+            status: this.activeStatus
+          }
+        })
         .then(res => {
           console.log(res.data);
           this.orders = res.data;

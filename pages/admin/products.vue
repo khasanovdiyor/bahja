@@ -30,19 +30,14 @@
               scope="col"
               class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
             >
-              brendi
+              mahsulot kodi
             </th>
+
             <th
               scope="col"
               class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
             >
-              o'lchami
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-            >
-              rangi
+              attributlari
             </th>
             <th
               scope="col"
@@ -73,19 +68,22 @@
             </td>
             <td class="px-6 py-1 border">
               <div class="flex items-center text-gray-500">
-                {{ product.brand.name }}
+                {{ product.product_code }}
               </div>
             </td>
+
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
-                {{ product.size }}
+              <div class=" text-gray-500">
+                <span
+                  v-for="attr in product.attributes"
+                  :key="attr.id"
+                  class="block"
+                >
+                  {{ attr.label }}: {{ attr.value }}
+                </span>
               </div>
             </td>
-            <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
-                color
-              </div>
-            </td>
+
             <td class="px-6 py-1 border">
               <div class="flex items-center text-gray-500">
                 {{ product.price }}

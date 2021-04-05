@@ -4,13 +4,24 @@
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
-          v-if="showNotification"
+          v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
-          Mahsulot yaratildi
+          Slider yaratildi
           <span
             class="absolute right-6 cursor-pointer"
-            @click="showNotification = false"
+            @click="showSuccess = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showFail"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
+        >
+          Slider yaratishda xatolik yuz berdi, qayta urinib koring
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showFail = false"
             >X</span
           >
         </div>
@@ -43,16 +54,6 @@
         </div>
         <div class="my-4">
           <label class="block font-bold uppercase text-sm mb-2"
-            >Slidermi?</label
-          >
-          <input
-            type="checkbox"
-            class=" border-2 text-sm py-2 pl-5"
-            v-model="slider.is_slider"
-          />
-        </div>
-        <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
             >rasm qo'yish</label
           ><input
             type="file"
@@ -77,7 +78,7 @@
 
         <button
           @click="createSlider"
-          class="bg-green-400 text-white py-2 px-4 mb-72"
+          class="bg-gray-800 text-white py-2 px-4 mb-72"
         >
           Slider yaratish
         </button>
@@ -96,12 +97,12 @@ export default {
   data() {
     return {
       preview: null,
-      showNotification: false,
+      showSuccess: false,
+      showFail: false,
       token: "58ef58a77940fd18fa91351c61773eada4859475",
       categories: [],
       slider: {
         text: "",
-        is_slider: false,
         image: null,
         category: null
       }
@@ -109,17 +110,21 @@ export default {
   },
   methods: {
     createSlider() {
+      let loader = this.$loading.show();
       const formData = new FormData();
       formData.append("text", this.slider.text);
-      formData.append("is_slider", this.slider.is_slider);
       formData.append("image", this.slider.image);
       formData.append("category", this.slider.category);
       this.$axios
         .post("product/slider/create/", formData)
         .then(res => {
+          loader.hide();
+          this.showSuccess = true;
           console.log(res);
         })
         .catch(err => {
+          loader.hide();
+          this.showFail = true;
           console.log(err);
         });
     },
