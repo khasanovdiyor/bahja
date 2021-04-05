@@ -3,6 +3,19 @@
     <TheContact />
     <TheHeader />
     <div
+      v-if="showSuccess"
+      class="font-bold  flex items-center justify-between text-white bg-black px-4 py-2 text-xl"
+    >
+      <span class="flex w-3/5 justify-end">
+        Buyurtmangiz qabul qilindi!
+      </span>
+      <span
+        @click="showSuccess = false"
+        class="w-1/5 cursor-pointer flex justify-end"
+        >x</span
+      >
+    </div>
+    <div
       class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-8 border-gray-200 pb-8"
     >
       <p
@@ -23,14 +36,11 @@
               v-model="name"
             />
           </div>
-          <div class="input-group">
-            <label for="input" class="font-semibold text-sm py-5 uppercase"
-              >Telefon raqamingiz</label
-            >
+          <div>
             <input
-              type="tel"
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 "
-              placeholder="+998-**-***-**-**"
+              type="text"
+              class="p-2 pl-3 mt-2 w-full bg-gray-200"
+              v-mask="'+998-###-##-##'"
               v-model="phone"
             />
           </div>
@@ -56,37 +66,28 @@ export default {
   data() {
     return {
       name: "",
-      phone: "",
-      products: [],
-      product0: "",
-      product1: ""
+      phone: "+998",
+      showSuccess: false
     };
-  },
-  mounted() {
-    // this.product0 = JSON.parse(localStorage.products)[0].id;
-    // this.product1 = JSON.parse(localStorage.products)[0].id;
-    // this.products = JSON.parse(localStorage.products);
   },
   methods: {
     sendOrder() {
-      const formData = new FormData();
-      formData.append("name", this.name);
-      formData.append("phone_number", this.phone);
-      formData.append("count0", 2);
-      formData.append("product0", this.product0);
-      formData.append("product1", this.product1);
-      formData.append("leng", this.products.length);
-      formData.append("count1", 2);
-
+      const products = JSON.parse(localStorage.getItem("products"));
+      let orderData = {
+        name: this.name,
+        phone_number: this.phone,
+        products: products
+      };
       this.$axios
-        .post(`cart/orderbeta-create/`, formData)
+        .post(`cart/orderbeta-create/`, orderData)
         .then(res => {
           console.log(res);
-          let products = JSON.parse(localStorage.products);
-          products = [];
+          let products = [];
           const parsed = JSON.stringify(products);
-          // console.log(JSON.parse(localStorage.getItem(newList)));
           localStorage.setItem("products", parsed);
+          setTimeout(function() {
+            this.showSuccess = true;
+          }, 2000);
         })
         .catch(err => {
           console.log(err);
