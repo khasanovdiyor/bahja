@@ -75,13 +75,7 @@
                     alt="eye icon"
                   />
                 </nuxt-link>
-                <!-- <nuxt-link :to="`/admin/slider-change/${slider.id}`">
-                  <img
-                    src="~/assets/images/pencil.svg"
-                    class="w-5 h-5"
-                    alt="pencil icon"
-                  />
-                </nuxt-link> -->
+
                 <div
                   @click="
                     showDeleteDialog = true;
