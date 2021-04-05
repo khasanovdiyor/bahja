@@ -12,14 +12,14 @@
     <nav class="md:w-1/3  my-2 sm:my-0 w-full sm:w-3/4">
       <ul class="flex justify-between">
         <li>
-          <nuxt-link to="/products/mahalliy" class="font-semibold"
-            >Mahalliy mahsulotlar</nuxt-link
-          >
+          <nuxt-link to="/products/mahalliy" class="font-semibold">
+            Mahalliy mahsulotlar
+          </nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/products/import" class="font-semibold"
-            >Import mahsulotlar</nuxt-link
-          >
+          <nuxt-link to="/products/import" class="font-semibold">
+            Import mahsulotlar
+          </nuxt-link>
         </li>
       </ul>
     </nav>
@@ -39,10 +39,7 @@
       />
       <transition name="slide">
         <div class="slidein" v-if="showCard">
-          <TheShoppingCart
-            @toggleCard="toggleCard"
-            :products="this.selectedProducts"
-          />
+          <TheShoppingCart @toggleCard="toggleCard" :products="savedProducts" />
         </div>
       </transition>
       <transition name="slide">
@@ -58,11 +55,12 @@
 import global from "~/mixins.js/global.js";
 export default {
   mixins: [global],
-  mounted() {},
   data() {
     return {
+      savedProducts: [],
       showCard: false,
-      showSearch: false
+      showSearch: false,
+      product: {}
     };
   },
   methods: {
@@ -70,27 +68,24 @@ export default {
       this.showSearch = !this.showSearch;
     },
     toggleCard() {
+      this.getProducts();
       this.showCard = !this.showCard;
+    },
+    getProducts() {
+      const savedProducts = JSON.parse(localStorage.getItem("products"));
+      savedProducts.forEach(element => {
+        this.$axios
+          .get(`product/specific/${element.product_id}`)
+          .then(res => {
+            this.product = res.data;
+            this.product.count = element.count;
+            this.savedProducts.push(this.product);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
     }
-    // getSelectedProducts() {
-    //   let products = JSON.parse(localStorage.products);
-    //   for (let i = 0; i < products.length; i++) {
-    //     let id = products[i].id;
-    //     // console.log(products, id);
-    //     this.$axios
-    //       .get(`product/variation-detail/${id}`)
-    //       .then(res => {
-    //         // console.log(res.data);
-    //         this.product = res.data;
-    //         this.selectedProducts.push(res.data);
-    //         console.log("selected products", this.selectedProducts);
-    //       })
-    //       .catch(err => {
-    //         console.log(err);
-    //       });
-    //   }
-    //   // console.log("global:", this.selectedProducts);
-    // }
   }
 };
 </script>

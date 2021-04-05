@@ -16,12 +16,12 @@
       <div class=" w-full py-5 scroll mt-12 overflow-y-scroll">
         <div
           class="flex mb-5"
-          v-for="(product, index) in selectedProducts"
+          v-for="(product, index) in products"
           :key="index"
         >
           <a href="#">
             <img
-              :src="product.variation_image"
+              :src="product.image"
               class="w-56  md:w-32 md:h-32 object-cover"
               alt="koylak"
             />
@@ -31,17 +31,21 @@
             <h2 class="font-semibold text-gray-400">
               Mahsulot nomi
             </h2>
-            <p class="text-sm font-bold text-gray-600">
-              {{ product.color.name }} {{ product.size }}
+
+            <p
+              class="text-sm font-bold text-gray-600"
+              v-if="product.attributes"
+            >
+              {{ product.attributes.color.value }} {{ product.size }}
             </p>
 
             <div class="flex mt-8">
               <span class="flex items-center  h-6  bg-gray-200">
-                <button v-on:click="countInc()" class="w-6 text-lg font-bold">
+                <button @click="increment(index)" class="w-6 text-lg font-bold">
                   -
                 </button>
-                <p class="w-6 text-lg text-center">{{ count }}</p>
-                <button v-on:click="countDeInc()" class="w-6 text-lg font-bold">
+                <p class="w-6 text-lg text-center">{{ product.count }}</p>
+                <button @click="decrement(index)" class="w-6 text-lg font-bold">
                   +
                 </button>
               </span>
@@ -61,12 +65,16 @@
         </div>
       </div>
     </div>
-    <nuxt-link
-      to="/order"
-      class="w-56  flex items-center justify-center mx-auto text-sm font-semibold uppercase  py-6 h-8 bg-black text-white"
-    >
-      buyurtma berish
-    </nuxt-link>
+    <div class="flex justify-center">
+      <span class="font-bold text-2xl">Savatchaga mahsulot qo'shmadingiz</span>
+      <nuxt-link
+        v-if="products.length > 0"
+        to="/order"
+        class="w-56  flex items-center justify-center mx-auto text-sm font-semibold uppercase  py-6 h-8 bg-black text-white"
+      >
+        buyurtma berish
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -75,74 +83,30 @@ import global from "~/mixins.js/global.js";
 
 export default {
   mixins: [global],
-  // props: {
-  //   products: {
-  //     type: Array,
-  //     required: false
-  //   }
-  // },
+  props: {
+    products: {
+      type: Array,
+      required: false
+    },
+    product: {}
+  },
   data() {
-    return {
-      count: null,
-      categories: [
-        {
-          id: 1,
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          colorName: "Ko'k",
-          size: "X",
-          price: "189,000"
-        },
-        {
-          id: 2,
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          colorName: "Qizil",
-          size: "XL",
-          price: "200,000"
-        },
-        {
-          id: 3,
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          colorName: "Yashil",
-          size: "S",
-          price: "183,000"
-        }
-      ]
-    };
+    return {};
   },
   methods: {
-    deleteProduct(index) {
-      let products = JSON.parse(localStorage.products);
-      products.splice(index, 1);
-      const parsed = JSON.stringify(products);
-      // console.log(JSON.parse(localStorage.getItem(newList)));
-      localStorage.setItem("products", parsed);
+    increment(index) {
+      this.products[index].count++;
+      localStorage.setItem("products");
     },
-    getSelectedProducts() {
-      let products = JSON.parse(localStorage.products);
-      for (let i = 0; i < products.length; i++) {
-        let id = products[i].id;
-        // console.log(products, id);
-        this.$axios
-          .get(`product/variation-detail/${id}`)
-          .then(res => {
-            // console.log(res.data);
-            this.product = res.data;
-            this.selectedProducts.push(res.data);
-            console.log("selected products", this.selectedProducts);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-      // console.log("global:", this.selectedProducts);
+    decrement(index) {
+      this.products[index].count--;
+      localStorage.setItem("products", JSON.stringify(this.products));
+    },
+    deleteProduct(index) {
+      this.products.splice(index, 1);
+      const parsed = JSON.stringify(this.products);
+      localStorage.setItem("products", parsed);
     }
-  },
-  mounted() {
-    if (localStorage.products) this.getSelectedProducts();
-    // this.count = JSON.parse(localStorage.products)[0].count;
   }
 };
 </script>
