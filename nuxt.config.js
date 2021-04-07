@@ -28,7 +28,8 @@ export default {
     { src: "~/plugins/vue-tabs-component.js", mode: "client" },
     { src: "~/plugins/swiper.js", mode: "client" },
     { src: "~/plugins/vue-mask.js", mode: "client" },
-    { src: "~/plugins/vue-loading.js", mode: "client" }
+    { src: "~/plugins/vue-loading.js", mode: "client" },
+    { src: "~/plugins/vuelidate.js" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -51,11 +52,17 @@ export default {
     }
   },
   axios: {
-    baseURL: "http://192.168.43.58:8000/api/"
+    baseURL: "http://127.0.0.1:8000/api/"
 
     // Used as fallback if no runtime config is provided
   },
   auth: {
+    redirect: {
+      login: '/admin/login',
+      logout: '/admin/',
+      callback: 'admin//login',
+      home: '/admin/'
+    },
     strategies: {
       local: {
         token: {
@@ -67,13 +74,13 @@ export default {
           property: "data.user"
         },
         endpoints: {
-          login: { url: "login/", method: "post" },
+          login: { url: "users/token/", method: "post" },
           logout: { url: "logout/", method: "delete" },
-          user: { url: "me/", method: "get" }
+          user: { url: "users/me/", method: "get" }
         }
       }
     }
-  }
+  },
   // router: {
   //   middleware: ["auth"]
   // }
