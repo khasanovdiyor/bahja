@@ -104,7 +104,7 @@
         </base-button>
       </div>
       <div class="mb-10">
-        <table class="min-w-full divide-y  divide-gray-200 ">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -141,7 +141,7 @@
               :key="category.id"
             >
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500 ">
+                <div class="flex items-center text-gray-500">
                   {{ category.id }}
                 </div>
               </td>
@@ -164,7 +164,7 @@
                 <div class="flex items-center text-gray-500 justify-between">
                   <div
                     @click="newCategory.parent_id = category.id"
-                    class="cursor-pointer text-2xl bg-gray-800 text-white px-2 "
+                    class="cursor-pointer text-2xl bg-gray-800 text-white px-2"
                   >
                     +
                   </div>
@@ -194,7 +194,7 @@
                 </div>
               </td>
               <div
-                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
+                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-30 flex items-center justify-center"
                 v-if="showDeleteDialog"
               >
                 <div class="w-1/3 bg-white py-4 px-10">
@@ -233,7 +233,7 @@ export default {
   mixins: [global],
   components: {
     AdminSidebar,
-    BaseButton
+    BaseButton,
   },
   data() {
     return {
@@ -250,8 +250,8 @@ export default {
         name: "",
         parent_id: 0,
         order: 0,
-        is_slider: false
-      }
+        is_slider: false,
+      },
     };
   },
   methods: {
@@ -261,11 +261,11 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function(event) {
+    previewImage: function (event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.preview = e.target.result;
         };
         this.image = input.files[0];
@@ -281,13 +281,13 @@ export default {
       formData.append("image", this.image);
       this.$axios
         .post("product/category-create/", formData)
-        .then(res => {
+        .then((res) => {
           loader.hide();
           this.showSuccess = true;
           console.log(res.data);
           this.getCategories();
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           this.showFail = true;
           console.log(err);
@@ -295,25 +295,26 @@ export default {
     },
     deleteCategory(id) {
       this.$axios
-        .delete(`product/categoryDelete/${id}`)
-        .then(res => {
+        .delete(`product/category-delete/${id}`)
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.getCategories();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
-  }
+  },
 };
 </script>
 
 <style scoped>
 .multiselect {
   width: 50%;
-}</style
+}
+</style
 >>

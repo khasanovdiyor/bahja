@@ -15,7 +15,7 @@
               class="lg:h-80 h-72 w-full flex items-center justify-center bg-cover bg-center"
             >
               <div
-                class="bg-white opacity-75   text-center px-10 py-5 mx-16 font-semibold text-xl"
+                class="bg-white opacity-75 text-center px-10 py-5 mx-16 font-semibold text-xl"
               >
                 {{ slide.text }}
               </div>
@@ -26,15 +26,15 @@
       <div
         v-for="(slide, index) in slides"
         :key="slide.id"
-        class="row-span-1 my-6 sm:my-0  flex items-center justify-center bg-cover bg-center"
+        class="row-span-1 my-6 sm:my-0 flex items-center justify-center bg-cover bg-center"
         :class="{
           'lg:col-span-2 xl:col-span-1 sm:h-auto h-36 col-span-4 sm:col-span-2 md:col-span-2 md:row-span-1':
             index < 2,
-          'xl:col-span-2  col-span-4 md:col-span-4 h-36 xl:h-auto': index > 1
+          'xl:col-span-2  col-span-4 md:col-span-4 h-36 xl:h-auto': index > 1,
         }"
         :style="{ backgroundImage: `url(${slide.image})` }"
       >
-        <div class="px-10 py-5 bg-white opacity-75 mx-6 ">
+        <div class="px-10 py-5 bg-white opacity-75 mx-6">
           {{ slide.text }}
         </div>
       </div>
@@ -53,8 +53,8 @@ export default {
         rewind: true,
         width: 1020,
         perPage: 1,
-        gap: "1rem"
-      }
+        gap: "1rem",
+      },
     };
   },
   methods: {
@@ -63,20 +63,20 @@ export default {
 
       this.$axios
         .get("product/slider/list/")
-        .then(res => {
+        .then((res) => {
           console.log("slider-list", res.data);
-          res.data.forEach(element => {
+          res.data.forEach((element) => {
             me.slides.push(element);
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.$nextTick(this.$nextTick(() => this.getSlider()));
-  }
+  },
 };
 </script>
 

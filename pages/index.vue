@@ -8,23 +8,21 @@
     <div class="relative">
       <!-- HEADER - NAVIGATION -->
       <div class="">
-        <div class=" w-full bg-white">
+        <div class="w-full bg-white">
           <TheContact />
           <TheHeader />
         </div>
       </div>
 
       <!-- SHOWCASE -->
-      <div class="">
+      <div class="mt-10">
         <TheShowcase :slides="slides" />
       </div>
       <!-- PRODUCTS -->
       <div class="px-5 lg:px-16 mt-10">
-        <div class="sm:flex justify-between  sm:text-xl uppercase">
-          <div class="flex mb-6 sm:mb-0 lg:w-2/5  justify-between">
-            <span class="mr-6 font-bold">
-              Yangi mahsulotlar
-            </span>
+        <div class="sm:flex justify-between sm:text-xl uppercase">
+          <div class="flex mb-6 sm:mb-0 lg:w-2/5 justify-between">
+            <span class="mr-6 font-bold"> Yangi mahsulotlar </span>
           </div>
         </div>
 
@@ -38,7 +36,7 @@
               v-for="product in products"
               :key="product.id"
             >
-              <ProductCard :product="product" class="w-64 " />
+              <ProductCard :product="product" class="w-64" />
             </nuxt-link>
           </div>
           <div class="py-5">
@@ -78,9 +76,7 @@
     </div> -->
     <!-- TODAY'S HIT -->
     <div class="px-6 md:px-16 pb-10">
-      <h2 class="my-10 font-bold text-2xl uppercase">
-        Xit tovarlar
-      </h2>
+      <h2 class="my-10 font-bold text-2xl uppercase">Xit tovarlar</h2>
       <splide :options="options" :slides="products" class="mx-auto">
         <splide-slide
           v-for="product in products"
@@ -112,6 +108,7 @@ export default {
       options: {
         type: "fade",
         autoplay: true,
+        loop: true,
         rewind: true,
         perMove: 1,
         width: "100%",
@@ -119,23 +116,23 @@ export default {
         perPage: 4,
         gap: "2rem",
         breakpoints: {
-          "1180": {
+          1180: {
             perPage: 3,
-            gap: "4rem"
+            gap: "4rem",
           },
-          "900": {
+          900: {
             perPage: 2,
-            gap: "2rem"
+            gap: "2rem",
           },
-          "550": {
+          550: {
             perPage: 1,
-            width: "60%"
+            width: "60%",
           },
-          "450": {
+          450: {
             perPage: 1,
-            width: "80%"
-          }
-        }
+            width: "80%",
+          },
+        },
       },
       // slides: [
       //   {
@@ -153,39 +150,39 @@ export default {
       //     src: "https://www.coverstory.co.in/media/cms/home/category/work.jpg"
       //   }
       // ],
-      products: []
+      products: [],
     };
   },
   methods: {
     getSlider() {
       this.$axios
         .get("product/slider/list/")
-        .then(res => {
+        .then((res) => {
           console.log("slider-list", res.data);
           this.slides = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get("product/list/")
-        .then(res => {
+        .then((res) => {
           console.log("variation-list", res.data);
-          this.products = res.data;
+          this.products = res.data.results;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   created() {
     this.getSlider();
   },
   mounted() {
     this.getProducts();
-  }
+  },
 };
 </script>
 

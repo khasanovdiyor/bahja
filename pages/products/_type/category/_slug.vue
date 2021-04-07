@@ -20,7 +20,7 @@
             {{ selectedSort }} &#8595;
           </h3>
           <span class="text-gray-600 cursor-pointer"></span>
-          <div class="absolute border-2 bg-white  top-6 z-40" v-if="showSort">
+          <div class="absolute border-2 bg-white top-6 z-40" v-if="showSort">
             <ul>
               <li
                 v-for="option in sortOptions"
@@ -61,47 +61,47 @@ export default {
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha"
+          text: "Narx o'sish bo'yicha",
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha"
+          text: "Narx kamayish bo'yicha",
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha"
-        }
-      ]
+          text: "Mahsulot nomi bo'yicha",
+        },
+      ],
     };
   },
   methods: {
     getProductsBySort(ordering, text) {
       this.$axios
         .get(`product/list/?is_import=true&ordering=${ordering}`)
-        .then(res => {
+        .then((res) => {
           console.log("list", res.data);
-          this.products = res.data;
+          this.products = res.data.results;
           this.showSort = false;
           this.selectedSort = text;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get(`product/by-category/${this.$route.params.slug}/?is_import=true`)
-        .then(res => {
+        .then((res) => {
           console.log("list", res.data);
-          this.products = res.data;
+          this.products = res.data.results;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   created() {
     this.getProducts();
-  }
+  },
 };
 </script>

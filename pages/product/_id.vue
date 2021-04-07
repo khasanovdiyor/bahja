@@ -4,7 +4,7 @@
     <TheHeader />
     <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
       <h2
-        class="font-bold sm:text-4xl text-xl self-center "
+        class="font-bold sm:text-4xl text-xl self-center"
         @click="changeSlider"
       ></h2>
       <div class="flex justify-end">
@@ -59,7 +59,7 @@
         />
 
         <div class="mt-6 sm:flex items-center border-b-2 border-gray-200 pb-8">
-          <span class="flex items-center w-20 h-6  bg-gray-200 mr-8">
+          <span class="flex items-center w-20 h-6 bg-gray-200 mr-8">
             <button v-on:click="decrement()" class="w-6 text-lg font-bold">
               -
             </button>
@@ -68,7 +68,9 @@
               +
             </button>
           </span>
-          <span class="font-bold text-2xl">500,000 so'm</span>
+          <span class="font-bold text-2xl" v-if="product.price">{{
+            product.price.toLocaleString()
+          }}</span>
           <button
             @click="saveToCart"
             class="uppercase bg-black text-white py-2 px-4 sm:mx-4"
@@ -151,13 +153,13 @@ export default {
       showCommentBox: false,
       product: {
         attributes: {},
-        variations: []
+        variations: [],
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1
-      }
+        count: 1,
+      },
     };
   },
   methods: {
@@ -166,29 +168,29 @@ export default {
       console.log("route id", id);
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.makeProductList(res.data);
           console.log("product-list", this.product_list);
-          const product = this.product_list.find(function(product) {
-            console.log("product.id", product.id, "id", parseInt(id));
-            return product.id === parseInt(id);
+          const product = this.product_list.find(function (el) {
+            console.log("product.id", el.id, "id", parseInt(id));
+            return el.id === parseInt(id);
           });
           this.product = Object.assign({}, product);
           console.log("product", product, "this.product", this.product);
           // this.makeProductList(this.product);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     makeProductList(product) {
       console.log("making product list");
-      product.variations.forEach(element => {
+      product.variations.forEach((element) => {
         this.product_list.push(element);
       });
       let p = Object.assign({}, product);
       delete p.variations;
-      this.product_list.unshift(p);
+      this.product_list.push(p);
     },
     changeProduct(selected_attrs) {
       console.log("changing product by attrs");
@@ -200,7 +202,7 @@ export default {
     findProduct(selected_attrs) {
       let found = null;
 
-      this.product_list.forEach(element => {
+      this.product_list.forEach((element) => {
         if (this.isProperWithAttribute(element, selected_attrs))
           found = element;
       });
@@ -219,10 +221,14 @@ export default {
       return true;
     },
     increment() {
-      this.selectedProduct.count++;
+      if (this.selectedProduct.count == this.product.quantity) {
+        this.selectedProduct.count = this.product.quantity;
+      } else this.selectedProduct.count++;
     },
     decrement() {
-      this.selectedProduct.count--;
+      if (this.selectedProduct.count == 0) {
+        this.selectedProduct.count = 0;
+      } else this.selectedProduct.count--;
     },
     saveToCart() {
       this.selectedProduct.product_id = this.product.id;
@@ -234,7 +240,7 @@ export default {
       if (old) {
         console.log("old bor");
         let index = old.findIndex(
-          x => parseInt(x.product_id) === parseInt(prodId)
+          (x) => parseInt(x.product_id) === parseInt(prodId)
         );
         if (index !== -1) {
           console.log("bu mahsulot uje mavjud");
@@ -251,12 +257,12 @@ export default {
       }
       localStorage.setItem("products", parsed);
       console.log(localStorage.getItem("products"));
-    }
+    },
   },
   mounted() {
     this.getProduct();
     // this.changeProduct(selected_attrs);
-  }
+  },
 };
 </script>
 

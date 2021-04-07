@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex ">
+    <div class="flex min-h-screen">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
@@ -10,7 +10,7 @@
           Mahsulot yaratildi
           <span
             class="absolute right-6 cursor-pointer"
-            @click="showNotification = false"
+            @click="showSuccess = false"
             >X</span
           >
         </div>
@@ -21,15 +21,13 @@
           Mahsulot yaratishda xatolik yuz berdi, qayta urinib koring
           <span
             class="absolute right-6 cursor-pointer"
-            @click="showNotification = false"
+            @click="showFail = false"
             >X</span
           >
         </div>
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Mahsulot qo'shish">
-            <h2 class="text-xl font-bold uppercase">
-              Mahsulot qoshish
-            </h2>
+            <h2 class="text-xl font-bold uppercase">Mahsulot qoshish</h2>
 
             <div>
               <div class="input-group block my-4">
@@ -100,8 +98,8 @@
                   >soni</label
                 >
                 <input
-                  type="string"
-                  class="w-1/2 border-2 text-sm  py-2 pl-5"
+                  type="text"
+                  class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model="product.quantity"
                 />
               </div>
@@ -157,7 +155,7 @@
                     />
                     <span
                       @click="removeImage(index, product.images)"
-                      class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full "
+                      class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
                       >X</span
                     >
                   </div>
@@ -175,7 +173,7 @@
                 />
               </div>
               <div class="mb-10">
-                <table class="min-w-full divide-y divide-gray-200 ">
+                <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-200">
                     <tr>
                       <th
@@ -231,7 +229,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class=" w-full border-2 text-sm py-2 pl-5"
+                            class="w-full border-2 text-sm py-2 pl-5"
                             v-model="attr.key"
                           />
                         </div>
@@ -240,7 +238,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class=" w-full border-2 text-sm py-2 pl-5"
+                            class="w-full border-2 text-sm py-2 pl-5"
                             v-model="attr.label"
                           />
                         </div>
@@ -249,7 +247,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class=" w-full border-2 text-sm py-2 pl-5"
+                            class="w-full border-2 text-sm py-2 pl-5"
                             v-model="attr.value"
                           />
                         </div>
@@ -350,7 +348,7 @@
                 </table>
                 <div
                   @click="showAddNewKey = true"
-                  class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2 "
+                  class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
                 >
                   +
                 </div>
@@ -364,9 +362,7 @@
             </div>
           </tab>
           <tab name="O'zgarish qo'shish">
-            <h2 class="text-xl font-bold uppercase">
-              O'zgarish qoshish
-            </h2>
+            <h2 class="text-xl font-bold uppercase">O'zgarish qoshish</h2>
 
             <div>
               <div class="input-group block my-4">
@@ -426,7 +422,7 @@
                 >
                 <input
                   type="string"
-                  class="w-1/2 border-2 text-sm  py-2 pl-5"
+                  class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model="variation.quantity"
                 />
               </div>
@@ -483,7 +479,7 @@
                     />
                     <span
                       @click="removeImage(index, variation.images)"
-                      class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full "
+                      class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
                       >X</span
                     >
                   </div>
@@ -492,7 +488,7 @@
               </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
-                <table class="min-w-full divide-y divide-gray-200 ">
+                <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-200">
                     <tr>
                       <th
@@ -619,7 +615,7 @@
                 </table>
                 <div
                   @click="showAddNewKey = true"
-                  class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2 "
+                  class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
                 >
                   +
                 </div>
@@ -683,10 +679,10 @@
                     :key="varProduct.product_code"
                   >
                     <td class="px-2 py-1 border">
-                      <div class="flex items-center text-gray-500 ">
+                      <div class="flex items-center text-gray-500">
                         <input
                           type="text"
-                          class=" w-full border-2 text-sm py-2"
+                          class="w-full border-2 text-sm py-2"
                           v-model="varProduct.name"
                         />
                       </div>
@@ -695,7 +691,7 @@
                       <div class="flex items-center text-gray-500">
                         <input
                           type="text"
-                          class=" w-full border-2 text-sm py-2"
+                          class="w-full border-2 text-sm py-2"
                           v-model="varProduct.product_code"
                         />
                       </div>
@@ -718,7 +714,7 @@
                       <div class="flex items-center text-gray-500">
                         <input
                           type="text"
-                          class=" w-full border-2 text-sm py-2"
+                          class="w-full border-2 text-sm py-2"
                           v-model="varProduct.price"
                         />
                       </div>
@@ -726,7 +722,7 @@
                     <td class="px-2 py-1 border">
                       <input
                         type="text"
-                        class=" w-full border-2 text-sm py-2"
+                        class="w-full border-2 text-sm py-2"
                         v-model="varProduct.quantity"
                       />
                     </td>
@@ -762,7 +758,7 @@ import BaseButton from "../../components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton
+    BaseButton,
   },
   data() {
     return {
@@ -771,7 +767,6 @@ export default {
       selectedVariationCategories: [],
       previewProduct: null,
       previewVariation: null,
-      token: "8939c3ce7bdfcb37d68303016230815fc5d555af",
       image: null,
       preview_list: [],
       image_list: [],
@@ -798,7 +793,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: []
+        variations: [],
       },
       variation: {
         parent_id: 0,
@@ -810,14 +805,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null
-      }
+        value: null,
+      },
     };
   },
   methods: {
@@ -849,7 +844,7 @@ export default {
     addVariation() {
       this.product.variations.push(this.variation);
       this.variation = {
-        attributes: []
+        attributes: [],
       };
       this.showAddNewVariation = false;
     },
@@ -869,7 +864,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -879,7 +874,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -892,7 +887,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = e => {
+          reader.onload = (e) => {
             this.product.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
           };
@@ -909,7 +904,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = e => {
+          reader.onload = (e) => {
             this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
           };
@@ -922,10 +917,10 @@ export default {
     getBrands() {
       this.$axios
         .get("product/brand-list/")
-        .then(res => {
+        .then((res) => {
           this.brands = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -933,12 +928,8 @@ export default {
       let loader = this.$loading.show();
       this.product.brand = this.selectedBrand.id;
       this.$axios
-        .post("product/create/", this.product, {
-          headers: {
-            Authorization: `Token ${this.token}`
-          }
-        })
-        .then(res => {
+        .post("product/create/", this.product)
+        .then((res) => {
           console.log(res);
           this.showSuccess = true;
           this.productVariation = {};
@@ -948,17 +939,17 @@ export default {
           this.preview = null;
           loader.hide();
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           showFail = true;
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  }
+  },
 };
 </script>
 <style scoped>

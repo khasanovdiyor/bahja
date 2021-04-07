@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex ">
+    <div class="flex min-h-screen">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
@@ -16,7 +16,7 @@
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
         >
           {{ message }}
           <span
@@ -36,9 +36,22 @@
             >
             <input
               type="string"
-              class="w-1/2 border-2 text-sm  py-2 pl-5"
-              v-model="selectedOrder.name"
+              class="w-1/2 border-2 text-sm py-2 pl-5"
+              v-model.trim="$v.selectedOrder.name.$model"
             />
+            <div
+              class="text-red-400"
+              v-if="
+                !$v.selectedOrder.name.required && $v.selectedOrder.name.$dirty
+              "
+            >
+              To'ldirish shart
+            </div>
+            <div class="text-red-400" v-if="!$v.selectedOrder.name.minLength">
+              Buyurtmachi nomi kamida
+              {{ $v.selectedOrder.name.$params.minLength.min }} harf bo'lishi
+              kerak
+            </div>
           </div>
           <div class="my-4">
             <label class="block font-bold uppercase text-sm mb-2"
@@ -46,9 +59,26 @@
             >
             <input
               type="tel"
-              class="w-1/2 border-2 text-sm  py-2 pl-5"
-              v-model="selectedOrder.phone_number"
+              class="w-1/2 border-2 text-sm py-2 pl-5"
+              v-model.trim="$v.selectedOrder.phone_number.$model"
             />
+            <div
+              class="text-red-400"
+              v-if="
+                !$v.selectedOrder.phone_number.required &&
+                $v.selectedOrder.phone_number.$dirty
+              "
+            >
+              To'ldirish shart
+            </div>
+            <div
+              class="text-red-400"
+              v-if="!$v.selectedOrder.phone_number.minLength"
+            >
+              Telfon raqami kamida
+              {{ $v.selectedOrder.phone_number.$params.minLength.min }} son
+              bo'lishi kerak
+            </div>
           </div>
           <div class="my-4">
             <label class="block font-bold uppercase text-sm mb-2"
@@ -58,15 +88,15 @@
               class="w-1/2 border-2 px-3 text-sm py-2"
               v-model="selectedOrder.status"
             >
-              <option disabled selected value="">Status tanlang </option>
+              <option disabled selected value="">Status tanlang</option>
               <option
                 class=""
                 :value="status"
                 v-for="status in statuses"
                 :key="status"
               >
-                {{ status }}</option
-              >
+                {{ status }}
+              </option>
             </select>
           </div>
           <button
@@ -76,38 +106,33 @@
             Ma'lumotlarni yangilash
           </button>
           <div>
-            <table class="min-w-full divide-y divide-gray-200 ">
+            <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-200">
                 <tr>
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    kodi
+                    mahsulot kodi
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    nomi
+                    mahsulot nomi
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    o'lchami
+                    Attributlari
                   </th>
+
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    rangi
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                  >
-                    narxi
+                    mahsulot narxi
                   </th>
                   <th
                     scope="col"
@@ -129,16 +154,15 @@
                   </th>
                 </tr>
               </thead>
-              <tbody class="bg-white">
+              <tbody class="bg-white" v-if="order.orderproducts">
                 <tr
-                  @click="getOrderProduct(product.id)"
-                  class="border cursor-pointer"
+                  class="border"
                   v-for="product in order.orderproducts"
                   :key="product.id"
                 >
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500 ">
-                      {{ product.product.product_code }}
+                    <div class="flex items-center text-gray-500">
+                      {{ product.product_code }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -147,18 +171,22 @@
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.size }}
+                    <div class="text-gray-500">
+                      <span
+                        v-for="attr in product.product.attributes"
+                        class="block"
+                        :key="attr.id"
+                      >
+                        {{ attr.label }}: {{ attr.value }}
+                      </span>
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.color.name }}
-                    </div>
-                  </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
-                      {{ product.product.price }}
+                    <div
+                      class="flex items-center text-gray-500"
+                      v-if="product.price"
+                    >
+                      {{ product.price.toLocaleString() }} so'm
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -169,33 +197,37 @@
                   <td class="px-6 py-1 border">
                     <div
                       class="flex items-center text-gray-500 justify-between"
+                      v-if="product.single_overall_price"
                     >
-                      {{ product.single_overall_price }}
+                      {{ product.single_overall_price.toLocaleString() }}
+                      so'm
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div
+                      class="cursor-pointer"
+                      @click="
+                        orderProductId = product.id;
+                        showDeleteDialog = true;
+                      "
+                    >
+                      <img
+                        src="~/assets/images/delete.svg"
+                        class="w-5 h-5"
+                        alt="pencil icon"
+                      />
                     </div>
                   </td>
                   <div
-                    @click="
-                      showDeleteDialog = true;
-                      selectedProductID = product.id;
-                    "
-                    class="cursor-pointer"
-                  >
-                    <img
-                      src="~/assets/images/delete.svg"
-                      class="w-5 h-5"
-                      alt="pencil icon"
-                    />
-                  </div>
-                  <div
-                    class="fixed top-0 bottom-0 right-0 left-0 bg-gray-600 flex items-center justify-center"
+                    class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
                     v-if="showDeleteDialog"
                   >
-                    <div class="w-1/3 bg-white py-4 px-8">
+                    <div class="w-1/3 opacity-100 bg-white py-4 px-8">
                       <span class="font-bold text-xl block mb-6"
                         >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
                       >
                       <button
-                        @click="deleteProduct(product.id)"
+                        @click="deleteOrderProduct(orderProductId)"
                         class="bg-red-400 text-white py-2 px-4"
                       >
                         Ha
@@ -251,13 +283,16 @@
 </template>
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
+import { required, minLength } from "vuelidate/lib/validators";
+
 export default {
   components: {
     AdminSidebar,
   },
   data() {
     return {
-      token: "58ef58a77940fd18fa91351c61773eada4859475",
+      orderProductId: 0,
+      showDeleteDialog: false,
       showSuccess: false,
       showFail: false,
       message: "",
@@ -266,58 +301,86 @@ export default {
       newProduct: {
         order_id: this.$route.params.id,
         count: 0,
-        proudct_id: null
+        proudct_id: null,
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: ""
+        status: "",
       },
-      colors: [],
-      brands: [],
       products: [],
-      order: {}
+      order: {},
     };
+  },
+  validations: {
+    selectedOrder: {
+      name: {
+        required,
+        minLength: minLength(3),
+      },
+      phone_number: {
+        required,
+        minLength: minLength(9),
+      },
+    },
   },
   methods: {
     selectProduct(value, id) {
-      this.newProduct.id = value.id;
+      this.newProduct.product_id = value.id;
     },
     updateOrder() {
-      let loader = this.$loading.show();
-      this.$axios
-        .patch(
-          `cart/orderbeta-update/${this.$route.params.id}`,
-          this.selectProduct
-        )
-        .then(res => {
-          loader.hide();
-          this.message = "Ma'lumotlar yangilandi";
-          this.showSuccess = true;
-          console.log(res.data);
-        })
-        .catch(err => {
-          loader.hide();
-          this.message =
-            "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
-          this.showFail = true;
-          console.log(err);
-        });
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.submitStatus = "ERROR";
+      } else {
+        let loader = this.$loading.show();
+        this.$axios
+          .patch(
+            `cart/orderbeta-update/${this.$route.params.id}`,
+            this.selectProduct
+          )
+          .then((res) => {
+            loader.hide();
+            this.message = "Buyurtmachi ma'lumotlari yangilandi";
+            this.showSuccess = true;
+            setTimeout(() => {
+              this.showSuccess = false;
+            }, 3000);
+            console.log(res.data);
+          })
+          .catch((err) => {
+            loader.hide();
+            this.message =
+              "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
+            this.showFail = true;
+            setTimeout(() => {
+              this.showFail = false;
+            }, 3000);
+            console.log(err);
+          });
+      }
     },
     createOrderProduct() {
       let loader = this.$loading.show();
       this.$axios
-        .post("cart/orderproductbeta-create/", this.newProduct)
-        .then(res => {
+        .post(`cart/orderproductbeta-create/`, this.newProduct)
+        .then((res) => {
           this.message = "Yangi mahsulot qo'shildi";
           this.showSuccess = true;
+          this.getOrder();
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
           console.log(res.data);
           loader.hide();
         })
-        .catch(err => {
+        .catch((err) => {
           this.message =
             "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
           loader.hide();
           console.log(err);
         });
@@ -325,33 +388,56 @@ export default {
     getOrder() {
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.order = res.data;
           console.log("Order: ", this.order);
-          this.selectedOrder = this.order;
+          this.selectedOrder = Object.assign({}, res.data);
           delete this.selectedOrder.orderproducts;
           delete this.selectedOrder.id;
           delete this.selectedOrder.finish_price;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get(`product/codesize/`)
-        .then(res => {
+        .then((res) => {
           this.products = res.data;
           console.log("Selected Product", res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
+    deleteOrderProduct(id) {
+      this.$axios
+        .delete(`cart/orderproductbeta-delete/${id}`)
+        .then((res) => {
+          console.log(res);
+          this.showDeleteDialog = false;
+          this.getOrder();
+          this.message = "Mahsulot o'chirildi";
+          this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
+        })
+        .catch((err) => {
+          this.message =
+            "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
+          this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
+          console.log(err);
+        });
+    },
   },
   mounted() {
     this.getOrder();
     this.getProducts();
-  }
+  },
 };
 </script>

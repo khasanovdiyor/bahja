@@ -96,7 +96,6 @@ export default {
       preview: null,
       showSuccess: false,
       showFail: false,
-      token: "58ef58a77940fd18fa91351c61773eada4859475",
       categories: [],
       image: null,
       slider: {

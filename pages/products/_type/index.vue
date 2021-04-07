@@ -57,13 +57,23 @@
         </div>
 
         <h2
-          class="font-bold text-xl mx-auto text-center w-1/3"
+          class="font-bold text-xl mx-auto text-center w-2/3"
           v-if="products.length == 0"
         >
           Hozircha bu bo'limda mahsulotlar mavjud emas!
-          <nuxt-link to="/products/import" class="text-gray-400 hover:underline"
+          <nuxt-link
+            v-if="$route.params.type === 'import'"
+            to="/products/import"
+            class="text-gray-400 hover:underline"
             >Mahalliy mahsulotlar</nuxt-link
-          >ni qarab ko'ring!
+          >
+          <nuxt-link
+            v-else
+            to="/products/import"
+            class="text-gray-400 hover:underline"
+            >Import mahsulotlar</nuxt-link
+          >
+          ni qarab ko'ring!
         </h2>
 
         <div
@@ -98,44 +108,45 @@ export default {
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha"
+          text: "Narx o'sish bo'yicha",
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha"
+          text: "Narx kamayish bo'yicha",
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha"
-        }
-      ]
+          text: "Mahsulot nomi bo'yicha",
+        },
+      ],
     };
   },
   methods: {
     getProductsBySort(ordering, text) {
       this.$axios
         .get(
-          `product/list/?is_import=${this.$route.params.type ===
-            "import"}&ordering=${ordering}`
+          `product/list/?is_import=${
+            this.$route.params.type === "import"
+          }&ordering=${ordering}`
         )
-        .then(res => {
+        .then((res) => {
           console.log("list", res.data);
-          this.products = res.data;
+          this.products = res.data.results;
           this.showSort = false;
           this.selectedSort = text;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get(`product/list/?is_import=${this.$route.params.type === "import"}`)
-        .then(res => {
+        .then((res) => {
           console.log("list", res.data);
-          this.products = res.data;
+          this.products = res.data.results;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -144,13 +155,13 @@ export default {
         this.sizes.push(this.products[i].size);
       }
       console.log("import sizes", this.sizes, "this.products", this.products);
-    }
+    },
   },
   created() {
     this.getProducts();
   },
   mounted() {
     this.getSizes();
-  }
+  },
 };
 </script>

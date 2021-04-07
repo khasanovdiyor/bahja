@@ -13,7 +13,7 @@
     </div>
 
     <div class="mb-5 w-full px-5 ml-auto">
-      <div class=" w-full py-5 scroll mt-12 overflow-y-scroll">
+      <div class="w-full py-5 scroll mt-12 overflow-y-scroll">
         <div
           class="flex mb-5"
           v-for="(product, index) in products"
@@ -22,25 +22,23 @@
           <a href="#">
             <img
               :src="product.image"
-              class="w-56  md:w-32 md:h-32 object-cover"
+              class="w-56 md:w-32 md:h-32 object-cover"
               alt="koylak"
             />
           </a>
 
           <span class="w-full px-5">
-            <h2 class="font-semibold text-gray-400">
-              Mahsulot nomi
-            </h2>
+            <h2 class="font-semibold text-gray-400">Mahsulot nomi</h2>
 
             <p
               class="text-sm font-bold text-gray-600"
-              v-if="product.attributes"
+              v-if="product.attributes.color"
             >
               {{ product.attributes.color.value }} {{ product.size }}
             </p>
 
             <div class="flex mt-8">
-              <span class="flex items-center  h-6  bg-gray-200">
+              <span class="flex items-center h-6 bg-gray-200">
                 <button @click="increment(index)" class="w-6 text-lg font-bold">
                   -
                 </button>
@@ -50,8 +48,11 @@
                 </button>
               </span>
 
-              <p class="font-bold ml-5 text-gray-700 text-lg">
-                {{ product.price }} UZS
+              <p
+                class="font-bold ml-5 text-gray-700 text-lg"
+                v-if="product.price"
+              >
+                {{ product.price.toLocaleString() }} UZS
               </p>
               <img
                 @click="deleteProduct(index)"
@@ -66,14 +67,16 @@
       </div>
     </div>
     <div class="flex justify-center">
-      <span class="font-bold text-2xl">Savatchaga mahsulot qo'shmadingiz</span>
       <nuxt-link
         v-if="products.length > 0"
         to="/order"
-        class="w-56  flex items-center justify-center mx-auto text-sm font-semibold uppercase  py-6 h-8 bg-black text-white"
+        class="w-56 flex items-center justify-center mx-auto text-sm font-semibold uppercase py-6 h-8 bg-black text-white"
       >
         buyurtma berish
       </nuxt-link>
+      <span v-else class="font-bold text-2xl"
+        >Savatchaga mahsulot qo'shmadingiz</span
+      >
     </div>
   </div>
 </template>
@@ -86,9 +89,9 @@ export default {
   props: {
     products: {
       type: Array,
-      required: false
+      required: false,
     },
-    product: {}
+    product: {},
   },
   data() {
     return {};
@@ -106,8 +109,8 @@ export default {
       this.products.splice(index, 1);
       const parsed = JSON.stringify(this.products);
       localStorage.setItem("products", parsed);
-    }
-  }
+    },
+  },
 };
 </script>
 

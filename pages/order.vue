@@ -4,13 +4,22 @@
     <TheHeader />
     <div
       v-if="showSuccess"
-      class="font-bold  flex items-center justify-between text-white bg-black px-4 py-2 text-xl"
+      class="font-bold flex items-center justify-between text-white bg-black px-4 py-2 text-xl"
     >
-      <span class="flex w-3/5 justify-end">
-        Buyurtmangiz qabul qilindi!
-      </span>
+      <span class="flex w-3/5 justify-end"> Buyurtmangiz qabul qilindi! </span>
       <span
         @click="showSuccess = false"
+        class="w-1/5 cursor-pointer flex justify-end"
+        >x</span
+      >
+    </div>
+    <div
+      v-if="showFail"
+      class="font-bold flex items-center justify-between text-white bg-black px-4 py-2 text-xl"
+    >
+      <span class="flex w-3/5 justify-end"> Buyurtmangiz qabul qilindi! </span>
+      <span
+        @click="showFail = false"
         class="w-1/5 cursor-pointer flex justify-end"
         >x</span
       >
@@ -31,7 +40,7 @@
             >
             <input
               type="text"
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 "
+              class="p-2 pl-3 mt-2 w-full bg-gray-200"
               placeholder="Ism"
               v-model="name"
             />
@@ -40,7 +49,7 @@
             <input
               type="text"
               class="p-2 pl-3 mt-2 w-full bg-gray-200"
-              v-mask="'+998-###-##-##'"
+              v-mask="'+998-##-###-##-##'"
               v-model="phone"
             />
           </div>
@@ -49,7 +58,7 @@
         <button
           type="submit"
           @click.prevent="sendOrder"
-          class="w-1/2 flex items-center justify-center mx-auto text-sm font-semibold uppercase  py-6 h-8 bg-black text-white"
+          class="w-1/2 flex items-center justify-center mx-auto text-sm font-semibold uppercase py-6 h-8 bg-black text-white"
         >
           buyurtma berish
         </button>
@@ -67,7 +76,8 @@ export default {
     return {
       name: "",
       phone: "+998",
-      showSuccess: false
+      showSuccess: false,
+      showFail: false,
     };
   },
   methods: {
@@ -76,23 +86,29 @@ export default {
       let orderData = {
         name: this.name,
         phone_number: this.phone,
-        products: products
+        products: products,
       };
       this.$axios
         .post(`cart/orderbeta-create/`, orderData)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           let products = [];
           const parsed = JSON.stringify(products);
           localStorage.setItem("products", parsed);
-          setTimeout(function() {
-            this.showSuccess = true;
+          this.showSuccess = true;
+          setTimeout(function () {
+            this.showSuccess = false;
           }, 2000);
+          this.$router.push("/");
         })
-        .catch(err => {
+        .catch((err) => {
+          this.showFail = true;
+          setTimeout(function () {
+            this.showFail = false;
+          }, 2000);
           console.log(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>

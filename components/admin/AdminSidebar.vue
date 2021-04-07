@@ -5,7 +5,7 @@
     "
     class="fixed z-30 inset-y-0 pb-10 w-1/5 left-0 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
   >
-    <div class="flex items-center  justify-center mt-8">
+    <div class="flex items-center justify-center mt-8">
       <div class="flex items-center">
         <svg
           class="h-12 w-12"
@@ -34,7 +34,7 @@
     <nav class="mt-10">
       <nuxt-link
         class="flex items-center mt-4 py-2 px-6 hover:bg-gray-700 hover:bg-opacity-25 text-gray-100"
-        to="/admin/dashboard"
+        to="/admin/"
       >
         <svg
           class="h-6 w-6"
@@ -101,7 +101,7 @@
 
         <span class="mx-3">Mahsulot qo'shish</span>
       </nuxt-link> -->
-      <nuxt-link 
+      <nuxt-link
         class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
         to="/admin/products"
       >
@@ -143,7 +143,7 @@
 
         <span class="mx-3">Slider qo'shish</span>
       </nuxt-link> -->
-      <nuxt-link 
+      <nuxt-link
         class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
         to="/admin/sliders"
       >
@@ -165,7 +165,6 @@
         <span class="mx-3">Sliderlar</span>
       </nuxt-link>
 
-      
       <nuxt-link
         class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
         to="/admin/categories"
@@ -208,7 +207,6 @@
 
         <span class="mx-3">Brandlar</span>
       </nuxt-link>
-      
     </nav>
   </div>
 </template>
@@ -218,24 +216,20 @@ export default {
   name: "TheSidebar",
   data() {
     return {
-      sidebarOpen: false
+      sidebarOpen: false,
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
 a.nuxt-link-exact-active {
   background: rgb(173, 173, 173);
-  
-
 }
-a.nuxt-link-exact-active span{
-  color: rgb(17,24,39);
-  font-weight: bold
-
+a.nuxt-link-exact-active span {
+  color: rgb(17, 24, 39);
+  font-weight: bold;
 }
-
 </style>>
 
 </style>

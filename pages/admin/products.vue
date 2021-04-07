@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex min-h-screen">
     <AdminSidebar />
     <div class="px-16 w-4/5 pt-10">
       <div class="flex items-center justify-between">
@@ -11,7 +11,7 @@
         >
       </div>
 
-      <table class="min-w-full divide-y divide-gray-200 ">
+      <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-200">
           <tr>
             <th
@@ -57,7 +57,7 @@
         <tbody class="bg-white">
           <tr class="border" v-for="product in products" :key="product.id">
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500 ">
+              <div class="flex items-center text-gray-500">
                 {{ product.id }}
               </div>
             </td>
@@ -73,7 +73,7 @@
             </td>
 
             <td class="px-6 py-1 border">
-              <div class=" text-gray-500">
+              <div class="text-gray-500">
                 <span
                   v-for="attr in product.attributes"
                   :key="attr.id"
@@ -133,7 +133,7 @@
                     @click="deleteProduct(selectedProductID)"
                     class="bg-red-600 text-white py-2 px-4"
                   >
-                    Ha {{ selectedProductID }}
+                    Ha
                   </button>
                   <button
                     @click="showDeleteDialog = false"
@@ -155,38 +155,38 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
       products: [],
       showDeleteDialog: false,
-      selectedProductID: null
+      selectedProductID: null,
     };
   },
   methods: {
     getProducts() {
-      this.$axios.get("product/list/?parent_id=0").then(res => {
+      this.$axios.get("product/list/?parent_id=0").then((res) => {
         console.log(res.data);
-        this.products = res.data;
+        this.products = res.data.results;
       });
     },
     deleteProduct(id) {
       this.$axios
         .delete(`product/delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getProducts();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getProducts();
-  }
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative shadow pb-6 ">
+  <div class="relative shadow pb-6">
     <div class="w-full h-72">
       <img
         :src="product.image"
@@ -19,7 +19,7 @@
     <div class="pl-5">
       <h4 class="text-gray-500 mt-2 font-bold">{{ product.name }}</h4>
       <span class="font-bold text-lg"
-        >{{ product.price.toLocaleString() }} so'm{{ product.id }}</span
+        >{{ product.price.toLocaleString() }} so'm</span
       >
       <!-- <del>{{ product.price }} UZS</del> -->
 
@@ -41,12 +41,12 @@ export default {
   props: {
     product: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   mounted() {
     this.product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  },
 };
 </script>
 

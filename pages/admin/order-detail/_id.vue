@@ -10,15 +10,15 @@
         <div class="mb-10">
           <table class="min-w-full divide-x divide-gray-200 flex">
             <thead class="bg-gray-200">
-              <tr class="border-gray-400  border-b">
+              <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
                 >
                   Buyurtma id
                 </th>
               </tr>
-              <tr class="border-gray-400  border-b">
+              <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
                   class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
@@ -26,18 +26,18 @@
                   Buyurtmachi nomi
                 </th>
               </tr>
-              <tr class="border-gray-400  border-b">
+              <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
                 >
                   Buyurtmachi raqami
                 </th>
               </tr>
-              <tr class="border-gray-400  border-b">
+              <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
                 >
                   Jami Buyurtma narxi
                 </th>
@@ -67,7 +67,10 @@
               </tr>
               <tr class="border">
                 <td class="px-6 py-2 border">
-                  <div class="flex items-center text-gray-500">
+                  <div
+                    class="flex items-center text-gray-500"
+                    v-if="order.finish_price"
+                  >
                     {{ order.finish_price.toLocaleString() }} so'm
                   </div>
                 </td>
@@ -76,7 +79,7 @@
           </table>
         </div>
         <h2 class="font-bold mb-6">Buyurtma qilgan mahsulotlari</h2>
-        <table class="min-w-full divide-y divide-gray-200 ">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -118,14 +121,14 @@
               </th>
             </tr>
           </thead>
-          <tbody class="bg-white">
+          <tbody class="bg-white" v-if="order.orderproducts">
             <tr
               class="border"
               v-for="product in order.orderproducts"
               :key="product.id"
             >
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500 ">
+                <div class="flex items-center text-gray-500">
                   {{ product.product_code }}
                 </div>
               </td>
@@ -135,7 +138,7 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class=" text-gray-500">
+                <div class="text-gray-500">
                   <span
                     v-for="attr in product.product.attributes"
                     class="block"
@@ -146,8 +149,11 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
-                  {{ product.product.price.toLocaleString() }} so'm
+                <div
+                  class="flex items-center text-gray-500"
+                  v-if="product.price"
+                >
+                  {{ product.price.toLocaleString() }} so'm
                 </div>
               </td>
               <td class="px-6 py-1 border">
@@ -156,8 +162,12 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500 justify-between">
-                  {{ product.single_overall_price.toLocaleString() }} so'm
+                <div
+                  class="flex items-center text-gray-500 justify-between"
+                  v-if="product.single_overall_price"
+                >
+                  {{ product.single_overall_price.toLocaleString() }}
+                  so'm
                 </div>
               </td>
               <div
@@ -194,26 +204,26 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
-      order: {}
+      order: {},
     };
   },
   methods: {
     getOrder() {
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.order = res.data;
         });
-    }
+    },
   },
   mounted() {
     this.getOrder();
-  }
+  },
 };
 </script>
 

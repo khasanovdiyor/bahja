@@ -367,11 +367,7 @@ export default {
       let loader = this.$loading.show();
       this.variation.parent_id = this.$route.params.id;
       this.$axios
-        .post("product/variation-create/", this.variation, {
-          headers: {
-            Authorization: `Basic ${this.token}`
-          }
-        })
+        .post("product/variation-create/", this.variation)
         .then(res => {
           console.log(res);
           loader.hide();

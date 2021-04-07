@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex ">
+    <div class="flex min-h-screen">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
@@ -40,17 +40,14 @@
           <label class="block font-bold uppercase text-sm mb-2"
             >Kategoriya tanlang
           </label>
-          <select name="category" id="category" v-model="slider.category">
-            <option disabled selected value="choose"
-              >Kategoriya tanlang
-            </option>
-            <option
-              :value="category.id"
-              v-for="category in categories"
-              :key="category.id"
-              >{{ category.name }}</option
-            >
-          </select>
+          <multiselect
+            v-model="selectedCategory"
+            :options="categories"
+            placeholder="Kategoriya tanlang"
+            label="name"
+            track-by="name"
+            @select="selectCategory"
+          ></multiselect>
         </div>
         <div class="my-4">
           <label class="block font-bold uppercase text-sm mb-2"
@@ -90,23 +87,28 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
+      selectedCategory: "",
       preview: null,
       showSuccess: false,
       showFail: false,
-      token: "58ef58a77940fd18fa91351c61773eada4859475",
+
       categories: [],
       slider: {
         text: "",
         image: null,
-        category: null
-      }
+        category: null,
+      },
     };
   },
   methods: {
+    selectCategory(value, id) {
+      this.slider.category = value.id;
+    },
+
     createSlider() {
       let loader = this.$loading.show();
       const formData = new FormData();
@@ -115,14 +117,20 @@ export default {
       formData.append("category", this.slider.category);
       this.$axios
         .post("product/slider/create/", formData)
-        .then(res => {
+        .then((res) => {
           loader.hide();
           this.showSuccess = true;
+          setTimeout(function () {
+            this.showSuccess = false;
+          }, 3000);
           console.log(res);
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           this.showFail = true;
+          setTimeout(function () {
+            this.showFail = false;
+          }, 3000);
           console.log(err);
         });
     },
@@ -130,7 +138,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.preview = e.target.result;
         };
 
@@ -139,25 +147,23 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {
-        console.log("RESULT", reader.result);
-      };
+      reader.onloadend = function () {};
       reader.readAsDataURL(file);
     },
     getCategories() {
       this.$axios
-        .get("product/category-list/")
-        .then(res => {
+        .get("product/category-all/")
+        .then((res) => {
           console.log(res.data);
           this.categories = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
-  }
+  },
 };
 </script>

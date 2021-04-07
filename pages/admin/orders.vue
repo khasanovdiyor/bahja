@@ -222,8 +222,9 @@
                       :value="status"
                       v-for="(status, index) in statuses"
                       :key="index"
-                      >{{ status }}</option
                     >
+                      {{ status }}
+                    </option>
                   </select>
                   <button
                     @click="getOrders"
@@ -388,7 +389,7 @@
                           </div>
                         </td>
                         <div
-                          class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
+                          class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-30 flex items-center justify-center"
                           v-if="showDeleteDialog"
                         >
                           <div class="w-1/3 bg-white py-4 px-10">
@@ -429,7 +430,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -439,7 +440,7 @@ export default {
       orders: [],
       activeStatus: "",
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      showStatus: false
+      showStatus: false,
     };
   },
   methods: {
@@ -447,26 +448,26 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus
-          }
+            status: this.activeStatus,
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.orders = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     deleteOrder(id) {
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.getOrders();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -475,18 +476,18 @@ export default {
       formData.append("status", status);
       this.$axios
         .patch(`cart/orderbeta-update/${id}`, formData)
-        .then(res => {
+        .then((res) => {
           this.showStatus = false;
           this.getOrders();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getOrders();
-  }
+  },
 };
 </script>
 <style></style>
