@@ -16,7 +16,7 @@
 
       <!-- SHOWCASE -->
       <div class="mt-10">
-        <TheShowcase :slides="slides" />
+        <TheShowcase />
       </div>
       <!-- PRODUCTS -->
       <div class="px-5 lg:px-16 mt-10">
@@ -105,6 +105,8 @@ export default {
   data() {
     return {
       slides: [],
+      categorySliders: [],
+      savedProducts: [],
       options: {
         type: "fade",
         autoplay: true,
@@ -134,38 +136,14 @@ export default {
           },
         },
       },
-      // slides: [
-      //   {
-      //     src: "https://miro.medium.com/max/10370/1*FbAVZD_gQJtd2FX21S7c5w.jpeg"
-      //   },
-      //   {
-      //     src:
-      //       "https://cdn.pixabay.com/photo/2015/07/27/20/21/beauty-863439_960_720.jpg"
-      //   },
-      //   {
-      //     src:
-      //       "https://cdn.pixabay.com/photo/2016/08/26/20/44/elan-1623085_960_720.jpg"
-      //   },
-      //   {
-      //     src: "https://www.coverstory.co.in/media/cms/home/category/work.jpg"
-      //   }
-      // ],
       products: [],
     };
   },
   methods: {
-    getSlider() {
-      this.$axios
-        .get("product/slider/list/")
-        .then((res) => {
-          console.log("slider-list", res.data);
-          this.slides = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     getProducts() {
+      let loader = this.$loading.show();
+
+      this.getProducts();
       this.$axios
         .get("product/list/")
         .then((res) => {
@@ -173,15 +151,19 @@ export default {
           this.products = res.data.results;
         })
         .catch((err) => {
+          loader.hide();
           console.log(err);
         });
     },
   },
-  created() {
-    this.getSlider();
-  },
   mounted() {
     this.getProducts();
+    if (localStorage.products) {
+      let json_string = localStorage.getItem("products");
+      if (json_string.length !== 0) {
+        this.savedProducts = JSON.parse(json_string);
+      }
+    }
   },
 };
 </script>

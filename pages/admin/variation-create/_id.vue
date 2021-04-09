@@ -29,9 +29,7 @@
           X
         </div>
       </div>
-      <h2 class="text-xl font-bold uppercase pt-10">
-        O'zgarish qoshish
-      </h2>
+      <h2 class="text-xl font-bold uppercase pt-10">O'zgarish qoshish</h2>
 
       <div>
         <div class="input-group block my-4">
@@ -41,8 +39,14 @@
           <input
             type="text"
             class="border-2 text-sm w-1/2 py-2 pl-5"
-            v-model="variation.name"
+            v-model="$v.variation.name.$model"
           />
+          <div
+            class="text-red-400"
+            v-if="!$v.variation.name.required && $v.variation.name.$dirty"
+          >
+            {{ requiredMessage }}
+          </div>
         </div>
         <div class="input-group block my-4">
           <label for="input" class="block font-bold uppercase text-sm mb-2"
@@ -53,21 +57,39 @@
             class="border-2 text-sm w-1/2 py-2 pl-5"
             v-model="variation.product_code"
           />
+          <div
+            class="text-red-400"
+            v-if="
+              !$v.variation.product_code.required &&
+              $v.variation.product_code.$dirty
+            "
+          >
+            {{ requiredMessage }}
+          </div>
         </div>
         <div class="my-4">
           <label class="block font-bold uppercase text-sm mb-2">tavsif</label>
           <textarea
             class="w-1/2 border-2 text-sm py-2 pl-5"
-            v-model="variation.description"
+            v-model="$v.variation.description.$model"
           >
           </textarea>
+          <div
+            class="text-red-400"
+            v-if="
+              !$v.variation.description.required &&
+              $v.variation.description.$dirty
+            "
+          >
+            {{ requiredMessage }}
+          </div>
         </div>
         <div class="my-4">
           <label class="w-1/2 block font-bold uppercase text-sm mb-2"
             >kategoriyasi</label
           >
           <multiselect
-            v-model="selectedVariationCategories"
+            v-model="$v.selectedVariationCategories.$model"
             tag-placeholder="Ushbu kategoriayni qo'shing"
             placeholder="Kategoriya izlang yoki qo'shing"
             label="name"
@@ -77,23 +99,46 @@
             @tag="addTag"
             @select="selectVariationCategories"
           ></multiselect>
+          <div
+            class="text-red-400"
+            v-if="
+              !$v.selectedVariationCategories.required &&
+              $v.selectedVariationCategories.$dirty
+            "
+          >
+            {{ requiredMessage }}
+          </div>
         </div>
 
         <div class="my-4">
           <label class="block font-bold uppercase text-sm mb-2">soni</label>
           <input
             type="string"
-            class="w-1/2 border-2 text-sm  py-2 pl-5"
-            v-model="variation.quantity"
+            class="w-1/2 border-2 text-sm py-2 pl-5"
+            v-model="$v.variation.quantity.$model"
           />
+          <div
+            class="text-red-400"
+            v-if="
+              !$v.variation.quantity.required && $v.variation.quantity.$dirty
+            "
+          >
+            {{ requiredMessage }}
+          </div>
         </div>
         <div class="my-4">
           <label class="block font-bold uppercase text-sm mb-2">narxi</label>
           <input
             type="string"
             class="w-1/2 border-2 text-sm py-2 pl-5"
-            v-model="variation.price"
+            v-model="$v.variation.price.$model"
           />
+          <div
+            class="text-red-400"
+            v-if="!$v.variation.price.required && $v.variation.price.$dirty"
+          >
+            {{ requiredMessage }}
+          </div>
         </div>
         <div class="my-4">
           <label class="block font-bold uppercase text-sm mb-2"
@@ -135,7 +180,7 @@
               <img :src="item" class="object-cover object-top w-full h-full" />
               <span
                 @click="removeImage(index)"
-                class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full "
+                class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
                 >X</span
               >
             </div>
@@ -144,7 +189,7 @@
         </div>
         <div class="mb-10">
           <h2 class="font-bold text-xl my-4">Attributlar</h2>
-          <table class="min-w-full divide-y divide-gray-200 ">
+          <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-200">
               <tr>
                 <th
@@ -269,10 +314,14 @@
           </table>
           <div
             @click="showAddNewKey = true"
-            class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2 "
+            class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
           >
             +
           </div>
+        </div>
+        <div class="text-red-400" v-if="!$v.variation.attributes.minLength">
+          Kamida {{ $v.variation.attributes.$params.minLength.min }} ta
+          attribute kiritish shart
         </div>
         <button
           @click="createVariation"
@@ -287,14 +336,16 @@
 
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar";
+import { required, minLength } from "vuelidate/lib/validators";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
       showAddNewKey: false,
       showSuccess: false,
+      requiredMessage: "To'ldirish shart",
       selectedVariationCategories: null,
       showFail: false,
       variation: {
@@ -307,15 +358,44 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null
-      }
+        value: null,
+      },
     };
+  },
+  validations: {
+    selectedVariationCategories: {
+      required,
+    },
+    variation: {
+      name: {
+        required,
+      },
+      product_code: {
+        required,
+      },
+      quantity: {
+        required,
+      },
+      price: {
+        required,
+      },
+      description: {
+        required,
+      },
+      attributes: {
+        required,
+        minLength: minLength(2),
+      },
+      categories: {
+        required,
+      },
+    },
   },
   methods: {
     selectVariationCategories(value, id) {
@@ -336,7 +416,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -349,7 +429,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = e => {
+          reader.onload = (e) => {
             this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
           };
@@ -364,26 +444,35 @@ export default {
       this.variation.images.splice(index, 1);
     },
     createVariation() {
-      let loader = this.$loading.show();
-      this.variation.parent_id = this.$route.params.id;
-      this.$axios
-        .post("product/variation-create/", this.variation)
-        .then(res => {
-          console.log(res);
-          loader.hide();
-          this.showSuccess = true;
-          this.productVariation = {};
-        })
-        .catch(err => {
-          loader.hide();
-          this.showFail = true;
-          console.log(err);
-        });
-    }
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        let loader = this.$loading.show();
+        this.variation.parent_id = this.$route.params.id;
+        this.$axios
+          .post("product/variation-create/", this.variation)
+          .then((res) => {
+            console.log(res);
+            loader.hide();
+            this.showSuccess = true;
+            setTimeout(() => {
+              this.showSuccess = false;
+            });
+            this.productVariation = {};
+          })
+          .catch((err) => {
+            loader.hide();
+            this.showFail = true;
+            setTimeout(() => {
+              this.showFail = false;
+            });
+            console.log(err);
+          });
+      }
+    },
   },
   mounted() {
     this.getCategories();
-  }
+  },
 };
 </script>
 

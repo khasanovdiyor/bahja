@@ -42,13 +42,11 @@
               class="text-red-400"
               v-if="!$v.newOrder.name.required && $v.newOrder.name.$dirty"
             >
-              To'ldirish shart
+              {{ requiredMessage }}
             </div>
             <div class="text-red-400" v-if="!$v.newOrder.name.minLength">
-              <div class="text-red-400" v-if="!$v.newOrder.name.minLength">
-                Buyurtmachi ismi kamida
-                {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi kerak
-              </div>
+              Buyurtmachi ismi kamida
+              {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi kerak
             </div>
           </div>
           <div class="my-4">
@@ -67,7 +65,7 @@
                 $v.newOrder.phone_number.$dirty
               "
             >
-              To'ldirish shart
+              {{ requiredMessage }}
             </div>
             <div
               class="text-red-400"
@@ -217,6 +215,7 @@ export default {
   },
   data() {
     return {
+      requiredMessage: "To'ldirish shart",
       showSuccess: false,
       showFail: false,
       showProductForm: false,
@@ -293,16 +292,17 @@ export default {
             loader.hide();
             console.log(res.data);
             this.showSuccess = true;
-            setTimeout(function () {
+            setTimeout(() => {
               this.showSuccess = false;
             }, 3000);
           })
           .catch((err) => {
+            loader.hide();
             this.showFail = true;
-            setTimeout(function () {
+            setTimeout(() => {
               this.showFail = false;
             }, 3000);
-            loader.hide();
+
             console.log(err);
           });
       }

@@ -465,9 +465,17 @@ export default {
         .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
+          this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
           this.getOrders();
         })
         .catch((err) => {
+          this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
           console.log(err);
         });
     },

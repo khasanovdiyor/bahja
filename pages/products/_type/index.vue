@@ -31,23 +31,25 @@
             <TheFilter v-if="showFilter" :sizes="sizes" />
           </div> -->
 
-          <div class="relative mb-16">
-            <h3 class="mb-2">Tartiblash &#8595;</h3>
-            <span
-              class="text-gray-600 cursor-pointer"
+          <div
+            class="relative mb-16 outline-none"
+            v-if="products.length > 0"
+            @focusout="showSort = false"
+            tabindex="0"
+          >
+            <h3
+              class="mb-2 inline-block cursor-pointer"
               @click="showSort = true"
-              >{{ selectedSort }}</span
             >
-            <div
-              class="absolute bg-gray-400 text-white bottom-0 z-40"
-              v-if="showSort"
-            >
+              {{ selectedSort }} &#8595;
+            </h3>
+            <div class="absolute border-2 bg-white top-6 z-40" v-if="showSort">
               <ul>
                 <li
                   v-for="option in sortOptions"
                   :key="option.slug"
                   @click="getProductsBySort(option.slug, option.text)"
-                  class="cursor-pointer hover:bg-gray-600 py-2 px-4"
+                  class="cursor-pointer hover:bg-gray-200 py-2 px-4"
                 >
                   {{ option.text }}
                 </li>
@@ -58,7 +60,7 @@
 
         <h2
           class="font-bold text-xl mx-auto text-center w-2/3"
-          v-if="products.length == 0"
+          v-if="products.length < 1"
         >
           Hozircha bu bo'limda mahsulotlar mavjud emas!
           <nuxt-link
@@ -99,12 +101,13 @@
 export default {
   data() {
     return {
-      link: this.$route.params.type,
+      link: `${this.$route.params.type}/category`,
       products: [],
       showSort: false,
       showFilter: false,
-      selectedSort: "Tanlang",
+      selectedSort: "Tartiblash",
       sizes: [],
+      savedProducts: [],
       sortOptions: [
         {
           slug: "price",
@@ -124,11 +127,12 @@ export default {
   methods: {
     getProductsBySort(ordering, text) {
       this.$axios
-        .get(
-          `product/list/?is_import=${
-            this.$route.params.type === "import"
-          }&ordering=${ordering}`
-        )
+        .get(`product/list/`, {
+          params: {
+            is_import: true ? this.$route.params.type === "import" : false,
+            ordering: ordering,
+          },
+        })
         .then((res) => {
           console.log("list", res.data);
           this.products = res.data.results;
@@ -140,13 +144,19 @@ export default {
         });
     },
     getProducts() {
+      let loader = this.$loading.show();
       this.$axios
-        .get(`product/list/?is_import=${this.$route.params.type === "import"}`)
+        .get(`product/list/`, {
+          params: {
+            is_import: true ? this.$route.params.type === "import" : false,
+          },
+        })
         .then((res) => {
-          console.log("list", res.data);
           this.products = res.data.results;
+          loader.hide();
         })
         .catch((err) => {
+          loader.hide();
           console.log(err);
         });
     },
@@ -157,11 +167,15 @@ export default {
       console.log("import sizes", this.sizes, "this.products", this.products);
     },
   },
-  created() {
-    this.getProducts();
-  },
   mounted() {
     this.getSizes();
+    this.getProducts();
+    if (localStorage.products) {
+      let json_string = localStorage.getItem("products");
+      if (json_string.length !== 0) {
+        this.savedProducts = JSON.parse(json_string);
+      }
+    }
   },
 };
 </script>

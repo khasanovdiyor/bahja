@@ -10,21 +10,24 @@
           class="h-72 block w-full lg:h-full"
         >
           <splide-slide v-for="slide in slides" :key="slide.id" class="h-72">
-            <div
-              :style="{ backgroundImage: 'url(' + slide.image + ')' }"
-              class="lg:h-80 h-72 w-full flex items-center justify-center bg-cover bg-center"
-            >
+            <nuxt-link :to="`/products/category/${slide.category.slug}`">
               <div
-                class="bg-white opacity-75 text-center px-10 py-5 mx-16 font-semibold text-xl"
+                :style="{ backgroundImage: 'url(' + slide.image + ')' }"
+                class="lg:h-80 h-72 w-full flex items-center justify-center bg-cover bg-center"
               >
-                {{ slide.text }}
+                <div
+                  class="bg-white opacity-75 text-center px-10 py-5 mx-16 font-semibold text-xl"
+                >
+                  {{ slide.text }}
+                </div>
               </div>
-            </div>
+            </nuxt-link>
           </splide-slide>
         </splide>
       </div>
-      <div
-        v-for="(slide, index) in slides"
+      <nuxt-link
+        :to="`/products/category/${slide.slug}`"
+        v-for="(slide, index) in categorySliders"
         :key="slide.id"
         class="row-span-1 my-6 sm:my-0 flex items-center justify-center bg-cover bg-center"
         :class="{
@@ -34,10 +37,10 @@
         }"
         :style="{ backgroundImage: `url(${slide.image})` }"
       >
-        <div class="px-10 py-5 bg-white opacity-75 mx-6">
-          {{ slide.text }}
+        <div class="px-10 py-5 bg-white capitalize opacity-75 mx-6">
+          {{ slide.slug }}
         </div>
-      </div>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -47,6 +50,7 @@ export default {
   data() {
     return {
       slides: [],
+      categorySliders: [],
       options: {
         type: "fade",
         autoplay: true,
@@ -73,8 +77,19 @@ export default {
           console.log(err);
         });
     },
+    getCategorySliders() {
+      this.$axios
+        .get("product/category-slider")
+        .then((res) => {
+          this.categorySliders = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
+    this.getCategorySliders();
     this.$nextTick(this.$nextTick(() => this.getSlider()));
   },
 };

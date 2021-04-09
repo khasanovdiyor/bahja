@@ -6,20 +6,18 @@
       <TheSidebar :currentLink="link" />
       <div class="px-16 w-full">
         <h1 class="px-16 capitalize font-bold text-center text-2xl my-5">
-          Import mahsulotlar
+          {{ $route.params.type }} mahsulotlar
         </h1>
-
-        <h2
-          class="font-bold text-xl mt-36 h-1/3 text-center w-full"
-          v-if="products.length == 0"
+        <div
+          class="relative mb-16 outline-none"
+          v-if="products.length > 0"
+          @focusout="showSort = false"
+          tabindex="0"
         >
-          Hozircha bu bo'limda mahsulotlar mavjud emas!
-        </h2>
-        <div class="relative mb-16" v-if="this.products.length > 0">
           <h3 class="mb-2 inline-block cursor-pointer" @click="showSort = true">
             {{ selectedSort }} &#8595;
           </h3>
-          <span class="text-gray-600 cursor-pointer"></span>
+
           <div class="absolute border-2 bg-white top-6 z-40" v-if="showSort">
             <ul>
               <li
@@ -33,6 +31,13 @@
             </ul>
           </div>
         </div>
+        <h2
+          class="font-bold text-xl mt-36 h-1/3 text-center w-full"
+          v-if="products.length < 1"
+        >
+          Hozircha bu bo'limda mahsulotlar mavjud emas!
+        </h2>
+
         <div class="mt-10 flex justify-between flex-wrap w-full">
           <!-- Product card -->
           <nuxt-link
@@ -54,10 +59,11 @@
 export default {
   data() {
     return {
-      link: "import",
+      link: `${this.$route.params.type}/category`,
       products: [],
       selectedSort: "Tartiblash",
       showSort: false,
+      savedProducts: [],
       sortOptions: [
         {
           slug: "price",
@@ -77,7 +83,12 @@ export default {
   methods: {
     getProductsBySort(ordering, text) {
       this.$axios
-        .get(`product/list/?is_import=true&ordering=${ordering}`)
+        .get(`product/list/`, {
+          params: {
+            is_import: true ? this.$route.params.type === "import" : false,
+            ordering: ordering,
+          },
+        })
         .then((res) => {
           console.log("list", res.data);
           this.products = res.data.results;
@@ -89,19 +100,32 @@ export default {
         });
     },
     getProducts() {
+      let loader = this.$loading.show();
       this.$axios
-        .get(`product/by-category/${this.$route.params.slug}/?is_import=true`)
+        .get(`product/by-category/${this.$route.params.slug}/`, {
+          params: {
+            is_import: true ? this.$route.params.type === "import" : false,
+          },
+        })
         .then((res) => {
           console.log("list", res.data);
           this.products = res.data.results;
+          loader.hide();
         })
         .catch((err) => {
+          loader.hide();
           console.log(err);
         });
     },
   },
-  created() {
+  mounted() {
     this.getProducts();
+    if (localStorage.products) {
+      let json_string = localStorage.getItem("products");
+      if (json_string.length !== 0) {
+        this.savedProducts = JSON.parse(json_string);
+      }
+    }
   },
 };
 </script>

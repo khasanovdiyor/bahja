@@ -49,7 +49,7 @@
             >Parent kategoriya</label
           >
           <multiselect
-            v-model="selectedCategory"
+            v-model="parentCategory"
             :options="categories"
             placeholder="Kategoriya tanlang"
             label="name"
@@ -95,8 +95,6 @@
                   class="object-cover object-top w-full h-full"
                 />
               </div>
-              <p class="">Rasm Nomi: {{ newCategory.image.name }}</p>
-              <p class="">Rasm hajmi: {{ newCategory.image.size / 1024 }}KB</p>
             </div>
           </div>
           <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
@@ -116,12 +114,12 @@ import BaseButton from "~/components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton
+    BaseButton,
   },
   data() {
     return {
       showDeleteDialog: false,
-      selectedCategory: {},
+      parentCategory: {},
       showChildInput: false,
       image: null,
       preview: null,
@@ -134,8 +132,8 @@ export default {
         parent_id: 0,
         order: 0,
         image: 0,
-        is_slider: false
-      }
+        is_slider: false,
+      },
     };
   },
   methods: {
@@ -145,11 +143,11 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function(event) {
+    previewImage: function (event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.newCategory.image = e.target.result;
         };
         this.image = input.files[0];
@@ -159,61 +157,75 @@ export default {
     updateCategory() {
       let loader = this.$loading.show();
       const formData = new FormData();
-      formData.append("parent_id", this.newCategory.parent_id);
-      formData.append("order", this.newCategory.order);
-      formData.append("name", this.newCategory.name);
-      formData.append("is_slider", this.newCategory.is_slider);
-      if (this.image) formData.append("image", this.image);
+      for (const key in this.newCategory) {
+        formData.append(key, this.newCategory[key]);
+      }
+      formData.delete("image");
+      if (this.image) {
+        formData.append("image", this.image);
+      }
       this.$axios
         .patch(`product/category-update/${this.newCategory.id}`, formData)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
+          this.getCategory();
           loader.hide();
 
           this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           console.log(err);
           this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
         });
     },
     deleteCategory(id) {
       this.$axios
         .delete(`product/category-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.getCategories();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
-    getCategory(id) {
+    getCategory() {
+      this.getCategories();
       this.$axios
-        .get(`product/category-detail/${id}`)
-        .then(res => {
-          if (id == res.data.parent_id) {
-            this.selectedCategory = res.data;
-          } else this.newCategory = res.data;
+        .get(`product/category-detail/${this.$route.params.id}`)
+        .then((res) => {
+          if (this.categories) {
+            this.parentCategory = this.categories.find(
+              (el) => el.id === res.data.parent_id
+            );
+          }
+          this.newCategory = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
+  },
+  created() {
+    this.getCategories();
   },
   mounted() {
-    this.getCategories();
-    this.getCategory(this.$route.params.id);
-    if (this.newCategory.parent_id !== 0)
-      this.getCategory(this.newCategory.parent_id);
-  }
+    this.getCategory();
+  },
 };
 </script>
 
 <style scoped>
 .multiselect {
   width: 50%;
-}</style
+}
+</style
 >>

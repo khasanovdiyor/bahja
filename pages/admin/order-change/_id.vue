@@ -312,6 +312,20 @@ export default {
       order: {},
     };
   },
+  watch: {
+    showSuccess() {
+      if (this.showSuccess === true)
+        setTimeout(() => {
+          this.showSuccess = false;
+        }, 3000);
+    },
+    showFail() {
+      if (this.showFail === true)
+        setTimeout(() => {
+          this.showFail = false;
+        }, 3000);
+    },
+  },
   validations: {
     selectedOrder: {
       name: {
@@ -343,9 +357,7 @@ export default {
             loader.hide();
             this.message = "Buyurtmachi ma'lumotlari yangilandi";
             this.showSuccess = true;
-            setTimeout(() => {
-              this.showSuccess = false;
-            }, 3000);
+
             console.log(res.data);
           })
           .catch((err) => {
@@ -353,9 +365,7 @@ export default {
             this.message =
               "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
             this.showFail = true;
-            setTimeout(() => {
-              this.showFail = false;
-            }, 3000);
+
             console.log(err);
           });
       }
@@ -368,9 +378,7 @@ export default {
           this.message = "Yangi mahsulot qo'shildi";
           this.showSuccess = true;
           this.getOrder();
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
+
           console.log(res.data);
           loader.hide();
         })
@@ -378,9 +386,7 @@ export default {
           this.message =
             "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
+
           loader.hide();
           console.log(err);
         });
@@ -420,17 +426,11 @@ export default {
           this.getOrder();
           this.message = "Mahsulot o'chirildi";
           this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
         })
         .catch((err) => {
           this.message =
             "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
           console.log(err);
         });
     },
