@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
-      class="w-full px-5 flex items-center text-xl float-right py-8 font-semibold h-8 bg-black text-white"
+      class="w-full relative px-5 flex text-xl items-center float-right py-8 font-semibold h-8 bg-black text-white"
     >
-      QIDIRIV
+      QIDIRUV
       <img
         src="@/assets/images/close.svg"
         class="close-btn absolute right-10 w-4 cursor-pointer"
@@ -12,60 +12,75 @@
       />
     </div>
 
-    <div class="w-full px-5 ml-auto ">
-      <select
-        name="category"
-        class="w-full  mt-5 py-2 px-2  bg-gray-100"
-        id="cars"
-        v-model="selectedCategory"
-      >
-        <option disabled value="">Barcha ketegoriyalar</option>
-        <option>Mahalliy mahsulotlar</option>
-        <option>Import mahsulotlar</option>
-      </select>
-      <div class="w-full flex border-b-2 border-gray-200 mb-6">
-        <div class="flex w-full py-5">
-          <div class="rounded-md  flex w-full  focus:outline">
-            <input
-              type="search"
-              class="py-2 px-3 w-full bg-gray-100 outline-none"
-              placeholder="Qidiruv..."
-            />
-            <button
-              type="btn"
-              class="w-1/12 bg-gray-100 flex items-center justify-center"
-            >
-              <img src="../assets/images/search.svg" class="w-5" alt="" />
-            </button>
-          </div>
+    <div class="mb-5 w-full px-5 ml-auto">
+      <div class="w-full py-5">
+        <!-- <div class="h-24 border-b-2 mb-10">
+          <multiselect
+            v-model="selectedBrand"
+            :options="categories"
+            placeholder="Kategoriya tanlang"
+            label="name"
+            track-by="name"
+          ></multiselect>
+        </div> -->
+        <div class="border-b-2 pb-10 mt-12">
+          <input
+            type="text"
+            v-model="searchKey"
+            class="px-2 text-gray-600 py-2 border w-full rounded-sm"
+            placeholder="Mahsulot qidiring..."
+            v-debounce:300ms="searchProducts"
+          />
         </div>
-      </div>
-
-      <p class="text-black mb-5 font-bold">
-        QAYSI MAHSULOT KERAK?
-      </p>
-      <div class="h-screen scroll overflow-y-scroll pb-10">
+        <div class="my-6">
+          <h2 class="font-bold text-lg">Qidiruv natijalari...</h2>
+        </div>
         <div
-          class="flex  mb-5"
-          v-for="(product, index) in categories"
-          :key="index"
+          class="h-96"
+          :class="{ 'scroll overflow-y-scroll': products.length > 2 }"
         >
-          <a href="#">
-            <img
-              :src="product.imgUrl"
-              class="w-56  md:w-32 md:h-40"
-              alt="koylak"
-            />
-          </a>
-
-          <span class="px-5">
-            <h2 class="font-semibold text-gray-400">
-              {{ product.cardName }}
+          <div v-if="products">
+            <h2 class="font-semibold" v-if="notFound">
+              Qidiruv natijasi topilmadi
             </h2>
-            <p class="font-bold text-gray-700 text-lg">
-              {{ product.price }}
-            </p>
-          </span>
+            <div
+              class="flex mb-5"
+              v-for="(product, index) in products"
+              :key="index"
+            >
+              <img
+                :src="product.image"
+                class="w-56 md:w-32 md:h-32 object-cover"
+                alt="koylak"
+              />
+              <span class="w-full px-5">
+                <h2 class="font-semibold text-gray-400">Mahsulot nomi</h2>
+
+                <p
+                  class="text-sm font-bold text-gray-600"
+                  v-if="product.attributes.color"
+                >
+                  {{ product.attributes.color.value }} {{ product.size }}
+                </p>
+
+                <div class="flex mt-8">
+                  <p
+                    class="font-bold ml-5 text-gray-700 text-lg"
+                    v-if="product.price"
+                  >
+                    {{ product.price.toLocaleString() }} UZS
+                  </p>
+                  <img
+                    @click="deleteProduct(index)"
+                    class="w-5 ml-auto cursor-pointer"
+                    src="../assets/images/delete.svg"
+                    alt="o'chirish"
+                    value="o'chirish"
+                  />
+                </div>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,45 +91,39 @@
 export default {
   data() {
     return {
-      selectedCategory: "",
-      categories: [
-        {
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          price: "USD 189.000"
-        },
-        {
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          price: "USD 200.000"
-        },
-        {
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          price: "USD 183.000"
-        },
-        {
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          price: "USD 159.000"
-        },
-        {
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          price: "USD 170.000"
-        },
-        {
-          imgUrl: require("@/assets/images/koylak.jpg"),
-          cardName: "Ayollar ko'ylagi",
-          price: "USD 189.000"
-        }
-      ]
+      selectedCategory: {},
+      searchKey: "",
+      notFound: false,
+      products: [],
     };
-  }
+  },
+  methods: {
+    searchProducts() {
+      this.$axios
+        .get(`product/list/`, {
+          params: {
+            search: this.searchKey,
+            size: 5,
+          },
+        })
+        .then((res) => {
+          this.products = res.data.results;
+          if (!res.data.results) {
+            this.notFound = true;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  mounted() {
+    this.getCategories();
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .scroll::-webkit-scrollbar {
   width: 5px;
 }
