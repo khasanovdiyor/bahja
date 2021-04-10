@@ -325,7 +325,7 @@
                           class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="text-sm leading-5 text-gray-900">
-                            {{ order.finish_price }}
+                            {{ order.finish_price.toLocaleString() }} so'm
                           </div>
                         </td>
                         <td

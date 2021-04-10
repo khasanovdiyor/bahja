@@ -142,13 +142,12 @@ export default {
   methods: {
     getProducts() {
       let loader = this.$loading.show();
-
-      this.getProducts();
       this.$axios
         .get("product/list/")
         .then((res) => {
           console.log("variation-list", res.data);
           this.products = res.data.results;
+          loader.hide();
         })
         .catch((err) => {
           loader.hide();
