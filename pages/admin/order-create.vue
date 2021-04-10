@@ -56,7 +56,9 @@
             <input
               type="tel"
               class="w-1/2 border-2 text-sm py-2 pl-5"
+              placeholder="+998-"
               v-model.trim="$v.newOrder.phone_number.$model"
+              v-mask="'+998-##-###-##-##'"
             />
             <div
               class="text-red-400"
@@ -77,7 +79,7 @@
             </div>
           </div>
           <div
-            class="text-red-400"
+            class="text-red-400 mb-4"
             v-if="!$v.newOrder.products.required && $v.newOrder.products.$dirty"
           >
             Buyurtma berishdan avval mahsulot qo'shing!
@@ -139,7 +141,10 @@
                       {{ product.count }}
                     </div>
                   </td>
-                  <div @click="removeProduct(index)" class="cursor-pointer">
+                  <div
+                    @click="removeProduct(index)"
+                    class="flex justify-center items-center cursor-pointer"
+                  >
                     <img
                       src="~/assets/images/delete.svg"
                       class="w-5 h-5"
@@ -178,7 +183,7 @@
               >Mahsulot tanlang</label
             >
             <multiselect
-              v-model="selectedProduct"
+              v-model="$v.selectedProduct.$model"
               :options="products"
               placeholder="Mahsulot tanlang"
               label="codesize"
@@ -188,16 +193,33 @@
                 ><span slot="noResult">Bunday mahsulot topilmadi!</span>
               </template>
             </multiselect>
+            <div
+              class="text-red-400"
+              v-if="
+                !$v.selectedProduct.codesize.required &&
+                $v.selectedProduct.codesize.$dirty
+              "
+            >
+              {{ requiredMessage }}
+            </div>
           </div>
           <div class="my-4">
             <label class="block font-bold uppercase text-sm mb-2">soni</label>
             <input
               type="text"
               class="w-1/2 border-2 text-sm py-2 px-4"
-              v-model="newProduct.count"
+              v-model.trim="$v.newProduct.count.$model"
             />
+            <div
+              class="text-red-400"
+              v-if="!$v.newProduct.count.required && $v.newProduct.count.$dirty"
+            >
+              {{ requiredMessage }}
+            </div>
           </div>
-
+          <div class="text-red-400 mb-4" v-if="alreadyAdded">
+            Siz bu mahsulotni qo'shdingiz!
+          </div>
           <button class="bg-gray-800 text-white py-2 px-4" @click="addProduct">
             Mahsulot qo'shish
           </button>
@@ -217,6 +239,8 @@ export default {
     return {
       requiredMessage: "To'ldirish shart",
       showSuccess: false,
+      alreadyAdded: false,
+      showDeleteDialog: false,
       showFail: false,
       showProductForm: false,
       selectedProduct: {
@@ -242,6 +266,16 @@ export default {
     };
   },
   validations: {
+    selectedProduct: {
+      codesize: {
+        required,
+      },
+    },
+    newProduct: {
+      count: {
+        required,
+      },
+    },
     newOrder: {
       name: {
         required,
@@ -258,20 +292,39 @@ export default {
   },
   methods: {
     addProduct() {
-      this.newOrder.products.push(this.newProduct);
-      let product = this.newProduct;
-      let codesize = this.selectedProduct.codesize;
-      console.log("olcham", codesize.indexOf("d: "));
-      let product_code = codesize
-        .substring(codesize.indexOf("d: ") + 2, codesize.indexOf("o`"))
-        .trim();
-      let size = codesize
-        .substring(codesize.indexOf("m: ") + 3, codesize.length)
-        .trim();
-      product.product_code = product_code;
-      product.size = size;
-      this.addedProducts.push(product);
-      this.getProducts();
+      this.$v.selectedProduct.$touch();
+      this.$v.newProduct.$touch();
+      if (
+        !this.$v.selectedProduct.$invalid &&
+        !this.$v.newProduct.count.$invalid
+      ) {
+        this.newOrder.products.push(this.newProduct);
+        let product = this.newProduct;
+        let codesize = this.selectedProduct.codesize;
+        console.log("olcham", codesize);
+        let product_code = codesize
+          .substring(codesize.indexOf("d: ") + 2, codesize.indexOf("o`"))
+          .trim();
+        let size = codesize
+          .substring(codesize.indexOf("m: ") + 3, codesize.length)
+          .trim();
+        product.product_code = product_code;
+        product.size = size;
+        let result = this.addedProducts.find(
+          (el) => el.product_id == this.newProduct.product_id
+        );
+        console.log("result", result);
+        if (result) {
+          this.alreadyAdded = true;
+        } else {
+          this.addedProducts.push(product);
+          (this.selectedProduct = {}),
+            (this.newProduct = {
+              count: null,
+              product_id: null,
+            });
+        }
+      }
     },
     removeProduct(index) {
       this.newOrder.products.splice(index, 1);
@@ -281,8 +334,8 @@ export default {
       this.newProduct.product_id = value.id;
     },
     createOrder() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.$v.newOrder.$touch();
+      if (this.$v.newOrder.$invalid) {
         this.submitStatus = "ERROR";
       } else {
         let loader = this.$loading.show();

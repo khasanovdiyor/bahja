@@ -60,7 +60,9 @@
             <input
               type="tel"
               class="w-1/2 border-2 text-sm py-2 pl-5"
+              placeholder="+998-"
               v-model.trim="$v.selectedOrder.phone_number.$model"
+              v-mask="'+998-##-###-##-##'"
             />
             <div
               class="text-red-400"
@@ -219,7 +221,7 @@
                     </div>
                   </td>
                   <div
-                    class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
+                    class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
                     v-if="showDeleteDialog"
                   >
                     <div class="w-1/3 opacity-100 bg-white py-4 px-8">
@@ -428,11 +430,15 @@ export default {
           this.showSuccess = true;
         })
         .catch((err) => {
+          this.showDeleteDialog = false;
           this.message =
             "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
           console.log(err);
         });
+      if (this.order.orderproducts.length === 1) {
+        this.$router.push("/admin/orders");
+      }
     },
   },
   mounted() {

@@ -6,15 +6,15 @@
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">
           <thead class="bg-gray-200">
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
               >
                 id
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
                 class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
@@ -22,50 +22,50 @@
                 nomi
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
               >
                 kodi
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
               >
                 tavsif
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
               >
                 kategoriyasi
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
               >
                 brandi
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 "
+                class="px-8 block py-2 text-left font-bold text-gray-700"
               >
                 NARXI (so'm)
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block  py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
               >
                 soni
               </th>
@@ -139,7 +139,7 @@
 
       <div class="mb-10">
         <h2 class="font-bold text-xl my-4">Attributlar</h2>
-        <table class="min-w-full divide-y divide-gray-200 ">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -201,7 +201,7 @@
             >+</nuxt-link
           >
         </div>
-        <table class="min-w-full divide-y divide-gray-200 ">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -244,7 +244,10 @@
               <th
                 scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-              ></th>
+              >
+                O'zgartirish/ <br />
+                O'chirish
+              </th>
             </tr>
           </thead>
           <tbody class="bg-white">
@@ -275,16 +278,31 @@
                 {{ variation.quantity }}
               </td>
               <td class="px-6 py-1 border">
-                <nuxt-link
-                  class="w-6 h-6 block"
-                  :to="`/admin/product-change/${variation.id}`"
-                >
-                  <img
-                    src="~/assets/images/pencil.svg"
-                    class="w-5 h-6"
-                    alt="pencil icon"
-                  />
-                </nuxt-link>
+                <div class="flex justify-between">
+                  <nuxt-link
+                    class="w-6 h-6 block"
+                    :to="`/admin/product-change/${variation.id}`"
+                  >
+                    <img
+                      src="~/assets/images/pencil.svg"
+                      class="w-5 h-6"
+                      alt="pencil icon"
+                    />
+                  </nuxt-link>
+                  <div
+                    @click="
+                      showDeleteDialog = true;
+                      selectedProductID = variation.id;
+                    "
+                    class="cursor-pointer"
+                  >
+                    <img
+                      src="~/assets/images/delete.svg"
+                      class="w-5 h-5"
+                      alt="pencil icon"
+                    />
+                  </div>
+                </div>
               </td>
             </tr>
             <tr
@@ -294,7 +312,7 @@
             >
               <div class="mb-10">
                 <h2 class="font-bold text my-1">Attributlar</h2>
-                <table class="min-w-full divide-y divide-gray-200 ">
+                <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-200">
                     <tr>
                       <th
@@ -361,7 +379,7 @@
           />
         </div>
         <span class="font-bold mt-10 mb-4 block">Galereya rasmlari</span>
-        <div class="flex ">
+        <div class="flex">
           <div
             v-for="image in product.images"
             :key="image"
@@ -383,28 +401,42 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
+      showDeleteDialog: false,
+      selectedProductID: 0,
       product: {
         brand: {},
         color: {},
-        category: {}
-      }
+        category: {},
+      },
     };
   },
   methods: {
     getProduct() {
-      this.$axios.get(`product/detail/${this.$route.params.id}`).then(res => {
+      this.$axios.get(`product/detail/${this.$route.params.id}`).then((res) => {
         console.log(res.data);
         this.product = res.data;
       });
-    }
+    },
+    deleteProduct(id) {
+      this.$axios
+        .delete(`product/delete/${id}`)
+        .then((res) => {
+          console.log(res);
+          this.showDeleteDialog = false;
+          this.getProducts();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
     this.getProduct();
-  }
+  },
 };
 </script>
 

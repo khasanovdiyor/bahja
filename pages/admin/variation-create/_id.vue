@@ -132,6 +132,7 @@
             type="string"
             class="w-1/2 border-2 text-sm py-2 pl-5"
             v-model="$v.variation.price.$model"
+            v-mask="priceMask"
           />
           <div
             class="text-red-400"
@@ -337,12 +338,14 @@
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar";
 import { required, minLength } from "vuelidate/lib/validators";
+import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
     AdminSidebar,
   },
   data() {
     return {
+      priceMask: priceMask,
       showAddNewKey: false,
       showSuccess: false,
       requiredMessage: "To'ldirish shart",
@@ -430,7 +433,8 @@ export default {
         while (count--) {
           var reader = new FileReader();
           reader.onload = (e) => {
-            this.variation.images.push(e.target.result);
+            if (this.variation.images.length < 5)
+              this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
