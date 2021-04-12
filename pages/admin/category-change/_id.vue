@@ -1,38 +1,37 @@
 <template>
-  <div class="flex min-h-screen" ref="formContainer">
+  <div class="flex min-h-screen bg-gray-100 " ref="formContainer">
     <AdminSidebar />
     <div class="px-16 w-2/3">
       <div
-        class="z-30 py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-600 text-white"
+        class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         v-if="showSuccess"
       >
-        <div>
-          <span>Kategoriya yangilandi</span>
-        </div>
-        <div
+        <span><i>Kategoriya yangilandi</i> </span>
+        <!-- <div
           class="text-white px-4 cursor-pointer"
           @click="showSuccess = false"
         >
           X
-        </div>
+        </div> -->
       </div>
       <div
-        class="z-30 py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-600 text-white"
+        class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         v-if="showFail"
       >
-        <div>
-          <span
-            >Kategoriya yangilashda xatolik yuz berdi, qayta urinib koring</span
-          >
-        </div>
-        <div class="text-white px-4 cursor-pointer" @click="showFail = false">
+        <span
+          ><i
+            >Kategoriya yangilashda xatolik yuz berdi, qayta urinib koring</i
+          ></span
+        >
+
+        <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
           X
-        </div>
+        </div> -->
       </div>
 
-      <div class="mb-6">
-        <div class="input-group block my-4">
-          <h2 class="text-xl font-bold mb-10 uppercase">
+      <div class="mb-6 my-8">
+        <div class="input-group block ">
+          <h2 class="text-xl font-bold mb-10 text-gray-700">
             Kategoriya yangilash
           </h2>
           <label for="input" class="block font-bold uppercase text-sm mb-2"
@@ -96,11 +95,11 @@
                 />
               </div>
             </div>
+            <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
           </div>
-          <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
 
-        <base-button :clickFunction="updateCategory">
+        <base-button :clickFunction="updateCategory" class="rounded-md text-sm">
           Kategoriyani yangilash
         </base-button>
       </div>
@@ -154,6 +153,7 @@ export default {
         reader.readAsDataURL(this.image);
       }
     },
+
     updateCategory() {
       let loader = this.$loading.show();
       const formData = new FormData();
@@ -170,19 +170,20 @@ export default {
           console.log(res.data);
           this.getCategory();
           loader.hide();
-
           this.showSuccess = true;
+          console.log(res.data);
+          this.getCategory();
           setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
         })
         .catch((err) => {
           loader.hide();
-          console.log(err);
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
           }, 3000);
+          console.log(err);
         });
     },
     deleteCategory(id) {

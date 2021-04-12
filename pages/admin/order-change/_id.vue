@@ -58,7 +58,7 @@
               >Buyurtmachi telefon raqami</label
             >
             <input
-              type="tel"
+              type="index"
               class="w-1/2 border-2 text-sm py-2 pl-5"
               placeholder="+998-"
               v-model.trim="$v.selectedOrder.phone_number.$model"
@@ -68,7 +68,7 @@
               class="text-red-400"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                $v.selectedOrder.phone_number.$dirty
+                  $v.selectedOrder.phone_number.$dirty
               "
             >
               To'ldirish shart
@@ -289,7 +289,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -303,15 +303,15 @@ export default {
       newProduct: {
         order_id: this.$route.params.id,
         count: 0,
-        proudct_id: null,
+        proudct_id: null
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      order: {},
+      order: {}
     };
   },
   watch: {
@@ -332,13 +332,13 @@ export default {
     selectedOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(9),
-      },
-    },
+        minLength: minLength(9)
+      }
+    }
   },
   methods: {
     selectProduct(value, id) {
@@ -355,14 +355,14 @@ export default {
             `cart/orderbeta-update/${this.$route.params.id}`,
             this.selectProduct
           )
-          .then((res) => {
+          .then(res => {
             loader.hide();
             this.message = "Buyurtmachi ma'lumotlari yangilandi";
             this.showSuccess = true;
 
             console.log(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             loader.hide();
             this.message =
               "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
@@ -376,7 +376,7 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post(`cart/orderproductbeta-create/`, this.newProduct)
-        .then((res) => {
+        .then(res => {
           this.message = "Yangi mahsulot qo'shildi";
           this.showSuccess = true;
           this.getOrder();
@@ -384,7 +384,7 @@ export default {
           console.log(res.data);
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           this.message =
             "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
@@ -396,7 +396,7 @@ export default {
     getOrder() {
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.order = res.data;
           console.log("Order: ", this.order);
           this.selectedOrder = Object.assign({}, res.data);
@@ -404,33 +404,32 @@ export default {
           delete this.selectedOrder.id;
           delete this.selectedOrder.finish_price;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get(`product/codesize/`)
-        .then((res) => {
+        .then(res => {
           this.products = res.data;
           console.log("Selected Product", res.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     deleteOrderProduct(id) {
       this.$axios
         .delete(`cart/orderproductbeta-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getOrder();
           this.message = "Mahsulot o'chirildi";
           this.showSuccess = true;
         })
-        .catch((err) => {
-          this.showDeleteDialog = false;
+        .catch(err => {
           this.message =
             "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
@@ -444,6 +443,6 @@ export default {
   mounted() {
     this.getOrder();
     this.getProducts();
-  },
+  }
 };
 </script>

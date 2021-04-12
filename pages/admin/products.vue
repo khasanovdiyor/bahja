@@ -1,13 +1,13 @@
 <template>
   <div class="flex min-h-screen">
     <AdminSidebar />
-    <div class="px-16 w-4/5 pt-10">
+    <div class="px-8 w-4/5 pt-10 bg-gray-100">
       <div class="flex items-center justify-between">
-        <h1 class="font-bold text-xl mb-6">Mavjud Mahsulotlar</h1>
+        <h1 class="font-bold text-xl text-gray-700 mb-6">Mavjud mahsulotlar</h1>
         <nuxt-link
           to="/admin/product-create"
-          class="bg-gray-800 py-1 px-4 text-font-bold text-2xl text-white"
-          >+</nuxt-link
+          class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2 mb-5"
+          >Qo'shish</nuxt-link
         >
       </div>
 
@@ -16,39 +16,39 @@
           <tr>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
             >
               id
             </th>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
             >
               mahsulot nomi
             </th>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
             >
               mahsulot kodi
             </th>
 
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
             >
-              attributlari
+              atributlari
             </th>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600 "
             >
-              narxi so'm
+              NARXI (so'm)
             </th>
 
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
             >
               o'zgartirish
             </th>
@@ -57,40 +57,39 @@
         <tbody class="bg-white">
           <tr class="border" v-for="product in products" :key="product.id">
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
+              <div class="flex items-center text-sm">
                 {{ product.id }}
               </div>
             </td>
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
+              <div class="flex items-center text-sm">
                 {{ product.name }}
               </div>
             </td>
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
+              <div class="flex items-center text-sm">
                 {{ product.product_code }}
               </div>
             </td>
 
             <td class="px-6 py-1 border">
-              <div class="text-gray-500">
+              <div class="text-sm">
                 <span
                   v-for="attr in product.attributes"
                   :key="attr.id"
                   class="block"
-                >
-                  {{ attr.label }}: {{ attr.value }}
+                  >{{ attr.label }}:<i> {{ attr.value }}</i>
                 </span>
               </div>
             </td>
 
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
+              <div class="flex items-center text-sm">
                 {{ product.price }}
               </div>
             </td>
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500 justify-between">
+              <div class="flex items-center text-sm justify-between">
                 <nuxt-link :to="`/admin/product-detail/${product.id}`">
                   <img
                     src="~/assets/images/eye.svg"
@@ -155,18 +154,18 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
       products: [],
       showDeleteDialog: false,
-      selectedProductID: null,
+      selectedProductID: null
     };
   },
   methods: {
     getProducts() {
-      this.$axios.get("product/list/?parent_id=0").then((res) => {
+      this.$axios.get("product/list/?parent_id=0").then(res => {
         console.log(res.data);
         this.products = res.data.results;
       });
@@ -174,19 +173,19 @@ export default {
     deleteProduct(id) {
       this.$axios
         .delete(`product/delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getProducts();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 

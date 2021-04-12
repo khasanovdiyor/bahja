@@ -2,28 +2,30 @@
   <div>
     <div class="flex">
       <AdminSidebar class="w-1/3" />
-      <div class="px-5 mx-auto w-4/5 pt-10">
+      <div class="px-5 mx-auto w-4/5 pt-10 bg-gray-100">
         <div
           v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-green-400 text-white text-center"
         >
-          Mahsulot yangilandi
-          <span
+          <i> Mahsulot yangilandi</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           v-if="showFail"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
         >
-          Mahsulot yangilashda xatolik yuz berdi, qayta urinib koring
-          <span
+          <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showFail = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
@@ -395,7 +397,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -430,9 +432,9 @@ export default {
         key: null,
         label: null,
         value: null,
-        id: 0,
+        id: 0
       },
-      newAttributes: [],
+      newAttributes: []
     };
   },
   //vuelidate validations
@@ -469,7 +471,7 @@ export default {
     removeCategory(value, id) {
       console.log("value.id", value.id);
       this.newCategories = this.newCategories.filter(
-        (category) => category !== value.id
+        category => category !== value.id
       );
     },
     addProductAttribute() {
@@ -497,7 +499,7 @@ export default {
       this.newProduct.image = input.files[0];
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -538,28 +540,28 @@ export default {
       }
       this.$axios
         .patch(`product/update/${this.$route.params.id}`, this.newProduct)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showSuccess = true;
           setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     updateCategory() {
       let category = {
         product: this.$route.params.id,
-        categories: this.newCategories,
+        categories: this.newCategories
       };
       this.$axios
         .post("product/update-category/", category)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -567,28 +569,28 @@ export default {
       let images = {
         product: this.$route.params.id,
         images: this.images,
-        deleted_images: this.deletedImages,
+        deleted_images: this.deletedImages
       };
       this.$axios
         .post("product/update-images/", images)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     updateAttributes() {
       let attributes = {
         product: parseInt(this.$route.params.id),
-        attributes: this.newAttributes,
+        attributes: this.newAttributes
       };
       this.$axios
         .post("product/update-attributes/", attributes)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -607,7 +609,7 @@ export default {
     getProduct() {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.image = res.data.image;
           let i = 0;
           let size = 0;
@@ -625,7 +627,7 @@ export default {
           }
           this.productCategories = res.data.categories;
           let categories = [];
-          res.data.categories.forEach((category) => {
+          res.data.categories.forEach(category => {
             categories.push(category.id);
             console.log("categories", categories);
           });
@@ -637,14 +639,14 @@ export default {
           this.newProduct.quantity = res.data.quantity;
           this.newProduct.product_code = res.data.product_code;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProduct();
     this.getCategories();
-  },
+  }
 };
 </script>
