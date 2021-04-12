@@ -35,7 +35,7 @@
 
           <nuxt-link to="instagram.com" class="flex text-gray-600"
             ><img
-              src="../assets/images/instagramblack.svg"
+              src="~/assets/images/instagramblack.svg"
               alt="instagram logo"
               class="w-5 mr-5"
             />instagram
@@ -43,7 +43,7 @@
 
           <nuxt-link to="telegram.me" class="flex text-gray-600">
             <img
-              src="../assets/images/telegramblack.svg"
+              src="~/assets/images/telegramblack.svg"
               alt="telegram logo"
               class="w-5 mr-5"
             />telegram
@@ -55,7 +55,7 @@
             <li>
               <a href="#" class="flex">
                 <img
-                  src="../assets/images/placeholder.svg"
+                  src="~/assets/images/placeholder.svg"
                   alt=""
                   class="w-5 mr-3"
                 />
@@ -64,14 +64,14 @@
             </li>
             <li>
               <p class="flex">
-                <img src="../assets/images/phone.svg" alt="" class="w-5 mr-3" />
+                <img src="~/assets/images/phone.svg" alt="" class="w-5 mr-3" />
                 +93 627-58-98
               </p>
             </li>
             <li>
               <a href="#" class="flex">
                 <img
-                  src="../assets/images/envelope.svg"
+                  src="~/assets/images/envelope.svg"
                   alt=""
                   class="w-5 mr-3"
                 />bahja@gmail.com</a

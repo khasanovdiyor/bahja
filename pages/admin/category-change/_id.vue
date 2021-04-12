@@ -95,7 +95,7 @@
                 />
               </div>
             </div>
-            <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+            <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
           </div>
         </div>
 

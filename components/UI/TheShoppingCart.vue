@@ -5,7 +5,7 @@
     >
       SHOPPING CART
       <img
-        src="@/assets/images/close.svg"
+        src="~/assets/images/close.svg"
         class="close-btn top-6 w-4 cursor-pointer"
         alt="close icon"
         @click="$emit('toggleCard')"
@@ -67,7 +67,7 @@
                 <img
                   @click="deleteProduct(index)"
                   class="w-5 ml-auto cursor-pointer"
-                  src="../assets/images/delete.svg"
+                  src="~/assets/images/delete.svg"
                   alt="o'chirish"
                   value="o'chirish"
                 />

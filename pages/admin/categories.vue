@@ -117,7 +117,7 @@
               <p class="">Rasm hajmi: {{ image.size / 1024 }}KB</p>
             </div>
           </div>
-          <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+          <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
 
         <base-button :clickFunction="createCategory" class="rounded-md text-sm">

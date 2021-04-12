@@ -233,7 +233,7 @@
                     >
                   </div>
                 </div>
-                <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
                 <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
@@ -599,7 +599,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
                 <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
@@ -628,7 +628,7 @@
                     >
                   </div>
                 </div>
-                <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
