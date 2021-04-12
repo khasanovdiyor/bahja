@@ -44,13 +44,8 @@
                 >
                 <input
                   type="text"
-<<<<<<< HEAD
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="product.name"
-=======
                   class="border-2 text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.name.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -67,13 +62,8 @@
                 >
                 <input
                   type="text"
-<<<<<<< HEAD
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="product.product_code"
-=======
                   class="border-2 text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.product_code.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -86,13 +76,8 @@
                 </div>
               </div>
               <div class="my-4 block">
-<<<<<<< HEAD
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Brend nomi {{ selectedBrand }}
-=======
                 <label class="block font-bold uppercase text-sm mb-2"
                   >Brend nomi
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 </label>
                 <multiselect
                   v-model.trim="$v.selectedBrand.$model"
@@ -114,13 +99,8 @@
                   >tavsif</label
                 >
                 <textarea
-<<<<<<< HEAD
-                  class="w-1/2 border-2 rounded-md min-h-24 text-sm py-2 pl-5"
-                  v-model="product.description"
-=======
                   class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model.trim="$v.product.description.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 >
                 </textarea>
                 <div
@@ -164,15 +144,9 @@
                   >soni</label
                 >
                 <input
-<<<<<<< HEAD
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="product.quantity"
-=======
                   type="number"
                   class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model.trim="$v.product.quantity.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -188,16 +162,10 @@
                   >narxi</label
                 >
                 <input
-<<<<<<< HEAD
-                  type="string"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="product.price"
-=======
                   type="text"
                   class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model="$v.product.price.$model"
                   v-mask="priceMask"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -497,13 +465,8 @@
                 >
                 <input
                   type="text"
-<<<<<<< HEAD
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="variation.name"
-=======
                   class="border-2 text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.name.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -520,13 +483,8 @@
                 >
                 <input
                   type="text"
-<<<<<<< HEAD
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="variation.product_code"
-=======
                   class="border-2 text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.product_code.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -543,13 +501,8 @@
                   >tavsif</label
                 >
                 <textarea
-<<<<<<< HEAD
-                  class="border-2 rounded-md text-sm min-h-24 w-1/2 py-2 pl-5"
-                  v-model="variation.description"
-=======
                   class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model.trim="$v.variation.description.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 >
                 </textarea>
                 <div
@@ -593,15 +546,9 @@
                   >soni</label
                 >
                 <input
-<<<<<<< HEAD
-                  type="string"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="variation.quantity"
-=======
                   type="number"
                   class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model.trim="$v.variation.quantity.$model"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -618,16 +565,10 @@
                   >narxi</label
                 >
                 <input
-<<<<<<< HEAD
-                  type="string"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="variation.price"
-=======
                   type="text"
                   class="w-1/2 border-2 text-sm py-2 pl-5"
                   v-model.trim="$v.variation.price.$model"
                   v-mask="priceMask"
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                 />
                 <div
                   class="text-red-400"
@@ -1131,13 +1072,6 @@ export default {
       product.attributes.splice(index, 1);
     },
     addVariation() {
-<<<<<<< HEAD
-      this.product.variations.push(this.variation);
-      this.variation = {
-        attributes: []
-      };
-      this.showAddNewVariation = false;
-=======
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.product.variations.push(this.variation);
@@ -1146,7 +1080,6 @@ export default {
         };
         this.showAddNewVariation = false;
       }
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
     },
     RemoveVariation(index) {
       this.product.variations.splice(index, 1);
@@ -1187,14 +1120,9 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-<<<<<<< HEAD
-          reader.onload = e => {
-            this.product.images.push(e.target.result);
-=======
           reader.onload = (e) => {
             if (this.product.images.length < 5)
               this.product.images.push(e.target.result);
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
             console.log("RESULT" + index, e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
@@ -1210,14 +1138,9 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-<<<<<<< HEAD
-          reader.onload = e => {
-            this.variation.images.push(e.target.result);
-=======
           reader.onload = (e) => {
             if (this.variation.images.length < 5)
               this.variation.images.push(e.target.result);
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
             console.log("RESULT" + index, e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
@@ -1237,28 +1160,6 @@ export default {
         });
     },
     createProduct() {
-<<<<<<< HEAD
-      let loader = this.$loading.show();
-      this.product.brand = this.selectedBrand.id;
-      this.$axios
-        .post("product/create/", this.product)
-        .then(res => {
-          console.log(res);
-          this.showSuccess = true;
-          this.productVariation = {};
-          this.image_list = [];
-          this.preview_list = [];
-          this.image = null;
-          this.preview = null;
-          loader.hide();
-        })
-        .catch(err => {
-          loader.hide();
-          showFail = true;
-          console.log(err);
-        });
-    }
-=======
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.submitStatus = "ERROR";
@@ -1284,7 +1185,6 @@ export default {
           });
       }
     },
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
   },
   mounted() {
     this.getCategories();

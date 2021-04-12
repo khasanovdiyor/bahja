@@ -3,19 +3,11 @@
     <AdminSidebar />
     <div class="px-8 w-1/2">
       <div
-<<<<<<< HEAD
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         v-if="showSuccess"
       >
         <div>
           <span><i>Brand qo'shildi</i> </span>
-=======
-        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-400 text-white"
-        v-if="showSuccess"
-      >
-        <div class="text-center">
-          <span>{{ message }}</span>
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
         </div>
         <!-- <div
           class="text-white px-4 cursor-pointer"
@@ -25,7 +17,6 @@
         </div> -->
       </div>
       <div
-<<<<<<< HEAD
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         v-if="showFail"
       >
@@ -33,13 +24,11 @@
           <span class=""
             ><i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
           </span>
-=======
         class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
         v-if="showFail"
       >
         <div class="text-center">
           <span>{{ message }}</span>
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
         </div>
         <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
           X
@@ -102,11 +91,8 @@
           <tbody class="bg-white">
             <tr class="border" v-for="brand in brands" :key="brand.id">
               <td class="px-6 py-1 border">
-<<<<<<< HEAD
                 <div class="flex items-center text-sm py-2 text-gray-500 ">
-=======
                 <div class="flex items-center text-gray-500">
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                   {{ brand.id }}
                 </div>
               </td>
@@ -225,14 +211,10 @@ export default {
           setTimeout(() => {
             this.showFail = false;
           }, 3000);
-<<<<<<< HEAD
-
-=======
           // this.showNotification(
           //   this.showFail,
           //   "Brand yaratishda xatolik yuz berdi, qayta urinib ko'ring"
           // );
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           console.log(err);
         });
     },

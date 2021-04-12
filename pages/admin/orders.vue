@@ -473,15 +473,11 @@ export default {
           }, 3000);
           this.getOrders();
         })
-<<<<<<< HEAD
         .catch(err => {
-=======
-        .catch((err) => {
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
           }, 3000);
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           console.log(err);
         });
     },

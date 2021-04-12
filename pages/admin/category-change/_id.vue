@@ -34,74 +34,6 @@
           <h2 class="text-xl font-bold mb-10 text-gray-700">
             Kategoriya yangilash
           </h2>
-<<<<<<< HEAD
-          <div class="my-4">
-            <label for="input" class="block font-bold uppercase text-sm mb-2"
-              >Kategoriya nomi</label
-            >
-            <input
-              type="text"
-              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              v-model="newCategory.name"
-            />
-          </div>
-
-          <div class="my-4">
-            <label for="input" class="block font-bold uppercase text-sm mb-2"
-              >Parent kategoriya</label
-            >
-            <multiselect
-              v-model="selectedCategory"
-              :options="categories"
-              placeholder="Kategoriya tanlang"
-              label="name"
-              track-by="name"
-              @select="selectCategory"
-              @remove="removeCategory"
-            ></multiselect>
-          </div>
-          <div class="my-4">
-            <label for="input" class="block font-bold uppercase text-sm mb-4"
-              >Tartib raqami</label
-            >
-            <input
-              type="text"
-              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              v-model="newCategory.order"
-            />
-          </div>
-          <div class="my-4">
-            <label for="input" class="block font-bold uppercase text-sm mb-2">
-              is_slider</label
-            >
-            <input
-              type="checkbox"
-              class="border text-sm w-5 h-5 pl-5"
-              v-model="newCategory.is_slider"
-            />
-          </div>
-          <div class="my-4">
-            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >rasm qo'yish</label
-            ><input
-              type="file"
-              accept="image/*"
-              @change="previewImage"
-              class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
-            />
-            <div v-if="newCategory.image">
-              <div>
-                <div class="w-56 h-56 my-5">
-                  <img
-                    :src="newCategory.image"
-                    class="object-cover object-top w-full h-full"
-                  />
-                </div>
-                <p class="text-sm">Rasm Nomi: {{ newCategory.image.name }}</p>
-                <p class="">
-                  <!-- Rasm hajmi: {{ newCategory.image.size / 1024 }}KB -->
-                </p>
-=======
           <label for="input" class="block font-bold uppercase text-sm mb-2"
             >Kategoriya nomi</label
           >
@@ -161,7 +93,6 @@
                   :src="newCategory.image"
                   class="object-cover object-top w-full h-full"
                 />
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
               </div>
             </div>
             <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
@@ -235,20 +166,13 @@ export default {
       }
       this.$axios
         .patch(`product/category-update/${this.newCategory.id}`, formData)
-<<<<<<< HEAD
-        .then(res => {
-=======
         .then((res) => {
           console.log(res.data);
           this.getCategory();
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           loader.hide();
           this.showSuccess = true;
-<<<<<<< HEAD
           console.log(res.data);
           this.getCategory();
-=======
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
@@ -259,10 +183,7 @@ export default {
           setTimeout(() => {
             this.showFail = false;
           }, 3000);
-<<<<<<< HEAD
           console.log(err);
-=======
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
         });
     },
     deleteCategory(id) {
