@@ -33,7 +33,7 @@
           <input
             type="text"
             class="w-1/2 border-2 text-sm py-2 pl-5"
-            v-model="slider.text"
+            v-model.trim="$v.slider.text.$model"
           />
         </div>
         <div class="my-4">
@@ -41,7 +41,7 @@
             >Kategoriya tanlang
           </label>
           <multiselect
-            v-model="selectedCategory"
+            v-model="$v.selectedCategory.$model"
             :options="categories"
             placeholder="Kategoriya tanlang"
             label="name"
@@ -85,6 +85,7 @@
 </template>
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
+import { required, minLength } from "vuelidate/lib/validators";
 export default {
   components: {
     AdminSidebar,
@@ -103,6 +104,19 @@ export default {
         category: null,
       },
     };
+  },
+  validations: {
+    slider: {
+      text: {
+        required,
+      },
+      image: {
+        required,
+      },
+      category: {
+        required,
+      },
+    },
   },
   methods: {
     selectCategory(value, id) {
