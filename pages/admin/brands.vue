@@ -3,11 +3,19 @@
     <AdminSidebar />
     <div class="px-8 w-1/2">
       <div
+<<<<<<< HEAD
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         v-if="showSuccess"
       >
         <div>
           <span><i>Brand qo'shildi</i> </span>
+=======
+        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-400 text-white"
+        v-if="showSuccess"
+      >
+        <div class="text-center">
+          <span>{{ message }}</span>
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
         </div>
         <!-- <div
           class="text-white px-4 cursor-pointer"
@@ -17,6 +25,7 @@
         </div> -->
       </div>
       <div
+<<<<<<< HEAD
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         v-if="showFail"
       >
@@ -24,6 +33,13 @@
           <span class=""
             ><i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
           </span>
+=======
+        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
+        v-if="showFail"
+      >
+        <div class="text-center">
+          <span>{{ message }}</span>
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
         </div>
         <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
           X
@@ -60,7 +76,7 @@
         </button>
       </div>
       <div>
-        <table class="min-w-full divide-y divide-gray-200 ">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -86,7 +102,11 @@
           <tbody class="bg-white">
             <tr class="border" v-for="brand in brands" :key="brand.id">
               <td class="px-6 py-1 border">
+<<<<<<< HEAD
                 <div class="flex items-center text-sm py-2 text-gray-500 ">
+=======
+                <div class="flex items-center text-gray-500">
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                   {{ brand.id }}
                 </div>
               </td>
@@ -157,11 +177,12 @@ export default {
       showDeleteDialog: false,
       showSuccess: false,
       showFail: false,
+      message: "",
       selectedBrandID: null,
       brands: [],
       newBrand: {
-        name: ""
-      }
+        name: "",
+      },
     };
   },
   validations: {
@@ -173,7 +194,7 @@ export default {
   },
   methods: {
     getBrands() {
-      this.$axios.get("product/brand-list").then(res => {
+      this.$axios.get("product/brand-list").then((res) => {
         console.log(res.data);
         this.brands = res.data;
       });
@@ -182,42 +203,79 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post("product/brand-create/", this.newBrand)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           loader.hide();
+          // this.showNotification(this.showSuccess, "Brand yaratildi");
+          this.message = "Brand yaratildi";
           this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
           this.getBrands();
           setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
+          this.message =
+            "Buyurtma yaratishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
           }, 3000);
+<<<<<<< HEAD
 
+=======
+          // this.showNotification(
+          //   this.showFail,
+          //   "Brand yaratishda xatolik yuz berdi, qayta urinib ko'ring"
+          // );
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           console.log(err);
         });
     },
     deleteBrand(id) {
       this.$axios
         .delete(`product/brand-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
+          this.message = "Brand uchirildi";
+          this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
           this.getBrands();
         })
-        .catch(err => {
+        .catch((err) => {
           this.showDeleteDialog = false;
+          this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
           console.log(err);
         });
-    }
+    },
+    // showNotification(show, message) {
+    //   this.message = message;
+    //   if (show === this.showSuccess) {
+    //     this.showSuccess = true;
+    //     setTimeout(() => {
+    //       this.showSuccess = false;
+    //     }, 3000);
+    //   } else if (show === this.showFail) {
+    //     this.showFail = true;
+    //     setTimeout(() => {
+    //       this.showFail = false;
+    //     }, 3000);
+    //   }
+    // },
   },
   mounted() {
     this.getBrands();
-  }
+  },
 };
 </script>
 

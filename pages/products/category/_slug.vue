@@ -59,7 +59,7 @@
 export default {
   data() {
     return {
-      link: `${this.$route.params.type}/category`,
+      link: `category`,
       products: [],
       selectedSort: "Tartiblash",
       showSort: false,
@@ -85,7 +85,6 @@ export default {
       this.$axios
         .get(`product/list/`, {
           params: {
-            is_import: true ? this.$route.params.type === "import" : false,
             ordering: ordering,
           },
         })
@@ -102,11 +101,7 @@ export default {
     getProducts() {
       let loader = this.$loading.show();
       this.$axios
-        .get(`product/by-category/${this.$route.params.slug}/`, {
-          params: {
-            is_import: true ? this.$route.params.type === "import" : false,
-          },
-        })
+        .get(`product/by-category/${this.$route.params.slug}/`)
         .then((res) => {
           console.log("list", res.data);
           this.products = res.data.results;

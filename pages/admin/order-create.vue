@@ -42,6 +42,7 @@
               class="text-red-400 text-sm"
               v-if="!$v.newOrder.name.required && $v.newOrder.name.$dirty"
             >
+<<<<<<< HEAD
               <i>To'ldirish shart</i>
             </div>
             <div
@@ -54,6 +55,13 @@
                 {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi
                 kerak</i
               >
+=======
+              {{ requiredMessage }}
+            </div>
+            <div class="text-red-400" v-if="!$v.newOrder.name.minLength">
+              Buyurtmachi ismi kamida
+              {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi kerak
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
             </div>
           </div>
           <div class="my-4">
@@ -72,7 +80,11 @@
                   $v.newOrder.phone_number.$dirty
               "
             >
+<<<<<<< HEAD
               <i>To'ldirish shart</i>
+=======
+              {{ requiredMessage }}
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
             </div>
             <div
               class="text-red-400 text-sm"
@@ -241,6 +253,7 @@ export default {
   },
   data() {
     return {
+      requiredMessage: "To'ldirish shart",
       showSuccess: false,
       showFail: false,
       showProductForm: false,
@@ -317,6 +330,7 @@ export default {
             loader.hide();
             console.log(res.data);
             this.showSuccess = true;
+<<<<<<< HEAD
             setTimeout(function() {
               this.showSuccess = false;
             }, 3000);
@@ -324,9 +338,19 @@ export default {
           .catch(err => {
             this.showFail = true;
             setTimeout(function() {
+=======
+            setTimeout(() => {
+              this.showSuccess = false;
+            }, 3000);
+          })
+          .catch((err) => {
+            loader.hide();
+            this.showFail = true;
+            setTimeout(() => {
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
               this.showFail = false;
             }, 3000);
-            loader.hide();
+
             console.log(err);
           });
       }

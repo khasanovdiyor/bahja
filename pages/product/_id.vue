@@ -1,7 +1,52 @@
 <template>
   <div>
     <TheContact />
-    <TheHeader />
+    <TheHeader :savedProductsProp="savedProducts" />
+    <div
+      v-if="showNotification"
+      class="relative flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md py-5 pl-6 pr-8 sm:pr-6"
+    >
+      <div
+        class="flex flex-row mx-auto items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0"
+      >
+        <div class="w-6 h-6">
+          <img
+            src="~/assets/images/success.svg"
+            alt="success"
+            class="w-full"
+            v-if="showSuccess"
+          />
+          <img
+            src="~/assets/images/success.svg"
+            alt="success"
+            class="w-full"
+            v-else
+          />
+        </div>
+        <div class="font-medium ml-3">
+          {{ message }}
+        </div>
+      </div>
+      <div
+        @click="showNotification = false"
+        class="absolute sm:relative sm:top-auto sm:right-auto ml-auto right-4 top-4 text-gray-400 hover:text-gray-800 cursor-pointer"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </div>
+    </div>
     <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
       <h2
         class="font-bold sm:text-4xl text-xl self-center"
@@ -14,7 +59,7 @@
       </div>
     </div>
     <div class="px-5 md:px-16 py-10 block md:flex">
-      <div class="md:w-1/2 mb-0 lg:mb-10">
+      <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
         <swiper
           class="swiper gallery-top"
           :options="swiperOptionTop"
@@ -150,8 +195,13 @@ export default {
   components: { ProductReview, ProductAttributeSelector, TheHeader, TheFooter },
   data() {
     return {
+      showSuccess: false,
+      showNotification: false,
+      message: "",
       showCommentBox: false,
+      savedProducts: [],
       product: {
+        id: null,
         attributes: {},
         variations: [],
       },
@@ -161,6 +211,20 @@ export default {
         count: 1,
       },
     };
+  },
+  watch: {
+    product: {
+      deep: true,
+      handler(newVal) {
+        this.selectedProduct.product_id = newVal.id;
+      },
+    },
+    showNotification(newVal) {
+      if (newVal === true)
+        setTimeout(() => {
+          this.showNotification = false;
+        }, 3000);
+    },
   },
   methods: {
     getProduct() {
@@ -221,46 +285,60 @@ export default {
       return true;
     },
     increment() {
-      if (this.selectedProduct.count == this.product.quantity) {
-        this.selectedProduct.count = this.product.quantity;
-      } else this.selectedProduct.count++;
+      if (this.selectedProduct.count < this.product.quantity)
+        this.selectedProduct.count++;
     },
     decrement() {
-      if (this.selectedProduct.count == 0) {
-        this.selectedProduct.count = 0;
-      } else this.selectedProduct.count--;
+      if (this.selectedProduct.count > 1) this.selectedProduct.count--;
     },
     saveToCart() {
-      this.selectedProduct.product_id = this.product.id;
-      let newList = [];
-      let parsed;
-      const prodId = this.product.id;
-      newList.push(this.selectedProduct);
-      let old = JSON.parse(localStorage.getItem("products"));
-      if (old) {
-        console.log("old bor");
-        let index = old.findIndex(
-          (x) => parseInt(x.product_id) === parseInt(prodId)
-        );
-        if (index !== -1) {
-          console.log("bu mahsulot uje mavjud");
-          old.splice(index, 1, this.selectedProduct);
-          parsed = JSON.stringify(old);
-        } else {
-          console.log("bu mahsulot mavjud emas");
-          newList = [...newList, ...old];
-          parsed = JSON.stringify(newList);
+      // localStorage dan o'qish
+      try {
+        let json_string = [];
+        if (localStorage.products) {
+          json_string = localStorage.getItem("products");
         }
-      } else {
-        console.log("old yoq");
-        parsed = JSON.stringify(newList);
+
+        let ls = [];
+        if (json_string.length !== 0) {
+          ls = JSON.parse(json_string) || [];
+        }
+
+        // make simple object
+        let selected_product = JSON.parse(JSON.stringify(this.selectedProduct));
+        // product qidirish
+        let index = ls.findIndex(
+          (el) =>
+            parseInt(el.product_id) === parseInt(selected_product.product_id)
+        );
+
+        if (index === -1) {
+          ls.push(selected_product);
+        } else {
+          ls[index].count = selected_product.count;
+        }
+        this.savedProducts = ls;
+        localStorage.setItem("products", JSON.stringify(ls));
+        this.showNotification = true;
+        this.showSuccess = true;
+        this.message = "Mahsulot savatchaga qo'shildi!";
+      } catch (err) {
+        this.showNotification = true;
+        this.showSuccess = false;
+        this.message =
+          "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-      localStorage.setItem("products", parsed);
-      console.log(localStorage.getItem("products"));
     },
   },
   mounted() {
     this.getProduct();
+    if (localStorage.products) {
+      let json_string = localStorage.getItem("products");
+      if (json_string.length !== 0) {
+        this.savedProducts = JSON.parse(json_string);
+      }
+    }
+
     // this.changeProduct(selected_attrs);
   },
 };

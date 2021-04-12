@@ -29,7 +29,8 @@ export default {
     { src: "~/plugins/swiper.js", mode: "client" },
     { src: "~/plugins/vue-mask.js", mode: "client" },
     { src: "~/plugins/vue-loading.js", mode: "client" },
-    { src: "~/plugins/vuelidate.js" }
+    { src: "~/plugins/vuelidate.js" },
+    { src: "~/plugins/vue-debounce.js" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

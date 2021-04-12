@@ -38,18 +38,22 @@ export default {
   data() {
     return {
       products: [],
-      link: "yangi",
+      link: "category",
     };
   },
   methods: {
     getProducts() {
+      let loader = this.$loading.show();
+
       this.$axios
         .get(`product/list/?ordering=created_at`)
         .then((res) => {
           console.log("variation-list", res.data);
           this.products = res.data.results;
+          loader.hide();
         })
         .catch((err) => {
+          loader.hide();
           console.log(err);
         });
     },

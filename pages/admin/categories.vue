@@ -151,6 +151,12 @@
                 scope="col"
                 class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-500 uppercase"
               >
+                Slidermi?
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              >
                 Kategoriya Qo'shish/O'chirish
               </th>
             </tr>
@@ -182,6 +188,7 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
+<<<<<<< HEAD
                 <div class="flex items-center text-sm justify-around">
                   <div
                     @click="newCategory.parent_id = category.id"
@@ -189,6 +196,15 @@
                   >
                     +
                   </div>
+=======
+                <div class="flex items-center text-gray-500">
+                  <span v-if="category.is_slider">Slider</span>
+                  <span v-else>Slider emas</span>
+                </div>
+              </td>
+              <td class="px-6 py-1 border">
+                <div class="flex items-center text-gray-500 justify-between">
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
                   <nuxt-link
                     :to="`/admin/category-change/${category.id}`"
                     class="cursor-pointer w-5 h-5"
@@ -262,6 +278,7 @@ export default {
       showDeleteDialog: false,
       showSuccess: false,
       showFail: false,
+      message: "",
       selectedCategory: {},
       showChildInput: false,
       image: null,
@@ -327,7 +344,11 @@ export default {
         .post("product/category-create/", formData)
         .then(res => {
           loader.hide();
+          this.message = "Kategoriya yaratildi";
           this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
           console.log(res.data);
           this.getCategories();
           setTimeout(() => {
@@ -336,6 +357,8 @@ export default {
         })
         .catch(err => {
           loader.hide();
+          this.message =
+            "Kategoriya yaratishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
@@ -349,9 +372,20 @@ export default {
         .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
+          this.message = "Kategoriya uchirildi";
+          this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
           this.getCategories();
         })
+<<<<<<< HEAD
         .catch(err => {
+=======
+        .catch((err) => {
+          this.message =
+            "Kategoriya uchirishda xatolik yuz berdi, qayta urinib ko'ring";
+>>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           console.log(err);
         });
     }

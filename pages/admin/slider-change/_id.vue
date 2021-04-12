@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex ">
+    <div class="flex">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
@@ -42,15 +42,14 @@
             >Kategoriya tanlang
           </label>
           <select name="category" id="category" v-model="slider.category">
-            <option disabled selected value="choose"
-              >Kategoriya tanlang
-            </option>
+            <option disabled selected value="choose">Kategoriya tanlang</option>
             <option
               :value="category.id"
               v-for="category in categories"
               :key="category.id"
-              >{{ category.name }}</option
             >
+              {{ category.name }}
+            </option>
           </select>
         </div>
         <div class="my-4">
@@ -101,8 +100,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null
-      }
+        category: null,
+      },
     };
   },
   methods: {
@@ -114,15 +113,22 @@ export default {
       formData.append("category", this.slider.category);
       this.$axios
         .patch(`product/slider/update/${this.$route.params.id}`, formData)
-        .then(res => {
+        .then((res) => {
           loader.hide();
           this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
+
           console.log(res);
           this.getSlider();
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
           console.log(err);
         });
     },
@@ -130,7 +136,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.preview = e.target.result;
         };
 
@@ -139,7 +145,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         console.log("RESULT", reader.result);
       };
       reader.readAsDataURL(file);
@@ -147,28 +153,28 @@ export default {
     getCategories() {
       this.$axios
         .get("product/category-list/")
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.categories = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     getSlider() {
       this.$axios
         .get(`product/slider/detail/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.preview = res.data.image;
           this.slider = res.data;
           this.slider.category = res.data.category.id;
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
     this.getSlider();
-  }
+  },
 };
 </script>

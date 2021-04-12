@@ -25,13 +25,12 @@
       >
     </div>
     <div
+      v-if="!showMessage"
       class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-8 border-gray-200 pb-8"
     >
       <p
         class="w-full px-5 flex items-center py-6 h-8 text-sm mx-auto font-semibold bg-black text-white uppercase"
-      >
-        buyurtma
-      </p>
+      ></p>
       <div class="w-full px-5 mx-auto">
         <form class="w-full" method="post" enctype="multipart/form-data">
           <div class="input-group my-8">
@@ -64,6 +63,17 @@
         </button>
       </div>
     </div>
+    <div v-if="showMessage" class="h-96 flex justify-center items-center">
+      <div class="text-center">
+        <h3 class="font-bold mx-auto text-xl mb-6">
+          Buyurtmangiz qabul qilindi!
+        </h3>
+
+        <nuxt-link to="/" class="hover:underline text-gray-600">
+          Bosh menyuga qaytish
+        </nuxt-link>
+      </div>
+    </div>
     <TheFooter />
   </div>
 </template>
@@ -74,10 +84,12 @@ export default {
   mixins: [global],
   data() {
     return {
+      showMessage: false,
       name: "",
       phone: "+998",
       showSuccess: false,
       showFail: false,
+      savedProducts: [],
     };
   },
   methods: {
@@ -96,19 +108,30 @@ export default {
           const parsed = JSON.stringify(products);
           localStorage.setItem("products", parsed);
           this.showSuccess = true;
-          setTimeout(function () {
+          setTimeout(() => {
             this.showSuccess = false;
           }, 2000);
-          this.$router.push("/");
+          this.showMessage = true;
         })
         .catch((err) => {
           this.showFail = true;
-          setTimeout(function () {
+          setTimeout(() => {
             this.showFail = false;
           }, 2000);
           console.log(err);
         });
     },
+  },
+  mounted() {
+    let loader = this.$loading.show();
+
+    if (localStorage.products) {
+      let json_string = localStorage.getItem("products");
+      if (json_string.length !== 0) {
+        this.savedProducts = JSON.parse(json_string);
+      }
+    }
+    loader.hide();
   },
 };
 </script>
