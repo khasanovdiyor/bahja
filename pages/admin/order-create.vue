@@ -26,9 +26,7 @@
           > -->
         </div>
         <div class="pb-10">
-          <h2 class="font-bold text-xl my-8">
-            Buyurtmani o'zgartirish
-          </h2>
+          <h2 class="font-bold text-xl my-8">Buyurtmani o'zgartirish</h2>
           <div class="my-4">
             <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
               >Buyurtmachi</label
@@ -71,7 +69,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.newOrder.phone_number.required &&
-                  $v.newOrder.phone_number.$dirty
+                $v.newOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -99,8 +97,8 @@
             Buyurtma qo'shish
           </button>
           <div v-if="addedProducts">
-            <table class="min-w-full divide-y  divide-gray-200">
-              <thead class="bg-gray-200 ">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-200">
                 <tr class="rounded-md">
                   <th
                     scope="col"
@@ -243,7 +241,7 @@ import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -255,24 +253,24 @@ export default {
       showProductForm: false,
       selectedProduct: {
         id: null,
-        codesize: null
+        codesize: null,
       },
       newProduct: {
         count: null,
-        product_id: null
+        product_id: null,
       },
       newOrder: {
         name: null,
         phone_number: null,
-        products: []
+        products: [],
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: ""
+        status: "",
       },
       products: [],
-      addedProducts: []
+      addedProducts: [],
     };
   },
   validations: {
@@ -289,16 +287,16 @@ export default {
     newOrder: {
       name: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
       },
       phone_number: {
         required,
-        minLength: minLength(9)
+        minLength: minLength(9),
       },
       products: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     addProduct() {
@@ -351,19 +349,10 @@ export default {
         let loader = this.$loading.show();
         this.$axios
           .post(`cart/orderbeta-create/`, this.newOrder)
-          .then(res => {
+          .then((res) => {
             loader.hide();
             console.log(res.data);
             this.showSuccess = true;
-<<<<<<< HEAD
-            setTimeout(function() {
-              this.showSuccess = false;
-            }, 3000);
-          })
-          .catch(err => {
-            this.showFail = true;
-            setTimeout(function() {
-=======
             setTimeout(() => {
               this.showSuccess = false;
             }, 3000);
@@ -372,7 +361,6 @@ export default {
             loader.hide();
             this.showFail = true;
             setTimeout(() => {
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
               this.showFail = false;
             }, 3000);
 
@@ -383,18 +371,18 @@ export default {
     getProducts() {
       this.$axios
         .get(`product/codesize/`)
-        .then(res => {
+        .then((res) => {
           this.products = res.data;
           console.log("Selected Product", res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getProducts();
-  }
+  },
 };
 </script>
 <style>
