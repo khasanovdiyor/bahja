@@ -34,14 +34,12 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: {
-    dirs: [
-      "~/components",
-      "~/components/admin",
-      "~/components/products",
-      "~/components/UI"
-    ]
-  },
+  components: [
+    {
+      path: "~/components", // will get any components nested in let's say /components/test too
+      pathPrefix: false
+    }
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -60,7 +58,7 @@ export default {
     }
   },
   axios: {
-    baseURL: "http://192.168.43.114:8000/api/"
+    baseURL: "http://127.0.0.1:8000/api/"
 
     // Used as fallback if no runtime config is provided
   },

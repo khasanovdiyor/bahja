@@ -184,15 +184,9 @@
 <script>
 import global from "~/mixins.js/global.js";
 import slider from "~/mixins.js/slider.js";
-import ProductReview from "~/components/product/ProductReview";
-import ProductAttributeSelector from "~/components/product/ProductAttributeSelector";
-import TheFooter from "~/components/TheFooter";
-import TheHeader from "~/components/TheHeader";
-import productCreateVue from "../admin/product-create.vue";
 
 export default {
   mixins: [global, slider],
-  components: { ProductReview, ProductAttributeSelector, TheHeader, TheFooter },
   data() {
     return {
       showSuccess: false,
@@ -228,6 +222,7 @@ export default {
   },
   methods: {
     getProduct() {
+      let loader = this.$loading.show();
       const id = this.$route.params.id;
       console.log("route id", id);
       this.$axios
@@ -242,8 +237,10 @@ export default {
           this.product = Object.assign({}, product);
           console.log("product", product, "this.product", this.product);
           // this.makeProductList(this.product);
+          loader.hide();
         })
         .catch((err) => {
+          loader.hide();
           console.log(err);
         });
     },

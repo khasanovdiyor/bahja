@@ -346,7 +346,7 @@
                             <span
                               @click="showStatus = true"
                               v-if="!showStatus"
-                              class="px-2 inline-flex  text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
                               >{{ order.status }}</span
                             >
                           </div>
@@ -429,11 +429,7 @@
 </template>
 
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
-  components: {
-    AdminSidebar
-  },
   data() {
     return {
       sidebarOpen: false,
@@ -442,7 +438,7 @@ export default {
       orders: [],
       activeStatus: "",
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      showStatus: false
+      showStatus: false,
     };
   },
   methods: {
@@ -450,21 +446,21 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus
-          }
+            status: this.activeStatus,
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.orders = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     deleteOrder(id) {
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.showSuccess = true;
@@ -473,7 +469,7 @@ export default {
           }, 3000);
           this.getOrders();
         })
-        .catch(err => {
+        .catch((err) => {
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
@@ -486,18 +482,18 @@ export default {
       formData.append("status", status);
       this.$axios
         .patch(`cart/orderbeta-update/${id}`, formData)
-        .then(res => {
+        .then((res) => {
           this.showStatus = false;
           this.getOrders();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getOrders();
-  }
+  },
 };
 </script>
 <style></style>

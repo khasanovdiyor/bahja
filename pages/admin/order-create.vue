@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex">
+    <div class="flex min-h-screen">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5">
         <div

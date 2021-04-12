@@ -5,7 +5,7 @@
       <div class="px-5 mx-auto w-4/5 bg-gray-100 pt-10">
         <div
           v-if="showSuccess"
-           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         >
           <i>Mahsulot yaratildi</i>
 
@@ -17,7 +17,7 @@
         </div>
         <div
           v-if="showFail"
-         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         >
           <i> Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
 
@@ -95,7 +95,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
                 >
                 <textarea
@@ -140,7 +141,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >soni</label
                 >
                 <input
@@ -158,7 +160,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >narxi</label
                 >
                 <input
@@ -175,7 +178,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >rasm qo'yish</label
                 ><input
                   type="file"
@@ -201,7 +205,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >galereya rasmlarini qo'shish</label
                 ><input
                   type="file"
@@ -236,7 +241,8 @@
                 <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >Import</label
                 >
                 <input
@@ -353,7 +359,7 @@
                         </div>
                       </td>
 
-                      <td class=" py-1 border">
+                      <td class="py-1 border">
                         <div class="flex items-center">
                           <input
                             type="text"
@@ -362,7 +368,7 @@
                           />
                         </div>
                       </td>
-                      <td class=" py-1 border">
+                      <td class="py-1 border">
                         <div class="flex items-center">
                           <input
                             type="text"
@@ -371,7 +377,7 @@
                           />
                         </div>
                       </td>
-                      <td class=" py-1 border">
+                      <td class="py-1 border">
                         <div class="flex items-center">
                           <input
                             type="text"
@@ -451,7 +457,7 @@
               </button>
             </div>
           </tab>
-          <tab name="O'zgarish qo'shish" class=" w-full text-lg">
+          <tab name="O'zgarish qo'shish" class="w-full text-lg">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
               O'zgarish qo'shish
             </h2>
@@ -497,7 +503,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
                 >
                 <textarea
@@ -542,7 +549,8 @@
               </div>
 
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >soni</label
                 >
                 <input
@@ -561,7 +569,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >narxi</label
                 >
                 <input
@@ -580,7 +589,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >asosiy rasm </label
                 ><input
                   type="file"
@@ -602,7 +612,8 @@
                 <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >galereya rasmlarini qo'shish</label
                 ><input
                   type="file"
@@ -748,7 +759,7 @@
                         >
                           <div
                             @click="addVariationAttribute"
-                            class="cursor-pointer hover:underline "
+                            class="cursor-pointer hover:underline"
                           >
                             Qo'shish
                           </div>
@@ -903,15 +914,9 @@
   </div>
 </template>
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import BaseButton from "../../components/admin/BaseButton.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
-  components: {
-    AdminSidebar,
-    BaseButton
-  },
   data() {
     return {
       priceMask: priceMask,
@@ -947,7 +952,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: []
+        variations: [],
       },
       variation: {
         parent_id: 0,
@@ -959,14 +964,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null
-      }
+        value: null,
+      },
     };
   },
   watch: {
@@ -1097,7 +1102,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1107,7 +1112,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1152,10 +1157,10 @@ export default {
     getBrands() {
       this.$axios
         .get("product/brand-list/")
-        .then(res => {
+        .then((res) => {
           this.brands = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -1189,7 +1194,7 @@ export default {
   mounted() {
     this.getCategories();
     this.getBrands();
-  }
+  },
 };
 </script>
 <style scoped>

@@ -149,12 +149,6 @@
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-500 uppercase"
-              >
-                Slidermi?
-              </th>
-              <th
-                scope="col"
                 class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
               >
                 Kategoriya Qo'shish/O'chirish
@@ -189,12 +183,6 @@
               </td>
               <td class="px-6 py-1 border">
                 <div class="flex items-center text-sm justify-around">
-                  <div
-                    @click="newCategory.parent_id = category.id"
-                    class="cursor-pointer text-xl text-white rounded-full bg-gray-500 px-2"
-                  >
-                    +
-                  </div>
                   <nuxt-link
                     :to="`/admin/category-change/${category.id}`"
                     class="cursor-pointer w-5 h-5"

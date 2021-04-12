@@ -187,7 +187,7 @@
                       <h4 class="text-2xl font-semibold text-gray-700">
                         {{ newOrderMoney.toLocaleString() }} so'm
                       </h4>
-                      <div class=" text-sm font-semibold text-gray-400">
+                      <div class="text-sm font-semibold text-gray-400">
                         Jami daromad
                       </div>
                     </div>
@@ -264,7 +264,8 @@
                   v-model="activeStatus"
                   id=""
                   class="inline-block ml-auto py-2 border border-gray-200 text-sm rounded-md"
-                  ><option value="">Status bo'yicha saralash</option>
+                >
+                  <option value="">Status bo'yicha saralash</option>
                   <option
                     :value="status"
                     v-for="(status, index) in statuses"
@@ -275,7 +276,7 @@
                 </select>
                 <button
                   @click="getOrders"
-                  class="bg-gray-800  rounded-md  text-sm px-4 text-white my-2 py-2"
+                  class="bg-gray-800 rounded-md text-sm px-4 text-white my-2 py-2"
                 >
                   Saralash
                 </button>
@@ -333,7 +334,7 @@
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-6 w-6">
                               <img
-                                class="h-6 w-6  rounded-full"
+                                class="h-6 w-6 rounded-full"
                                 src="~/assets/images/profile-user.svg"
                                 alt=""
                               />
@@ -478,7 +479,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -497,34 +498,34 @@ export default {
 
       selectedSortOrder: {
         name: "1 kunlik",
-        day: 1
+        day: 1,
       },
       selectedSortMoney: {
         name: "1 kunlik",
-        day: 1
+        day: 1,
       },
       selectedSortProduct: {
         name: "1 kunlik",
-        day: 1
+        day: 1,
       },
       sortOptions: [
         {
           name: "1 kunlik",
-          day: 1
+          day: 1,
         },
         {
           name: "Haftalik",
-          day: 7
+          day: 7,
         },
         {
           name: "Oylik",
-          day: 30
+          day: 30,
         },
         {
           name: "Yillik",
-          day: 365
-        }
-      ]
+          day: 365,
+        },
+      ],
     };
   },
   methods: {
@@ -532,14 +533,14 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus
-          }
+            status: this.activeStatus,
+          },
         })
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.orders = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -548,13 +549,13 @@ export default {
       formData.append("date", option.day);
       this.$axios
         .post("product/statistics/orders/number/", formData)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.newOrder = res.data.number;
           this.showSortOrder = false;
           this.selectedSortOrder = option;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -563,13 +564,14 @@ export default {
       formData.append("date", option.day);
       this.$axios
         .post("product/statistics/products/", formData)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.newProducts = res.data.number;
           this.showSortProduct = false;
           this.selectedSortOrder = option;
         })
-        .catch(err => {
+        .catch((err) => {
+          this.showSortProduct = false;
           console.log(err);
         });
     },
@@ -578,13 +580,14 @@ export default {
       formData.append("date", option.day);
       this.$axios
         .post("product/statistics/orders/money/", formData)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.newOrderMoney = res.data.number;
           this.showSortMoney = false;
           this.selectedSortMoney = option;
         })
-        .catch(err => {
+        .catch((err) => {
+          this.showSortMoney = false;
           console.log(err);
         });
     },
@@ -593,21 +596,22 @@ export default {
       formData.append("status", status);
       this.$axios
         .patch(`cart/orderbeta-update/${id}`, formData)
-        .then(res => {
+        .then((res) => {
           this.showStatus = false;
           this.getOrders();
         })
-        .catch(err => {
+        .catch((err) => {
+          this.showStatus = false;
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getOrders();
     this.getStatsNewOrder(this.selectedSortOrder);
     this.getStatsNewOrderMoney(this.selectedSortMoney);
     this.getStatsNewProducts(this.selectedSortProduct);
-  }
+  },
 };
 </script>
 <style></style>
