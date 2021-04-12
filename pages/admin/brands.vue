@@ -21,14 +21,7 @@
         v-if="showFail"
       >
         <div>
-          <span class=""
-            ><i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
-          </span>
-        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
-        v-if="showFail"
-      >
-        <div class="text-center">
-          <span>{{ message }}</span>
+          <i>Kategoriya qo'shishda xatolik yuz berdi, qayta urinib koring</i>
         </div>
         <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
           X
@@ -36,9 +29,7 @@
       </div>
       <div class="mb-6">
         <div class="input-group block my-4 my-10">
-          <h2 class="text-xl font-bold mb-10">
-            Brand qo'shish
-          </h2>
+          <h2 class="text-xl font-bold mb-10">Brand qo'shish</h2>
           <label
             for="input"
             class="block font-bold text-gray-600 uppercase text-sm mb-2"
@@ -91,7 +82,6 @@
           <tbody class="bg-white">
             <tr class="border" v-for="brand in brands" :key="brand.id">
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm py-2 text-gray-500 ">
                 <div class="flex items-center text-gray-500">
                   {{ brand.id }}
                 </div>
@@ -174,9 +164,9 @@ export default {
   validations: {
     newBrand: {
       name: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     getBrands() {
