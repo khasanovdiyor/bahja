@@ -1,41 +1,41 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen bg-gray-100">
     <AdminSidebar />
-    <div class="px-16 w-2/3 pt-10">
+    <div class="px-8 w-full pt-10">
       <div class="flex items-center justify-between">
-        <h1 class="font-bold text-xl mb-6">Mavjud sliderlar</h1>
+        <h1 class="font-bold text-xl text-gray-700 mb-6">Mavjud sliderlar</h1>
         <nuxt-link
           to="/admin/slider-create"
-          class="bg-gray-800 py-1 px-4 text-font-bold text-2xl text-white"
-          >+</nuxt-link
+          class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2 mb-5"
+          >Qo'shish</nuxt-link
         >
       </div>
 
-      <table class=" divide-y divide-gray-200 ">
+      <table class=" divide-y divide-gray-200 w-full ">
         <thead class="bg-gray-200">
           <tr>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-700 uppercase"
             >
               id
             </th>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-700 uppercase"
             >
-              Slider text
+              Slider yozuvi
             </th>
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-700 uppercase"
             >
-              Slider category
+              Slider kategoriyasi
             </th>
 
             <th
               scope="col"
-              class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+              class="px-6 py-3 text-left text-sm font-bold text-gray-700 uppercase"
             >
               o'zgartirish
             </th>
@@ -44,23 +44,23 @@
         <tbody class="bg-white">
           <tr class="border" v-for="slider in sliders" :key="slider.id">
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500 ">
+              <div class="flex items-center text-sm py-2 ">
                 {{ slider.id }}
               </div>
             </td>
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
+              <div class="flex items-center text-sm py-2">
                 {{ slider.text }}
               </div>
             </td>
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500">
+              <div class="flex items-center text-sm py-2">
                 {{ slider.category.name }}
               </div>
             </td>
 
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-gray-500 justify-between">
+              <div class="flex items-center text-sm py-2 justify-between">
                 <nuxt-link :to="`/admin/slider-detail/${slider.id}`">
                   <img
                     src="~/assets/images/eye.svg"

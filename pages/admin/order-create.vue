@@ -2,98 +2,104 @@
   <div>
     <div class="flex">
       <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 pt-10">
+      <div class="px-5 mx-auto w-4/5">
         <div
           v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         >
           Buyurtma qo'shildi
-          <span
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         >
           Buyurtma qo'shishda xatolik yuz berdi, qayta urinib ko'ring
-          <span
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showFail = false"
             >X</span
-          >
+          > -->
         </div>
         <div class="pb-10">
-          <h2 class="font-bold text-xl uppercase my-8">
+          <h2 class="font-bold text-xl my-8">
             Buyurtmani o'zgartirish
           </h2>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2"
+            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
               >Buyurtmachi</label
             >
             <input
               type="string"
-              class="w-1/2 border-2 text-sm py-2 pl-5"
+              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
               v-model.trim="$v.newOrder.name.$model"
             />
             <div
-              class="text-red-400"
+              class="text-red-400 text-sm"
               v-if="!$v.newOrder.name.required && $v.newOrder.name.$dirty"
             >
-              To'ldirish shart
+              <i>To'ldirish shart</i>
             </div>
-            <div class="text-red-400" v-if="!$v.newOrder.name.minLength">
-              <div class="text-red-400" v-if="!$v.newOrder.name.minLength">
+            <div
+              class="text-red-400 text-sm"
+              v-if="!$v.newOrder.name.minLength"
+            >
+              <i>
                 Buyurtmachi ismi kamida
-                {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi kerak
-              </div>
+
+                {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi
+                kerak</i
+              >
             </div>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2"
+            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
               >Buyurtmachi telefon raqami</label
             >
             <input
               type="tel"
-              class="w-1/2 border-2 text-sm py-2 pl-5"
+              class="w-1/2 border-2 rounded-md text-sm py-2 pl-5"
               v-model.trim="$v.newOrder.phone_number.$model"
             />
             <div
-              class="text-red-400"
+              class="text-red-400 text-sm"
               v-if="
                 !$v.newOrder.phone_number.required &&
-                $v.newOrder.phone_number.$dirty
+                  $v.newOrder.phone_number.$dirty
               "
             >
-              To'ldirish shart
+              <i>To'ldirish shart</i>
             </div>
             <div
-              class="text-red-400"
+              class="text-red-400 text-sm"
               v-if="!$v.newOrder.phone_number.minLength"
             >
-              Telefon raqami kamida
+              <i>Telefon raqami kamida</i>
+
               {{ $v.newOrder.phone_number.$params.minLength.min }} son bo'lishi
               kerak
             </div>
           </div>
           <div
-            class="text-red-400"
+            class="text-red-400 text-sm"
             v-if="!$v.newOrder.products.required && $v.newOrder.products.$dirty"
           >
-            Buyurtma berishdan avval mahsulot qo'shing!
+            <i>Buyurtma berishdan avval mahsulot qo'shing!</i>
           </div>
           <button
-            class="bg-gray-800 mb-6 text-white py-2 px-4"
+            class="bg-gray-800 mb-6 rounded-md text-sm text-white py-2 px-4"
             @click="createOrder"
           >
             Buyurtma qo'shish
           </button>
           <div v-if="addedProducts">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-200">
-                <tr>
+            <table class="min-w-full divide-y  divide-gray-200">
+              <thead class="bg-gray-200 ">
+                <tr class="rounded-md">
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
@@ -175,8 +181,8 @@
             </table>
           </div>
           <div class="my-4">
-            <h2 class="font-bold text-2xl mb-4">Mahsulot qo'shish</h2>
-            <label class="block font-bold uppercase text-sm mb-2"
+            <h2 class="font-bold text-md uppercase mb-4">Mahsulot qo'shish</h2>
+            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
               >Mahsulot tanlang</label
             >
             <multiselect
@@ -192,15 +198,33 @@
             </multiselect>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2">soni</label>
+            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
+              >soni</label
+            >
             <input
-              type="text"
-              class="w-1/2 border-2 text-sm py-2 px-4"
-              v-model="newProduct.count"
+              type="number"
+              class="w-1/2 border-2 rounded-md text-sm py-2 px-4"
+              v-model.trim="$v.newOrder.products.$model"
             />
+            <div
+              class="text-red-400 text-sm"
+              v-if="
+                !$v.newOrder.products.required && $v.newOrder.products.$dirty
+              "
+            >
+              <i>To'ldirish shart</i>
+            </div>
+            <div class="text-red-400" v-if="!$v.newOrder.product">
+              <div class="text-red-400" v-if="!$v.newOrder.product">
+                {{ $v.newOrder.product }}
+              </div>
+            </div>
           </div>
 
-          <button class="bg-gray-800 text-white py-2 px-4" @click="addProduct">
+          <button
+            class="bg-gray-800 text-white rounded-md text-sm py-2 px-4"
+            @click="addProduct"
+          >
             Mahsulot qo'shish
           </button>
         </div>
@@ -213,7 +237,7 @@ import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -222,40 +246,40 @@ export default {
       showProductForm: false,
       selectedProduct: {
         id: null,
-        codesize: null,
+        codesize: null
       },
       newProduct: {
         count: null,
-        product_id: null,
+        product_id: null
       },
       newOrder: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     newOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(9),
+        minLength: minLength(9)
       },
       products: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     addProduct() {
@@ -289,17 +313,17 @@ export default {
         let loader = this.$loading.show();
         this.$axios
           .post(`cart/orderbeta-create/`, this.newOrder)
-          .then((res) => {
+          .then(res => {
             loader.hide();
             console.log(res.data);
             this.showSuccess = true;
-            setTimeout(function () {
+            setTimeout(function() {
               this.showSuccess = false;
             }, 3000);
           })
-          .catch((err) => {
+          .catch(err => {
             this.showFail = true;
-            setTimeout(function () {
+            setTimeout(function() {
               this.showFail = false;
             }, 3000);
             loader.hide();
@@ -310,18 +334,18 @@ export default {
     getProducts() {
       this.$axios
         .get(`product/codesize/`)
-        .then((res) => {
+        .then(res => {
           this.products = res.data;
           console.log("Selected Product", res.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 <style>

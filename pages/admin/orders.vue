@@ -8,8 +8,8 @@
       ></div>
       <AdminSidebar />
       <div class="flex-1 flex flex-col overflow-hidden">
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
-          <div class="container mx-auto px-6 py-8">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+          <div class="container mx-auto px-6">
             <!-- <div class="mt-4">
               <div class="flex flex-wrap -mx-6">
                 <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
@@ -200,24 +200,19 @@
               </div>
             </div> -->
 
-            <div class="mt-8 flex items-center justify-between">
-              <h2 class="text-xl font-bold">Zakazlar</h2>
-
-              <div class="mt-8 flex items-center">
-                <nuxt-link
-                  to="/admin/order-create/"
-                  class="font-bold text-2xl bg-gray-800 text-white px-4 mr-6"
-                  >+</nuxt-link
-                >
+            <div class="flex items-center mt-8 justify-between">
+              <h2 class="text-xl -mt-16 text-gray-700 font-semibold">
+                Buyurtmalar
+              </h2>
+              <div class="mt-5 flex items-center">
                 <div>
-                  Status bo'yicha saralash
                   <select
                     name="filter-orders"
                     v-model="activeStatus"
                     id=""
-                    class="block"
+                    class="inline-block ml-auto py-2 text-sm border border-gray-200 rounded-md"
                   >
-                    <option value="">Barchasini ko'rsatish</option>
+                    <option value="">Status bo'yicha saralash</option>
                     <option
                       :value="status"
                       v-for="(status, index) in statuses"
@@ -228,15 +223,20 @@
                   </select>
                   <button
                     @click="getOrders"
-                    class="bg-gray-800 my-2 px-4 text-white py-2"
+                    class="bg-gray-800 w-24 rounded-md text-sm px-4 text-white my-2 py-2"
                   >
                     Saralash
                   </button>
+                  <nuxt-link
+                    to="/admin/order-create/"
+                    class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2"
+                    >Qo'shish</nuxt-link
+                  >
                 </div>
               </div>
             </div>
 
-            <div class="flex flex-col mt-8">
+            <div class="flex flex-col mt-5">
               <div
                 class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
               >
@@ -247,45 +247,47 @@
                     <thead>
                       <tr>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
                         >
                           Mijoz nomi
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
                         >
                           Telefon raqami
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
                         >
                           Buyurtmalar soni
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
                         >
                           Buyurtmalar narxi
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
                         >
                           Status
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-50"
-                        ></th>
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                        >
+                          o'zgartirish
+                        </th>
                       </tr>
                     </thead>
 
                     <tbody class="bg-white">
                       <tr v-for="order in orders" :key="order.id">
                         <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                          class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="flex items-center">
-                            <div class="flex-shrink-0 h-10 w-10">
+                            <div class="flex-shrink-0 h-6 w-6">
                               <img
-                                class="h-10 w-10 rounded-full"
+                                class="h-6 w-6 rounded-full"
                                 src="~/assets/images/profile-user.svg"
                                 alt=""
                               />
@@ -305,7 +307,7 @@
                         </td>
 
                         <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                          class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="text-sm leading-5 text-gray-900">
                             {{ order.phone_number }}
@@ -315,24 +317,24 @@
                           </div> -->
                         </td>
                         <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                          class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="text-sm leading-5 text-gray-900">
                             {{ order.orderproducts.length }}
                           </div>
                         </td>
                         <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                          class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="text-sm leading-5 text-gray-900">
                             {{ order.finish_price }}
                           </div>
                         </td>
                         <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
+                          class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="relative">
-                            <div v-if="showStatus" class="w-32 py-2 px-4">
+                            <div v-if="showStatus" class="w-32 3 px-4">
                               <span
                                 v-for="status in statuses"
                                 :key="status"
@@ -344,14 +346,14 @@
                             <span
                               @click="showStatus = true"
                               v-if="!showStatus"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              class="px-2 inline-flex  text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
                               >{{ order.status }}</span
                             >
                           </div>
                         </td>
 
                         <td
-                          class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium"
+                          class="px-6 py-2 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium"
                         >
                           <div
                             class="flex items-center text-gray-500 justify-between"
@@ -430,7 +432,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -440,7 +442,7 @@ export default {
       orders: [],
       activeStatus: "",
       statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      showStatus: false,
+      showStatus: false
     };
   },
   methods: {
@@ -448,26 +450,26 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus,
-          },
+            status: this.activeStatus
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.orders = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     deleteOrder(id) {
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.getOrders();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -476,18 +478,18 @@ export default {
       formData.append("status", status);
       this.$axios
         .patch(`cart/orderbeta-update/${id}`, formData)
-        .then((res) => {
+        .then(res => {
           this.showStatus = false;
           this.getOrders();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getOrders();
-  },
+  }
 };
 </script>
 <style></style>

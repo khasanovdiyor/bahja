@@ -2,60 +2,64 @@
   <div>
     <div class="flex min-h-screen">
       <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 pt-10">
+      <div class="px-5 mx-auto w-4/5 bg-gray-100 pt-10">
         <div
           v-if="showSuccess"
-          class="fixed z-40 font-bold text-xl top-0 px-4 py-4 w-2/3 bg-green-400 text-white text-center"
+           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         >
-          Mahsulot yaratildi
-          <span
+          <i>Mahsulot yaratildi</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 font-bold text-xl top-0 px-4 py-4 w-2/3 bg-green-400 text-white text-center"
+         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         >
-          Mahsulot yaratishda xatolik yuz berdi, qayta urinib koring
-          <span
+          <i> Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showFail = false"
             >X</span
-          >
+          > -->
         </div>
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Mahsulot qo'shish">
-            <h2 class="text-xl font-bold uppercase">Mahsulot qoshish</h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-10">
+              Mahsulot qo'shish
+            </h2>
 
-            <div>
+            <div class="">
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-2"
+                  class="block font-bold uppercase text-sm mb-1"
                   >Mahsulot nomi</label
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="product.name"
                 />
               </div>
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-2"
+                  class="block font-bold uppercase text-sm mb-1"
                   >Mahsulot kodi</label
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="product.product_code"
                 />
               </div>
               <div class="my-4 block">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >Brend nomi {{ selectedBrand }}
                 </label>
                 <multiselect
@@ -67,17 +71,17 @@
                 ></multiselect>
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
                 >
                 <textarea
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="w-1/2 border-2 rounded-md min-h-24 text-sm py-2 pl-5"
                   v-model="product.description"
                 >
                 </textarea>
               </div>
               <div class="my-4">
-                <label class="w-1/2 block font-bold uppercase text-sm mb-2"
+                <label class="w-1/2 block font-bold uppercase text-sm mb-1"
                   >kategoriyasi</label
                 >
                 <multiselect
@@ -94,33 +98,33 @@
                 </multiselect>
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >soni</label
                 >
                 <input
                   type="text"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="product.quantity"
                 />
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >narxi</label
                 >
                 <input
                   type="string"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="product.price"
                 />
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >rasm qo'yish</label
                 ><input
                   type="file"
                   accept="image/*"
                   @change="previewProductImage"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm bg-white w-1/2 py-1 pl-5"
                 />
                 <div v-if="product.image">
                   <div>
@@ -134,14 +138,14 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >galereya rasmlarini qo'shish</label
                 ><input
                   type="file"
                   accept="image/*"
                   multiple="multiple"
                   @change="previewProductMultiImage"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm bg-white w-1/2 py-1 pl-5"
                 />
                 <div v-if="product.images" class="flex">
                   <div
@@ -163,7 +167,7 @@
                 <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >Import</label
                 >
                 <input
@@ -280,29 +284,29 @@
                         </div>
                       </td>
 
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
+                      <td class=" py-1 border">
+                        <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5"
                             v-model="attribute.key"
                           />
                         </div>
                       </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
+                      <td class=" py-1 border">
+                        <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5"
                             v-model="attribute.label"
                           />
                         </div>
                       </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
+                      <td class=" py-1 border">
+                        <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5"
                             v-model="attribute.value"
                           />
                         </div>
@@ -313,7 +317,7 @@
                         >
                           <div
                             @click="addProductAttribute"
-                            class="cursor-pointer hover:underline"
+                            class="cursor-pointer hover:underline hover:font-bold"
                           >
                             Qo'shish
                           </div>
@@ -346,61 +350,80 @@
                     </tr>
                   </tbody>
                 </table>
-                <div
+                <button
                   @click="showAddNewKey = true"
-                  class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
+                  class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 text-white my-2 py-2"
                 >
-                  +
-                </div>
+                  Qo'shish
+                </button>
               </div>
               <button
                 @click="createProduct"
-                class="bg-gray-800 text-white py-2 px-4"
+                class="block bg-gray-800 w- text-sm text-center rounded-md px-3 text-white my-2 py-2"
               >
+                <div
+                  class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
+                  v-if="showFail"
+                >
+                  <div>
+                    <span class="text-sm"
+                      >Brand qo'shishda xatolik yuz berdi, qayta urinib
+                      koring!</span
+                    >
+                  </div>
+                  <div
+                    class="text-white px-4 cursor-pointer"
+                    @click="showFail = false"
+                  >
+                    X
+                  </div>
+                </div>
                 Mahsulot yaratish
               </button>
             </div>
           </tab>
-          <tab name="O'zgarish qo'shish">
-            <h2 class="text-xl font-bold uppercase">O'zgarish qoshish</h2>
+          <tab name="O'zgarish qo'shish" class=" w-full text-lg">
+            <h2 class="text-xl font-bold text-gray-700 mb-10">
+              O'zgarish qo'shish
+            </h2>
 
-            <div>
+            <div class="w-full">
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-2"
+                  class="block font-bold uppercase text-sm mb-1"
                   >Mahsulot nomi</label
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="variation.name"
                 />
               </div>
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-2"
+                  class="block font-bold uppercase text-sm mb-1"
                   >Mahsulot kodi</label
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="variation.product_code"
                 />
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
                 >
                 <textarea
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm min-h-24 w-1/2 py-2 pl-5"
                   v-model="variation.description"
                 >
                 </textarea>
               </div>
               <div class="my-4">
-                <label class="w-1/2 block font-bold uppercase text-sm mb-2"
+                <label class="w-1/2 block font-bold uppercase text-sm mb-1"
                   >kategoriyasi</label
                 >
                 <multiselect
@@ -417,33 +440,34 @@
               </div>
 
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >soni</label
                 >
                 <input
                   type="string"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="variation.quantity"
                 />
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >narxi</label
                 >
                 <input
                   type="string"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="variation.price"
                 />
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
-                  >rasm qo'yish</label
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >asosiy rasm </label
                 ><input
                   type="file"
                   accept="image/*"
                   @change="previewVariationImage"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
+                  placeholder="cdsafd"
                 />
                 <div v-if="variation.image">
                   <div>
@@ -458,14 +482,14 @@
                 <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
-                <label class="block font-bold uppercase text-sm mb-2"
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >galereya rasmlarini qo'shish</label
                 ><input
                   type="file"
                   accept="image/*"
                   multiple="multiple"
                   @change="previewVariationMultiImage"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
                 />
                 <div v-if="variation.images" class="flex">
                   <div
@@ -575,7 +599,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5"
                             v-model="attribute.key"
                           />
                         </div>
@@ -584,7 +608,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5"
                             v-model="attribute.label"
                           />
                         </div>
@@ -593,7 +617,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5"
                             v-model="attribute.value"
                           />
                         </div>
@@ -604,7 +628,7 @@
                         >
                           <div
                             @click="addVariationAttribute"
-                            class="cursor-pointer hover:underline"
+                            class="cursor-pointer hover:underline "
                           >
                             Qo'shish
                           </div>
@@ -613,16 +637,16 @@
                     </tr>
                   </tbody>
                 </table>
-                <div
+                <button
                   @click="showAddNewKey = true"
-                  class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
+                  class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
                 >
-                  +
-                </div>
+                  qo'shish
+                </button>
               </div>
               <button
                 @click="addVariation"
-                class="bg-gray-800 text-white py-2 px-4"
+                class="block bg-gray-800 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
               >
                 Mahsulotni saqlash
               </button>
@@ -758,7 +782,7 @@ import BaseButton from "../../components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton,
+    BaseButton
   },
   data() {
     return {
@@ -793,7 +817,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: [],
+        variations: []
       },
       variation: {
         parent_id: 0,
@@ -805,14 +829,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: [],
+        categories: []
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   methods: {
@@ -844,7 +868,7 @@ export default {
     addVariation() {
       this.product.variations.push(this.variation);
       this.variation = {
-        attributes: [],
+        attributes: []
       };
       this.showAddNewVariation = false;
     },
@@ -864,7 +888,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -874,7 +898,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -887,7 +911,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             this.product.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
           };
@@ -904,7 +928,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
           };
@@ -917,10 +941,10 @@ export default {
     getBrands() {
       this.$axios
         .get("product/brand-list/")
-        .then((res) => {
+        .then(res => {
           this.brands = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -929,7 +953,7 @@ export default {
       this.product.brand = this.selectedBrand.id;
       this.$axios
         .post("product/create/", this.product)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showSuccess = true;
           this.productVariation = {};
@@ -939,21 +963,21 @@ export default {
           this.preview = null;
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           showFail = true;
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  },
+  }
 };
 </script>
 <style scoped>
 div.multiselect {
-  min-width: 50%;
+  width: 50%;
 }
 </style>

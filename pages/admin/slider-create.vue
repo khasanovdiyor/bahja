@@ -1,62 +1,65 @@
 <template>
   <div>
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen bg-gray-100">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
-          Slider yaratildi
-          <span
+          <i> Slider yaratildi</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         >
-          Slider yaratishda xatolik yuz berdi, qayta urinib koring
-          <span
+          <i> Slider yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showFail = false"
             >X</span
-          >
+          > -->
         </div>
 
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
+          <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
             >Slider matni</label
           >
           <input
             type="text"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
             v-model="slider.text"
           />
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
+          <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
             >Kategoriya tanlang
           </label>
           <multiselect
             v-model="selectedCategory"
             :options="categories"
             placeholder="Kategoriya tanlang"
+            class="text-sm w-1/3"
             label="name"
             track-by="name"
             @select="selectCategory"
           ></multiselect>
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
+          <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
             >rasm qo'yish</label
           ><input
             type="file"
             accept="image/*"
             @change="previewImage"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="w-1/2 text-sm py-2 pl-5"
           />
           <div v-if="preview">
             <div>
@@ -75,7 +78,7 @@
 
         <button
           @click="createSlider"
-          class="bg-gray-800 text-white py-2 px-4 mb-72"
+          class="block bg-gray-800 w-32 text-sm text-center rounded-md px-3 text-white my-2 py-2"
         >
           Slider yaratish
         </button>
@@ -87,7 +90,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -100,8 +103,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null,
-      },
+        category: null
+      }
     };
   },
   methods: {
@@ -117,18 +120,19 @@ export default {
       formData.append("category", this.slider.category);
       this.$axios
         .post("product/slider/create/", formData)
-        .then((res) => {
+        .then(res => {
           loader.hide();
           this.showSuccess = true;
-          setTimeout(function () {
+          console.log(res.data);
+          this.getSlider();
+          setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
-          console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.showFail = true;
-          setTimeout(function () {
+          setTimeout(() => {
             this.showFail = false;
           }, 3000);
           console.log(err);
@@ -138,7 +142,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.preview = e.target.result;
         };
 
@@ -147,23 +151,23 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function () {};
+      reader.onloadend = function() {};
       reader.readAsDataURL(file);
     },
     getCategories() {
       this.$axios
         .get("product/category-all/")
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.categories = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
