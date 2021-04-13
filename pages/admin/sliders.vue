@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-gray-100">
     <AdminSidebar />
-    <div class="px-8 w-full pt-10">
+    <div class="px-8 pt-10">
       <div class="flex items-center justify-between">
         <h1 class="font-bold text-xl text-gray-700 mb-6">Mavjud sliderlar</h1>
         <nuxt-link
@@ -11,7 +11,7 @@
         >
       </div>
 
-      <table class=" divide-y divide-gray-200 w-full ">
+      <table class="divide-y divide-gray-200 w-full">
         <thead class="bg-gray-200">
           <tr>
             <th
@@ -37,14 +37,14 @@
               scope="col"
               class="px-6 py-3 text-left text-sm font-bold text-gray-700 uppercase"
             >
-              o'zgartirish
+              O'zgartirish
             </th>
           </tr>
         </thead>
         <tbody class="bg-white">
           <tr class="border" v-for="slider in sliders" :key="slider.id">
             <td class="px-6 py-1 border">
-              <div class="flex items-center text-sm py-2 ">
+              <div class="flex items-center text-sm py-2">
                 {{ slider.id }}
               </div>
             </td>
@@ -126,18 +126,18 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
       sliders: [],
       showDeleteDialog: false,
-      selectedSliderID: null
+      selectedSliderID: null,
     };
   },
   methods: {
     getSliders() {
-      this.$axios.get("product/slider/list").then(res => {
+      this.$axios.get("product/slider/list").then((res) => {
         console.log(res.data);
         this.sliders = res.data;
       });
@@ -145,19 +145,19 @@ export default {
     deleteSlider(id) {
       this.$axios
         .delete(`product/slider/delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getSliders();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getSliders();
-  }
+  },
 };
 </script>
 

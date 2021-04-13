@@ -178,9 +178,9 @@ export default {
   validations: {
     newBrand: {
       name: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     getBrands() {

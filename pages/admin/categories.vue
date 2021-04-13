@@ -1,5 +1,5 @@
 <template>
-  <div class="flex  min-h-screen bg-gray-100">
+  <div class="flex min-h-screen bg-gray-100">
     <AdminSidebar />
     <div class="px-5 w-2/3">
       <div
@@ -117,14 +117,14 @@
               <p class="">Rasm hajmi: {{ image.size / 1024 }}KB</p>
             </div>
           </div>
-          <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+          <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
 
         <base-button :clickFunction="createCategory" class="rounded-md text-sm">
           Kategoriya yaratish
         </base-button>
       </div>
-      <div class="mb-10 ">
+      <div class="mb-10">
         <table class="w-full divide-y divide-gray-200">
           <thead>
             <tr>
@@ -149,13 +149,7 @@
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-500 uppercase"
-              >
-                Slidermi?
-              </th>
-              <th
-                scope="col"
-                class="px-6 py- bg-gray-200 text-left text-sm text-gray-500 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
               >
                 Kategoriya qo'shish/o'chirish
               </th>
@@ -179,7 +173,7 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center ">
+                <div class="flex items-center">
                   <img
                     :src="category.image"
                     :alt="`${category.name} image`"
@@ -188,13 +182,7 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
-                  <span v-if="category.is_slider">Slider</span>
-                  <span v-else>Slider emas</span>
-                </div>
-              </td>
-              <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500 justify-around">
+                <div class="flex items-center text-sm justify-around">
                   <nuxt-link
                     :to="`/admin/category-change/${category.id}`"
                     class="cursor-pointer w-5 h-5"
@@ -261,7 +249,7 @@ export default {
   mixins: [global],
   components: {
     AdminSidebar,
-    BaseButton
+    BaseButton,
   },
   data() {
     return {
@@ -279,31 +267,31 @@ export default {
         name: "",
         parent_id: 0,
         is_slider: false,
-        order: 0
+        order: 0,
       },
       newCategories: {
         name: null,
         phone_number: null,
-        products: []
+        products: [],
       },
       seletedCategories: {
         name: "",
         phone_number: "",
-        status: ""
+        status: "",
       },
       products: [],
-      addedProducts: []
+      addedProducts: [],
     };
   },
   validations: {
     newCategory: {
       name: {
-        required
+        required,
       },
       order: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     selectCategory(value, id) {
@@ -312,11 +300,11 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function(event) {
+    previewImage: function (event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.preview = e.target.result;
         };
         this.image = input.files[0];
@@ -332,7 +320,7 @@ export default {
       formData.append("image", this.image);
       this.$axios
         .post("product/category-create/", formData)
-        .then(res => {
+        .then((res) => {
           loader.hide();
           this.message = "Kategoriya yaratildi";
           this.showSuccess = true;
@@ -345,7 +333,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           this.message =
             "Kategoriya yaratishda xatolik yuz berdi, qayta urinib ko'ring";
@@ -359,7 +347,7 @@ export default {
     deleteCategory(id) {
       this.$axios
         .delete(`product/category-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.message = "Kategoriya uchirildi";
@@ -374,16 +362,17 @@ export default {
             "Kategoriya uchirishda xatolik yuz berdi, qayta urinib ko'ring";
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
-  }
+  },
 };
 </script>
 
 <style scoped>
 .multiselect {
   width: 50%;
-}</style
+}
+</style
 >>

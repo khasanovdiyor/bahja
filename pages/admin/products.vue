@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen bg-gray-100">
     <AdminSidebar />
-    <div class="px-8 w-4/5 pt-10 bg-gray-100">
+    <div class="px-8 pt-10">
       <div class="flex items-center justify-between">
         <h1 class="font-bold text-xl text-gray-700 mb-6">Mavjud mahsulotlar</h1>
         <nuxt-link
@@ -41,7 +41,7 @@
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600 "
+              class="px-6 py-3 text-left text-sm font-bold text-gray-600"
             >
               NARXI (so'm)
             </th>
@@ -155,18 +155,18 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
       products: [],
       showDeleteDialog: false,
-      selectedProductID: null
+      selectedProductID: null,
     };
   },
   methods: {
     getProducts() {
-      this.$axios.get("product/list/?parent_id=0").then(res => {
+      this.$axios.get("product/list/?parent_id=0").then((res) => {
         console.log(res.data);
         this.products = res.data.results;
       });
@@ -174,19 +174,19 @@ export default {
     deleteProduct(id) {
       this.$axios
         .delete(`product/delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getProducts();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getProducts();
-  }
+  },
 };
 </script>
 

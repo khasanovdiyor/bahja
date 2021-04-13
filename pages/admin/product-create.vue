@@ -238,7 +238,7 @@
                     >
                   </div>
                 </div>
-                <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
                 <label
@@ -359,7 +359,7 @@
                         </div>
                       </td>
 
-                      <td class=" py-1 border">
+                      <td class="py-1 border">
                         <div class="flex items-center">
                           <input
                             type="text"
@@ -368,7 +368,7 @@
                           />
                         </div>
                       </td>
-                      <td class=" py-1 border">
+                      <td class="py-1 border">
                         <div class="flex items-center">
                           <input
                             type="text"
@@ -377,7 +377,7 @@
                           />
                         </div>
                       </td>
-                      <td class=" py-1 border">
+                      <td class="py-1 border">
                         <div class="flex items-center">
                           <input
                             type="text"
@@ -457,7 +457,7 @@
               </button>
             </div>
           </tab>
-          <tab name="O'zgarish qo'shish" class=" w-full text-lg">
+          <tab name="O'zgarish qo'shish" class="w-full text-lg">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
               O'zgarish qo'shish
             </h2>
@@ -609,7 +609,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
                 <label
@@ -639,7 +639,7 @@
                     >
                   </div>
                 </div>
-                <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
+                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
@@ -759,7 +759,7 @@
                         >
                           <div
                             @click="addVariationAttribute"
-                            class="cursor-pointer hover:underline "
+                            class="cursor-pointer hover:underline"
                           >
                             Qo'shish
                           </div>
@@ -914,15 +914,9 @@
   </div>
 </template>
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import BaseButton from "../../components/admin/BaseButton.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
-  components: {
-    AdminSidebar,
-    BaseButton
-  },
   data() {
     return {
       priceMask: priceMask,
@@ -958,7 +952,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: []
+        variations: [],
       },
       variation: {
         parent_id: 0,
@@ -970,14 +964,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null
-      }
+        value: null,
+      },
     };
   },
   watch: {
@@ -1108,7 +1102,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1118,7 +1112,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1163,10 +1157,10 @@ export default {
     getBrands() {
       this.$axios
         .get("product/brand-list/")
-        .then(res => {
+        .then((res) => {
           this.brands = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -1200,7 +1194,7 @@ export default {
   mounted() {
     this.getCategories();
     this.getBrands();
-  }
+  },
 };
 </script>
 <style scoped>

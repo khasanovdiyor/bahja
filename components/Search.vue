@@ -73,7 +73,7 @@
                   <img
                     @click="deleteProduct(index)"
                     class="w-5 ml-auto cursor-pointer"
-                    src="../assets/images/delete.svg"
+                    src="~/assets/images/delete.svg"
                     alt="o'chirish"
                     value="o'chirish"
                   />

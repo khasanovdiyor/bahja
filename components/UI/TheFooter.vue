@@ -61,7 +61,7 @@
             href="https://www.instagram.com/bahja.uz/"
             class="flex text-gray-600 hover:underline"
             ><img
-              src="../assets/images/instagramblack.svg"
+              src="~/assets/images/instagramblack.svg"
               alt="instagram logo"
               class="w-5 mr-5"
             />instagram
@@ -72,7 +72,7 @@
             class="flex text-gray-600 hover:underline"
           >
             <img
-              src="../assets/images/telegramblack.svg"
+              src="~/assets/images/telegramblack.svg"
               alt="telegram logo"
               class="w-5 mr-5"
             />telegram
@@ -84,7 +84,7 @@
             <li>
               <a href="#" class="flex hover:underline">
                 <img
-                  src="../assets/images/placeholder.svg"
+                  src="~/assets/images/placeholder.svg"
                   alt=""
                   class="w-5 mr-3"
                 />
@@ -100,7 +100,7 @@
             <li>
               <a href="#" class="flex hover:underline">
                 <img
-                  src="../assets/images/envelope.svg"
+                  src="~/assets/images/envelope.svg"
                   alt=""
                   class="w-5 mr-3"
                 />bahja@gmail.com</a
