@@ -30,7 +30,7 @@ export default {
     { src: "~/plugins/vue-mask.js", mode: "client" },
     { src: "~/plugins/vue-loading.js", mode: "client" },
     { src: "~/plugins/vuelidate.js" },
-    { src: "~/plugins/vue-debounce.js" },
+    { src: "~/plugins/vue-debounce.js" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -59,10 +59,10 @@ export default {
   },
   auth: {
     redirect: {
-      login: '/admin/login',
-      logout: '/admin/',
-      callback: 'admin//login',
-      home: '/admin/'
+      login: "/admin/login",
+      logout: "/admin/",
+      callback: "admin//login",
+      home: "/admin/"
     },
     strategies: {
       local: {
@@ -81,7 +81,7 @@ export default {
         }
       }
     }
-  },
+  }
   // router: {
   //   middleware: ["auth"]
   // }
