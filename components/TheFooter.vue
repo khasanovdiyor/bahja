@@ -1,5 +1,5 @@
 <template>
-  <div class="border-gray-400">
+  <div class="border-gray-400 mt-10 ">
     <div
       class="footer px-5 md:px-16 pt-10 bg-gray-200 block md:flex  justify-between"
     >
@@ -11,16 +11,40 @@
         <div class="categories w-2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">KATEGORIYA</h3>
           <ul class="text-gray-600">
-            <li><a href="#" class="hover:underline">Ayollar </a></li>
-            <li><a href="#" class="hover:underline">Erkaklar</a></li>
-            <li><a href="#" class="hover:underline">Aksessuarlar</a></li>
+            <li>
+              <nuxt-link to="/products/category/ro'mol" class="hover:underline"
+                >Ro'mol
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/products/category/koylak" class="hover:underline"
+                >Ko'ylak</nuxt-link
+              >
+            </li>
+            <li>
+              <nuxt-link
+                to="/products/category/oyoq-kiyim"
+                class="hover:underline"
+                >Oyoq kiyim</nuxt-link
+              >
+            </li>
+            <li>
+              <nuxt-link
+                to="/products/category/aksessuarlar"
+                class="hover:underline"
+                >Aksessuarlar</nuxt-link
+              >
+            </li>
           </ul>
         </div>
         <div class="information w-2/5  leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">MA'LUMOTLAR</h3>
           <ul class="text-gray-600">
-            <li><a href="#" class="hover:underline">Biz haqimizda</a></li>
-            <li><a href="#" class="hover:underline">Bog'lanish</a></li>
+            <li>
+              <nuxt-link to="/about" class="hover:underline"
+                >Biz haqimizda
+              </nuxt-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -33,43 +57,48 @@
         <div class="links w-2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">IJTIMOIY TARMOQLAR</h3>
 
-          <nuxt-link to="instagram.com" class="flex text-gray-600"
+          <a
+            href="https://www.instagram.com/bahja.uz/"
+            class="flex text-gray-600 hover:underline"
             ><img
               src="../assets/images/instagramblack.svg"
               alt="instagram logo"
               class="w-5 mr-5"
             />instagram
-          </nuxt-link>
+          </a>
 
-          <nuxt-link to="telegram.me" class="flex text-gray-600">
+          <a
+            href="https://t.me/bahja_uz"
+            class="flex text-gray-600 hover:underline"
+          >
             <img
               src="../assets/images/telegramblack.svg"
               alt="telegram logo"
               class="w-5 mr-5"
             />telegram
-          </nuxt-link>
+          </a>
         </div>
         <div class="contacts md:2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">BOG'LANISH</h3>
           <ul class="text-gray-600">
             <li>
-              <a href="#" class="flex">
+              <a href="#" class="flex hover:underline">
                 <img
                   src="../assets/images/placeholder.svg"
                   alt=""
                   class="w-5 mr-3"
                 />
-                Biz haqimizda</a
+                Bizning manzil</a
               >
             </li>
             <li>
-              <p class="flex">
+              <p class="flex hover:underline">
                 <img src="../assets/images/phone.svg" alt="" class="w-5 mr-3" />
-                +93 627-58-98
+                <a href="tel:+998994013937">+99 401 39 37</a>
               </p>
             </li>
             <li>
-              <a href="#" class="flex">
+              <a href="#" class="flex hover:underline">
                 <img
                   src="../assets/images/envelope.svg"
                   alt=""

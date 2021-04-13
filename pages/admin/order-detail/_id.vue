@@ -2,10 +2,10 @@
   <div class="flex h-screen">
     <AdminSidebar />
     <div class="px-4 pt-10">
-      <h1 class="font-bold uppercase text-xl mb-10">
+      <h1 class="font-bold text-xl text-gray-700 my-5">
         Buyurtma haqida to'liq ma'lumot
       </h1>
-      <h2 class="font-bold mb-6">Buyurtmachi haqida ma'lumot</h2>
+      <h2 class="font-bold text-gray-500 mb-6">Buyurtmachi haqida ma'lumot</h2>
       <div>
         <div class="mb-10">
           <table class="min-w-full divide-x divide-gray-200 flex">
@@ -13,7 +13,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
                 >
                   Buyurtma id
                 </th>
@@ -21,7 +21,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
                 >
                   Buyurtmachi nomi
                 </th>
@@ -29,7 +29,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
                 >
                   Buyurtmachi raqami
                 </th>
@@ -37,30 +37,30 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left font-bold text-gray-700 uppercase"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
                 >
-                  Jami Buyurtma narxi
+                  Jami buyurtma narxi
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr class="border">
                 <td class="px-6 py-2 border">
-                  <div class="flex items-center text-gray-500">
+                  <div class="flex items-center text-sm">
                     {{ order.id }}
                   </div>
                 </td>
               </tr>
               <tr class="border">
                 <td class="px-6 py-2 border">
-                  <div class="flex items-center text-gray-500">
+                  <div class="flex items-center text-sm">
                     {{ order.name }}
                   </div>
                 </td>
               </tr>
               <tr class="border">
                 <td class="px-6 py-2 border">
-                  <div class="flex items-center text-gray-500">
+                  <div class="flex items-center text-sm">
                     {{ order.phone_number }}
                   </div>
                 </td>
@@ -68,7 +68,7 @@
               <tr class="border">
                 <td class="px-6 py-2 border">
                   <div
-                    class="flex items-center text-gray-500"
+                    class="flex items-center text-sm"
                     v-if="order.finish_price"
                   >
                     {{ order.finish_price.toLocaleString() }} so'm
@@ -78,44 +78,46 @@
             </tbody>
           </table>
         </div>
-        <h2 class="font-bold mb-6">Buyurtma qilgan mahsulotlari</h2>
+        <h2 class="font-bold text-gray-700 mb-6">
+          Buyurtma qilgan mahsulotlari
+        </h2>
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
               >
                 mahsulot kodi
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
               >
                 mahsulot nomi
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
               >
                 Attributlari
               </th>
 
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
               >
                 mahsulot narxi
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
               >
                 soni
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
               >
                 jami narxi
               </th>
@@ -128,42 +130,39 @@
               :key="product.id"
             >
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
+                <div class="flex items-center text-sm ">
                   {{ product.product_code }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
+                <div class="flex items-center text-sm ">
                   {{ product.product.name }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="text-gray-500">
+                <div class="">
                   <span
                     v-for="attr in product.product.attributes"
                     class="block"
                     :key="attr.id"
                   >
-                    {{ attr.label }}: {{ attr.value }}
+                    {{ attr.label }}: <i>{{ attr.value }}</i>
                   </span>
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div
-                  class="flex items-center text-gray-500"
-                  v-if="product.price"
-                >
+                <div class="flex items-center text-sm " v-if="product.price">
                   {{ product.price.toLocaleString() }} so'm
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500">
+                <div class="flex items-center text-sm ">
                   {{ product.count }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
                 <div
-                  class="flex items-center text-gray-500 justify-between"
+                  class="flex items-center text-sm  justify-between"
                   v-if="product.single_overall_price"
                 >
                   {{ product.single_overall_price.toLocaleString() }}
@@ -171,7 +170,7 @@
                 </div>
               </td>
               <div
-                class="fixed top-0 bottom-0 right-0 left-0 bg-gray-600 flex items-center justify-center"
+                class="fixed top-0 bottom-0 right-0 left-0 bg-gray-600 flex items-center text-sm justify-center"
                 v-if="showDeleteDialog"
               >
                 <div class="w-1/3 bg-white py-4 px-8">
@@ -204,26 +203,26 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
-      order: {},
+      order: {}
     };
   },
   methods: {
     getOrder() {
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.order = res.data;
         });
-    },
+    }
   },
   mounted() {
     this.getOrder();
-  },
+  }
 };
 </script>
 

@@ -21,17 +21,6 @@
       <span class="font-bold text-lg"
         >{{ product.price.toLocaleString() }} so'm</span
       >
-      <!-- <del>{{ product.price }} UZS</del> -->
-
-      <!-- <star-rating
-        :increment="0.5"
-        :rating="4"
-        :max-rating="5"
-        inactive-color="#ccc"
-        active-color="gold"
-        :star-size="15"
-      >
-      </star-rating> -->
     </div>
   </div>
 </template>

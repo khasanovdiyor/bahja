@@ -1,30 +1,34 @@
 <template>
   <div>
-    <div class="flex">
+    <div class="flex min-h-screen">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
-          Slider yangilandi
-          <span
+          <i>Slider yangilandi</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           v-if="showFail"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
         >
-          Slider ma'lumotlarini yangilashda xatolik yuz berdi, qayta urinib
-          koring
-          <span
+          <i
+            >Slider ma'lumotlarini yangilashda xatolik yuz berdi, qayta urinib
+            koring</i
+          >
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showFail = false"
             >X</span
-          >
+          > -->
         </div>
 
         <div class="my-4">
@@ -33,7 +37,7 @@
           >
           <input
             type="text"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
             v-model="slider.text"
           />
         </div>
@@ -41,7 +45,12 @@
           <label class="block font-bold uppercase text-sm mb-2"
             >Kategoriya tanlang
           </label>
-          <select name="category" id="category" v-model="slider.category">
+          <select
+            name="category"
+            id="category"
+            v-model="slider.category"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+          >
             <option disabled selected value="choose">Kategoriya tanlang</option>
             <option
               :value="category.id"
@@ -59,24 +68,23 @@
             type="file"
             accept="image/*"
             @change="previewImage"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5 "
           />
           <div v-if="preview">
             <div>
-              <div class="w-56 h-56">
+              <div class="w-56 h-56 ">
                 <img
                   :src="preview"
-                  class="object-cover object-top w-full h-full"
+                  class="object-cover object-top w-full h-full my-5"
                 />
               </div>
             </div>
           </div>
-          <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
 
         <button
           @click="updateSlider"
-          class="bg-gray-800 text-white py-2 px-4 mb-72"
+          class="bg-gray-800 rounded-md text-sm text-white py-2 mt-1 px-4"
         >
           Slider ma'lumotlarini yangilash
         </button>
@@ -88,7 +96,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -100,8 +108,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null,
-      },
+        category: null
+      }
     };
   },
   methods: {
@@ -113,7 +121,7 @@ export default {
       formData.append("category", this.slider.category);
       this.$axios
         .patch(`product/slider/update/${this.$route.params.id}`, formData)
-        .then((res) => {
+        .then(res => {
           loader.hide();
           this.showSuccess = true;
           setTimeout(() => {
@@ -123,7 +131,7 @@ export default {
           console.log(res);
           this.getSlider();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.showFail = true;
           setTimeout(() => {
@@ -136,7 +144,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.preview = e.target.result;
         };
 
@@ -145,7 +153,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function () {
+      reader.onloadend = function() {
         console.log("RESULT", reader.result);
       };
       reader.readAsDataURL(file);
@@ -153,28 +161,28 @@ export default {
     getCategories() {
       this.$axios
         .get("product/category-list/")
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.categories = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     getSlider() {
       this.$axios
         .get(`product/slider/detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.preview = res.data.image;
           this.slider = res.data;
           this.slider.category = res.data.category.id;
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getSlider();
-  },
+  }
 };
 </script>

@@ -5,7 +5,7 @@
       <div class="px-5 mx-auto w-4/5 bg-gray-100 pt-10">
         <div
           v-if="showSuccess"
-           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         >
           <i>Mahsulot yaratildi</i>
 
@@ -17,7 +17,7 @@
         </div>
         <div
           v-if="showFail"
-         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
         >
           <i> Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
 
@@ -27,8 +27,8 @@
             >X</span
           > -->
         </div>
-        product: {{ product }} <br />
-        variation: {{ variation }}
+        <!-- product: {{ product }} <br />
+        variation: {{ variation }} -->
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Mahsulot qo'shish">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
@@ -44,14 +44,14 @@
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.name.$model"
                 />
                 <div
                   class="text-red-400"
                   v-if="!$v.product.name.required && $v.product.name.$dirty"
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="input-group block my-4">
@@ -62,17 +62,17 @@
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.product_code.$model"
                 />
                 <div
                   class="text-red-400"
                   v-if="
                     !$v.product.product_code.required &&
-                    $v.product.product_code.$dirty
+                      $v.product.product_code.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4 block">
@@ -91,15 +91,16 @@
                   class="text-red-400"
                   v-if="!$v.selectedBrand.required && $v.selectedBrand.$dirty"
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
                 >
                 <textarea
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.description.$model"
                 >
                 </textarea>
@@ -107,10 +108,10 @@
                   class="text-red-400"
                   v-if="
                     !$v.product.description.required &&
-                    $v.product.description.$dirty
+                      $v.product.description.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
@@ -133,19 +134,20 @@
                   class="text-red-400"
                   v-if="
                     !$v.selectedCategories.required &&
-                    $v.selectedCategories.$dirty
+                      $v.selectedCategories.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >soni</label
                 >
                 <input
                   type="number"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.quantity.$model"
                 />
                 <div
@@ -154,16 +156,17 @@
                     !$v.product.quantity.required && $v.product.quantity.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >narxi</label
                 >
                 <input
                   type="text"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model="$v.product.price.$model"
                   v-mask="priceMask"
                 />
@@ -171,11 +174,12 @@
                   class="text-red-400"
                   v-if="!$v.product.price.required && $v.product.price.$dirty"
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >rasm qo'yish</label
                 ><input
                   type="file"
@@ -187,7 +191,7 @@
                   class="text-red-400"
                   v-if="!$v.product.image.required && $v.product.image.$dirty"
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
                 <div v-if="product.image">
                   <div>
@@ -201,7 +205,8 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >galereya rasmlarini qo'shish</label
                 ><input
                   type="file"
@@ -214,7 +219,7 @@
                   class="text-red-400"
                   v-if="!$v.product.images.required && $v.product.images.$dirty"
                 >
-                  {{ requiredMessage }}
+                  <i> {{ requiredMessage }}</i>
                 </div>
                 <div v-if="product.images" class="flex">
                   <div
@@ -236,7 +241,8 @@
                 <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >Import</label
                 >
                 <input
@@ -465,14 +471,14 @@
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.name.$model"
                 />
                 <div
                   class="text-red-400"
                   v-if="!$v.variation.name.required && $v.variation.name.$dirty"
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="input-group block my-4">
@@ -483,25 +489,26 @@
                 >
                 <input
                   type="text"
-                  class="border-2 text-sm w-1/2 py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.product_code.$model"
                 />
                 <div
                   class="text-red-400"
                   v-if="
                     !$v.variation.product_code.required &&
-                    $v.variation.product_code.$dirty
+                      $v.variation.product_code.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
                 >
                 <textarea
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.description.$model"
                 >
                 </textarea>
@@ -509,10 +516,10 @@
                   class="text-red-400"
                   v-if="
                     !$v.variation.description.required &&
-                    $v.variation.description.$dirty
+                      $v.variation.description.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
@@ -534,39 +541,41 @@
                   class="text-red-400"
                   v-if="
                     !$v.selectedVariationCategories.required &&
-                    $v.selectedVariationCategories.$dirty
+                      $v.selectedVariationCategories.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
 
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >soni</label
                 >
                 <input
                   type="number"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.quantity.$model"
                 />
                 <div
                   class="text-red-400"
                   v-if="
                     !$v.variation.quantity.required &&
-                    $v.variation.quantity.$dirty
+                      $v.variation.quantity.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >narxi</label
                 >
                 <input
                   type="text"
-                  class="w-1/2 border-2 text-sm py-2 pl-5"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.price.$model"
                   v-mask="priceMask"
                 />
@@ -576,11 +585,12 @@
                     !$v.variation.price.required && $v.variation.price.$dirty
                   "
                 >
-                  {{ requiredMessage }}
+                  <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >asosiy rasm </label
                 ><input
                   type="file"
@@ -602,7 +612,8 @@
                 <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
                   >galereya rasmlarini qo'shish</label
                 ><input
                   type="file"
@@ -977,76 +988,76 @@ export default {
         delete this.variation.variations;
         delete this.variation.is_import;
         delete this.variation.brand;
-      },
-    },
+      }
+    }
   },
   validations: {
     selectedBrand: {
-      required,
+      required
     },
     selectedCategories: {
-      required,
+      required
     },
     selectedVariationCategories: {
-      required,
+      required
     },
     product: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       brand: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       image: {
-        required,
+        required
       },
       images: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
+        required
+      }
     },
     variation: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategories(value, id) {
@@ -1076,7 +1087,7 @@ export default {
       if (!this.$v.$invalid) {
         this.product.variations.push(this.variation);
         this.variation = {
-          attributes: [],
+          attributes: []
         };
         this.showAddNewVariation = false;
       }
@@ -1120,7 +1131,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             if (this.product.images.length < 5)
               this.product.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
@@ -1138,7 +1149,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             if (this.variation.images.length < 5)
               this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
@@ -1168,7 +1179,7 @@ export default {
         this.product.brand = this.selectedBrand.id;
         this.$axios
           .post("product/create/", this.product)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             this.showSuccess = true;
             this.productVariation = {};
@@ -1178,13 +1189,13 @@ export default {
             this.preview = null;
             loader.hide();
           })
-          .catch((err) => {
+          .catch(err => {
             loader.hide();
             showFail = true;
             console.log(err);
           });
       }
-    },
+    }
   },
   mounted() {
     this.getCategories();

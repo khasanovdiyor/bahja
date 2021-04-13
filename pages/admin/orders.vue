@@ -402,7 +402,7 @@
                             <div class="flex justify-between">
                               <button
                                 @click="deleteOrder(deleteOrderID)"
-                                class="bg-red-600 text-white py-2 px-4"
+                                class="bg-red-400 text-white py-2 px-4"
                               >
                                 Ha
                               </button>

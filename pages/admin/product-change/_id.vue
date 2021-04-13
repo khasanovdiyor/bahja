@@ -8,6 +8,12 @@
           class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-green-400 text-white text-center"
         >
           <i> Mahsulot yangilandi</i>
+        </div>
+        <div
+          v-if="showSuccess"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-red-400 text-white text-center"
+        >
+          <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
 
           <!-- <span
             class="absolute right-6 cursor-pointer"
@@ -15,88 +21,51 @@
             >X</span
           > -->
         </div>
-        <div
-          v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
-        >
-          <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
-
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
-            @click="showFail = false"
-            >X</span
-          > -->
-        </div>
-        <div
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
-          v-if="attributeError"
-        >
-          Kamida 2 ta attribute qolishi kerak
-        </div>
         <div name="Mahsulot qo'shish">
-          <h2 class="text-xl font-bold uppercase">Mahsulot o'zgartirish</h2>
+          <h2 class="text-xl font-bold  text-gray-700">Mahsulot o'zgartirish</h2>
 
           <div>
             <div class="input-group block my-4">
-              <label for="input" class="block font-bold uppercase text-sm mb-2"
+              <label
+                for="input"
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
                 >Mahsulot nomi</label
               >
               <input
                 type="text"
-                class="border-2 text-sm w-1/2 py-2 pl-5"
-                v-model.trim="$v.newProduct.name.$model"
+                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                v-model="newProduct.name"
               />
-              <div
-                class="text-red-400"
-                v-if="!$v.newProduct.name.required && $v.newProduct.name.$dirty"
-              >
-                {{ requiredMessage }}
-              </div>
             </div>
             <div class="input-group block my-4">
-              <label for="input" class="block font-bold uppercase text-sm mb-2"
+              <label
+                for="input"
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
                 >Mahsulot kodi</label
               >
               <input
                 type="text"
-                class="border-2 text-sm w-1/2 py-2 pl-5"
-                v-model.trim="$v.newProduct.product_code.$model"
+                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                v-model="newProduct.product_code"
               />
-              <div
-                class="text-red-400"
-                v-if="
-                  !$v.newProduct.product_code.required &&
-                  $v.newProduct.product_code.$dirty
-                "
-              >
-                {{ requiredMessage }}
-              </div>
             </div>
             <div class="my-4">
-              <label class="block font-bold uppercase text-sm mb-2"
+              <label
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
                 >tavsif</label
               >
               <textarea
-                class="w-1/2 border-2 text-sm py-2 pl-5"
-                v-model.trim="$v.newProduct.description.$model"
+                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                v-model="newProduct.description"
               >
               </textarea>
-              <div
-                class="text-red-400"
-                v-if="
-                  !$v.newProduct.description.required &&
-                  $v.newProduct.description.$dirty
-                "
-              >
-                {{ requiredMessage }}
-              </div>
             </div>
             <div class="my-4">
               <label class="w-1/2 block font-bold uppercase text-sm mb-2"
                 >kategoriyasi {{ newCategories }}</label
               >
               <multiselect
-                v-model="$v.productCategories.$model"
+                v-model="productCategories"
                 tag-placeholder="Ushbu kategoriayni qo'shing"
                 placeholder="Kategoriya izlang yoki qo'shing"
                 label="name"
@@ -107,63 +76,42 @@
                 @select="addCategory"
                 @remove="removeCategory"
               ></multiselect>
-              <div
-                class="text-red-400"
-                v-if="
-                  !$v.productCategories.required && $v.productCategories.$dirty
-                "
-              >
-                {{ requiredMessage }}
-              </div>
             </div>
             <div class="my-4">
-              <label class="block font-bold uppercase text-sm mb-2">soni</label>
+              <label
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
+                >soni</label
+              >
               <input
                 type="string"
-                class="w-1/2 border-2 text-sm py-2 pl-5"
-                v-model="$v.newProduct.quantity.$model"
+                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                v-model="newProduct.quantity"
               />
-              <div
-                class="text-red-400"
-                v-if="
-                  !$v.newProduct.quantity.required &&
-                  $v.newProduct.quantity.$dirty
-                "
-              >
-                {{ requiredMessage }}
-              </div>
             </div>
             <div class="my-4">
-              <label class="block font-bold uppercase text-sm mb-2"
+              <label
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
                 >narxi</label
               >
               <input
-                type="text"
-                class="w-1/2 border-2 text-sm py-2 pl-5"
-                v-model="$v.newProduct.price.$model"
-                v-mask="priceMask"
+                type="string"
+                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                v-model="newProduct.price"
               />
-              <div
-                class="text-red-400"
-                v-if="
-                  !$v.newProduct.price.required && $v.newProduct.price.$dirty
-                "
-              >
-                {{ requiredMessage }}
-              </div>
             </div>
             <div class="my-4">
-              <label class="block font-bold uppercase text-sm mb-2"
-                >rasm qo'yish</label
+              <label
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
+                >rasm qo'yish {{ newProduct }}</label
               ><input
                 type="file"
                 accept="image/*"
                 @change="previewProductImage"
-                class="w-1/2 border-2 text-sm py-2 pl-5"
+                class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
               />
               <div v-if="image">
                 <div>
-                  <div class="w-56 h-56">
+                  <div class="w-56 h-56 my-5">
                     <img
                       :src="image"
                       class="object-cover object-top w-full h-full"
@@ -173,14 +121,15 @@
               </div>
             </div>
             <div class="my-4">
-              <label class="block font-bold uppercase text-sm mb-2"
+              <label
+                class="block font-bold text-gray-500 uppercase text-sm mb-2"
                 >galereya rasmlarini qo'shish</label
               ><input
                 type="file"
                 accept="image/*"
                 multiple="multiple"
                 @change="previewProductMultiImage"
-                class="w-1/2 border-2 text-sm py-2 pl-5"
+                class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
               />
               <div v-if="newImages" class="flex">
                 <div
@@ -201,7 +150,7 @@
               </div>
               <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
             </div>
-            <div class="mb-10">
+            <div class="">
               <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-200">
                   <tr>
@@ -234,7 +183,7 @@
                       scope="col"
                       class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                     >
-                      o'chirish
+                      qo'shish/o'chirish
                     </th>
                   </tr>
                 </thead>
@@ -255,40 +204,38 @@
                     </td>
 
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         {{ attr.key }}
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2 pl-5"
+                          class="text-sm py-2 pl-5"
                           v-model="attr.label"
                         />
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2 pl-5"
+                          class="text-sm py-2 pl-5"
                           v-model="attr.value"
                         />
                       </div>
                     </td>
                     <td class="px-2 py-1 border">
-                      <div
-                        class="flex items-center text-gray-500 justify-center"
-                      >
+                      <div class="flex items-center text-sm  justify-between">
                         <div
                           @click="removeAttribute(product, index)"
-                          class="cursor-pointer"
+                          class="cursor-pointer hover:underline"
                         >
                           <img
                             src="~/assets/images/delete.svg"
                             alt=""
-                            class="w-6"
+                            class="w-6 ml-5"
                           />
                         </div>
                       </div>
@@ -296,7 +243,7 @@
                   </tr>
                   <tr class="border" v-if="showAddNewKey">
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         <input
                           type="checkbox"
                           class="border w-full text-sm w-5 h-5 pl-5"
@@ -306,36 +253,34 @@
                     </td>
 
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2 pl-5"
+                          class="text-sm py-2 pl-5"
                           v-model="attribute.key"
                         />
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2 pl-5"
+                          class="text-sm py-2 pl-5"
                           v-model="attribute.label"
                         />
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
+                      <div class="flex items-center text-sm ">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2 pl-5"
+                          class="text-sm py-2 pl-5"
                           v-model="attribute.value"
                         />
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div
-                        class="flex items-center text-gray-500 justify-center"
-                      >
+                      <div class="flex items-center text-sm  justify-center">
                         <div
                           @click="addProductAttribute"
                           class="cursor-pointer hover:underline"
@@ -373,15 +318,14 @@
               </table>
               <div
                 @click="showAddNewKey = true"
-                class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
+                class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 text-white my-5 py-2 mb-5"
               >
-                +
+                Qo'shish
               </div>
             </div>
-
             <button
               @click="sendAll"
-              class="bg-gray-800 text-white my-4 py-2 px-4"
+              class="block bg-gray-800 text-sm text-center rounded-md px-3 text-white py-2 mb-5"
             >
               Ma'lumotlarni yangilash
             </button>
@@ -393,18 +337,13 @@
 </template>
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import { required, minLength } from "vuelidate/lib/validators";
-import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
     AdminSidebar
   },
   data() {
     return {
-      priceMask: priceMask,
-      requiredMessage: "To'ldirish shart",
       newImage: null,
-      attributeError: false,
       showSuccess: false,
       showFail: false,
       showProductForm: false,
@@ -417,13 +356,7 @@ export default {
       newImages: [],
       images: [],
       deletedImages: [],
-      newProduct: {
-        name: null,
-        product_code: null,
-        description: null,
-        price: null,
-        quantity: null,
-      },
+      newProduct: {},
       categories: [],
       brands: [],
       product: {},
@@ -436,33 +369,6 @@ export default {
       },
       newAttributes: []
     };
-  },
-  //vuelidate validations
-  validations: {
-    productCategories: {
-      required,
-    },
-    newProduct: {
-      name: {
-        required,
-      },
-      product_code: {
-        required,
-      },
-      attributes: {
-        required,
-        minLength: minLength(2),
-      },
-      description: {
-        required,
-      },
-      price: {
-        required,
-      },
-      quantity: {
-        required,
-      },
-    },
   },
   methods: {
     addCategory(value, id) {
@@ -480,11 +386,7 @@ export default {
       this.showAddNewKey = false;
     },
     removeAttribute(product, index) {
-      if (this.newAttributes.length > 2) this.newAttributes.splice(index, 1);
-      else this.attributeError = true;
-      setTimeout(() => {
-        this.attributeError = false;
-      }, 2000);
+      this.newAttributes.splice(index, 1);
     },
     addTag(newTag) {
       this.selectedCategories.push(newTag);
@@ -504,7 +406,6 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
       }
-      this.newImage = input.files[0];
     },
     previewProductMultiImage(event) {
       var input = event.target;
@@ -513,11 +414,9 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
-            if (this.newImages.length < 5) {
-              this.newImages.push(e.target.result);
-              this.images.push(e.target.result);
-            }
+          reader.onload = e => {
+            this.newImages.push(e.target.result);
+            this.images.push(e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -526,24 +425,19 @@ export default {
       console.log("this.product:", this.product);
     },
     updateProduct() {
-      this.newProduct.price = parseInt(
-        this.newProduct.price.replace(/\s/g, "")
-      );
       const formData = new FormData();
       formData.append("name", this.newProduct.name);
       formData.append("description", this.newProduct.description);
       formData.append("product_code", this.newProduct.product_code);
       formData.append("price", this.newProduct.price);
       formData.append("quantity", this.newProduct.quantity);
-      if (this.newImage) {
-        formData.append("image", this.newImage);
-      }
+      formData.append("image", this.newImage);
       this.$axios
         .patch(`product/update/${this.$route.params.id}`, this.newProduct)
         .then(res => {
           console.log(res);
           this.showSuccess = true;
-          setTimeout(() => {
+          setTimeout(function() {
             this.showSuccess = false;
           }, 3000);
         })
@@ -596,14 +490,10 @@ export default {
     },
     sendAll() {
       let loader = this.$loading.show();
-
       this.updateProduct();
       this.updateCategory();
       this.updateImages();
       this.updateAttributes();
-      this.getProduct();
-      this.getCategories();
-
       loader.hide();
     },
     getProduct() {
@@ -612,30 +502,15 @@ export default {
         .then(res => {
           this.image = res.data.image;
           let i = 0;
-          let size = 0;
           for (const key1 in res.data.attributes) {
             let attribute = {};
-            size++;
             attribute.key = Object.keys(res.data.attributes)[i];
             i++;
             for (const key2 in res.data.attributes[key1]) {
               attribute[key2] = res.data.attributes[key1][key2];
             }
-            if (this.newAttributes.length < size) {
-              this.newAttributes.push(attribute);
-            }
+            this.newAttributes.push(attribute);
           }
-          this.productCategories = res.data.categories;
-          let categories = [];
-          res.data.categories.forEach(category => {
-            categories.push(category.id);
-            console.log("categories", categories);
-          });
-          this.newCategories = categories;
-          this.newImages = res.data.images;
-          this.newProduct.name = res.data.name;
-          this.newProduct.description = res.data.description;
-          this.newProduct.price = res.data.price;
           this.newProduct.quantity = res.data.quantity;
           this.newProduct.product_code = res.data.product_code;
         })
@@ -650,3 +525,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+div.multiselect {
+  width: 50%;
+}
+</style>

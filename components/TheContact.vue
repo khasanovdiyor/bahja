@@ -24,21 +24,21 @@
     <!-- RIGHT OF CONTACT BOX -->
 
     <div class="flex sm:justify-end ml-0 sm:ml-5 md:ml-0  sm:w-1/4">
-      <nuxt-link to="instagram.com"
+      <a href="https://www.instagram.com/bahja.uz/"
         ><img
           src="~/assets/images/instagram.svg"
           alt="instagram logo"
           class="w-5 mr-5"
         />
-      </nuxt-link>
+      </a>
 
-      <nuxt-link to="telegram.me">
+      <a href="https://t.me/bahja_uz">
         <img
           src="~/assets/images/telegram.svg"
           alt="telegram logo"
           class="w-5"
         />
-      </nuxt-link>
+      </a>
     </div>
   </div>
 </template>

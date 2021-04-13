@@ -38,7 +38,7 @@
           Hozircha bu bo'limda mahsulotlar mavjud emas!
         </h2>
 
-        <div class="mt-10 flex justify-between flex-wrap w-full">
+        <div class="mt-10 flex float-left flex-wrap">
           <!-- Product card -->
           <nuxt-link
             class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"
@@ -67,17 +67,17 @@ export default {
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha",
+          text: "Narx o'sish bo'yicha"
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha",
+          text: "Narx kamayish bo'yicha"
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha",
-        },
-      ],
+          text: "Mahsulot nomi bo'yicha"
+        }
+      ]
     };
   },
   methods: {
@@ -86,16 +86,16 @@ export default {
         .get(`product/list/`, {
           params: {
             is_import: true ? this.$route.params.type === "import" : false,
-            ordering: ordering,
-          },
+            ordering: ordering
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log("list", res.data);
           this.products = res.data.results;
           this.showSort = false;
           this.selectedSort = text;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -104,19 +104,19 @@ export default {
       this.$axios
         .get(`product/by-category/${this.$route.params.slug}/`, {
           params: {
-            is_import: true ? this.$route.params.type === "import" : false,
-          },
+            is_import: true ? this.$route.params.type === "import" : false
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log("list", res.data);
           this.products = res.data.results;
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
@@ -126,6 +126,6 @@ export default {
         this.savedProducts = JSON.parse(json_string);
       }
     }
-  },
+  }
 };
 </script>

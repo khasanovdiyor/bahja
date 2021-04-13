@@ -78,7 +78,8 @@
                   v-for="attr in product.attributes"
                   :key="attr.id"
                   class="block"
-                  >{{ attr.label }}:<i> {{ attr.value }}</i>
+                >
+                  {{ attr.label }}: {{ attr.value }}
                 </span>
               </div>
             </td>

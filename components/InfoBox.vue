@@ -11,7 +11,7 @@
         class="mx-auto w-14"
       />
       <div>
-        <h3 class="ml-4">Yetkazib berish xizmati</h3>
+        <h3 class="ml-4 font-semibold">Yetkazib berish xizmati</h3>
       </div>
     </div>
     <div
@@ -23,7 +23,7 @@
         class="w-14 mx-auto"
       />
       <div>
-        <h3>Sifatli mahsulotlar</h3>
+        <h3 class="font-semibold">Sifatli mahsulotlar</h3>
       </div>
     </div>
     <div
@@ -35,7 +35,7 @@
         class="w-14 mx-auto"
       />
       <div>
-        <h3 class="ml-4">Qo'llab quvvatlash xizmati</h3>
+        <h3 class="ml-4 font-semibold">Qo'llab quvvatlash xizmati</h3>
       </div>
     </div>
   </div>

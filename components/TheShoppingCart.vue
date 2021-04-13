@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="w-full flex items-center justify-between px-5 text-xl py-8 font-semibold h-8 bg-black text-white"
+      class="w-full flex items-center flex-wrap px-5 text-xl py-8 font-semibold h-8 bg-black text-white"
     >
       SHOPPING CART
       <img

@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-gray-100 " ref="formContainer">
     <AdminSidebar />
-    <div class="px-16 w-2/3">
+    <div class="px-5 w-2/3">
       <div
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         v-if="showSuccess"
@@ -29,74 +29,81 @@
         </div> -->
       </div>
 
-      <div class="mb-6 my-8">
+      <div class="mb-6 my-10">
         <div class="input-group block ">
           <h2 class="text-xl font-bold mb-10 text-gray-700">
             Kategoriya yangilash
           </h2>
-          <label for="input" class="block font-bold uppercase text-sm mb-2"
+          <label
+            for="input"
+            class="block font-bold text-gray-500 uppercase text-sm mb-2"
             >Kategoriya nomi</label
           >
           <input
             type="text"
-            class="border-2 text-sm w-1/2 py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2  mb-4 pl-5"
             v-model="newCategory.name"
           />
-        </div>
-        <div>
-          <label for="input" class="block font-bold uppercase text-sm mb-2"
-            >Parent kategoriya</label
-          >
-          <multiselect
-            v-model="parentCategory"
-            :options="categories"
-            placeholder="Kategoriya tanlang"
-            label="name"
-            track-by="name"
-            @select="selectCategory"
-            @remove="removeCategory"
-          ></multiselect>
-        </div>
-        <div>
-          <label for="input" class="block font-bold uppercase text-sm mb-2"
+
+          <div>
+            <label
+              for="input"
+              class="block font-bold text-gray-500 uppercase text-sm mb-2"
+              >Parent kategoriya</label
+            >
+            <multiselect
+              v-model="parentCategory"
+              :options="categories"
+              placeholder="Kategoriya tanlang"
+              label="name"
+              track-by="name"
+              @select="selectCategory"
+              @remove="removeCategory"
+            ></multiselect>
+          </div>
+
+          <label
+            for="input"
+            class="block font-bold text-gray-500 uppercase text-sm mt-4 mb-2"
             >Tartib raqami</label
           >
           <input
             type="text"
-            class="border-2 text-sm w-1/2 py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
             v-model="newCategory.order"
           />
-        </div>
-        <div>
-          <label for="input" class="block font-bold uppercase text-sm mb-2">
-            is_slider</label
+
+          <label
+            for="input"
+            class="block font-bold text-gray-500 uppercase text-sm mt-4 mb-2"
           >
+            is_slider
+          </label>
           <input
             type="checkbox"
-            class="border-2 text-sm w-6 py-2 pl-5"
+            class="border-2 text-sm w-5 h-5 py-2 pl-5"
             v-model="newCategory.is_slider"
           />
-        </div>
-        <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
+          <label
+            class="block font-bold text-gray-500 uppercase text-sm mt-4 mb-2"
             >rasm qo'yish</label
           ><input
             type="file"
             accept="image/*"
             @change="previewImage"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="w-1/2 border-2 bg-white m text-sm py-2 pl-5"
           />
-          <div v-if="newCategory.image">
-            <div>
-              <div class="w-56 h-56">
-                <img
-                  :src="newCategory.image"
-                  class="object-cover object-top w-full h-full"
-                />
-              </div>
+        </div>
+        <div v-if="newCategory.image">
+          <div>
+            <div class="w-56 h-56 my-5">
+              <img
+                :src="newCategory.image"
+                class="object-cover object-top w-full h-full"
+              />
             </div>
-            <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
           </div>
+          <!-- <img src="../assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
 
         <base-button :clickFunction="updateCategory" class="rounded-md text-sm">
@@ -113,7 +120,7 @@ import BaseButton from "~/components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton,
+    BaseButton
   },
   data() {
     return {
@@ -131,8 +138,8 @@ export default {
         parent_id: 0,
         order: 0,
         image: 0,
-        is_slider: false,
-      },
+        is_slider: false
+      }
     };
   },
   methods: {
@@ -142,11 +149,11 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function (event) {
+    previewImage: function(event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.newCategory.image = e.target.result;
         };
         this.image = input.files[0];
@@ -166,7 +173,7 @@ export default {
       }
       this.$axios
         .patch(`product/category-update/${this.newCategory.id}`, formData)
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.getCategory();
           loader.hide();
@@ -177,7 +184,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.showFail = true;
           setTimeout(() => {
@@ -189,12 +196,12 @@ export default {
     deleteCategory(id) {
       this.$axios
         .delete(`product/category-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.getCategories();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -202,31 +209,30 @@ export default {
       this.getCategories();
       this.$axios
         .get(`product/category-detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           if (this.categories) {
             this.parentCategory = this.categories.find(
-              (el) => el.id === res.data.parent_id
+              el => el.id === res.data.parent_id
             );
           }
           this.newCategory = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     this.getCategories();
   },
   mounted() {
     this.getCategory();
-  },
+  }
 };
 </script>
 
 <style scoped>
 .multiselect {
   width: 50%;
-}
-</style
+}</style
 >>

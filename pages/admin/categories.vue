@@ -1,7 +1,7 @@
 <template>
   <div class="flex  min-h-screen bg-gray-100">
     <AdminSidebar />
-    <div class="px-16 w-2/3">
+    <div class="px-5 w-2/3">
       <div
         class="fixed z-40 top-0 px-50 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         v-if="showSuccess"
@@ -28,8 +28,8 @@
         </div> -->
       </div>
       <div class="mb-6">
-        <div class="input-group block my-10">
-          <h2 class="text-xl text-gray-700 font-bold  mb-10">
+        <div class="input-group block my-4">
+          <h2 class="text-xl text-gray-700 font-bold  my-10">
             Kategoriya qo'shish
           </h2>
           <label
@@ -103,7 +103,7 @@
             type="file"
             accept="image/*"
             @change="previewImage"
-            class="text-sm "
+            class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
           />
           <div v-if="preview">
             <div>
@@ -155,9 +155,9 @@
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py- bg-gray-200 text-left text-sm text-gray-500 uppercase"
               >
-                Kategoriya Qo'shish/O'chirish
+                Kategoriya qo'shish/o'chirish
               </th>
             </tr>
           </thead>
@@ -188,23 +188,13 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-<<<<<<< HEAD
-                <div class="flex items-center text-sm justify-around">
-                  <div
-                    @click="newCategory.parent_id = category.id"
-                    class="cursor-pointer text-xl text-white rounded-full bg-gray-500 px-2"
-                  >
-                    +
-                  </div>
-=======
                 <div class="flex items-center text-gray-500">
                   <span v-if="category.is_slider">Slider</span>
                   <span v-else>Slider emas</span>
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-gray-500 justify-between">
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
+                <div class="flex items-center text-gray-500 justify-around">
                   <nuxt-link
                     :to="`/admin/category-change/${category.id}`"
                     class="cursor-pointer w-5 h-5"
@@ -379,13 +369,9 @@ export default {
           }, 3000);
           this.getCategories();
         })
-<<<<<<< HEAD
         .catch(err => {
-=======
-        .catch((err) => {
           this.message =
             "Kategoriya uchirishda xatolik yuz berdi, qayta urinib ko'ring";
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
           console.log(err);
         });
     }

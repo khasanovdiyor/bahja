@@ -21,132 +21,136 @@
         v-if="showFail"
       >
         <div>
-          <span class=""
+          <span
+            class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between
+          bg-red-400 text-white"
+            v-if="showFail"
+          >
             ><i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
           </span>
-        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
-        v-if="showFail"
-      >
-        <div class="text-center">
-          <span>{{ message }}</span>
-        </div>
-        <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
+
+          <div class="text-center">
+            <span>{{ message }}</span>
+          </div>
+          <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
           X
         </div> -->
-      </div>
-      <div class="mb-6">
-        <div class="input-group block my-4 my-10">
-          <h2 class="text-xl font-bold mb-10">
-            Brand qo'shish
-          </h2>
-          <label
-            for="input"
-            class="block font-bold text-gray-600 uppercase text-sm mb-2"
-            >Brand nomi</label
-          >
-          <input
-            type="text"
-            class="border-2 rounded-md text-sm w-2/3 py-2 pl-5"
-            v-model.trim="$v.newBrand.name.$model"
-          />
-          <div
-            class="text-red-400 text-sm"
-            v-if="!$v.newBrand.name.required && $v.newBrand.name.$dirty"
-          >
-            <i>To'ldirish shart</i>
-          </div>
         </div>
+        <div class="mb-6">
+          <div class="input-group block my-4 my-10">
+            <h2 class="text-xl font-bold mb-10">
+              Brand qo'shish
+            </h2>
+            <label
+              for="input"
+              class="block font-bold text-gray-600 uppercase text-sm mb-2"
+              >Brand nomi</label
+            >
+            <input
+              type="text"
+              class="border-2 rounded-md text-sm w-2/3 py-2 pl-5"
+              v-model.trim="$v.newBrand.name.$model"
+            />
+            <div
+              class="text-red-400 text-sm"
+              v-if="!$v.newBrand.name.required && $v.newBrand.name.$dirty"
+            >
+              <i>To'ldirish shart</i>
+            </div>
+          </div>
 
-        <button
-          @click="createBrand"
-          class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
-        >
-          Brand yaratish
-        </button>
-      </div>
-      <div>
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-200">
-            <tr>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-              >
-                id
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-              >
-                Brand nomi
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 rounded-tr-md text-left text-sm font-bold text-gray-700 uppercase"
-              >
-                O'chirish
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr class="border" v-for="brand in brands" :key="brand.id">
-              <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm py-2 text-gray-500 ">
-                <div class="flex items-center text-gray-500">
-                  {{ brand.id }}
-                </div>
-              </td>
-              <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm py-2 text-gray-500">
-                  {{ brand.name }}
-                </div>
-              </td>
-              <td class="px-6 py-1 border">
-                <div
-                  class="flex items-center text-sm py-2 text-gray-500 justify-between"
+          <button
+            @click="createBrand"
+            class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
+          >
+            Brand yaratish
+          </button>
+        </div>
+        <div>
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-200">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                 >
+                  id
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                >
+                  Brand nomi
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-2 rounded-tr-md text-left text-sm font-bold text-gray-700 uppercase"
+                >
+                  O'chirish
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr class="border" v-for="brand in brands" :key="brand.id">
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm py-2 text-gray-500 ">
+                    <div class="flex items-center text-gray-500">
+                      {{ brand.id }}
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm py-2 text-gray-500">
+                    {{ brand.name }}
+                  </div>
+                </td>
+                <td class="px-6 py-1 border">
                   <div
-                    @click="
-                      showDeleteDialog = true;
-                      selectedBrandID = brand.id;
-                    "
-                    class="cursor-pointer"
+                    class="flex items-center text-sm py-2 text-gray-500 justify-between"
                   >
-                    <img
-                      src="~/assets/images/delete.svg"
-                      class="w-5 h-5"
-                      alt="pencil icon"
-                    />
+                    <div
+                      @click="
+                        showDeleteDialog = true;
+                        selectedBrandID = brand.id;
+                      "
+                      class="cursor-pointer"
+                    >
+                      <img
+                        src="~/assets/images/delete.svg"
+                        class="w-5 h-5"
+                        alt="pencil icon"
+                      />
+                    </div>
+                  </div>
+                </td>
+                <div
+                  class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
+                  v-if="showDeleteDialog"
+                >
+                  <div class="w-1/3 bg-white py-4 px-10">
+                    <span class="font-bold text-xl block mb-6"
+                      >Ushbu brendni o'chirishni xohlaysizmi?</span
+                    >
+                    <div class="flex justify-between">
+                      <button
+                        @click="deleteBrand(selectedBrandID)"
+                        class="bg-red-600 text-white py-2 px-4"
+                      >
+                        Ha
+                      </button>
+                      <button
+                        @click="showDeleteDialog = false"
+                        class="bg-gray-600 text-white py-2 px-4"
+                      >
+                        Yo'q
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </td>
-              <div
-                class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
-                v-if="showDeleteDialog"
-              >
-                <div class="w-1/3 bg-white py-4 px-10">
-                  <span class="font-bold text-xl block mb-6"
-                    >Ushbu brendni o'chirishni xohlaysizmi?</span
-                  >
-                  <div class="flex justify-between">
-                    <button
-                      @click="deleteBrand(selectedBrandID)"
-                      class="bg-red-600 text-white py-2 px-4"
-                    >
-                      Ha
-                    </button>
-                    <button
-                      @click="showDeleteDialog = false"
-                      class="bg-gray-600 text-white py-2 px-4"
-                    >
-                      Yo'q
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -167,8 +171,8 @@ export default {
       selectedBrandID: null,
       brands: [],
       newBrand: {
-        name: "",
-      },
+        name: ""
+      }
     };
   },
   validations: {
@@ -180,7 +184,7 @@ export default {
   },
   methods: {
     getBrands() {
-      this.$axios.get("product/brand-list").then((res) => {
+      this.$axios.get("product/brand-list").then(res => {
         console.log(res.data);
         this.brands = res.data;
       });
@@ -189,7 +193,7 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post("product/brand-create/", this.newBrand)
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           loader.hide();
           // this.showNotification(this.showSuccess, "Brand yaratildi");
@@ -203,7 +207,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.message =
             "Buyurtma yaratishda xatolik yuz berdi, qayta urinib ko'ring";
@@ -221,7 +225,7 @@ export default {
     deleteBrand(id) {
       this.$axios
         .delete(`product/brand-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.message = "Brand uchirildi";
@@ -231,7 +235,7 @@ export default {
           }, 3000);
           this.getBrands();
         })
-        .catch((err) => {
+        .catch(err => {
           this.showDeleteDialog = false;
           this.showFail = true;
           setTimeout(() => {
@@ -239,7 +243,7 @@ export default {
           }, 3000);
           console.log(err);
         });
-    },
+    }
     // showNotification(show, message) {
     //   this.message = message;
     //   if (show === this.showSuccess) {
@@ -257,7 +261,7 @@ export default {
   },
   mounted() {
     this.getBrands();
-  },
+  }
 };
 </script>
 

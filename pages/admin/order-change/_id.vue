@@ -7,87 +7,95 @@
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
-          {{ message }}
-          <span
+          <i>{{ message }}</i>
+
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          >
+          > -->
         </div>
         <div
           v-if="showFail"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
         >
-          {{ message }}
-          <span
+          <i>{{ message }}</i>
+          <!-- <span
             class="absolute right-6 cursor-pointer"
             @click="showFail = false"
             >X</span
-          >
+          > -->
         </div>
 
         <div class="pb-10">
-          <h2 class="font-bold text-xl uppercase my-8">
+          <h2 class="font-bold text-xl my-8">
             Buyurtmani o'zgartirish
           </h2>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2"
+            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
               >Buyurtmachi</label
             >
             <input
               type="string"
-              class="w-1/2 border-2 text-sm py-2 pl-5"
+              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
               v-model.trim="$v.selectedOrder.name.$model"
             />
             <div
-              class="text-red-400"
+              class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.name.required && $v.selectedOrder.name.$dirty
               "
             >
-              To'ldirish shart
+              <i> To'ldirish shart</i>
             </div>
-            <div class="text-red-400" v-if="!$v.selectedOrder.name.minLength">
-              Buyurtmachi nomi kamida
-              {{ $v.selectedOrder.name.$params.minLength.min }} harf bo'lishi
-              kerak
+            <div
+              class="text-red-400 text-sm"
+              v-if="!$v.selectedOrder.name.minLength"
+            >
+              <i>
+                Buyurtmachi nomi kamida
+                {{ $v.selectedOrder.name.$params.minLength.min }} harf bo'lishi
+                kerak</i
+              >
             </div>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2"
+            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
               >Buyurtmachi telefon raqami</label
             >
             <input
               type="index"
-              class="w-1/2 border-2 text-sm py-2 pl-5"
+              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
               placeholder="+998-"
               v-model.trim="$v.selectedOrder.phone_number.$model"
               v-mask="'+998-##-###-##-##'"
             />
             <div
-              class="text-red-400"
+              class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
                   $v.selectedOrder.phone_number.$dirty
               "
             >
-              To'ldirish shart
+              <i>To'ldirish shart</i>
             </div>
             <div
-              class="text-red-400"
+              class="text-red-400 text-sm"
               v-if="!$v.selectedOrder.phone_number.minLength"
             >
-              Telfon raqami kamida
-              {{ $v.selectedOrder.phone_number.$params.minLength.min }} son
-              bo'lishi kerak
+              <i
+                >Telfon raqami kamida
+                {{ $v.selectedOrder.phone_number.$params.minLength.min }} son
+                bo'lishi kerak</i
+              >
             </div>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2"
+            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
               >Buyurtma xolati</label
             >
             <select
-              class="w-1/2 border-2 px-3 text-sm py-2"
+              class="w-1/2 border-2 rounded-md px-3 text-sm py-2"
               v-model="selectedOrder.status"
             >
               <option disabled selected value="">Status tanlang</option>
@@ -102,55 +110,55 @@
             </select>
           </div>
           <button
-            class="bg-gray-800 mb-6 text-white py-2 px-4"
+            class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
             @click="updateOrder"
           >
             Ma'lumotlarni yangilash
           </button>
           <div>
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 my-5">
               <thead class="bg-gray-200">
                 <tr>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     mahsulot kodi
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     mahsulot nomi
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     Attributlari
                   </th>
 
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     mahsulot narxi
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     soni
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     jami narxi
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
                     O'chirish
                   </th>
@@ -163,42 +171,42 @@
                   :key="product.id"
                 >
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
+                    <div class="flex items-center text-sm ">
                       {{ product.product_code }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
+                    <div class="flex items-center text-sm ">
                       {{ product.product.name }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="text-gray-500">
+                    <div class="">
                       <span
                         v-for="attr in product.product.attributes"
                         class="block"
                         :key="attr.id"
                       >
-                        {{ attr.label }}: {{ attr.value }}
+                        {{ attr.label }}: <i>{{ attr.value }}</i>
                       </span>
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
                     <div
-                      class="flex items-center text-gray-500"
+                      class="flex items-center text-sm "
                       v-if="product.price"
                     >
                       {{ product.price.toLocaleString() }} so'm
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-gray-500">
+                    <div class="flex items-center text-sm ">
                       {{ product.count }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
                     <div
-                      class="flex items-center text-gray-500 justify-between"
+                      class="flex items-center text-sm  justify-between"
                       v-if="product.single_overall_price"
                     >
                       {{ product.single_overall_price.toLocaleString() }}
@@ -228,27 +236,29 @@
                       <span class="font-bold text-xl block mb-6"
                         >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
                       >
-                      <button
-                        @click="deleteOrderProduct(orderProductId)"
-                        class="bg-red-400 text-white py-2 px-4"
-                      >
-                        Ha
-                      </button>
-                      <button
-                        @click="showDeleteDialog = false"
-                        class="bg-gray-400 text-white py-2 px-4"
-                      >
-                        Yo'q
-                      </button>
+                      <div class="flex justify-between">
+                        <button
+                          @click="deleteOrderProduct(orderProductId)"
+                          class="bg-red-400 rounded-md text-white py-2 px-4"
+                        >
+                          Ha
+                        </button>
+                        <button
+                          @click="showDeleteDialog = false"
+                          class="bg-gray-600 rounded-md text-white py-2 px-4"
+                        >
+                          Yo'q
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="my-4">
-            <h2 class="font-bold text-2xl mb-4">Mahsulot qo'shish</h2>
-            <label class="block font-bold uppercase text-sm mb-2"
+          <div class="my-10">
+            <h2 class="font-bold text-xl mb-4">Mahsulot qo'shish</h2>
+            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
               >Mahsulot tanlang</label
             >
             <multiselect
@@ -264,16 +274,18 @@
             </multiselect>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-sm mb-2">soni</label>
+            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
+              >soni</label
+            >
             <input
               type="text"
-              class="w-1/2 border-2 text-sm py-2 px-4"
+              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
               v-model="newProduct.count"
             />
           </div>
 
           <button
-            class="bg-gray-800 text-white py-2 px-4"
+            class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
             @click="createOrderProduct"
           >
             Ma'lumotlarni saqlash
@@ -326,7 +338,7 @@ export default {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
-    },
+    }
   },
   validations: {
     selectedOrder: {
@@ -438,7 +450,7 @@ export default {
       if (this.order.orderproducts.length === 1) {
         this.$router.push("/admin/orders");
       }
-    },
+    }
   },
   mounted() {
     this.getOrder();

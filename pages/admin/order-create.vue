@@ -355,15 +355,6 @@ export default {
             loader.hide();
             console.log(res.data);
             this.showSuccess = true;
-<<<<<<< HEAD
-            setTimeout(function() {
-              this.showSuccess = false;
-            }, 3000);
-          })
-          .catch(err => {
-            this.showFail = true;
-            setTimeout(function() {
-=======
             setTimeout(() => {
               this.showSuccess = false;
             }, 3000);
@@ -372,7 +363,6 @@ export default {
             loader.hide();
             this.showFail = true;
             setTimeout(() => {
->>>>>>> 02d9f5849938c9bf28a823602b9ca6710d567346
               this.showFail = false;
             }, 3000);
 
