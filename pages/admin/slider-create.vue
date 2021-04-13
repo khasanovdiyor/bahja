@@ -91,7 +91,7 @@ import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -104,11 +104,14 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null
-      }
+        category: null,
+      },
     };
   },
   validations: {
+    selectedCategory: {
+      required,
+    },
     slider: {
       text: {
         required,
@@ -134,7 +137,7 @@ export default {
       formData.append("category", this.slider.category);
       this.$axios
         .post("product/slider/create/", formData)
-        .then(res => {
+        .then((res) => {
           loader.hide();
           this.showSuccess = true;
           console.log(res.data);
@@ -143,7 +146,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           this.showFail = true;
           setTimeout(() => {
@@ -156,7 +159,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.preview = e.target.result;
         };
 
@@ -165,23 +168,23 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {};
+      reader.onloadend = function () {};
       reader.readAsDataURL(file);
     },
     getCategories() {
       this.$axios
         .get("product/category-all/")
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           this.categories = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
-  }
+  },
 };
 </script>
