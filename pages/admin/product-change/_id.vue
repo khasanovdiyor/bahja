@@ -8,6 +8,12 @@
           class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-green-400 text-white text-center"
         >
           <i> Mahsulot yangilandi</i>
+
+           <span
+            class="absolute right-6 cursor-pointer"
+            @click="showSuccess = false"
+            >X</span>
+
         </div>
         <div
           v-if="showSuccess"
@@ -15,11 +21,11 @@
         >
           <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
 
-          <!-- <span
+          <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          > -->
+          >
         </div>
         <div name="Mahsulot qo'shish">
           <h2 class="text-xl font-bold  text-gray-700">Mahsulot o'zgartirish</h2>

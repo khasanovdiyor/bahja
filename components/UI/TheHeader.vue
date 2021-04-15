@@ -35,16 +35,16 @@
         <img
           src="@/assets/images/shopping-bag.svg"
           alt="shopping bag icon"
-          class="w-6"
+          class="w-7"
         />
         <span
           v-if="savedProductsProp"
-          class="absolute top-2 left-2 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-black"
+          class="absolute top-3 left-3 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-gray-700"
           >{{ savedProductsProp.length }}</span
         >
         <span
           v-else
-          class="absolute top-2 left-2 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-black"
+          class="absolute top-3 left-3 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-gray-700"
           >{{ savedProductsProp.length }}</span
         >
       </div>
@@ -75,11 +75,11 @@ export default {
   props: {
     savedProductsProp: {
       type: Array,
-      default: function () {
+      default: function() {
         return [];
       },
-      required: false,
-    },
+      required: false
+    }
   },
   data() {
     return {
@@ -88,14 +88,14 @@ export default {
       showCard: false,
       showSearch: false,
       products: [],
-      totalPrice: 0,
+      totalPrice: 0
     };
   },
   watch: {
-    savedProducts: function (newValue) {
+    savedProducts: function(newValue) {
       this.quantity = this.savedProducts.length;
       localStorage.setItem("products", JSON.stringify(newValue));
-    },
+    }
   },
   methods: {
     toggleSearch() {
@@ -109,22 +109,22 @@ export default {
       if (this.savedProductsProp) {
         this.savedProducts = this.savedProductsProp;
       }
-      this.savedProducts.forEach((element) => {
+      this.savedProducts.forEach(element => {
         this.products = [];
         this.totalPrice = 0;
         this.$axios
           .get(`product/specific/${element.product_id}`)
-          .then((res) => {
+          .then(res => {
             this.totalPrice += res.data.price * element.count;
             this.products.push(
               Object.assign({ count: element.count }, res.data)
             );
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       });
-    },
+    }
   },
   mounted() {
     this.getProducts();
@@ -136,7 +136,7 @@ export default {
     }
     if (this.savedProductsProp) this.quantity = this.savedProductsProp.length;
     else this.quantity = this.savedProducts.length;
-  },
+  }
 };
 </script>
 

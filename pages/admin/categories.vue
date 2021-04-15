@@ -97,7 +97,7 @@
           />
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
+          <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
             >rasm qo'yish</label
           ><input
             type="file"
@@ -114,7 +114,6 @@
                 />
               </div>
               <p class="">Rasm Nomi: {{ image.name }}</p>
-              <p class="">Rasm hajmi: {{ image.size / 1024 }}KB</p>
             </div>
           </div>
           <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
@@ -137,19 +136,19 @@
 
               <th
                 scope="col"
-                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-500 uppercase"
+                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-700 uppercase"
               >
                 Kategoriya nomi
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-500 uppercase"
+                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-700 uppercase"
               >
                 Kategoriya rasmi
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 bg-gray-200 text-left text-sm text-gray-700 uppercase"
               >
                 Kategoriya qo'shish/o'chirish
               </th>
@@ -249,7 +248,7 @@ export default {
   mixins: [global],
   components: {
     AdminSidebar,
-    BaseButton,
+    BaseButton
   },
   data() {
     return {
@@ -267,31 +266,31 @@ export default {
         name: "",
         parent_id: 0,
         is_slider: false,
-        order: 0,
+        order: 0
       },
       newCategories: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       seletedCategories: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     newCategory: {
       name: {
-        required,
+        required
       },
       order: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategory(value, id) {
@@ -300,11 +299,11 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function (event) {
+    previewImage: function(event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.preview = e.target.result;
         };
         this.image = input.files[0];
@@ -320,7 +319,7 @@ export default {
       formData.append("image", this.image);
       this.$axios
         .post("product/category-create/", formData)
-        .then((res) => {
+        .then(res => {
           loader.hide();
           this.message = "Kategoriya yaratildi";
           this.showSuccess = true;
@@ -333,7 +332,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.message =
             "Kategoriya yaratishda xatolik yuz berdi, qayta urinib ko'ring";
@@ -347,10 +346,10 @@ export default {
     deleteCategory(id) {
       this.$axios
         .delete(`product/category-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
-          this.message = "Kategoriya uchirildi";
+          this.message = "Kategoriya o'chirildi";
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
@@ -362,11 +361,11 @@ export default {
             "Kategoriya uchirishda xatolik yuz berdi, qayta urinib ko'ring";
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
 
@@ -374,5 +373,4 @@ export default {
 .multiselect {
   width: 50%;
 }
-</style
->>
+</style>

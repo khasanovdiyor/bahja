@@ -28,7 +28,7 @@
 
         <div>
           <!-- PRODUCTS CONTAINER -->
-          <div class="mt-10 flex justify-between flex-wrap">
+          <div class="mt-10 flex gap-16 flex-wrap content-start">
             <!-- Product card -->
             <nuxt-link
               class="mb-6 mx-auto sm:mx-0 cursor-pointer transition duration-150 transform hover:scale-105"
@@ -36,7 +36,7 @@
               v-for="product in products"
               :key="product.id"
             >
-              <ProductCard :product="product" class="w-64" />
+              <ProductCard :product="product" class="w-64 " />
             </nuxt-link>
           </div>
           <div class="py-5">
@@ -76,8 +76,8 @@
     </div> -->
     <!-- TODAY'S HIT -->
     <div class="px-6 md:px-16 pb-10">
-      <h2 class="my-10 font-bold text-2xl uppercase">Xit tovarlar</h2>
-      <splide :options="options" :slides="products" class="mx-auto">
+      <h2 class="my-10 font-bold text-xl uppercase">ommabop tovarlar</h2>
+      <splide :options="options" :slides="products" class="mx-auto  ">
         <splide-slide
           v-for="product in products"
           :key="product.id"
@@ -87,7 +87,10 @@
             class="mb-6 cursor-pointer transition duration-150 transform hover:scale-105"
             :to="'product/' + product.id"
           >
-            <ProductCard :product="product" class="sm:w-64 w-72 inline-block" />
+            <ProductCard
+              :product="product"
+              class="sm:w-64 w-72 inline-block"
+            />
           </nuxt-link>
 
           <!-- <div class="bg-white px-10 py-5">Some text</div> -->
@@ -107,6 +110,7 @@ export default {
       slides: [],
       categorySliders: [],
       savedProducts: [],
+      currentImg: 0,
       options: {
         type: "fade",
         autoplay: true,
@@ -120,23 +124,23 @@ export default {
         breakpoints: {
           1180: {
             perPage: 3,
-            gap: "4rem",
+            gap: "4rem"
           },
           900: {
             perPage: 2,
-            gap: "2rem",
+            gap: "2rem"
           },
           550: {
             perPage: 1,
-            width: "60%",
+            width: "60%"
           },
           450: {
             perPage: 1,
-            width: "80%",
-          },
-        },
+            width: "80%"
+          }
+        }
       },
-      products: [],
+      products: []
     };
   },
   methods: {
@@ -144,16 +148,16 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .get("product/list/")
-        .then((res) => {
+        .then(res => {
           console.log("variation-list", res.data);
           this.products = res.data.results;
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
@@ -163,7 +167,10 @@ export default {
         this.savedProducts = JSON.parse(json_string);
       }
     }
-  },
+    setInterval(() => {
+      this.currentImg = this.currentImg + 1;
+    }, 3000);
+  }
 };
 </script>
 

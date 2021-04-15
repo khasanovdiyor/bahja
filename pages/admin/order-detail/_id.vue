@@ -2,10 +2,10 @@
   <div class="flex h-screen">
     <AdminSidebar />
     <div class="px-4 pt-10">
-      <h1 class="font-bold text-xl text-gray-700 my-5">
+      <h1 class="font-bold text-xl text-gray-700 mb-10">
         Buyurtma haqida to'liq ma'lumot
       </h1>
-      <h2 class="font-bold text-gray-500 mb-6">Buyurtmachi haqida ma'lumot</h2>
+      <h2 class="font-bold text-gray-700 mb-4">Buyurtmachi haqida ma'lumot</h2>
       <div>
         <div class="mb-10">
           <table class="min-w-full divide-x divide-gray-200 flex">
@@ -13,7 +13,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Buyurtma id
                 </th>
@@ -21,7 +21,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Buyurtmachi nomi
                 </th>
@@ -29,7 +29,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Buyurtmachi raqami
                 </th>
@@ -37,7 +37,7 @@
               <tr class="border-gray-400 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-500"
+                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Jami buyurtma narxi
                 </th>

@@ -9,7 +9,7 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 "
               >
                 id
               </th>
@@ -17,7 +17,7 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
                 nomi
               </th>
@@ -25,7 +25,7 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
                 kodi
               </th>
@@ -33,7 +33,7 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
                 tavsif
               </th>
@@ -41,7 +41,7 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
                 kategoriyasi
               </th>
@@ -49,7 +49,7 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
                 brandi
               </th>
@@ -59,13 +59,13 @@
                 scope="col"
                 class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
-                NARXI (so'm)
+                narxi (so'm)
               </th>
             </tr>
-            <tr class="border-gray-400 border-b">
+            <tr class="border-gray-400">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
               >
                 soni
               </th>

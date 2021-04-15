@@ -5,7 +5,7 @@
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
           v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+          class="fixed z-40 text-lg top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
         >
           <i>Slider yangilandi</i>
 
@@ -17,11 +17,11 @@
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
+          class="fixed z-40 text-lg top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
         >
           <i
             >Slider ma'lumotlarini yangilashda xatolik yuz berdi, qayta urinib
-            koring</i
+            ko'ring</i
           >
 
           <!-- <span
@@ -127,9 +127,11 @@ export default {
           setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
-
-          console.log(res);
-          this.getSlider();
+          console.log(res.data);
+          this.getCategories();
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
         })
         .catch(err => {
           loader.hide();

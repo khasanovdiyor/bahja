@@ -207,7 +207,7 @@
           ></path>
         </svg>
 
-        <span class="mx-3">Brandlar</span>
+        <span class="mx-3">Brendlar</span>
       </nuxt-link>
     </nav>
   </div>

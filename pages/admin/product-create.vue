@@ -48,7 +48,7 @@
                   v-model.trim="$v.product.name.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="!$v.product.name.required && $v.product.name.$dirty"
                 >
                   <i>{{ requiredMessage }}</i>
@@ -66,7 +66,7 @@
                   v-model.trim="$v.product.product_code.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.product.product_code.required &&
                       $v.product.product_code.$dirty
@@ -88,7 +88,7 @@
                   @select="selectBrand"
                 ></multiselect>
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="!$v.selectedBrand.required && $v.selectedBrand.$dirty"
                 >
                   <i>{{ requiredMessage }}</i>
@@ -105,7 +105,7 @@
                 >
                 </textarea>
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.product.description.required &&
                       $v.product.description.$dirty
@@ -131,7 +131,7 @@
                 >
                 </multiselect>
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.selectedCategories.required &&
                       $v.selectedCategories.$dirty
@@ -151,7 +151,7 @@
                   v-model.trim="$v.product.quantity.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.product.quantity.required && $v.product.quantity.$dirty
                   "
@@ -167,12 +167,11 @@
                 <input
                   type="text"
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="$v.product.price.$model"
-                  v-mask="priceMask"
+                  v-model.trim="$v.product.price.$model"
                 />
                 <div
-                  class="text-red-400"
-                  v-if="!$v.product.price.required && $v.product.price.$dirty"
+                  class="text-red-400 text-sm"
+                  v-if="!$v.product.price.required"
                 >
                   <i>{{ requiredMessage }}</i>
                 </div>
@@ -188,7 +187,7 @@
                   class="border-2 rounded-md text-sm bg-white w-1/2 py-1 pl-5"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="!$v.product.image.required && $v.product.image.$dirty"
                 >
                   <i>{{ requiredMessage }}</i>
@@ -215,12 +214,7 @@
                   @change="previewProductMultiImage"
                   class="border-2 rounded-md text-sm bg-white w-1/2 py-1 pl-5"
                 />
-                <div
-                  class="text-red-400"
-                  v-if="!$v.product.images.required && $v.product.images.$dirty"
-                >
-                  <i> {{ requiredMessage }}</i>
-                </div>
+
                 <div v-if="product.images" class="flex">
                   <div
                     v-for="(item, index) in product.images"
@@ -435,25 +429,7 @@
               <button
                 @click="createProduct"
                 class="block bg-gray-800 w- text-sm text-center rounded-md px-3 text-white my-2 py-2"
-              >
-                <div
-                  class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
-                  v-if="showFail"
-                >
-                  <div>
-                    <span class="text-sm"
-                      >Brand qo'shishda xatolik yuz berdi, qayta urinib
-                      koring!</span
-                    >
-                  </div>
-                  <div
-                    class="text-white px-4 cursor-pointer"
-                    @click="showFail = false"
-                  >
-                    X
-                  </div>
-                </div>
-                Mahsulot yaratish
+              >Mahsulot yaratish
               </button>
             </div>
           </tab>
@@ -475,7 +451,7 @@
                   v-model.trim="$v.variation.name.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="!$v.variation.name.required && $v.variation.name.$dirty"
                 >
                   <i>{{ requiredMessage }}</i>
@@ -493,7 +469,7 @@
                   v-model.trim="$v.variation.product_code.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.product_code.required &&
                       $v.variation.product_code.$dirty
@@ -513,7 +489,7 @@
                 >
                 </textarea>
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.description.required &&
                       $v.variation.description.$dirty
@@ -538,7 +514,7 @@
                   @select="selectVariationCategories"
                 ></multiselect>
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.selectedVariationCategories.required &&
                       $v.selectedVariationCategories.$dirty
@@ -559,7 +535,7 @@
                   v-model.trim="$v.variation.quantity.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.quantity.required &&
                       $v.variation.quantity.$dirty
@@ -576,13 +552,13 @@
                 <input
                   type="text"
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.variation.price.$model"
-                  v-mask="priceMask"
+                  v-model.trim="$v.product.price.$model"
                 />
                 <div
-                  class="text-red-400"
+                  class="text-red-400 text-sm"
                   v-if="
-                    !$v.variation.price.required && $v.variation.price.$dirty
+                    !$v.product.product_code.required &&
+                      $v.product.product_code.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -622,23 +598,7 @@
                   @change="previewVariationMultiImage"
                   class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
                 />
-                <div v-if="variation.images" class="flex">
-                  <div
-                    v-for="(item, index) in variation.images"
-                    :key="index"
-                    class="w-56 h-56 mr-4 relative"
-                  >
-                    <img
-                      :src="item"
-                      class="object-cover object-top w-full h-full"
-                    />
-                    <span
-                      @click="removeImage(index, variation.images)"
-                      class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
-                      >X</span
-                    >
-                  </div>
-                </div>
+                <div v-if="variation.images" class="flex"></div>
                 <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="mb-10">
@@ -776,7 +736,7 @@
                 </button>
               </div>
               <div
-                class="text-red-400"
+                class="text-red-400 text-sm"
                 v-if="!$v.variation.attributes.minLength"
               >
                 Mahsulot attributlari kamida
@@ -952,7 +912,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: [],
+        variations: []
       },
       variation: {
         parent_id: 0,
@@ -964,14 +924,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: [],
+        categories: []
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   watch: {
@@ -1102,7 +1062,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1112,7 +1072,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1157,10 +1117,20 @@ export default {
     getBrands() {
       this.$axios
         .get("product/brand-list/")
-        .then((res) => {
+        .then(res => {
           this.brands = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getCategories() {
+      this.$axios
+        .get("product/category-list/")
+        .then(res => {
+          this.categories = res.data;
+        })
+        .catch(err => {
           console.log(err);
         });
     },
@@ -1170,7 +1140,7 @@ export default {
         this.submitStatus = "ERROR";
       } else {
         let loader = this.$loading.show();
-        this.product.brand = this.selectedBrand.id;
+        this.product.product = this.selectedproduct.id;
         this.$axios
           .post("product/create/", this.product)
           .then(res => {
@@ -1194,7 +1164,7 @@ export default {
   mounted() {
     this.getCategories();
     this.getBrands();
-  },
+  }
 };
 </script>
 <style scoped>
