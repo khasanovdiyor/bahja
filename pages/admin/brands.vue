@@ -178,9 +178,9 @@ export default {
   validations: {
     newBrand: {
       name: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     getBrands() {
@@ -197,7 +197,6 @@ export default {
           console.log(res.data);
           loader.hide();
           // this.showNotification(this.showSuccess, "Brand yaratildi");
-          this.message = "Brand yaratildi";
           this.showSuccess = true;
           setTimeout(() => {
             this.showSuccess = false;
@@ -209,8 +208,6 @@ export default {
         })
         .catch(err => {
           loader.hide();
-          this.message =
-            "Buyurtma yaratishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
           setTimeout(() => {
             this.showFail = false;
@@ -228,7 +225,7 @@ export default {
         .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
-          this.message = "Brand uchirildi";
+          this.message = "Brend o'chirildi";
           this.showSuccess = true;
           setTimeout(() => {
             this.showSuccess = false;

@@ -126,18 +126,18 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
       sliders: [],
       showDeleteDialog: false,
-      selectedSliderID: null,
+      selectedSliderID: null
     };
   },
   methods: {
     getSliders() {
-      this.$axios.get("product/slider/list").then((res) => {
+      this.$axios.get("product/slider/all").then(res => {
         console.log(res.data);
         this.sliders = res.data;
       });
@@ -145,19 +145,19 @@ export default {
     deleteSlider(id) {
       this.$axios
         .delete(`product/slider/delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getSliders();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getSliders();
-  },
+  }
 };
 </script>
 

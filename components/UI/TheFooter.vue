@@ -1,12 +1,10 @@
 <template>
-  <div class="border-gray-400 mt-10 ">
+  <div class="border-gray-400 mt-10">
     <div
-      class="footer px-5 md:px-16 pt-10 bg-gray-200 block md:flex  justify-between"
+      class="footer px-5 md:px-16 pt-10 bg-gray-200 block md:flex justify-between"
     >
       <div
-        class="sm:flex w-full md:w-1/2 mx-auto mr-0 md:mr-10 sm:mr-10 lg:mr-0
-         justify-between
-      "
+        class="sm:flex w-full md:w-1/2 mx-auto mr-0 md:mr-10 sm:mr-10 lg:mr-0 justify-between"
       >
         <div class="categories w-2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">KATEGORIYA</h3>
@@ -37,7 +35,7 @@
             </li>
           </ul>
         </div>
-        <div class="information w-2/5  leading-loose">
+        <div class="information w-2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">MA'LUMOTLAR</h3>
           <ul class="text-gray-600">
             <li>
@@ -50,9 +48,7 @@
       </div>
 
       <div
-        class="sm:flex  w-full md:w-1/2 mx-auto sm:mr-10 md:mr-0 mt-5 md:mt-0
-         justify-between
-      "
+        class="sm:flex w-full md:w-1/2 mx-auto sm:mr-10 md:mr-0 mt-5 md:mt-0 justify-between"
       >
         <div class="links w-2/5 leading-loose">
           <h3 class="font-semibold mb-3 text-gray-700">IJTIMOIY TARMOQLAR</h3>
@@ -93,7 +89,11 @@
             </li>
             <li>
               <p class="flex hover:underline">
-                <img src="~/assets/images/phone.svg" alt="" class="w-5 mr-3" />
+                <img
+                  src="~/assets/images/phone.svg"
+                  alt="phone"
+                  class="w-5 mr-3"
+                />
                 <a href="tel:+998994013937">+99 401 39 37</a>
               </p>
             </li>
