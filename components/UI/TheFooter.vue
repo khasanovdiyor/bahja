@@ -93,7 +93,7 @@
             </li>
             <li>
               <p class="flex hover:underline">
-                <img src="../assets/images/phone.svg" alt="" class="w-5 mr-3" />
+                <img src="~/assets/images/phone.svg" alt="" class="w-5 mr-3" />
                 <a href="tel:+998994013937">+99 401 39 37</a>
               </p>
             </li>
