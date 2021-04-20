@@ -334,18 +334,18 @@
                           class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
                           <div class="relative">
-                            <div v-if="showStatus" class="w-32 3 px-4">
+                            <div v-if="order.showStatus" class="w-32 3 px-4">
                               <span
                                 v-for="status in statuses"
                                 :key="status"
-                                @click="changeStatus(status, order.id)"
+                                @click="changeStatus(status, order)"
                                 class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
                                 >{{ status }}</span
                               >
                             </div>
                             <span
-                              @click="showStatus = true"
-                              v-if="!showStatus"
+                              @click="order.showStatus = true"
+                              v-if="!order.showStatus"
                               class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
                               >{{ order.status }}</span
                             >
@@ -451,6 +451,9 @@ export default {
         })
         .then(res => {
           console.log(res.data);
+          res.data.forEach((el) => {
+            el.showStatus = false;
+          });
           this.orders = res.data;
         })
         .catch(err => {
@@ -477,7 +480,7 @@ export default {
           console.log(err);
         });
     },
-    changeStatus(status, id) {
+    changeStatus(status, order) {
       const formData = new FormData();
       formData.append("status", status);
       this.$axios
