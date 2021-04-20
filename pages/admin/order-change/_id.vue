@@ -28,9 +28,7 @@
         </div>
 
         <div class="pb-10">
-          <h2 class="font-bold text-xl my-8">
-            Buyurtmani o'zgartirish
-          </h2>
+          <h2 class="font-bold text-xl my-8">Buyurtmani o'zgartirish</h2>
           <div class="my-4">
             <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
               >Buyurtmachi</label
@@ -74,7 +72,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                  $v.selectedOrder.phone_number.$dirty
+                $v.selectedOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -160,7 +158,7 @@
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
                   >
-                    O'chirish
+                    Yangilash/O'chirish
                   </th>
                 </tr>
               </thead>
@@ -171,12 +169,12 @@
                   :key="product.id"
                 >
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-sm ">
+                    <div class="flex items-center text-sm">
                       {{ product.product_code }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-sm ">
+                    <div class="flex items-center text-sm">
                       {{ product.product.name }}
                     </div>
                   </td>
@@ -192,21 +190,22 @@
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div
-                      class="flex items-center text-sm "
-                      v-if="product.price"
-                    >
+                    <div class="flex items-center text-sm" v-if="product.price">
                       {{ product.price.toLocaleString() }} so'm
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="flex items-center text-sm ">
-                      {{ product.count }}
+                    <div class="flex items-center text-sm">
+                      <input
+                        type="text"
+                        class="py-2 px-4 w-1/2"
+                        v-model="product.count"
+                      />
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
                     <div
-                      class="flex items-center text-sm  justify-between"
+                      class="flex items-center text-sm justify-between"
                       v-if="product.single_overall_price"
                     >
                       {{ product.single_overall_price.toLocaleString() }}
@@ -214,18 +213,30 @@
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div
-                      class="cursor-pointer"
-                      @click="
-                        orderProductId = product.id;
-                        showDeleteDialog = true;
-                      "
-                    >
-                      <img
-                        src="~/assets/images/delete.svg"
-                        class="w-5 h-5"
-                        alt="pencil icon"
-                      />
+                    <div class="flex justify-between">
+                      <div
+                        class="cursor-pointer"
+                        @click="updateOrderProduct(product.id, product.count)"
+                      >
+                        <img
+                          src="~/assets/images/refresh.svg"
+                          class="w-5 h-5"
+                          alt="pencil icon"
+                        />
+                      </div>
+                      <div
+                        class="cursor-pointer"
+                        @click="
+                          orderProductId = product.id;
+                          showDeleteDialog = true;
+                        "
+                      >
+                        <img
+                          src="~/assets/images/delete.svg"
+                          class="w-5 h-5"
+                          alt="pencil icon"
+                        />
+                      </div>
                     </div>
                   </td>
                   <div
@@ -301,7 +312,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -315,15 +326,15 @@ export default {
       newProduct: {
         order_id: this.$route.params.id,
         count: 0,
-        proudct_id: null
+        proudct_id: null,
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: ""
+        status: "",
       },
       products: [],
-      order: {}
+      order: {},
     };
   },
   watch: {
@@ -338,19 +349,19 @@ export default {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
-    }
+    },
   },
   validations: {
     selectedOrder: {
       name: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
       },
       phone_number: {
         required,
-        minLength: minLength(9)
-      }
-    }
+        minLength: minLength(9),
+      },
+    },
   },
   methods: {
     selectProduct(value, id) {
@@ -367,14 +378,14 @@ export default {
             `cart/orderbeta-update/${this.$route.params.id}`,
             this.selectProduct
           )
-          .then(res => {
+          .then((res) => {
             loader.hide();
             this.message = "Buyurtmachi ma'lumotlari yangilandi";
             this.showSuccess = true;
 
             console.log(res.data);
           })
-          .catch(err => {
+          .catch((err) => {
             loader.hide();
             this.message =
               "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
@@ -388,7 +399,7 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post(`cart/orderproductbeta-create/`, this.newProduct)
-        .then(res => {
+        .then((res) => {
           this.message = "Yangi mahsulot qo'shildi";
           this.showSuccess = true;
           this.getOrder();
@@ -396,7 +407,7 @@ export default {
           console.log(res.data);
           loader.hide();
         })
-        .catch(err => {
+        .catch((err) => {
           this.message =
             "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
@@ -408,7 +419,7 @@ export default {
     getOrder() {
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.order = res.data;
           console.log("Order: ", this.order);
           this.selectedOrder = Object.assign({}, res.data);
@@ -416,32 +427,32 @@ export default {
           delete this.selectedOrder.id;
           delete this.selectedOrder.finish_price;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get(`product/codesize/`)
-        .then(res => {
+        .then((res) => {
           this.products = res.data;
           console.log("Selected Product", res.data);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
     deleteOrderProduct(id) {
       this.$axios
         .delete(`cart/orderproductbeta-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getOrder();
           this.message = "Mahsulot o'chirildi";
           this.showSuccess = true;
         })
-        .catch(err => {
+        .catch((err) => {
           this.message =
             "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
@@ -450,11 +461,21 @@ export default {
       if (this.order.orderproducts.length === 1) {
         this.$router.push("/admin/orders");
       }
-    }
+    },
+    updateOrderProduct(id, count) {
+      this.$axios
+        .patch(`cart/orderproductbeta-update/${id}`, { count: count })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
     this.getOrder();
     this.getProducts();
-  }
+  },
 };
 </script>

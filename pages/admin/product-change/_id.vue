@@ -74,7 +74,7 @@
                 >kategoriyasi {{ newCategories }}</label
               >
               <multiselect
-                v-model="productCategories"
+                v-model="newCategories"
                 tag-placeholder="Ushbu kategoriayni qo'shing"
                 placeholder="Kategoriya izlang yoki qo'shing"
                 label="name"
@@ -111,7 +111,7 @@
             <div class="my-4">
               <label
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >rasm qo'yish {{ newProduct }}</label
+                >rasm qo'yish {{ newCategories }}</label
               ><input
                 type="file"
                 accept="image/*"
@@ -213,12 +213,12 @@
                     </td>
 
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         {{ attr.key }}
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         <input
                           type="text"
                           class="text-sm py-2 pl-5"
@@ -227,7 +227,7 @@
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         <input
                           type="text"
                           class="text-sm py-2 pl-5"
@@ -236,7 +236,7 @@
                       </div>
                     </td>
                     <td class="px-2 py-1 border">
-                      <div class="flex items-center text-sm  justify-between">
+                      <div class="flex items-center text-sm justify-between">
                         <div
                           @click="removeAttribute(product, index)"
                           class="cursor-pointer hover:underline"
@@ -252,7 +252,7 @@
                   </tr>
                   <tr class="border" v-if="showAddNewKey">
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         <input
                           type="checkbox"
                           class="border w-full text-sm w-5 h-5 pl-5"
@@ -262,7 +262,7 @@
                     </td>
 
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         <input
                           type="text"
                           class="text-sm py-2 pl-5"
@@ -271,7 +271,7 @@
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         <input
                           type="text"
                           class="text-sm py-2 pl-5"
@@ -280,7 +280,7 @@
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm ">
+                      <div class="flex items-center text-sm">
                         <input
                           type="text"
                           class="text-sm py-2 pl-5"
@@ -289,7 +289,7 @@
                       </div>
                     </td>
                     <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm  justify-center">
+                      <div class="flex items-center text-sm justify-center">
                         <div
                           @click="addProductAttribute"
                           class="cursor-pointer hover:underline"
@@ -298,30 +298,6 @@
                         </div>
                       </div>
                     </td>
-                    <div
-                      class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
-                      v-if="showDeleteDialog"
-                    >
-                      <div class="w-1/3 bg-white py-4 px-10">
-                        <span class="font-bold text-xl block mb-6"
-                          >Ushbu Kategoriyani o'chirishni xohlaysizmi?</span
-                        >
-                        <div class="flex justify-between">
-                          <button
-                            @click="deleteCategory(selectedCategoryID)"
-                            class="bg-red-600 text-white py-2 px-4"
-                          >
-                            Ha
-                          </button>
-                          <button
-                            @click="showDeleteDialog = false"
-                            class="bg-gray-600 text-white py-2 px-4"
-                          >
-                            Yo'q
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                   </tr>
                 </tbody>
               </table>
@@ -360,7 +336,6 @@ export default {
       showDeleteDialog: false,
       selectedProduct: {},
       newCategories: [],
-      productCategories: [],
       image: null,
       newImages: [],
       images: [],
@@ -423,7 +398,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = e => {
+          reader.onload = (e) => {
             this.newImages.push(e.target.result);
             this.images.push(e.target.result);
           };
@@ -530,8 +505,7 @@ export default {
             }
             this.newAttributes.push(attribute);
           }
-          this.newProduct.quantity = res.data.quantity;
-          this.newProduct.product_code = res.data.product_code;
+          this.newProduct = res.data;
         })
         .catch(err => {
           console.log(err);
