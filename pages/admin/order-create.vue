@@ -74,15 +74,6 @@
             >
               <i>To'ldirish shart</i>
             </div>
-            <div
-              class="text-red-400 text-sm"
-              v-if="!$v.newOrder.phone_number.minLength"
-            >
-              <i>Telefon raqami kamida</i>
-
-              {{ $v.newOrder.phone_number.$params.minLength.min }} son bo'lishi
-              kerak
-            </div>
           </div>
           <div
             class="text-red-400 mb-4"
@@ -291,7 +282,6 @@ export default {
       },
       phone_number: {
         required,
-        minLength: minLength(9),
       },
       products: {
         required,
