@@ -5,7 +5,7 @@
     <div class="flex">
       <TheSidebar :currentLink="link" />
       <div class="px-16 w-full">
-        <h1 class="px-16 capitalize font-bold text-center text-2xl my-5">
+        <h1 class="px-16 font-bold text-center text-xl my-5">
           {{ $route.params.type }} mahsulotlar
         </h1>
         <div

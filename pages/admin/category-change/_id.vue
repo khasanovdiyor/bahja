@@ -120,7 +120,7 @@ import BaseButton from "~/components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton,
+    BaseButton
   },
   data() {
     return {
@@ -138,8 +138,8 @@ export default {
         parent_id: 0,
         order: 0,
         image: 0,
-        is_slider: false,
-      },
+        is_slider: false
+      }
     };
   },
   methods: {
@@ -149,11 +149,11 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function (event) {
+    previewImage: function(event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.newCategory.image = e.target.result;
         };
         this.image = input.files[0];
@@ -173,7 +173,7 @@ export default {
       }
       this.$axios
         .patch(`product/category-update/${this.newCategory.id}`, formData)
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           this.getCategory();
           loader.hide();
@@ -184,7 +184,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.showFail = true;
           setTimeout(() => {
@@ -196,12 +196,12 @@ export default {
     deleteCategory(id) {
       this.$axios
         .delete(`product/category-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.getCategories();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -209,31 +209,30 @@ export default {
       this.getCategories();
       this.$axios
         .get(`product/category-detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           if (this.categories) {
             this.parentCategory = this.categories.find(
-              (el) => el.id === res.data.parent_id
+              el => el.id === res.data.parent_id
             );
           }
           this.newCategory = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     this.getCategories();
   },
   mounted() {
     this.getCategory();
-  },
+  }
 };
 </script>
 
 <style scoped>
 .multiselect {
   width: 50%;
-}
-</style
+}</style
 >>

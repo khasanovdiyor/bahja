@@ -9,26 +9,28 @@
         >
           <i> Mahsulot yangilandi</i>
 
-           <span
-            class="absolute right-6 cursor-pointer"
-            @click="showSuccess = false"
-            >X</span>
-
-        </div>
-        <div
-          v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-red-400 text-white text-center"
-        >
-          <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
-
           <span
             class="absolute right-6 cursor-pointer"
             @click="showSuccess = false"
             >X</span
           >
         </div>
+        <div
+          v-if="showFail"
+          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-red-400 text-white text-center"
+        >
+          <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
+
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showFail = false"
+            >X</span
+          >
+        </div>
         <div name="Mahsulot qo'shish">
-          <h2 class="text-xl font-bold  text-gray-700">Mahsulot o'zgartirish</h2>
+          <h2 class="text-xl font-bold  text-gray-700">
+            Mahsulot o'zgartirish
+          </h2>
 
           <div>
             <div class="input-group block my-4">
@@ -67,7 +69,8 @@
               </textarea>
             </div>
             <div class="my-4">
-              <label class="w-1/2 block font-bold uppercase text-sm mb-2"
+              <label
+                class="w-1/2 block font-bold text-gray-500 uppercase text-sm mb-2"
                 >kategoriyasi {{ newCategories }}</label
               >
               <multiselect
@@ -137,11 +140,11 @@
                 @change="previewProductMultiImage"
                 class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
               />
-              <div v-if="newImages" class="flex">
+              <div v-if="newImages" class="flex flex-wrap">
                 <div
                   v-for="(item, index) in newImages"
                   :key="index"
-                  class="w-56 h-56 mr-4 relative"
+                  class="w-48 h-56 mr-6  relative"
                 >
                   <img
                     :src="item"
@@ -345,7 +348,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -371,9 +374,9 @@ export default {
         key: null,
         label: null,
         value: null,
-        id: 0,
+        id: 0
       },
-      newAttributes: [],
+      newAttributes: []
     };
   },
   methods: {
@@ -383,7 +386,7 @@ export default {
     removeCategory(value, id) {
       console.log("value.id", value.id);
       this.newCategories = this.newCategories.filter(
-        (category) => category !== value.id
+        category => category !== value.id
       );
     },
     addProductAttribute() {
@@ -407,7 +410,7 @@ export default {
       this.newProduct.image = input.files[0];
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -440,28 +443,38 @@ export default {
       formData.append("image", this.newImage);
       this.$axios
         .patch(`product/update/${this.$route.params.id}`, this.newProduct)
-        .then((res) => {
-          console.log(res);
+        .then(res => {
+          loader.hide();
           this.showSuccess = true;
-          setTimeout(function() {
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
+          console.log(res.data);
+          this.getCategories();
+          setTimeout(() => {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
+          loader.hide();
+          this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
           console.log(err);
         });
     },
     updateCategory() {
       let category = {
         product: this.$route.params.id,
-        categories: this.newCategories,
+        categories: this.newCategories
       };
       this.$axios
         .post("product/update-category/", category)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -469,28 +482,28 @@ export default {
       let images = {
         product: this.$route.params.id,
         images: this.images,
-        deleted_images: this.deletedImages,
+        deleted_images: this.deletedImages
       };
       this.$axios
         .post("product/update-images/", images)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     updateAttributes() {
       let attributes = {
         product: parseInt(this.$route.params.id),
-        attributes: this.newAttributes,
+        attributes: this.newAttributes
       };
       this.$axios
         .post("product/update-attributes/", attributes)
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -505,7 +518,7 @@ export default {
     getProduct() {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.image = res.data.image;
           let i = 0;
           for (const key1 in res.data.attributes) {
@@ -520,15 +533,15 @@ export default {
           this.newProduct.quantity = res.data.quantity;
           this.newProduct.product_code = res.data.product_code;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProduct();
     this.getCategories();
-  },
+  }
 };
 </script>
 <style scoped>

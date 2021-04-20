@@ -55,7 +55,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.product.product_code.required &&
-                    $v.product.product_code.$dirty
+                      $v.product.product_code.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -94,7 +94,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.product.description.required &&
-                    $v.product.description.$dirty
+                      $v.product.description.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -120,7 +120,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.selectedCategories.required &&
-                    $v.selectedCategories.$dirty
+                      $v.selectedCategories.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -468,7 +468,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.product_code.required &&
-                    $v.variation.product_code.$dirty
+                      $v.variation.product_code.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -488,7 +488,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.description.required &&
-                    $v.variation.description.$dirty
+                      $v.variation.description.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -513,7 +513,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.selectedVariationCategories.required &&
-                    $v.selectedVariationCategories.$dirty
+                      $v.selectedVariationCategories.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -534,7 +534,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.quantity.required &&
-                    $v.variation.quantity.$dirty
+                      $v.variation.quantity.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -906,7 +906,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: [],
+        variations: []
       },
       variation: {
         parent_id: 0,
@@ -918,14 +918,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: [],
+        categories: []
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   watch: {
@@ -936,90 +936,90 @@ export default {
         delete this.variation.variations;
         delete this.variation.is_import;
         delete this.variation.brand;
-      },
+      }
     },
-    "this.showFail": function (newVal) {
+    "this.showFail": function(newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
       }
     },
-    "this.showSuccess": function (newVal) {
+    "this.showSuccess": function(newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showSuccess = false;
         }, 3000);
       }
-    },
+    }
   },
   validations: {
     selectedBrand: {
-      required,
+      required
     },
     selectedCategories: {
-      required,
+      required
     },
     selectedVariationCategories: {
-      required,
+      required
     },
     product: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       brand: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       image: {
-        required,
+        required
       },
       images: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
+        required
+      }
     },
     variation: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategories(value, id) {
@@ -1042,20 +1042,20 @@ export default {
       this.showAddNewKey = false;
     },
     RemoveAttribute(product, index) {
-      product.attributes.splice(index, 1);
+      product.attributes.splice(index, 3);
     },
     addVariation() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.product.variations.push(this.variation);
         this.variation = {
-          attributes: [],
+          attributes: []
         };
         this.showAddNewVariation = false;
       }
     },
     RemoveVariation(index) {
-      this.product.variations.splice(index, 1);
+      this.product.variations.splice(index, 3);
     },
     addImage(product) {
       product.images.push(image);
@@ -1064,13 +1064,13 @@ export default {
       this.selectedCategories.push(newTag);
     },
     removeImage(index, images) {
-      images.splice(index, 1);
+      images.splice(index, 3);
     },
     previewProductImage(event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.product.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1080,7 +1080,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -1093,7 +1093,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             if (this.product.images.length < 5)
               this.product.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
@@ -1111,7 +1111,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             if (this.variation.images.length < 5)
               this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
@@ -1125,20 +1125,20 @@ export default {
     getBrands() {
       this.$axios
         .get("product/brand-list/")
-        .then((res) => {
+        .then(res => {
           this.brands = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     getCategories() {
       this.$axios
         .get("product/category-list/")
-        .then((res) => {
+        .then(res => {
           this.categories = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -1151,7 +1151,7 @@ export default {
         let loader = this.$loading.show();
         this.$axios
           .post("product/create/", this.product)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             this.showSuccess = true;
             this.productVariation = {};
@@ -1161,18 +1161,18 @@ export default {
             this.preview = null;
             loader.hide();
           })
-          .catch((err) => {
+          .catch(err => {
             loader.hide();
             this.showFail = true;
             console.log(err);
           });
       }
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  },
+  }
 };
 </script>
 <style scoped>

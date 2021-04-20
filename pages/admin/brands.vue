@@ -240,21 +240,21 @@ export default {
           }, 3000);
           console.log(err);
         });
+    },
+    showNotification(show, message) {
+      this.message = message;
+      if (show === this.showSuccess) {
+        this.showSuccess = true;
+        setTimeout(() => {
+          this.showSuccess = false;
+        }, 3000);
+      } else if (show === this.showFail) {
+        this.showFail = true;
+        setTimeout(() => {
+          this.showFail = false;
+        }, 3000);
+      }
     }
-    // showNotification(show, message) {
-    //   this.message = message;
-    //   if (show === this.showSuccess) {
-    //     this.showSuccess = true;
-    //     setTimeout(() => {
-    //       this.showSuccess = false;
-    //     }, 3000);
-    //   } else if (show === this.showFail) {
-    //     this.showFail = true;
-    //     setTimeout(() => {
-    //       this.showFail = false;
-    //     }, 3000);
-    //   }
-    // },
   },
   mounted() {
     this.getBrands();

@@ -376,10 +376,7 @@
                             </nuxt-link>
                             <div
                               class="cursor-pointer"
-                              @click="
-                                deleteOrderID = order.id;
-                                showDeleteDialog = true;
-                              "
+                              @click="deleteOrder(deleteOrderID)"
                             >
                               <img
                                 src="~/assets/images/delete.svg"
@@ -390,24 +387,24 @@
                           </div>
                         </td>
                         <div
-                          class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
+                          class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
                           v-if="showDeleteDialog"
                         >
                           <div class="w-1/3 bg-white py-4 px-10">
                             <span class="font-bold text-xl block mb-6"
-                              >Ushbu mahsulotni o'chirishni xohlaysizmi?
+                              >Mahsulotni o'chirilsinmi?
                             </span>
 
                             <div class="flex justify-between">
                               <button
                                 @click="deleteOrder(deleteOrderID)"
-                                class="bg-red-600 text-white py-2 px-4"
+                                class="bg-red-400 text-white py-2 px-4"
                               >
                                 Ha
                               </button>
                               <button
                                 @click="showDeleteDialog = false"
-                                class="bg-gray-600 text-white py-2 px-4"
+                                class="bg-gray-400 text-white py-2 px-4"
                               >
                                 Yo'q
                               </button>

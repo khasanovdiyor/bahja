@@ -54,7 +54,7 @@
       ></h2>
       <div class="flex justify-end">
         <div>
-          <span class="font-bold">Omborda mavjud</span>
+          <span class="font-bold">Hozirda mavjud</span>
         </div>
       </div>
     </div>
@@ -197,13 +197,13 @@ export default {
       product: {
         id: null,
         attributes: {},
-        variations: [],
+        variations: []
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1,
-      },
+        count: 1
+      }
     };
   },
   watch: {
@@ -211,14 +211,14 @@ export default {
       deep: true,
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
-      },
+      }
     },
     showNotification(newVal) {
       if (newVal === true)
         setTimeout(() => {
           this.showNotification = false;
         }, 3000);
-    },
+    }
   },
   methods: {
     getProduct() {
@@ -227,10 +227,10 @@ export default {
       console.log("route id", id);
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.makeProductList(res.data);
           console.log("product-list", this.product_list);
-          const product = this.product_list.find(function (el) {
+          const product = this.product_list.find(function(el) {
             console.log("product.id", el.id, "id", parseInt(id));
             return el.id === parseInt(id);
           });
@@ -239,14 +239,14 @@ export default {
           // this.makeProductList(this.product);
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           console.log(err);
         });
     },
     makeProductList(product) {
       console.log("making product list");
-      product.variations.forEach((element) => {
+      product.variations.forEach(element => {
         this.product_list.push(element);
       });
       let p = Object.assign({}, product);
@@ -263,7 +263,7 @@ export default {
     findProduct(selected_attrs) {
       let found = null;
 
-      this.product_list.forEach((element) => {
+      this.product_list.forEach(element => {
         if (this.isProperWithAttribute(element, selected_attrs))
           found = element;
       });
@@ -305,7 +305,7 @@ export default {
         let selected_product = JSON.parse(JSON.stringify(this.selectedProduct));
         // product qidirish
         let index = ls.findIndex(
-          (el) =>
+          el =>
             parseInt(el.product_id) === parseInt(selected_product.product_id)
         );
 
@@ -325,7 +325,7 @@ export default {
         this.message =
           "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-    },
+    }
   },
   mounted() {
     this.getProduct();
@@ -337,7 +337,7 @@ export default {
     }
 
     // this.changeProduct(selected_attrs);
-  },
+  }
 };
 </script>
 

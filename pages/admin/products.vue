@@ -155,18 +155,18 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
       products: [],
       showDeleteDialog: false,
-      selectedProductID: null,
+      selectedProductID: null
     };
   },
   methods: {
     getProducts() {
-      this.$axios.get("product/list/?parent_id=0").then((res) => {
+      this.$axios.get("product/list/?parent_id=0").then(res => {
         console.log(res.data);
         this.products = res.data.results;
       });
@@ -174,19 +174,19 @@ export default {
     deleteProduct(id) {
       this.$axios
         .delete(`product/delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getProducts();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 

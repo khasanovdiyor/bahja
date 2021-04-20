@@ -358,7 +358,7 @@ export default {
         })
         .catch(err => {
           this.message =
-            "Kategoriya uchirishda xatolik yuz berdi, qayta urinib ko'ring";
+            "Kategoriya o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           console.log(err);
         });
     }

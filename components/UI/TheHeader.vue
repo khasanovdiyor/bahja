@@ -12,12 +12,12 @@
     <nav class="md:w-1/3 my-2 sm:my-0 w-full sm:w-3/4">
       <ul class="flex justify-between">
         <li>
-          <nuxt-link to="/products/mahalliy" class="font-semibold">
+          <nuxt-link to="/products/mahalliy" class="font-semibold text-lg">
             Mahalliy mahsulotlar
           </nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/products/import" class="font-semibold">
+          <nuxt-link to="/products/import" class="font-semibold text-lg">
             Import mahsulotlar
           </nuxt-link>
         </li>

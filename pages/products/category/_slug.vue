@@ -5,7 +5,7 @@
     <div class="flex">
       <TheSidebar :currentLink="link" />
       <div class="px-16 w-full">
-        <h1 class="px-16 capitalize font-bold text-center text-2xl my-5">
+        <h1 class="px-16 font-bold text-center text-xl my-5">
           {{ $route.params.type }} mahsulotlar
         </h1>
         <div
@@ -67,17 +67,17 @@ export default {
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha",
+          text: "Narx o'sish bo'yicha"
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha",
+          text: "Narx kamayish bo'yicha"
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha",
-        },
-      ],
+          text: "Mahsulot nomi bo'yicha"
+        }
+      ]
     };
   },
   methods: {
@@ -85,16 +85,16 @@ export default {
       this.$axios
         .get(`product/list/`, {
           params: {
-            ordering: ordering,
-          },
+            ordering: ordering
+          }
         })
-        .then((res) => {
+        .then(res => {
           console.log("list", res.data);
           this.products = res.data.results;
           this.showSort = false;
           this.selectedSort = text;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -102,16 +102,16 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .get(`product/by-category/${this.$route.params.slug}/`)
-        .then((res) => {
+        .then(res => {
           console.log("list", res.data);
           this.products = res.data.results;
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
@@ -121,6 +121,6 @@ export default {
         this.savedProducts = JSON.parse(json_string);
       }
     }
-  },
+  }
 };
 </script>
