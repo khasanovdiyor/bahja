@@ -3,7 +3,7 @@
     <TheContact />
     <TheHeader />
     <div class="px-16">
-      <p class="text-center text-xl font-bold text-gray-700  my-10">
+      <p class="text-center text-xl font-bold text-gray-700 my-10">
         Biz haqimizda
       </p>
       <div>
@@ -31,7 +31,7 @@
           aut officiis repellat mollitia quibusdam.<br />
           Doloremque deserunt veniam eos fugiat, sapiente recusandae nam
           laudantium officiis dicta! Culpa iste libero mollitia? Placeat
-          molestias perspiciatis asperiores repellendus doloremque at!
+          molestias perspiciatis asperiores repellendus.
         </p>
       </div>
     </div>
