@@ -3,28 +3,42 @@
     <TheContact />
     <TheHeader />
     <div
-      v-if="showSuccess"
-      class="flex items-center justify-center w-2/3 mx-auto text-white bg-green-400 px-4 py-2 text-lg"
-    >
-      <span class="flex w-3/5 justify-center"
-        ><i>Buyurtmangiz qabul qilindi!</i></span
-      >
-    </div>
-    <div
-      v-if="showFail"
-      class="flex items-center justify-center w-2/3 mx-auto text-white bg-red-400 px-4 py-2 text-lg"
-    >
-      <span class="flex w-3/5 justify-center"
-        ><i>Buyurtma berishda xatolik bor qayta urunib ko'ring!</i></span
-      >
-    </div>
+          v-if="showSuccess"
+          
+          class="flex items-center mx-auto z-40 py-2 w-9/12 bg-green-500 text-lg text-white"
+       
+        >
+        <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+                    <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"></path>
+                </svg>
+        
+          <i> Buyurtmangiz qabul qilindi</i>
+
+          <span
+            class="absolute right-6 cursor-pointer"
+            @click="showSuccess = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showFail"
+          class="flex items-center mx-auto z-100 py-2 w-9/12 bg-red-500 text-lg text-white"
+        ><svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"></path>
+                </svg>
+          <i> Savatchada mahsulot yo'q</i>
+
+          <span
+            class="absolute font-bold right-6 cursor-pointer"
+            @click="showFail = false"
+            >X</span
+          >
+        </div>
     <div
       v-if="!showMessage"
       class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-12 border-gray-200 pb-8"
     >
-      <p
-        class="w-full px-5 flex items-center py-6 h-8 text-sm mx-auto font-semibold bg-black text-white uppercase"
-      ></p>
+
       <div class="w-full px-5 mx-auto">
         <form class="w-full" method="post" enctype="multipart/form-data">
           <div class="input-group my-8">
@@ -32,11 +46,19 @@
               >ismingiz</label
             >
             <input
-              type="text"
+              type="text" id="username" required
               class="mt-2 w-full bg-gray-200 border-2 rounded-md text-sm w-1/2 py-2 pl-5"
               placeholder="Ism"
-              v-model="name"
-            />
+              v-model ="name"
+              
+              /> 
+               <div
+            class="text-red-400 text-sm"
+              v-if="!$v.order.name.required && $v.order.name.$dirty"
+          >
+            <i>To'ldirish shart</i>
+          </div> 
+          <div class="text-red-400" v-if="!$v.order.name.minLength"></div>
           </div>
           <div>
             <label for="input" class="font-semibold text-sm uppercase"
@@ -44,10 +66,10 @@
             >
             <input
               type="text"
+              id=""
               class="mt-2 w-full bg-gray-200 border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              placeholder="+998-##-###-##-##"
-              v-mask="'+###-##-###-##-##'"
-              v-model="phone"
+              v-mask="'+### ## ### ## ##'"
+              v-model ="phone"
             />
           </div>
         </form>
@@ -67,8 +89,12 @@
           Buyurtmangiz qabul qilindi!
         </h3> -->
 
-        <nuxt-link to="/" class="hover:underline  text-xl text-gray-600">
-          <b>Bosh menyuga qaytish</b>
+        <nuxt-link to="/" class="">
+       <img
+          src="~/assets/images/bahja.png"
+          alt=""
+          class="w-32 ml-14 mb-5" />
+          <b class="hover:underline  text-xl text-gray-600">Bosh sahifaga qaytish</b>
         </nuxt-link>
       </div>
     </div>
@@ -84,12 +110,39 @@ export default {
   data() {
     return {
       showMessage: false,
+      errors: [],
       name: "",
       phone: "",
       showSuccess: false,
       showFail: false,
       savedProducts: []
     };
+    
+  }, seletedCategories: {
+        name: "",
+        phone_number: "",
+        status: "",
+
+        categories: [],
+      order: {
+        name: null,
+        phone_number: null,
+      }
+  },
+  validations: {
+    order: {
+      name: {
+        required,
+        minLength: minLength (3)
+      },
+      phone_number: {
+        required
+      },
+      order: {
+        required
+      }
+    }
+  
   },
   methods: {
     sendOrder() {
@@ -119,8 +172,26 @@ export default {
           }, 3000);
           console.log(err);
         });
+    },
+
+    checkForm: function (e) {
+      if (this.name && this.phone_number) {
+        return true;
+      }
+
+      this.errors = [];
+
+      if (!this.name) {
+        this.errors.push('Name required.');
+      }
+      if (!this.phone_number) {
+        this.errors.push('phone_number required.');
+      }
+
+      e.preventDefault();
     }
   },
+
   mounted() {
     let loader = this.$loading.show();
 
@@ -132,5 +203,7 @@ export default {
     }
     loader.hide();
   }
+  
 };
+
 </script>

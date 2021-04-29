@@ -32,12 +32,12 @@
       <div class="mb-6 my-10">
         <div class="input-group block">
           <h2 class="text-xl font-bold mb-10 text-gray-700">
-            Kategoriya yangilash
+            Tahrirlash
           </h2>
           <label
             for="input"
-            class="block font-bold text-gray-500 uppercase text-sm mb-2"
-            >Kategoriya nomi</label
+            class="block font-bold text-gray-600 uppercase text-sm mb-2"
+            >nom</label
           >
           <input
             type="text"
@@ -48,14 +48,15 @@
           <div>
             <label
               for="input"
-              class="block font-bold text-gray-500 uppercase text-sm mb-2"
-              >Parent kategoriya</label
+              class="block font-bold text-gray-600 uppercase text-sm mb-2"
+              >Asosiy kategoriya</label
             >
             <multiselect
               v-model="parentCategory"
               :options="categories"
               placeholder="Kategoriya tanlang"
               label="name"
+              class="text-sm"
               track-by="name"
               @select="selectCategory"
               @remove="removeCategory"
@@ -64,8 +65,8 @@
 
           <label
             for="input"
-            class="block font-bold text-gray-500 uppercase text-sm mt-4 mb-2"
-            >Tartib raqami</label
+            class="block font-bold text-gray-600 uppercase text-sm mt-4 mb-2"
+            >Tartib raqam</label
           >
           <input
             type="text"
@@ -75,18 +76,18 @@
 
           <label
             for="input"
-            class="block font-bold text-gray-500 uppercase text-sm mt-4 mb-2"
+            class="block font-bold text-gray-600 uppercase text-sm mt-4 mb-2"
           >
             is_slider
           </label>
           <input
             type="checkbox"
-            class="border-2 text-sm w-5 h-5 py-2 pl-5"
+            class="border-2 text-sm w-5 h-5"
             v-model="newCategory.is_slider"
           />
           <label
-            class="block font-bold text-gray-500 uppercase text-sm mt-4 mb-2"
-            >rasm qo'yish</label
+            class="block font-bold text-gray-600 uppercase text-sm mt-4 mb-2"
+            >Asosiy ram</label
           ><input
             type="file"
             accept="image/*"
@@ -96,10 +97,10 @@
         </div>
         <div v-if="newCategory.image">
           <div>
-            <div class="w-56 h-56 my-5">
+            <div class="w-56 h-64 my-5 border shadow-sm">
               <img
                 :src="newCategory.image"
-                class="object-cover object-top w-full h-full"
+                class="object-content w-full h-full"
               />
             </div>
           </div>

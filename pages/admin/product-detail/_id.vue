@@ -1,15 +1,15 @@
 <template>
   <div class="flex bg-gray-100">
     <AdminSidebar class="w-1/5" />
-    <div class="px-5 pt-10 w-2/3 ">
-      <h1 class="font-bold text-xl mb-6 text-gray-700">Mavjud mahsulotlar</h1>
+    <div class="px-5 pt-10 w-9/12 ">
+      <h1 class="font-bold text-xl mb-6 text-gray-900">Mahsulotlar</h1>
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">
-          <thead class="bg-gray-200">
+          <thead class="bg-gray-200 w-1/4 ">
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700 "
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600 "
               >
                 id
               </th>
@@ -17,23 +17,23 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                nomi
+                nom
               </th>
             </tr>
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                kodi
+                kod
               </th>
             </tr>
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
                 tavsif
               </th>
@@ -41,68 +41,64 @@
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                kategoriyasi
+                kategoriya
               </th>
             </tr>
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                brandi
+                brand
               </th>
             </tr>
-            <tr class="border-gray-400 border-b">
+             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                narxi (so'm)
+                son
               </th>
             </tr>
-            <tr class="border-gray-400">
+            <tr class="border-gray-400 ">
               <th
                 scope="col"
-                class="px-8 block py-2 text-left text-sm font-bold text-gray-700"
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                soni
+                narx (so'm)
               </th>
             </tr>
+           
           </thead>
-          <tbody class="bg-white">
-            <tr class="border">
-              <td class="px-6 py-2 border">
-                <div class="flex items-center text-sm">
+          <tbody class="bg-white w-full border">
+            <tr class="">
+              <td
+               class="product-width px-6 py-2 border-b text-sm">
                   {{ product.id }}
-                </div>
               </td>
             </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
-                <div class="flex items-center text-sm">
+            <tr class="border-b">
+              <td class="product-width px-6 py-2 text-sm">
                   {{ product.name }}
-                </div>
               </td>
             </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
-                <div class="flex items-center text-sm">
+            <tr class="">
+              <td class="product-width px-6 py-2 border-b text-sm">
                   {{ product.product_code }}
-                </div>
               </td>
             </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
+            <tr class="border-b">
+              <td class="product-width px-6 py-2">
                 <div class="flex items-center text-sm">
                   {{ product.description }}
                 </div>
               </td>
             </tr>
-            <tr class="border">
+            <tr class="border-b">
               <td
-                class="px-6 py-2 border"
+                class="product-width px-6 py-2 "
                 v-for="category in product.categories"
                 :key="category.id"
               >
@@ -111,28 +107,30 @@
                 </div>
               </td>
             </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
+            <tr class="border-b">
+              <td class="px-6 py-2">
                 <div class="flex items-center text-sm">
                   {{ product.brand.name }}
                 </div>
               </td>
-            </tr>
-
-            <tr class="border">
-              <td class="px-6 py-2 border">
-                <div class="flex items-center text-sm">
-                  {{ product.price }}
-                </div>
-              </td>
-            </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
+            </tr> 
+            <tr class="border-b">
+              <td class="px-6 py-2">
                 <div class="flex items-center text-sm">
                   {{ product.quantity }}
                 </div>
               </td>
             </tr>
+
+            <tr class="border-b">
+              <td class="px-6 py-2">
+                <div class="flex items-center text-sm">
+                  {{ product.price }}
+                
+                </div>
+              </td>
+            </tr>
+           
           </tbody>
         </table>
       </div>
@@ -144,26 +142,26 @@
             <tr>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
                 is main
               </th>
 
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
                 key
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
                 label
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
                 value
               </th>
@@ -182,7 +180,7 @@
               <td class="px-6 py-1 border text-sm">
                 {{ index }}
               </td>
-              <td class="px-6 py-1 border text-sm">
+              <td class="px-6 py-1 border text-sm lowercase">
                 {{ attrib.label }}
               </td>
               <td class="px-6 py-1 border text-sm">
@@ -199,54 +197,53 @@
       </div>
       <div class="my-8">
         <div class="flex items-center justify-between">
-          <h2 class="font-bold text-xl my-4 text-gray-700">O'zgarishlari</h2>
+          <h2 class="font-bold text-xl my-4 text-gray-700">O'zgarishlar</h2>
         </div>
-        <table class="min-w-full divide-y divide-gray-200">
+        <table class="min-w-full divide-y divide-gray-200">  
           <thead class="bg-gray-200">
             <tr>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 w-40 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                Nomi
-              </th>
-
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
-              >
-                Kodi
+                Nom
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
+              >
+                Kod
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
                 Tavsif
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                Kategoriyasi
+                Kategoriya
+              </th>
+               <th
+                scope="col"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
+              >
+                Son
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                Narxi
+                Narx
               </th>
+             
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                Soni
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-sm text-sm font-bold text-gray-700 uppercase"
-              >
-                O'zgartirish/ <br />
-                O'chirish
+               buyruqlar
               </th>
             </tr>
           </thead>
@@ -273,6 +270,7 @@
               </td>
               <td class="px-6 py-1 border text-sm">
                 {{ variation.price }}
+               
               </td>
               <td class="px-6 py-1 border text-sm">
                 {{ variation.quantity }}
@@ -286,7 +284,7 @@
                     <img
                       src="~/assets/images/pencil.svg"
                       class="w-5 h-6"
-                      alt="pencil icon"
+                      alt="edit"
                     />
                   </nuxt-link>
                   <div
@@ -299,43 +297,43 @@
                     <img
                       src="~/assets/images/delete.svg"
                       class="w-5 h-5"
-                      alt="pencil icon"
+                      alt="delete"
                     />
                   </div>
                 </div>
               </td>
             </tr>
             <tr
-              class="w-1/2"
+              class="w-9/12"
               v-for="variation in product.variations"
               :key="variation.id"
             >
-              <h2 class="font-bold text-xl text-gray-700 my-5">Attributlar</h2>
-              <table class="divide-y divide-gray-200">
+              <h2 class="font-bold text-xl text-gray-800 mt-10">Attributlar</h2>
+              <table class="w-full divide-y divide-gray-200 mt-5">
                 <thead class=" bg-gray-200">
                   <tr class="border">
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       is main
                     </th>
 
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       key
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       label
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       value
                     </th>
@@ -354,7 +352,7 @@
                     <td class="px-6 py-1 border text-sm">
                       {{ index }}
                     </td>
-                    <td class="px-6 py-1 border text-sm">
+                    <td class="px-6 py-1 border text-sm ">
                       {{ attrib.label }}
                     </td>
                     <td class="px-6 py-1 border text-sm">
@@ -371,7 +369,7 @@
         <span class="font-bold mb-4 text-xl block text-gray-700"
           >Asosiy rasm</span
         >
-        <div class="w-56 h-48 my-5">
+        <div class="w-56 h-64 my-5 border shadow-sm">
           <img
             :src="product.image"
             class="w-full h-full object-cover object-top"
@@ -381,19 +379,17 @@
         <span class="font-bold my-5 mt-5 text-xl block text-gray-700"
           >Galereya rasmlari</span
         >
-        <div class="flex">
           <div
             v-for="image in product.images"
             :key="image"
-            class="w-56 h-48 my-5 mr-4"
+            class="inline-block w-56 h-64 my-5 mr-4 border shadow-sm"
           >
             <img
               :src="image"
-              class="object-cover object-top w-full h-full"
+              class="object-cover w-full h-full"
               alt="gallery image"
             />
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -401,14 +397,16 @@
 
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
+import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
     AdminSidebar
   },
   data() {
     return {
+      priceMask: priceMask,
       showDeleteDialog: false,
-      selectedProductID: 0,
+      selectedProductID: null,
       product: {
         brand: {},
         color: {},
@@ -428,7 +426,7 @@ export default {
         .delete(`product/delete/${id}`)
         .then(res => {
           console.log(res);
-          this.showDeleteDialog = false;
+          this.showDeleteDialog = true;
           this.getProducts();
         })
         .catch(err => {
@@ -442,4 +440,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style> 
+.product-width{
+width: 60rem;
+}
+</style>

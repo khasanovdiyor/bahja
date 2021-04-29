@@ -1,42 +1,47 @@
 <template>
-  <div class="flex mt-24 justify-center">
-    <div class="w-full md:w-1/3 pb-8 border-2">
-      <span
-        class="w-full flex items-center mb-8 justify-center py-5 text-xl font-semibold h-8 bg-black text-white"
-      >
-      </span>
-      <div class="w-full px-6">
-        <form class="w-full" @submit.prevent="logIn">
-          <div class="input-group mb-8">
-            <label for="input" class="font-semibold text-sm uppercase"
-              >admin nomi</label
+<div>
+  <div class="flex mt-24 px-6 rounded-md justify-center">
+    <div class="w-full md:w-1/3 px-6 pb-8 border-2">
+      <div class="w-full">
+        <form class="w-full" @submit.prevent="logIn"
+          method="post">
+          <div class="input-group mb-8 mt-6">
+            <label for="input" 
+            class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+              >admin</label
             >
             <input
-              type="text"
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 rounded-sm"
+              type="text" required
+               class="border-2 rounded-md text-sm w-full py-2 pl-5"
+              id="username"
               placeholder="Ism"
-              v-model.trim="login.name"
+              v-model ="login.name"
             />
           </div>
           <div class="input-group">
-            <label for="input" class="font-semibold text-sm py-5">PAROL</label>
+            <label for="input" 
+            class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1">PAROL</label>
             <input
-              type="password"
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 rounded-sm"
-              placeholder="********"
-              v-model.trim="login.password"
+              type="password" required
+               class="border-2 rounded-md text-sm w-full py-2 pl-5"
+              id="password"
+              placeholder="**********"
+              v-model="login.password"
             />
           </div>
-          <button
+          <div class="w-full">
+             <button
             type="submit"
-            class="btn w-full mt-8 mx-auto text-center rounded-sm font-semibold py-2 bg-black text-white"
+            class="flex justify-center items-center w-40 mx-auto mt-8 text-center rounded-md text-white font-semibold py-2 hover:bg-gray-700 bg-gray-600 "
           >
             KIRISH
           </button>
+          </div>
         </form>
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
 export default {
@@ -49,7 +54,7 @@ export default {
     };
   },
   methods: {
-    logIn() {
+    login(logininfo) {
       this.$axios
         .post("users/token/", this.login)
         .then((res) => {

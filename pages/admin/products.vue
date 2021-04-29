@@ -1,12 +1,12 @@
 <template>
   <div class="flex min-h-screen bg-gray-100">
     <AdminSidebar />
-    <div class="px-8 pt-10">
+    <div class="px-6 w-9/12 pt-10">
       <div class="flex items-center justify-between">
-        <h1 class="font-bold text-xl text-gray-700 mb-6">Mavjud mahsulotlar</h1>
+        <h1 class="font-bold text-xl text-gray-700 mb-5">Mahsulotlar</h1>
         <nuxt-link
           to="/admin/product-create"
-          class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2 mb-5"
+          class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2 mb-6"
           >Qo'shish</nuxt-link
         >
       </div>
@@ -16,41 +16,41 @@
           <tr>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
+              class="px-6 py-3 w-16 text-left text-xs font-bold text-gray-600 uppercase"
             >
               id
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
+              class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase"
             >
-              mahsulot nomi
+              nom
             </th>
             <th
               scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
+              class="px-6 py-3 w-40 text-left text-xs font-bold text-gray-600 uppercase"
             >
-              mahsulot kodi
-            </th>
-
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
-            >
-              atributlari
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600"
-            >
-              NARXI (so'm)
+              kod
             </th>
 
             <th
               scope="col"
-              class="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase"
+              class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase"
             >
-              o'zgartirish
+              atributlar
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 w-40 text-left text-xs font-bold text-gray-600"
+            >
+              NARX (so'm)
+            </th>
+
+            <th
+              scope="col"
+              class="px-6 py-3 w-40 text-left text-xs font-bold text-gray-600 uppercase"
+            >
+              buyruqlar
             </th>
           </tr>
         </thead>
@@ -77,9 +77,9 @@
                 <span
                   v-for="attr in product.attributes"
                   :key="attr.id"
-                  class="block"
+                  class="block lowercase"
                 >
-                  {{ attr.label }}: {{ attr.value }}
+                  <b>{{ attr.label }} :</b> {{ attr.value }}
                 </span>
               </div>
             </td>
@@ -121,29 +121,29 @@
               </div>
             </td>
             <div
-              class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-25 flex items-center justify-center"
-              v-if="showDeleteDialog"
-            >
-              <div class="w-1/3 bg-white py-4 px-10">
-                <span class="font-bold text-xl block mb-6"
-                  >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
-                >
-                <div class="flex justify-between">
-                  <button
-                    @click="deleteProduct(selectedProductID)"
-                    class="bg-red-600 text-white py-2 px-4"
+                          class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
+                    v-if="showDeleteDialog"
                   >
-                    Ha
-                  </button>
-                  <button
-                    @click="showDeleteDialog = false"
-                    class="bg-gray-600 text-white py-2 px-4"
-                  >
-                    Yo'q
-                  </button>
-                </div>
-              </div>
-            </div>
+                    <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
+                      <span class="font-bold text-xl text-center block mb-6"
+                        >Ushbu mahsulotnio'chirishni xohlaysizmi?</span
+                      >
+                      <div class="flex justify-between">
+                        <button
+                          @click="deleteOrder(deleteOrderID)"
+                          class="bg-red-500 rounded-md text-white py-2 px-4"
+                        >
+                          Ha
+                        </button>
+                        <button
+                          @click="showDeleteDialog = false"
+                          class="bg-gray-500 rounded-md text-white py-2 px-4"
+                        >
+                          Yo'q
+                        </button>
+                      </div>
+                    </div>
+                  </div>
           </tr>
         </tbody>
       </table>

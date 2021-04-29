@@ -32,8 +32,8 @@
         </div>
 
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
-            >Slider matni</label
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >text</label
           >
           <input
             type="text"
@@ -42,8 +42,8 @@
           />
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
-            >Kategoriya tanlang
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >Kategoriya
           </label>
           <select
             name="category"
@@ -62,8 +62,8 @@
           </select>
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
-            >rasm qo'yish</label
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >rasm</label
           ><input
             type="file"
             accept="image/*"
@@ -72,10 +72,10 @@
           />
           <div v-if="preview">
             <div>
-              <div class="w-56 h-56 ">
+             <div class="w-56 h-64 my-5 border shadow-md">
                 <img
                   :src="preview"
-                  class="object-cover object-top w-full h-full my-5"
+                   class="object-cover w-full h-full"
                 />
               </div>
             </div>
@@ -86,7 +86,7 @@
           @click="updateSlider"
           class="bg-gray-800 rounded-md text-sm text-white py-2 mt-1 px-4"
         >
-          Slider ma'lumotlarini yangilash
+          Yangilash
         </button>
       </div>
     </div>

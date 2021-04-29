@@ -200,17 +200,16 @@
               </div>
             </div> -->
 
-            <div class="flex items-center mt-8 justify-between">
-              <h2 class="text-xl -mt-16 text-gray-700 font-semibold">
+            <div class="flex items-center pt-3 justify-between">
+              <h2 class="text-xl mt-8 text-gray-700 font-semibold">
                 Buyurtmalar
               </h2>
               <div class="mt-5 flex items-center">
-                <div>
                   <select
                     name="filter-orders"
                     v-model="activeStatus"
                     id=""
-                    class="inline-block ml-auto py-2 text-sm border border-gray-200 rounded-md"
+                    class="ml-auto py-2 text-sm border border-gray-200 rounded-md"
                   >
                     <option value="">Status bo'yicha saralash</option>
                     <option
@@ -223,7 +222,7 @@
                   </select>
                   <button
                     @click="getOrders"
-                    class="bg-gray-800 w-24 rounded-md text-sm px-4 text-white my-2 py-2"
+                    class="bg-gray-800 w-24 mx-3 rounded-md text-sm px-4 text-white my-2 py-2"
                   >
                     Saralash
                   </button>
@@ -232,7 +231,6 @@
                     class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2"
                     >Qo'shish</nuxt-link
                   >
-                </div>
               </div>
             </div>
 
@@ -247,34 +245,34 @@
                     <thead>
                       <tr>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Mijoz nomi
+                         ism
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Telefon raqami
+                          Telefon raqam
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Buyurtmalar soni
+                          son
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Buyurtmalar narxi
+                          narx
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
                           Status
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                          class="px-6 py-3 w-40 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          o'zgartirish
+                          buyruqlar
                         </th>
                       </tr>
                     </thead>
@@ -292,29 +290,21 @@
                                 alt=""
                               />
                             </div>
-
                             <div class="ml-4">
                               <div
-                                class="text-sm leading-5 font-medium text-gray-900"
+                                class="text-sm leading-5 font-medium text-gray-700"
                               >
                                 {{ order.name }}
                               </div>
-                              <!-- <div class="text-sm leading-5 text-gray-500">
-                                +998-99-959-59-59
-                              </div> -->
                             </div>
                           </div>
                         </td>
-
                         <td
                           class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
-                          <div class="text-sm leading-5 text-gray-900">
+                          <div class="text-sm leading-5 font text-gray-700 ">
                             {{ order.phone_number }}
                           </div>
-                          <!-- <div class="text-sm leading-5 text-gray-500">
-                            Web dev
-                          </div> -->
                         </td>
                         <td
                           class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
@@ -390,31 +380,30 @@
                             </div>
                           </div>
                         </td>
-                        <div
-                          class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-30 flex items-center justify-center"
-                          v-if="showDeleteDialog"
+                         <div
+                          class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-25 flex items-center justify-center"
+                    v-if="showDeleteDialog"
+                  >
+                    <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
+                      <span class="font-bold text-xl text-center block mb-6"
+                        >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
+                      >
+                      <div class="flex justify-between">
+                        <button
+                          @click="deleteOrder(deleteOrderID)"
+                          class="bg-red-500 rounded-md text-white py-2 px-4"
                         >
-                          <div class="w-1/3 bg-white py-4 px-10">
-                            <span class="font-bold text-xl block mb-6"
-                              >Ushbu mahsulotni o'chirishni xohlaysizmi?
-                            </span>
-
-                            <div class="flex justify-between">
-                              <button
-                                @click="deleteOrder(deleteOrderID)"
-                                class="bg-red-400 text-white py-2 px-4"
-                              >
-                                Ha
-                              </button>
-                              <button
-                                @click="showDeleteDialog = false"
-                                class="bg-gray-600 text-white py-2 px-4"
-                              >
-                                Yo'q
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                          Ha
+                        </button>
+                        <button
+                          @click="showDeleteDialog = false"
+                          class="bg-gray-500 rounded-md text-white py-2 px-4"
+                        >
+                          Yo'q
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                       </tr>
                     </tbody>
                   </table>
@@ -437,7 +426,7 @@ export default {
       deleteOrderID: null,
       orders: [],
       activeStatus: "",
-      statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
       showStatus: false
     };
   },

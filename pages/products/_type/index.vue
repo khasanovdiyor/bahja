@@ -75,7 +75,7 @@
             class="text-gray-400 hover:underline"
             >Import mahsulotlar</nuxt-link
           >
-          ni qarab ko'ring!
+          bo'limini tekshiring!
         </h2>
 
         <div

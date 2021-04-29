@@ -3,8 +3,7 @@
   <div>
     <!-- CONTACT BOX  -->
     <!-- END OF CONTACT BOX -->
-
-    <!-- SHOWCASE CONTAINER -->
+            <!-- SHOWCASE CONTAINER -->
     <div class="relative">
       <!-- HEADER - NAVIGATION -->
       <div class="">
@@ -104,7 +103,9 @@
 </template>
 
 <script>
+import Login from '../components/Login.vue';
 export default {
+  components: { Login },
   data() {
     return {
       slides: [],

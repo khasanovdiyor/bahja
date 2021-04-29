@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <div class="flex">
       <AdminSidebar class="w-1/3" />
@@ -6,7 +6,9 @@
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-green-400 text-white text-center"
-        >
+        > <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"></path>
+                </svg>
           <i> Mahsulot yangilandi</i>
 
           <span
@@ -29,7 +31,7 @@
         </div>
         <div name="Mahsulot qo'shish">
           <h2 class="text-xl font-bold  text-gray-700">
-            Mahsulot o'zgartirish
+            O'zgartirish
           </h2>
 
           <div>
@@ -37,7 +39,7 @@
               <label
                 for="input"
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >Mahsulot nomi</label
+                >Nom</label
               >
               <input
                 type="text"
@@ -49,7 +51,7 @@
               <label
                 for="input"
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >Mahsulot kodi</label
+                >Kod</label
               >
               <input
                 type="text"
@@ -71,47 +73,54 @@
             <div class="my-4">
               <label
                 class="w-1/2 block font-bold text-gray-500 uppercase text-sm mb-2"
-                >kategoriyasi {{ newCategories }}</label
+                >kategoriya</label
               >
               <multiselect
                 v-model="newCategories"
-                tag-placeholder="Ushbu kategoriayni qo'shing"
-                placeholder="Kategoriya izlang yoki qo'shing"
+                placeholder="Kategoriya tanlang"
                 label="name"
-                track-by="id"
+                track-by="name"
                 :options="categories"
                 :multiple="true"
-                @tag="addTag"
                 @select="addCategory"
-                @remove="removeCategory"
-              ></multiselect>
+                @remove="removeCategory"                
+              >
+              <template
+                ><span class="text-red-500 " slot="noResult">Bunday kategoriya topilmadi!</span>
+              </template> 
+              </multiselect>
             </div>
             <div class="my-4">
               <label
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >soni</label
+                >son</label
               >
               <input
-                type="string"
+                type="text"
                 class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                 v-model="newProduct.quantity"
+                
+                v-mask="priceMask"
+     
               />
             </div>
             <div class="my-4">
               <label
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >narxi</label
+                >narx</label
               >
               <input
                 type="string"
                 class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                 v-model="newProduct.price"
+                v-mask="priceMask"
+
               />
             </div>
             <div class="my-4">
               <label
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >rasm qo'yish {{ newCategories }}</label
+                >asosiy rasm</label
               ><input
                 type="file"
                 accept="image/*"
@@ -120,10 +129,10 @@
               />
               <div v-if="image">
                 <div>
-                  <div class="w-56 h-56 my-5">
+                  <div class="w-56 h-64 my-5 border shadow-sm">
                     <img
                       :src="image"
-                      class="object-cover object-top w-full h-full"
+                      class="object-cover w-full h-full"
                     />
                   </div>
                 </div>
@@ -132,7 +141,7 @@
             <div class="my-4">
               <label
                 class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >galereya rasmlarini qo'shish</label
+                >galereya rasmlari</label
               ><input
                 type="file"
                 accept="image/*"
@@ -144,11 +153,11 @@
                 <div
                   v-for="(item, index) in newImages"
                   :key="index"
-                  class="w-48 h-56 mr-6  relative"
+                  class="w-56 h-64 my-5 border shadow-sm relative"
                 >
                   <img
                     :src="item"
-                    class="object-cover object-top w-full h-full"
+                    class="object-cover w-full h-full"
                   />
                   <span
                     @click="removeImage(index)"
@@ -165,40 +174,40 @@
                   <tr>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       is main
                     </th>
 
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       key
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       label
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       value
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2  text-left text-xs font-bold text-gray-600 uppercase"
                     >
-                      qo'shish/o'chirish
+                      o'chirish
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white">
+                <tbody class="bg-white ">
                   <tr
-                    class="border"
+                    class="border my-5"
                     v-for="(attr, index) in newAttributes"
                     :key="index"
                   >
@@ -206,7 +215,7 @@
                       <div class="flex items-center text-gray-500">
                         <input
                           type="checkbox"
-                          class="border w-full text-sm w-5 h-5 pl-5"
+                          class="border rounded-md w-full text-md w-5 px-5"
                           v-model="attr.is_main"
                         />
                       </div>
@@ -221,7 +230,7 @@
                       <div class="flex items-center text-sm">
                         <input
                           type="text"
-                          class="text-sm py-2 pl-5"
+                          class="border rounded-md w-full text-sm w-5 h-5 p-4 px-5"
                           v-model="attr.label"
                         />
                       </div>
@@ -230,7 +239,7 @@
                       <div class="flex items-center text-sm">
                         <input
                           type="text"
-                          class="text-sm py-2 pl-5"
+                          class="border rounded-md w-full text-sm w-5 h-5 p-4 px-5"
                           v-model="attr.value"
                         />
                       </div>
@@ -244,7 +253,7 @@
                           <img
                             src="~/assets/images/delete.svg"
                             alt=""
-                            class="w-6 ml-5"
+                            class="w-5 ml-5"
                           />
                         </div>
                       </div>
@@ -303,7 +312,7 @@
               </table>
               <div
                 @click="showAddNewKey = true"
-                class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 text-white my-5 py-2 mb-5"
+                class="block bg-gray-800 w-24 cursor-pointer text-sm text-center rounded-md px-3 text-white my-5 py-2 mb-5"
               >
                 Qo'shish
               </div>
@@ -322,12 +331,14 @@
 </template>
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
+import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
     AdminSidebar
   },
   data() {
     return {
+       priceMask: priceMask,
       newImage: null,
       showSuccess: false,
       showFail: false,

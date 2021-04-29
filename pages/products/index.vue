@@ -5,9 +5,9 @@
     <div class="flex">
       <TheSidebar :currentLink="link" />
       <div class="px-16 w-full">
-        <h1 class="capitalize font-bold text-center text-2xl my-5">
+        <!-- <h1 class="capitalize font-bold text-center text-2xl my-5">
           Yangi mahsulotlar
-        </h1>
+        </h1> -->
 
         <h2
           class="font-bold text-xl mt-36 h-1/3 text-center w-full"

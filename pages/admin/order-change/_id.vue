@@ -28,7 +28,7 @@
         </div>
 
         <div class="pb-10">
-          <h2 class="font-bold text-xl my-8">Buyurtmani o'zgartirish</h2>
+          <h2 class="font-bold text-xl mb-5">Buyurtmani o'zgartirish</h2>
           <div class="my-4">
             <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
               >Buyurtmachi</label
@@ -51,7 +51,7 @@
               v-if="!$v.selectedOrder.name.minLength"
             >
               <i>
-                Buyurtmachi nomi kamida
+                Ism kamida
                 {{ $v.selectedOrder.name.$params.minLength.min }} harf bo'lishi
                 kerak</i
               >
@@ -59,14 +59,13 @@
           </div>
           <div class="my-4">
             <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
-              >Buyurtmachi telefon raqami</label
+              >Telefon raqam</label
             >
             <input
               type="index"
               class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              placeholder="+998-"
               v-model.trim="$v.selectedOrder.phone_number.$model"
-              v-mask="'+998-##-###-##-##'"
+              v-mask="'+998 ## ### ## ##'"
             />
             <div
               class="text-red-400 text-sm"
@@ -82,7 +81,7 @@
               v-if="!$v.selectedOrder.phone_number.minLength"
             >
               <i
-                >Telfon raqami kamida
+                >Telfon raqam kamida
                 {{ $v.selectedOrder.phone_number.$params.minLength.min }} son
                 bo'lishi kerak</i
               >
@@ -106,6 +105,7 @@
                 {{ status }}
               </option>
             </select>
+            
           </div>
           <button
             class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
@@ -119,46 +119,46 @@
                 <tr>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    mahsulot kodi
+                    kod
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    mahsulot nomi
+                    nom
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    Attributlari
+                    Attributlar
                   </th>
 
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    mahsulot narxi
+                    narx
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    soni
+                    son
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    jami narxi
+                    jami narx
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                    class="px-6 py-2 w-40 text-left text-xs font-bold text-gray-600 uppercase"
                   >
-                    Yangilash/O'chirish
+                    buyruqlar
                   </th>
                 </tr>
               </thead>
@@ -179,13 +179,13 @@
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class="">
+                    <div class=" text-sm">
                       <span
                         v-for="attr in product.product.attributes"
-                        class="block"
+                        class="block lowercase"
                         :key="attr.id"
                       >
-                        {{ attr.label }}: <i>{{ attr.value }}</i>
+                        <b>{{ attr.label }} :</b> {{ attr.value }}
                       </span>
                     </div>
                   </td>
@@ -194,13 +194,9 @@
                       {{ product.price.toLocaleString() }} so'm
                     </div>
                   </td>
-                  <td class="px-6 py-1 border">
+                  <td class="px-6 py-1 border w-16">
                     <div class="flex items-center text-sm">
-                      <input
-                        type="text"
-                        class="py-2 px-4 w-1/2"
-                        v-model="product.count"
-                      />
+                     {{ product.count }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -212,8 +208,8 @@
                       so'm
                     </div>
                   </td>
-                  <td class="px-6 py-1 border">
-                    <div class="flex justify-between">
+                  <td class="px-6 py-1 border w-40">
+                    <div class="flex justify-around">
                       <div
                         class="cursor-pointer"
                         @click="updateOrderProduct(product.id, product.count)"
@@ -240,11 +236,11 @@
                     </div>
                   </td>
                   <div
-                    class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-75 flex items-center justify-center"
+                    class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
                     v-if="showDeleteDialog"
                   >
-                    <div class="w-1/3 opacity-100 bg-white py-4 px-8">
-                      <span class="font-bold text-xl block mb-6"
+                    <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
+                      <span class="font-bold text-xl text-center block mb-6"
                         >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
                       >
                       <div class="flex justify-between">
@@ -321,7 +317,7 @@ export default {
       showSuccess: false,
       showFail: false,
       message: "",
-      statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
       selectedProduct: {},
       newProduct: {
         order_id: this.$route.params.id,
@@ -359,7 +355,7 @@ export default {
       },
       phone_number: {
         required,
-        minLength: minLength(9),
+        minLength: minLength(13),
       },
     },
   },

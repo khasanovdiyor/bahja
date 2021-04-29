@@ -1,11 +1,10 @@
 <template>
   <div class="flex h-screen">
     <AdminSidebar />
-    <div class="px-4 pt-10">
-      <h1 class="font-bold text-xl text-gray-700 mb-10">
+    <div class="px-6 w-9/12 pt-10">
+      <h1 class="font-bold text-xl text-gray-700 mb-5">
         Buyurtma haqida to'liq ma'lumot
       </h1>
-      <h2 class="font-bold text-gray-700 mb-4">Buyurtmachi haqida ma'lumot</h2>
       <div>
         <div class="mb-10">
           <table class="min-w-full divide-x divide-gray-200 flex">
@@ -15,7 +14,7 @@
                   scope="col"
                   class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
-                  Buyurtma id
+                  Id
                 </th>
               </tr>
               <tr class="border-gray-400 border-b">
@@ -23,7 +22,7 @@
                   scope="col"
                   class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
-                  Buyurtmachi nomi
+                  Ism
                 </th>
               </tr>
               <tr class="border-gray-400 border-b">
@@ -31,7 +30,7 @@
                   scope="col"
                   class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
-                  Buyurtmachi raqami
+                  Telefon raqam
                 </th>
               </tr>
               <tr class="border-gray-400 border-b">
@@ -39,7 +38,7 @@
                   scope="col"
                   class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
                 >
-                  Jami buyurtma narxi
+                  Jami narx
                 </th>
               </tr>
             </thead>
@@ -78,48 +77,45 @@
             </tbody>
           </table>
         </div>
-        <h2 class="font-bold text-gray-700 mb-6">
-          Buyurtma qilgan mahsulotlari
-        </h2>
-        <table class="min-w-full divide-y divide-gray-200">
+        <table class="min-w-full  divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                mahsulot kodi
+                kod
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                mahsulot nomi
+                nom
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                Attributlari
+                Attributlar
               </th>
 
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                mahsulot narxi
+                narx
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                class="px-6 py-2 w-16 text-left text-xs font-bold text-gray-600 uppercase"
               >
-                soni
+                son
               </th>
               <th
                 scope="col"
-                class="px-6 py-2 text-left text-sm font-bold text-gray-500 uppercase"
+                class="px-6 py-2  text-left text-xs font-bold text-gray-600 uppercase"
               >
-                jami narxi
+                jami narx
               </th>
             </tr>
           </thead>
@@ -139,14 +135,14 @@
                   {{ product.product.name }}
                 </div>
               </td>
-              <td class="px-6 py-1 border">
-                <div class="">
+              <td class="px-6 py-1 border ">
+                <div class="text-sm">
                   <span
                     v-for="attr in product.product.attributes"
-                    class="block"
+                    class="block lowercase"
                     :key="attr.id"
                   >
-                    {{ attr.label }}: <i>{{ attr.value }}</i>
+                    <b>{{ attr.label }}:</b>  {{ attr.value }}
                   </span>
                 </div>
               </td>

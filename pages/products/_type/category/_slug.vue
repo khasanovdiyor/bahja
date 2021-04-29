@@ -85,7 +85,7 @@ export default {
       this.$axios
         .get(`product/list/`, {
           params: {
-            is_import: true ? this.$route.params.type === "import" : false,
+            is_import: true ? this.$route.params.type === "Import" : false,
             ordering: ordering
           }
         })
@@ -104,7 +104,7 @@ export default {
       this.$axios
         .get(`product/by-category/${this.$route.params.slug}/`, {
           params: {
-            is_import: true ? this.$route.params.type === "import" : false
+            is_import: true ? this.$route.params.type === "Import" : false
           }
         })
         .then(res => {

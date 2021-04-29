@@ -60,10 +60,10 @@
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
           <div class="container mx-auto px-6 py-8">
             <h3 class="text-gray-700 text-xl font-bold font-medium">
-              Boshqaruv paneli
+              Statistika
             </h3>
 
-            <div class="mt-4">
+            <div class="mt-5">
               <div class="flex flex-wrap -mx-6">
                 <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
                   <div class="relative">
@@ -205,14 +205,14 @@
               </div>
             </div>
 
-            <div class="mt-10 flex justify-between">
-              <h2 class="text-xl font-bold text-gray-700">Buyurtmalar</h2>
+            <div class="mt-16 flex items-center justify-between">
+              <h2 class="text-xl mt-2 font-bold text-gray-700">Buyurtmalar</h2>
               <div>
                 <select
                   name="filter-orders"
                   v-model="activeStatus"
                   id=""
-                  class="inline-block ml-auto py-2 border border-gray-200 text-sm rounded-md"
+                  class="inline-block ml-auto py-2 mr-2 border border-gray-200 text-sm rounded-md"
                 >
                   <option value="">Status bo'yicha saralash</option>
                   <option
@@ -225,14 +225,14 @@
                 </select>
                 <button
                   @click="getOrders"
-                  class="bg-gray-800 rounded-md text-sm px-4 text-white my-2 py-2"
+                  class="bg-gray-800 rounded-md text-sm px-4 text-white py-2"
                 >
                   Saralash
                 </button>
               </div>
             </div>
 
-            <div class="flex flex-col mt-5">
+            <div class="flex flex-col mt-8">
               <div
                 class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
               >
@@ -245,22 +245,22 @@
                         <th
                           class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Mijoz nomi
+                          ism
                         </th>
                         <th
                           class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Telefon raqami
+                          Telefon raqam
                         </th>
                         <th
                           class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Buyurtmalar soni
+                          son
                         </th>
                         <th
                           class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          Buyurtmalar narxi
+                          narx
                         </th>
                         <th
                           class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
@@ -268,9 +268,9 @@
                           Status
                         </th>
                         <th
-                          class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
+                          class="px-6 py-3 w-40 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                          o'zgartirish
+                          buyruqlar
                         </th>
                       </tr>
                     </thead>
@@ -375,8 +375,11 @@
                               />
                             </nuxt-link>
                             <div
-                              class="cursor-pointer"
-                              @click="deleteOrder(deleteOrderID)"
+                             class="cursor-pointer"
+                              @click="
+                                deleteOrderID = order.id;
+                                showDeleteDialog = true;
+                              "
                             >
                               <img
                                 src="~/assets/images/delete.svg"
@@ -390,26 +393,25 @@
                           class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
                           v-if="showDeleteDialog"
                         >
-                          <div class="w-1/3 bg-white py-4 px-10">
-                            <span class="font-bold text-xl block mb-6"
-                              >Mahsulotni o'chirilsinmi?
-                            </span>
-
-                            <div class="flex justify-between">
-                              <button
-                                @click="deleteOrder(deleteOrderID)"
-                                class="bg-red-400 text-white py-2 px-4"
-                              >
-                                Ha
-                              </button>
-                              <button
-                                @click="showDeleteDialog = false"
-                                class="bg-gray-400 text-white py-2 px-4"
-                              >
-                                Yo'q
-                              </button>
-                            </div>
-                          </div>
+                          <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
+                      <span class="font-bold text-xl text-center block mb-6"
+                        >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
+                      >
+                      <div class="flex justify-between">
+                        <button
+                          @click="deleteOrder(deleteOrderID)"
+                          class="bg-red-500 rounded-md text-white py-2 px-4"
+                        >
+                          Ha
+                        </button>
+                        <button
+                          @click="showDeleteDialog = false"
+                          class="bg-gray-500 rounded-md text-white py-2 px-4"
+                        >
+                          Yo'q
+                        </button>
+                      </div>
+                    </div>
                         </div>
                       </tr>
                     </tbody>
@@ -436,14 +438,15 @@ export default {
       newOrder: "",
       newOrderMoney: "",
       showDeleteDialog: false,
+      deleteOrderID: null,
       newProducts: "",
       showSortOrder: false,
       showSortMoney: false,
       showSortProduct: false,
       orders: [],
-      activeStatus: "Tushgan",
+      activeStatus: "Kutilmoqda",
       showStatus: false,
-      statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
 
       selectedSortOrder: {
         name: "1 kunlik",
@@ -540,6 +543,27 @@ export default {
           console.log(err);
         });
     },
+    deleteOrder(id) {
+      this.$axios
+        .delete(`cart/orderbeta-delete/${id}`)
+        .then(res => {
+          console.log(res.data, "ID:", id);
+          this.showDeleteDialog = false;
+          this.showSuccess = true;
+          setTimeout(() => {
+            this.showSuccess = false;
+          }, 3000);
+          this.getOrders();
+        })
+        .catch(err => {
+          this.showFail = true;
+          setTimeout(() => {
+            this.showFail = false;
+          }, 3000);
+          console.log(err);
+        });
+    },
+
     changeStatus(status, id) {
       const formData = new FormData();
       formData.append("status", status);

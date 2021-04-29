@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex">
+  <div class="min-h-screen  flex">
     <AdminSidebar />
-    <div class="px-10 mb-10">
+    <div class="px-6 w-9/12 mb-10">
       <div
         class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-600 text-white"
         v-if="showSuccess"
@@ -29,32 +29,32 @@
           X
         </div>
       </div>
-      <h2 class="text-xl font-bold uppercase pt-10">O'zgarish qoshish</h2>
+      <h2 class="text-xl font-bold text-gray-800 pt-10">O'zgarish qoshish</h2>
 
       <div>
         <div class="input-group block my-4">
-          <label for="input" class="block font-bold uppercase text-sm mb-2"
-            >Mahsulot nomi</label
+          <label for="input" class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >nom</label
           >
           <input
             type="text"
-            class="border-2 text-sm w-1/2 py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
             v-model="$v.variation.name.$model"
           />
           <div
             class="text-red-400"
             v-if="!$v.variation.name.required && $v.variation.name.$dirty"
           >
-            {{ requiredMessage }}
+            <i class="text-sm">{{ requiredMessage }}</i>
           </div>
         </div>
         <div class="input-group block my-4">
-          <label for="input" class="block font-bold uppercase text-sm mb-2"
-            >Mahsulot kodi</label
+          <label for="input" class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >kod</label
           >
           <input
             type="text"
-            class="border-2 text-sm w-1/2 py-2 pl-5"
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
             v-model="variation.product_code"
           />
           <div
@@ -64,11 +64,11 @@
               $v.variation.product_code.$dirty
             "
           >
-            {{ requiredMessage }}
+            <i class="text-sm"> {{ requiredMessage }}</i>
           </div>
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2">tavsif</label>
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2">tavsif</label>
           <textarea
             class="w-1/2 border-2 text-sm py-2 pl-5"
             v-model="$v.variation.description.$model"
@@ -81,12 +81,12 @@
               $v.variation.description.$dirty
             "
           >
-            {{ requiredMessage }}
+            <i class="text-sm"> {{ requiredMessage }}</i>
           </div>
         </div>
         <div class="my-4">
-          <label class="w-1/2 block font-bold uppercase text-sm mb-2"
-            >kategoriyasi</label
+          <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
+            >kategoriya</label
           >
           <multiselect
             v-model="$v.selectedVariationCategories.$model"
@@ -106,16 +106,17 @@
               $v.selectedVariationCategories.$dirty
             "
           >
-            {{ requiredMessage }}
+            <i class="text-sm"> {{ requiredMessage }}</i>
           </div>
         </div>
 
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2">soni</label>
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2">son</label>
           <input
-            type="string"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            type="text"
+            class="w-1/2 rounded-md border-2 text-sm py-2 pl-5"
             v-model="$v.variation.quantity.$model"
+            v-mask="priceMask"
           />
           <div
             class="text-red-400"
@@ -123,14 +124,14 @@
               !$v.variation.quantity.required && $v.variation.quantity.$dirty
             "
           >
-            {{ requiredMessage }}
+            <i class="text-sm"> {{ requiredMessage }}</i>
           </div>
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2">narxi</label>
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2">narx</label>
           <input
             type="string"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="w-1/2 rounded-md border-2 text-sm py-2 pl-5"
             v-model="$v.variation.price.$model"
             v-mask="priceMask"
           />
@@ -138,47 +139,46 @@
             class="text-red-400"
             v-if="!$v.variation.price.required && $v.variation.price.$dirty"
           >
-            {{ requiredMessage }}
+            <i class="text-sm"> {{ requiredMessage }}</i>
           </div>
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
-            >rasm qo'yish</label
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >Asosiy rasm</label
           ><input
             type="file"
             accept="image/*"
             @change="previewVariationImage"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class="w-1/2 rounded-md border-2 text-sm py-2 pl-5"
           />
           <div v-if="variation.image">
             <div>
-              <div class="w-56 h-56">
+              <div class="w-56 h-64 my-5 border shadow-sm">
                 <img
                   :src="variation.image"
-                  class="object-cover object-top w-full h-full"
+                  class="object-cover w-full h-full"
                 />
               </div>
             </div>
           </div>
-          <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
         <div class="my-4">
-          <label class="block font-bold uppercase text-sm mb-2"
-            >galereya rasmlarini qo'shish</label
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >galereya rasmlari</label
           ><input
             type="file"
             accept="image/*"
             multiple="multiple"
             @change="previewVariationMultiImage"
-            class="w-1/2 border-2 text-sm py-2 pl-5"
+            class= "border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
           />
-          <div v-if="variation.images" class="flex">
+          <div v-if="variation.images" class="flex flex-wrap">
             <div
               v-for="(item, index) in variation.images"
               :key="index"
-              class="w-56 h-56 mr-4 relative"
+               class="w-56 h-64 my-5 border shadow-sm relative"
             >
-              <img :src="item" class="object-cover object-top w-full h-full" />
+              <img :src="item" class="object-cover w-full h-full" />
               <span
                 @click="removeImage(index)"
                 class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
@@ -189,40 +189,40 @@
           <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
         </div>
         <div class="mb-10">
-          <h2 class="font-bold text-xl my-4">Attributlar</h2>
+          <h2 class="font-bold text-xl text-gray-800 my-4">Attributlar</h2>
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-200">
               <tr>
                 <th
                   scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                 >
                   is main
                 </th>
 
                 <th
                   scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                 >
                   key
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                 >
                   label
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                 >
                   value
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 w-40 text-left text-xs font-bold text-gray-600 uppercase"
                 >
-                  qo'shish/o'chirish
+                  o'chirish
                 </th>
               </tr>
             </thead>
@@ -242,66 +242,67 @@
                 <td class="px-6 py-1 border">
                   {{ attrib.label }}
                 </td>
-                <td class="px-6 py-1 border">
+                <td class="py-1 border">
                   <input
                     type="text"
-                    class="border w-full text-sm w-5 h-5 pl-5"
+                    class="border w-full text-sm px-5 py-4 rounded-md h-5"
                     v-model="attrib.value"
                   />
                 </td>
                 <td class="px-2 py-1 border">
                   <div
-                    @click="RemoveAttribute(variation, index)"
-                    class="cursor-pointer"
+                   
                   >
                     <img
                       src="~/assets/images/delete.svg"
-                      class="w-5 h-5"
-                      alt="pencil icon"
+                      class="w-5 h-5 mx-auto cursor-pointer"
+                      alt="delete"
+                      @click="RemoveAttribute(variation, index)"
+                
                     />
                   </div>
                 </td>
               </tr>
               <tr class="border" v-if="showAddNewKey">
                 <td class="px-6 py-1 border">
-                  <div class="flex items-center text-gray-500">
+                  <div class="flex items-center text-gray-600">
                     <input
                       type="checkbox"
-                      class="border w-full text-sm w-5 h-5 pl-5"
+                      class="border w-5 h-5 pl-5"
                       v-model="attribute.is_main"
                     />
                   </div>
                 </td>
 
-                <td class="px-6 py-1 border">
-                  <div class="flex items-center text-gray-500">
+                <td class="py-1 border">
+                  <div class="flex items-center text-gray-600">
                     <input
                       type="text"
-                      class="w-full border-2 text-sm py-2 pl-5"
+                      class="w-full border-2 rounded-md text-sm px-5 py-2"
                       v-model="attribute.key"
                     />
                   </div>
                 </td>
-                <td class="px-6 py-1 border">
-                  <div class="flex items-center text-gray-500">
+                <td class="py-1 border">
+                  <div class="flex items-center text-gray-600">
                     <input
                       type="text"
-                      class="w-full border-2 text-sm py-2 pl-5"
+                      class="w-full border-2 rounded-md text-sm px-5 py-2"
                       v-model="attribute.label"
                     />
                   </div>
                 </td>
-                <td class="px-6 py-1 border">
-                  <div class="flex items-center text-gray-500">
+                <td class="py-1 border">
+                  <div class="flex items-center text-gray-600">
                     <input
                       type="text"
-                      class="w-full border-2 text-sm py-2 pl-5"
+                      class="w-full border-2 rounded-md text-sm px-5 py-2"
                       v-model="attribute.value"
                     />
                   </div>
                 </td>
                 <td class="px-6 py-1 border">
-                  <div class="flex items-center text-gray-500 justify-center">
+                  <div class="flex items-center text-gray-600 justify-center">
                     <div
                       @click="addVariationAttribute"
                       class="cursor-pointer hover:underline"
@@ -315,18 +316,18 @@
           </table>
           <div
             @click="showAddNewKey = true"
-            class="cursor-pointer ml-auto my-2 inline-block text-2xl bg-gray-800 text-white px-2"
+            class="block bg-gray-800 cursor-pointer w-24 text-sm text-center rounded-md px-3 text-white my-2 py-2"
           >
-            +
+            Qoshish
           </div>
         </div>
         <div class="text-red-400" v-if="!$v.variation.attributes.minLength">
           Kamida {{ $v.variation.attributes.$params.minLength.min }} ta
-          attribute kiritish shart
+          attribut kiritish shart
         </div>
         <button
           @click="createVariation"
-          class="bg-gray-800 text-white py-2 px-4"
+          class="block bg-gray-800 text-sm text-center rounded-md px-3 text-white my-2 py-2"
         >
           Mahsulotni saqlash
         </button>
@@ -347,6 +348,7 @@ export default {
     return {
       priceMask: priceMask,
       showAddNewKey: false,
+      variationImages: [],
       showSuccess: false,
       requiredMessage: "To'ldirish shart",
       selectedVariationCategories: null,
@@ -480,4 +482,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.multiselect {
+  width: 50%;
+}
+</style>

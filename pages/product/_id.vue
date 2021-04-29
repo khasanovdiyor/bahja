@@ -47,7 +47,7 @@
         </svg>
       </div>
     </div>
-    <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
+    <!-- <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
       <h2
         class="font-bold sm:text-4xl text-xl self-center"
         @click="changeSlider"
@@ -57,7 +57,7 @@
           <span class="font-bold">Hozirda mavjud</span>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="px-5 md:px-16 py-10 block md:flex">
       <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
         <swiper
@@ -66,7 +66,7 @@
           ref="swiperTop"
         >
           <swiper-slide
-            class="object-cover object-center"
+            class="object-cover w-full"
             v-for="image in product.images"
             :key="image"
             :style="{ backgroundImage: 'url(' + image + ')' }"

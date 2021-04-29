@@ -16,17 +16,17 @@
           <i> Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
         </div>
         <tabs :options="{ useUrlFragment: false }">
-          <tab name="Mahsulot qo'shish">
+          <tab name="Asosiy ma'lumotlar">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
-              Mahsulot qo'shish
+              Asosiy ma'lumotlar
             </h2>
 
             <div class="">
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-1"
-                  >Mahsulot nomi</label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >Nom</label
                 >
                 <input
                   type="text"
@@ -43,8 +43,8 @@
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-1"
-                  >Mahsulot kodi</label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >Kod</label
                 >
                 <input
                   type="text"
@@ -62,8 +62,8 @@
                 </div>
               </div>
               <div class="my-4 block">
-                <label class="block font-bold uppercase text-sm mb-2"
-                  >Brend nomi
+                <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
+                  >Brend
                 </label>
                 <multiselect
                   v-model.trim="$v.selectedBrand.$model"
@@ -101,21 +101,22 @@
                 </div>
               </div>
               <div class="my-4">
-                <label class="w-1/2 block font-bold uppercase text-sm mb-1"
-                  >kategoriyasi</label
+                <label class="w-1/2 text-gray-600 block font-bold uppercase text-sm mb-1"
+                  >kategoriya</label
                 >
                 <multiselect
-                  v-model.trim="$v.selectedCategories.$model"
-                  tag-placeholder="Ushbu kategoriayni qo'shing"
-                  placeholder="Kategoriya izlang yoki qo'shing"
-                  label="name"
-                  track-by="id"
-                  :options="categories"
-                  :multiple="true"
-                  @tag="addTag"
-                  @select="selectCategories"
-                >
-                </multiselect>
+            v-model="selectedCategory"
+            :options="categories"
+            placeholder="Kategoriya tanlang" 
+            label="name"
+            track-by="name"
+            @select="selectCategory"
+            @remove="removeCategory"
+          >
+          <template
+                ><span class="text-red-500 " slot="noResult">Bunday kategoriya topilmadi!</span>
+              </template>
+          </multiselect>
                 <div
                   class="text-red-400 text-sm"
                   v-if="
@@ -128,13 +129,14 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >soni</label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >son</label
                 >
                 <input
-                  type="number"
+                  type="text"
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.quantity.$model"
+                  v-model="$v.product.quantity.$model"
+                  v-mask="priceMask"
                 />
                 <div
                   class="text-red-400 text-sm"
@@ -147,13 +149,16 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >narxi</label
+                  class="block font-bold relative text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >narx <p class="inline-block text-xs absolute  text-red-500">&#10043;</p> </label 
                 >
                 <input
-                  type="text"
+                  type="string"
+                  placeholder=""
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.price.$model"
+                  v-mask="priceMask"
+
                 />
                 <div
                   class="text-red-400 text-sm"
@@ -164,8 +169,8 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >rasm qo'yish</label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >Asosiy rasm</label
                 ><input
                   type="file"
                   accept="image/*"
@@ -180,10 +185,10 @@
                 </div>
                 <div v-if="product.image">
                   <div>
-                    <div class="w-56 h-56">
+                    <div class="w-56 h-64 border shadow-sm my-5">
                       <img
                         :src="product.image"
-                        class="object-cover object-top w-full h-full"
+                        class="object-cover w-full h-full"
                       />
                     </div>
                   </div>
@@ -192,8 +197,8 @@
               <div class="my-4">
                 <div>
                   <label
-                    class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                    >galereya rasmlarini qo'shish</label
+                    class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                    >galereya rasmlari</label
                   ><input
                     type="file"
                     accept="image/*"
@@ -210,28 +215,27 @@
                     <i>{{ requiredMessage }}</i>
                   </div>
                 </div>
-                <div v-if="product.images" class="flex">
+                <div v-if="product.images" class="flex-grow">
                   <div
                     v-for="(item, index) in product.images"
                     :key="index"
-                    class="w-56 h-56 mr-4 relative"
+                    class="w-56 h-64 border flex flex-grow relative shadow-sm my-5"
                   >
                     <img
                       :src="item"
-                      class="object-cover object-top w-full h-full"
+                      class="object-cover w-full m-2 h-full"
                     />
                     <span
                       @click="removeImage(index, product.images)"
-                      class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
+                      class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"
                       >X</span
                     >
                   </div>
                 </div>
-                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
                   >Import</label
                 >
                 <input
@@ -246,7 +250,7 @@
                     <tr>
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
                       >
                         is main
                       </th>
@@ -271,9 +275,9 @@
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
                       >
-                        qo'shish/o'chirish
+                        buyruqlar
                       </th>
                     </tr>
                   </thead>
@@ -297,7 +301,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full border-2 rounded-md text-sm py-2 pl-5"
                             v-model="attr.key"
                           />
                         </div>
@@ -306,7 +310,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full border-2 rounded-md text-sm py-2 pl-5"
                             v-model="attr.label"
                           />
                         </div>
@@ -315,7 +319,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 text-sm py-2 pl-5"
+                            class="w-full border-2 rounded-md text-sm py-2 pl-5"
                             v-model="attr.value"
                           />
                         </div>
@@ -352,7 +356,7 @@
                         <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1 rounded-md"
                             v-model="attribute.key"
                           />
                         </div>
@@ -361,7 +365,7 @@
                         <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1 rounded-md"
                             v-model="attribute.label"
                           />
                         </div>
@@ -370,7 +374,7 @@
                         <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1 rounded-md"
                             v-model="attribute.value"
                           />
                         </div>
@@ -388,23 +392,23 @@
                         </div>
                       </td>
                       <div
-                        class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
+                        class="fixed z-40 bg-gray-500 opacity-50 flex items-center justify-center"
                         v-if="showDeleteDialog"
                       >
-                        <div class="w-1/3 bg-white py-4 px-10">
-                          <span class="font-bold text-xl block mb-6"
+                        <div class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10">
+                          <span class="font-bold text-center text-xl block mb-6"
                             >Ushbu Kategoriyani o'chirishni xohlaysizmi?</span
                           >
                           <div class="flex justify-between">
                             <button
                               @click="deleteCategory(selectedCategoryID)"
-                              class="bg-red-600 text-white py-2 px-4"
+                              class="bg-red-500 rounded-md text-white py-2 px-4"
                             >
                               Ha
                             </button>
                             <button
                               @click="showDeleteDialog = false"
-                              class="bg-gray-600 text-white py-2 px-4"
+                              class="bg-gray-500 rounded-md text-white py-2 px-4"
                             >
                               Yo'q
                             </button>
@@ -429,17 +433,17 @@
               </button>
             </div>
           </tab>
-          <tab name="O'zgarish qo'shish" class="w-full text-lg">
+          <tab name="O'zgartirish" class="w-full text-lg">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
-              O'zgarish qo'shish
+              O'zgartirish
             </h2>
 
             <div class="w-full">
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-1"
-                  >Mahsulot nomi</label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >Nom</label
                 >
                 <input
                   type="text"
@@ -456,8 +460,8 @@
               <div class="input-group block my-4">
                 <label
                   for="input"
-                  class="block font-bold uppercase text-sm mb-1"
-                  >Mahsulot kodi</label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >Kod</label
                 >
                 <input
                   type="text"
@@ -476,9 +480,9 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
-                >
+                >          
                 <textarea
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.description.$model"
@@ -496,12 +500,11 @@
               </div>
               <div class="my-4">
                 <label class="w-1/2 block font-bold uppercase text-sm mb-1"
-                  >kategoriyasi</label
+                  >kategoriya</label
                 >
                 <multiselect
                   v-model="$v.selectedVariationCategories.$model"
-                  tag-placeholder="Ushbu kategoriayni qo'shing"
-                  placeholder="Kategoriya izlang yoki qo'shing"
+                  placeholder="Kategoriya qo'shing"
                   label="name"
                   track-by="id"
                   :options="categories"
@@ -522,13 +525,15 @@
 
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >soni</label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >son</label
                 >
                 <input
-                  type="number"
+                  type="string"
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.quantity.$model"
+                  v-mask="priceMask"
+
                 />
                 <div
                   class="text-red-400 text-sm"
@@ -542,11 +547,11 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >narxi</label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >narx</label
                 >
                 <input
-                  type="text"
+                  type="string"
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.price.$model"
                 />
@@ -559,7 +564,7 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
                   >asosiy rasm </label
                 ><input
                   type="file"
@@ -569,21 +574,18 @@
                   placeholder="cdsafd"
                 />
                 <div v-if="variation.image">
-                  <div>
-                    <div class="w-56 h-56">
-                      <img
-                        :src="variation.image"
-                        class="object-cover object-top w-full h-full"
-                      />
-                    </div>
+                  <div class="w-56 h-64 my-5 border shadow-md">
+                       <img
+                        :src="preview"
+                       class="object-cover w-full h-full"
+                       />
                   </div>
                 </div>
-                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >galereya rasmlarini qo'shish</label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >galereya rasmlari</label
                 ><input
                   type="file"
                   accept="image/*"
@@ -592,7 +594,6 @@
                   class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
                 />
                 <div v-if="variation.images" class="flex"></div>
-                <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
               </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
@@ -601,34 +602,34 @@
                     <tr>
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
                       >
                         is main
                       </th>
 
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
                       >
                         key
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
                       >
                         label
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
                       >
                         value
                       </th>
                       <th
                         scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
                       >
-                        qo'shish/o'chirish
+                        buyruqlar
                       </th>
                     </tr>
                   </thead>
@@ -655,7 +656,7 @@
                           v-model="attrib.value"
                         />
                       </td>
-                      <td class="px-2 py-1 border">
+                      <td class="px-2 py-1 mx-auto w-40 border">
                         <div
                           @click="RemoveAttribute(variation, index)"
                           class="cursor-pointer"
@@ -732,7 +733,7 @@
                 class="text-red-400 text-sm"
                 v-if="!$v.variation.attributes.minLength"
               >
-                Mahsulot attributlari kamida
+                Atributlar kamida
                 {{ $v.variation.attributes.$params.minLength.min }} harf
                 bo'lishi kerak
               </div>
@@ -740,7 +741,7 @@
                 @click="addVariation"
                 class="block bg-gray-800 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
               >
-                Mahsulotni saqlash
+                Saqlash
               </button>
             </div>
             <div>
@@ -752,25 +753,25 @@
                       scope="col"
                       class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                     >
-                      mahsulot nomi
+                      Nom
                     </th>
                     <th
                       scope="col"
                       class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                     >
-                      mahsulot kodi
+                      kodi
                     </th>
                     <th
                       scope="col"
                       class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                     >
-                      kategoriyasi
+                      kategoriya
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                      class="px-6 py-2 text-left text-sm font-bold text-gray-700"
                     >
-                      narxi so'm
+                      NARX (so'm)
                     </th>
                     <th
                       scope="col"
@@ -869,6 +870,7 @@
 <script>
 import { required, minLength } from "vuelidate/lib/validators";
 import priceMask from "~/mixins.js/priceMask.js";
+
 export default {
   data() {
     return {

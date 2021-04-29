@@ -1,15 +1,15 @@
 <template>
   <div class="flex min-h-screen">
     <AdminSidebar />
-    <div class="px-16 pt-10">
-      <h1 class="font-bold text-xl text-gray-700 mb-6">Mavjud mahsulotlar</h1>
+    <div class="px-6 w-full lg:w-9/12 bg-gray-100 pt-10">
+      <h1 class="font-bold text-xl text-gray-800 mb-6">Slider</h1>
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">
           <thead class="bg-gray-200">
             <tr class="border-gray-400  border-b">
               <th
                 scope="col"
-                class="px-8 block text-sm py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block text-sm py-2 text-left font-bold text-gray-600 uppercase"
               >
                 id
               </th>
@@ -17,37 +17,37 @@
             <tr class="border-gray-400  border-b">
               <th
                 scope="col"
-                class="px-8 block text-sm py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block text-sm py-2 text-left font-bold text-gray-600 uppercase"
               >
-                text
+                Kontent
               </th>
             </tr>
             <tr class="border-gray-400">
               <th
                 scope="col"
-                class="px-8 block text-sm py-2 text-left font-bold text-gray-700 uppercase"
+                class="px-8 block text-sm py-2 text-left font-bold text-gray-600 uppercase"
               >
-                kategoriyasi
+                kategoriya
               </th>
             </tr>
           </thead>
-          <tbody class="bg-white">
-            <tr class="border">
-              <td class="px-6 py-2 border">
+          <tbody class="bg-white border">
+            <tr class="">
+              <td class="px-6 py-2 border-b">
                 <div class="flex items-center text-sm">
                   {{ slider.id }}
                 </div>
               </td>
             </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
+            <tr class="">
+              <td class="px-6 py-2 border-b">
                 <div class="flex items-center text-sm">
                   {{ slider.text }}
                 </div>
               </td>
             </tr>
-            <tr class="border">
-              <td class="px-6 py-2 border">
+            <tr class="">
+              <td class="px-6 py-2">
                 <div class="flex items-center text-sm" v-if="slider.category">
                   {{ slider.category.name }}
                 </div>
@@ -57,14 +57,14 @@
         </table>
       </div>
       <div class="mt-10">
-        <span class="font-bold text-gray-700 mt-10 mb-4 block"
+        <span class="font-bold text-lg text-gray-600 mt-10 block"
           >Slider rasmi</span
         >
         <div class="flex">
-          <div class="w-56 h-56 mb-10 mr-4">
+          <div class="w-56 h-64 my-5 border shadow-sm">
             <img
               :src="slider.image"
-              class="object-cover object-top w-full h-full"
+              class="object-cover w-full h-full"
               alt="gallery image"
             />
           </div>
@@ -101,4 +101,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+tbody td{
+  width: 52rem;
+} 
+</style>

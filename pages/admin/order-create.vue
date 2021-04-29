@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen bg-gray-100">
       <AdminSidebar />
       <div class="px-5 mx-auto w-4/5">
         <div
@@ -26,68 +26,56 @@
           > -->
         </div>
         <div class="pb-10">
-          <h2 class="font-bold text-xl my-8">Buyurtmani o'zgartirish</h2>
-          <div class="my-4">
-            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >Buyurtmachi</label
+          <div class="mt-10">
+            <h2 class="font-bold text-xl text-gray-800 mb-6">Buyurtma qo'shish</h2>
+            <label class="block font-bold text-gray-500 uppercase text-sm mb-2"
+              >Mahsulot </label
             >
-            <input
-              type="string"
-              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              v-model.trim="$v.newOrder.name.$model"
-            />
-            <div
-              class="text-red-400 text-sm"
-              v-if="!$v.newOrder.name.required && $v.newOrder.name.$dirty"
+            <multiselect
+              v-model="$v.selectedProduct.$model"
+              :options="products"
+              placeholder="Mahsulot tanlang"
+              label="codesize"
+              @select="selectProduct"
             >
-              <i>To'ldirish shart</i>
-            </div>
-            <div
-              class="text-red-400 text-sm"
-              v-if="!$v.newOrder.name.minLength"
-            >
-              <i>
-                Buyurtmachi ismi kamida
-
-                {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi
-                kerak</i
-              >
-            </div>
-          </div>
-          <div class="my-4">
-            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >Buyurtmachi telefon raqami</label
-            >
-            <input
-              type="tel"
-              class="w-1/2 border-2 text-sm py-2 pl-5"
-              placeholder="+998-"
-              v-model.trim="$v.newOrder.phone_number.$model"
-              v-mask="'+998-##-###-##-##'"
-            />
+              <template
+                ><span class="text-red-500 " slot="noResult">Bunday mahsulot topilmadi!</span>
+              </template>
+            </multiselect>
             <div
               class="text-red-400 text-sm"
               v-if="
-                !$v.newOrder.phone_number.required &&
-                $v.newOrder.phone_number.$dirty
+                !$v.selectedProduct.codesize.required &&
+                $v.selectedProduct.codesize.$dirty
               "
             >
-              <i>To'ldirish shart</i>
+               <i>To'ldirish shart</i>
             </div>
           </div>
-          <div
-            class="text-red-400 mb-4"
-            v-if="!$v.newOrder.products.required && $v.newOrder.products.$dirty"
-          >
-            <i>Buyurtma berishdan avval mahsulot qo'shing!</i>
+          <div class="my-4">
+            <label class="block font-bold text-gray-500 uppercase text-sm mb-2"
+              >son</label
+            >
+            <input
+              type="number"
+              class="w-1/2 border-2 rounded-md text-sm py-2 px-4"
+              v-model.trim="$v.newProduct.count.$model"  
+            /> 
+            <div
+              class="text-red-400 text-sm"
+              v-if="!$v.newProduct.count.required && $v.newProduct.count.$dirty"
+            >
+             <i>Son kiriting</i>
+            </div>
           </div>
-          <button
-            class="bg-gray-800 mb-6 rounded-md text-sm text-white py-2 px-4"
-            @click="createOrder"
-          >
-            Buyurtma qo'shish
+          <div class="text-red-400 mb-4" v-if="alreadyAdded">
+            Siz bu mahsulotni qo'shdingiz!
+          </div>
+          <button class="bg-gray-800 text-white text-sm rounded-md py-2 px-4" @click="addProduct">
+            Mahsulot qo'shish
           </button>
-          <div v-if="addedProducts">
+        </div>
+        <div v-if="addedProducts">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-200">
                 <tr class="rounded-md">
@@ -95,23 +83,23 @@
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    kodi
+                    kod
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    o'lchami
+                    o'lcham
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                   >
-                    soni
+                    son
                   </th>
                   <th
                     scope="col"
-                    class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                    class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
                   >
                     O'chirish
                   </th>
@@ -149,10 +137,10 @@
                     />
                   </div>
                   <div
-                    class="fixed top-0 bottom-0 right-0 left-0 bg-gray-600 flex items-center justify-center"
+                    class="fixed top-0 bottom-0 right-0 left-0 bg-gray-500 opasity-50 flex items-center justify-center"
                     v-if="showDeleteDialog"
                   >
-                    <div class="w-1/3 bg-white py-4 px-8">
+                    <div class="w-1/3 bg-white opasity-0 py-4 px-8">
                       <span class="font-bold text-xl block mb-6"
                         >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
                       >
@@ -175,61 +163,99 @@
             </table>
           </div>
           <div class="my-4">
-            <h2 class="font-bold text-md uppercase mb-4">Mahsulot qo'shish</h2>
-            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >Mahsulot tanlang</label
+            <label class="block font-bold text-gray-600 uppercase text-sm mt-10 mb-2"
+              >Buyurtmachi</label
             >
-            <multiselect
-              v-model="$v.selectedProduct.$model"
-              :options="products"
-              placeholder="Mahsulot tanlang"
-              label="codesize"
-              @select="selectProduct"
-            >
-              <template
-                ><span slot="noResult">Bunday mahsulot topilmadi!</span>
-              </template>
-            </multiselect>
+            <input
+              type="string"
+              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+              v-model.trim="$v.newOrder.name.$model"
+            />
             <div
-              class="text-red-400"
-              v-if="
-                !$v.selectedProduct.codesize.required &&
-                $v.selectedProduct.codesize.$dirty
-              "
+              class="text-red-400 text-sm"
+              v-if="!$v.newOrder.name.required && $v.newOrder.name.$dirty"
             >
-              {{ requiredMessage }}
+              <i>To'ldirish shart</i>
+            </div>
+            <div
+              class="text-red-400 text-sm"
+              v-if="!$v.newOrder.name.minLength"
+            >
+              <i>
+                Buyurtmachi ismi kamida
+
+                {{ $v.newOrder.name.$params.minLength.min }} harf bo'lishi
+                kerak</i
+              >
             </div>
           </div>
           <div class="my-4">
-            <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >soni</label
+            <label class="block font-bold  text-gray-600 uppercase text-sm mb-2"
+              >Telefon raqam</label
             >
             <input
-              type="text"
-              class="w-1/2 border-2 text-sm py-2 px-4"
-              v-model.trim="$v.newProduct.count.$model"
-            />
+              type="tel"
+              class="w-1/2 border-2 rounded-md text-sm py-2 pl-5"
+              placeholder="+998 ## ### ## ##"
+              v-model.trim="$v.newOrder.phone_number.$model"
+              v-mask="'+998 ## ### ## ##'"
+              />
             <div
-              class="text-red-400"
-              v-if="!$v.newProduct.count.required && $v.newProduct.count.$dirty"
+              class="text-red-400 text-sm"          
+              v-if="
+                !$v.newOrder.phone_number.required &&
+                $v.newOrder.phone_number.$dirty && 
+                $v.newOrder.phone_number.$params.minLength
+              ">   
+              <div
+              class="text-red-400 text-sm"
+              v-if="!$v.newOrder.phone_number.required && $v.newOrder.phone_number.$dirty"
             >
-              {{ requiredMessage }}
+              <i>To'ldirish shart</i>
+            </div>
+           <div
+              class="text-red-400 text-sm"
+              v-if="!$v.newOrder.phone_number.minLength"
+            >
+              <i>
+                Buyurtmachi raqami kamida
+
+                {{ $v.newOrder.phone_number.$params.minLength.min }} raqam bo'lishi
+                kerak</i
+              >
+            </div>
+            </div>
+            </div>
+              <!-- <i>Telefon raqam kamida
+               {{ $v.newOrder.phone_number.$params.minLength }} raqam bo'lishi
+                kerak  To'ldirish shart</i>
             </div>
           </div>
-          <div class="text-red-400 mb-4" v-if="alreadyAdded">
-            Siz bu mahsulotni qo'shdingiz!
-          </div>
-          <button class="bg-gray-800 text-white py-2 px-4" @click="addProduct">
-            Mahsulot qo'shish
+          <div
+            class="text-red-400 mb-4"
+            v-if="!$v.newOrder.products.required && $v.newOrder.products.$dirty"
+          >
+            <i>Buyurtma berishdan avval mahsulot qo'shing!</i>
+          </div> -->
+          <button
+            class="bg-gray-800 mb-6 rounded-md text-sm text-white py-2 px-4"
+            @click="createOrder"
+          >
+            Buyurtma qo'shish
           </button>
-        </div>
+           <div
+            class="text-red-400 mb-4"
+            v-if="!$v.newOrder.products.required && $v.newOrder.products.$dirty"
+          >
+            <i>Buyurtma berishdan avval mahsulot qo'shing!</i>
+          </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
   components: {
     AdminSidebar,
@@ -280,8 +306,13 @@ export default {
         required,
         minLength: minLength(3),
       },
+      count: {
+        required,
+        maxLength: minLength(1),
+      },
       phone_number: {
         required,
+        minLength: minLength(17)
       },
       products: {
         required,
@@ -324,21 +355,22 @@ export default {
         }
       }
     },
-    removeProduct(index) {
+    removeProduct(index) {                                      
       this.newOrder.products.splice(index, 1);
       this.addedProducts.splice(index, 1);
     },
     selectProduct(value, id) {
       this.newProduct.product_id = value.id;
     },
-    createOrder() {
+    createOrder()    
+    {
       this.$v.newOrder.$touch();
       if (this.$v.newOrder.$invalid) {
         this.submitStatus = "ERROR";
       } else {
         let loader = this.$loading.show();
         this.$axios
-          .post(`cart/orderbeta-create/`, this.newOrder)
+          .post("product/order/create/", formData)
           .then((res) => {
             loader.hide();
             console.log(res.data);
