@@ -6,7 +6,7 @@
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">
           <thead class="bg-gray-200">
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
                 class="px-8 block text-sm py-2 text-left font-bold text-gray-600 uppercase"
@@ -14,7 +14,7 @@
                 id
               </th>
             </tr>
-            <tr class="border-gray-400  border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
                 class="px-8 block text-sm py-2 text-left font-bold text-gray-600 uppercase"
@@ -78,11 +78,11 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
-      slider: {}
+      slider: {},
     };
   },
   methods: {
@@ -93,16 +93,16 @@ export default {
           console.log(res.data);
           this.slider = res.data;
         });
-    }
+    },
   },
   mounted() {
     this.getSlider();
-  }
+  },
 };
 </script>
 
 <style scoped>
-tbody td{
+tbody td {
   width: 52rem;
-} 
+}
 </style>

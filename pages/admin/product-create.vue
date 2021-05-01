@@ -55,14 +55,15 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.product.product_code.required &&
-                      $v.product.product_code.$dirty
+                    $v.product.product_code.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4 block">
-                <label class="block font-bold text-gray-600 uppercase text-sm mb-2"
+                <label
+                  class="block font-bold text-gray-600 uppercase text-sm mb-2"
                   >Brend
                 </label>
                 <multiselect
@@ -94,34 +95,37 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.product.description.required &&
-                      $v.product.description.$dirty
+                    $v.product.description.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
                 </div>
               </div>
               <div class="my-4">
-                <label class="w-1/2 text-gray-600 block font-bold uppercase text-sm mb-1"
+                <label
+                  class="w-1/2 text-gray-600 block font-bold uppercase text-sm mb-1"
                   >kategoriya</label
                 >
                 <multiselect
-            v-model="selectedCategory"
-            :options="categories"
-            placeholder="Kategoriya tanlang" 
-            label="name"
-            track-by="name"
-            @select="selectCategory"
-            @remove="removeCategory"
-          >
-          <template
-                ><span class="text-red-500 " slot="noResult">Bunday kategoriya topilmadi!</span>
-              </template>
-          </multiselect>
+                  v-model="selectedCategory"
+                  :options="categories"
+                  placeholder="Kategoriya tanlang"
+                  label="name"
+                  track-by="name"
+                  @select="selectCategory"
+                  @remove="removeCategory"
+                >
+                  <template
+                    ><span class="text-red-500" slot="noResult"
+                      >Bunday kategoriya topilmadi!</span
+                    >
+                  </template>
+                </multiselect>
                 <div
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.selectedCategories.required &&
-                      $v.selectedCategories.$dirty
+                    $v.selectedCategories.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -150,15 +154,17 @@
               <div class="my-4">
                 <label
                   class="block font-bold relative text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >narx <p class="inline-block text-xs absolute  text-red-500">&#10043;</p> </label 
-                >
+                  >narx
+                  <p class="inline-block text-xs absolute text-red-500">
+                    &#10043;
+                  </p>
+                </label>
                 <input
                   type="string"
                   placeholder=""
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.product.price.$model"
                   v-mask="priceMask"
-
                 />
                 <div
                   class="text-red-400 text-sm"
@@ -221,10 +227,7 @@
                     :key="index"
                     class="w-56 h-64 border flex flex-grow relative shadow-sm my-5"
                   >
-                    <img
-                      :src="item"
-                      class="object-cover w-full m-2 h-full"
-                    />
+                    <img :src="item" class="object-cover w-full m-2 h-full" />
                     <span
                       @click="removeImage(index, product.images)"
                       class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"
@@ -395,7 +398,9 @@
                         class="fixed z-40 bg-gray-500 opacity-50 flex items-center justify-center"
                         v-if="showDeleteDialog"
                       >
-                        <div class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10">
+                        <div
+                          class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10"
+                        >
                           <span class="font-bold text-center text-xl block mb-6"
                             >Ushbu Kategoriyani o'chirishni xohlaysizmi?</span
                           >
@@ -434,9 +439,7 @@
             </div>
           </tab>
           <tab name="O'zgartirish" class="w-full text-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-10">
-              O'zgartirish
-            </h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-10">O'zgartirish</h2>
 
             <div class="w-full">
               <div class="input-group block my-4">
@@ -472,7 +475,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.product_code.required &&
-                      $v.variation.product_code.$dirty
+                    $v.variation.product_code.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -482,7 +485,7 @@
                 <label
                   class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
                   >tavsif</label
-                >          
+                >
                 <textarea
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.description.$model"
@@ -492,7 +495,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.description.required &&
-                      $v.variation.description.$dirty
+                    $v.variation.description.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -516,7 +519,7 @@
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.selectedVariationCategories.required &&
-                      $v.selectedVariationCategories.$dirty
+                    $v.selectedVariationCategories.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -533,13 +536,12 @@
                   class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                   v-model.trim="$v.variation.quantity.$model"
                   v-mask="priceMask"
-
                 />
                 <div
                   class="text-red-400 text-sm"
                   v-if="
                     !$v.variation.quantity.required &&
-                      $v.variation.quantity.$dirty
+                    $v.variation.quantity.$dirty
                   "
                 >
                   <i>{{ requiredMessage }}</i>
@@ -575,10 +577,7 @@
                 />
                 <div v-if="variation.image">
                   <div class="w-56 h-64 my-5 border shadow-md">
-                       <img
-                        :src="preview"
-                       class="object-cover w-full h-full"
-                       />
+                    <img :src="preview" class="object-cover w-full h-full" />
                   </div>
                 </div>
               </div>
@@ -908,7 +907,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: []
+        variations: [],
       },
       variation: {
         parent_id: 0,
@@ -920,14 +919,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null
-      }
+        value: null,
+      },
     };
   },
   watch: {
@@ -938,90 +937,90 @@ export default {
         delete this.variation.variations;
         delete this.variation.is_import;
         delete this.variation.brand;
-      }
+      },
     },
-    "this.showFail": function(newVal) {
+    "this.showFail": function (newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
       }
     },
-    "this.showSuccess": function(newVal) {
+    "this.showSuccess": function (newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showSuccess = false;
         }, 3000);
       }
-    }
+    },
   },
   validations: {
     selectedBrand: {
-      required
+      required,
     },
     selectedCategories: {
-      required
+      required,
     },
     selectedVariationCategories: {
-      required
+      required,
     },
     product: {
       name: {
-        required
+        required,
       },
       product_code: {
-        required
+        required,
       },
       price: {
-        required
+        required,
       },
       description: {
-        required
+        required,
       },
       brand: {
-        required
+        required,
       },
       quantity: {
-        required
+        required,
       },
       image: {
-        required
+        required,
       },
       images: {
-        required
+        required,
       },
       attributes: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
       },
       categories: {
-        required
-      }
+        required,
+      },
     },
     variation: {
       name: {
-        required
+        required,
       },
       product_code: {
-        required
+        required,
       },
       quantity: {
-        required
+        required,
       },
       price: {
-        required
+        required,
       },
       description: {
-        required
+        required,
       },
       attributes: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
       },
       categories: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     selectCategories(value, id) {
@@ -1051,7 +1050,7 @@ export default {
       if (!this.$v.$invalid) {
         this.product.variations.push(this.variation);
         this.variation = {
-          attributes: []
+          attributes: [],
         };
         this.showAddNewVariation = false;
       }
@@ -1169,12 +1168,12 @@ export default {
             console.log(err);
           });
       }
-    }
+    },
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  }
+  },
 };
 </script>
 <style scoped>

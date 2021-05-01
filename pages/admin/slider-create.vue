@@ -5,13 +5,14 @@
       <div class="px-5 mx-auto w-4/5 pt-10">
         <div
           v-if="showSuccess"
-          
           class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
         >
-        <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-                    <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"></path>
-                </svg>
-        
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"
+            ></path>
+          </svg>
+
           <i> Slider yaratildi</i>
 
           <span
@@ -23,9 +24,12 @@
         <div
           v-if="showFail"
           class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
-        ><svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"></path>
-                </svg>
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
           <i> Slider yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
 
           <span
@@ -43,10 +47,10 @@
             type="text"
             class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
             v-model.trim="$v.slider.text.$model"
-          /> <div
+          />
+          <div
             class="text-red-400 text-sm"
             v-if="!$v.slider.text.required && $v.slider.text.$dirty"
-            
           >
             <i>To'ldirish shart</i>
           </div>
@@ -59,7 +63,7 @@
             v-model="$v.selectedCategory.$model"
             :options="categories"
             placeholder="Kategoriya tanlang"
-            class="text-sm  w-1/2"
+            class="text-sm w-1/2"
             label="name"
             track-by="name"
             @select="selectCategory"
@@ -77,19 +81,16 @@
           <div v-if="preview">
             <div>
               <div class="w-56 h-64 my-5 border shadow-sm">
-                <img
-                  :src="preview"
-                  class="w-full h-full object-cover"
-                />
+                <img :src="preview" class="w-full h-full object-cover" />
               </div>
             </div>
           </div>
         </div>
 
         <button
-        type="submit"
+          type="submit"
           @click="createSlider"
-            class="block bg-gray-800 w-32 text-sm text-center rounded-md px-3 text-white my-2 py-2"
+          class="block bg-gray-800 w-32 text-sm text-center rounded-md px-3 text-white my-2 py-2"
         >
           Slider yaratish
         </button>
@@ -102,7 +103,7 @@ import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -115,25 +116,25 @@ export default {
       slider: {
         text: null,
         image: null,
-        category: null
-      }
+        category: null,
+      },
     };
   },
   validations: {
     selectedCategory: {
-      required
+      required,
     },
     slider: {
       text: {
-        required
+        required,
       },
       image: {
-        required
+        required,
       },
       category: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     selectCategory(value, id) {
@@ -182,7 +183,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {};
+      reader.onloadend = function () {};
       reader.readAsDataURL(file);
     },
     getCategories() {
@@ -195,11 +196,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
-  }
+  },
 };
 </script>
 <style scoped>

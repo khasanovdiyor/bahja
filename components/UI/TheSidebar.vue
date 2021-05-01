@@ -63,7 +63,7 @@ export default {
     showChild(child) {
       let me = this;
       let currentCategory = this.categories.find(
-        (el) => el.slug == me.$route.params.slug
+        el => el.slug == me.$route.params.slug
       );
       if (currentCategory) {
         if (currentCategory.childs.includes(child)) return true;
@@ -73,11 +73,11 @@ export default {
     getCategories() {
       this.$axios
         .get("product/category-list/")
-        .then((res) => {
+        .then(res => {
           console.log("category-list", res.data);
           this.categories = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },

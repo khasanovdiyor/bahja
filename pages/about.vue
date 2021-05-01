@@ -18,8 +18,10 @@
           quis rerum perferendis alias, earum ab minima. Totam, maiores ducimus
           eum, fugiat deserunt distinctio ullam corporis est nisi ipsum dolorum
           reprehenderit eos saepe sapiente quae tempore in eveniet blanditiis
-          accusamus non beatae quos et quasi quas?</p>
-         <p> Quos, molestiae aperiam accusantium, et voluptate repellendus facilis
+          accusamus non beatae quos et quasi quas?
+        </p>
+        <p>
+          Quos, molestiae aperiam accusantium, et voluptate repellendus facilis
           dolorem enim saepe assumenda animi porro non nostrum voluptatibus
           consequatur aut quam temporibus nobis! Tempore numquam, ratione
           perspiciatis ullam quibusdam dolores in id fugit, assumenda quam
@@ -28,8 +30,9 @@
           quis commodi est, repellat magni accusamus dolorum, corrupti
           provident, earum voluptatum cum. Reiciendis sint id, aliquam magni,
           aliquid iste cumque amet omnis, laboriosam dolore ducimus iusto rem
-          aut officiis repellat mollitia quibusdam.</p><br />
-        
+          aut officiis repellat mollitia quibusdam.
+        </p>
+        <br />
       </div>
     </div>
     <TheFooter />

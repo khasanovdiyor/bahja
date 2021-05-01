@@ -375,7 +375,7 @@
                               />
                             </nuxt-link>
                             <div
-                             class="cursor-pointer"
+                              class="cursor-pointer"
                               @click="
                                 deleteOrderID = order.id;
                                 showDeleteDialog = true;
@@ -393,25 +393,28 @@
                           class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
                           v-if="showDeleteDialog"
                         >
-                          <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
-                      <span class="font-bold text-xl text-center block mb-6"
-                        >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
-                      >
-                      <div class="flex justify-between">
-                        <button
-                          @click="deleteOrder(deleteOrderID)"
-                          class="bg-red-500 rounded-md text-white py-2 px-4"
-                        >
-                          Ha
-                        </button>
-                        <button
-                          @click="showDeleteDialog = false"
-                          class="bg-gray-500 rounded-md text-white py-2 px-4"
-                        >
-                          Yo'q
-                        </button>
-                      </div>
-                    </div>
+                          <div
+                            class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8"
+                          >
+                            <span
+                              class="font-bold text-xl text-center block mb-6"
+                              >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
+                            >
+                            <div class="flex justify-between">
+                              <button
+                                @click="deleteOrder(deleteOrderID)"
+                                class="bg-red-500 rounded-md text-white py-2 px-4"
+                              >
+                                Ha
+                              </button>
+                              <button
+                                @click="showDeleteDialog = false"
+                                class="bg-gray-500 rounded-md text-white py-2 px-4"
+                              >
+                                Yo'q
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </tr>
                     </tbody>
@@ -430,7 +433,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -450,34 +453,34 @@ export default {
 
       selectedSortOrder: {
         name: "1 kunlik",
-        day: 1
+        day: 1,
       },
       selectedSortMoney: {
         name: "1 kunlik",
-        day: 1
+        day: 1,
       },
       selectedSortProduct: {
         name: "1 kunlik",
-        day: 1
+        day: 1,
       },
       sortOptions: [
         {
           name: "1 kunlik",
-          day: 1
+          day: 1,
         },
         {
           name: "Haftalik",
-          day: 7
+          day: 7,
         },
         {
           name: "Oylik",
-          day: 30
+          day: 30,
         },
         {
           name: "Yillik",
-          day: 365
-        }
-      ]
+          day: 365,
+        },
+      ],
     };
   },
   methods: {
@@ -485,8 +488,8 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus
-          }
+            status: this.activeStatus,
+          },
         })
         .then(res => {
           console.log(res.data);
@@ -577,14 +580,14 @@ export default {
           this.showStatus = false;
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getOrders();
     this.getStatsNewOrder(this.selectedSortOrder);
     this.getStatsNewOrderMoney(this.selectedSortMoney);
     this.getStatsNewProducts(this.selectedSortProduct);
-  }
+  },
 };
 </script>
 <style></style>

@@ -9,13 +9,13 @@
         {{ item.label }}: {{ selected_attrs[index] }}
         <span class="font-bold capitalize">{{ selected_attrs[item.key] }}</span>
       </h4>
-      <div class="flex ">
+      <div class="flex">
         <div
           v-for="(val, i) in item.values"
           :key="i"
           class="flex w-16 h-16 object-cover object-top cursor-pointer mr-2 border-2"
           :class="{
-            'border-blue-400': selected_attrs[index] == val.value
+            'border-blue-400': selected_attrs[index] == val.value,
           }"
           @click="selected_attrs[index] = val.value"
         >
@@ -41,23 +41,23 @@ export default {
   props: {
     products: {
       type: Array,
-      required: true
+      required: true,
     },
     product: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   watch: {
     selected_attrs: {
       deep: true,
       handler(newVal) {
         this.$emit("attribute-changed", newVal);
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      selected_attrs: {}
+      selected_attrs: {},
     };
   },
   computed: {
@@ -89,7 +89,7 @@ export default {
         sortedAttrs[key].values.sort((a, b) => (a.value > b.value ? 1 : -1));
       }
       return sortedAttrs;
-    }
+    },
   },
   methods: {
     convertAttributes(product) {
@@ -97,7 +97,7 @@ export default {
       let new_attrs = Object.assign({}, attrs);
       for (const key in attrs) {
         attrs[key]["values"] = [
-          { value: new_attrs[key]["value"], image: product.image }
+          { value: new_attrs[key]["value"], image: product.image },
         ];
 
         this.$set(this.selected_attrs, key, attrs[key]["value"]);
@@ -105,9 +105,9 @@ export default {
         // delete attrs[key]["value"];
       }
       return attrs;
-    }
+    },
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 

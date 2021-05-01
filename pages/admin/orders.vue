@@ -205,32 +205,32 @@
                 Buyurtmalar
               </h2>
               <div class="mt-5 flex items-center">
-                  <select
-                    name="filter-orders"
-                    v-model="activeStatus"
-                    id=""
-                    class="ml-auto py-2 text-sm border border-gray-200 rounded-md"
+                <select
+                  name="filter-orders"
+                  v-model="activeStatus"
+                  id=""
+                  class="ml-auto py-2 text-sm border border-gray-200 rounded-md"
+                >
+                  <option value="">Status bo'yicha saralash</option>
+                  <option
+                    :value="status"
+                    v-for="(status, index) in statuses"
+                    :key="index"
                   >
-                    <option value="">Status bo'yicha saralash</option>
-                    <option
-                      :value="status"
-                      v-for="(status, index) in statuses"
-                      :key="index"
-                    >
-                      {{ status }}
-                    </option>
-                  </select>
-                  <button
-                    @click="getOrders"
-                    class="bg-gray-800 w-24 mx-3 rounded-md text-sm px-4 text-white my-2 py-2"
-                  >
-                    Saralash
-                  </button>
-                  <nuxt-link
-                    to="/admin/order-create/"
-                    class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2"
-                    >Qo'shish</nuxt-link
-                  >
+                    {{ status }}
+                  </option>
+                </select>
+                <button
+                  @click="getOrders"
+                  class="bg-gray-800 w-24 mx-3 rounded-md text-sm px-4 text-white my-2 py-2"
+                >
+                  Saralash
+                </button>
+                <nuxt-link
+                  to="/admin/order-create/"
+                  class="block bg-gray-800 w-24 ml-auto text-sm text-center rounded-md px-3 text-white my-2 py-2"
+                  >Qo'shish</nuxt-link
+                >
               </div>
             </div>
 
@@ -247,7 +247,7 @@
                         <th
                           class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
                         >
-                         ism
+                          ism
                         </th>
                         <th
                           class="px-6 py-3 border-b border-gray-200 bg-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
@@ -302,7 +302,7 @@
                         <td
                           class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                         >
-                          <div class="text-sm leading-5 font text-gray-700 ">
+                          <div class="text-sm leading-5 font text-gray-700">
                             {{ order.phone_number }}
                           </div>
                         </td>
@@ -380,30 +380,33 @@
                             </div>
                           </div>
                         </td>
-                         <div
+                        <div
                           class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-25 flex items-center justify-center"
-                    v-if="showDeleteDialog"
-                  >
-                    <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
-                      <span class="font-bold text-xl text-center block mb-6"
-                        >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
-                      >
-                      <div class="flex justify-between">
-                        <button
-                          @click="deleteOrder(deleteOrderID)"
-                          class="bg-red-500 rounded-md text-white py-2 px-4"
+                          v-if="showDeleteDialog"
                         >
-                          Ha
-                        </button>
-                        <button
-                          @click="showDeleteDialog = false"
-                          class="bg-gray-500 rounded-md text-white py-2 px-4"
-                        >
-                          Yo'q
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                          <div
+                            class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8"
+                          >
+                            <span
+                              class="font-bold text-xl text-center block mb-6"
+                              >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
+                            >
+                            <div class="flex justify-between">
+                              <button
+                                @click="deleteOrder(deleteOrderID)"
+                                class="bg-red-500 rounded-md text-white py-2 px-4"
+                              >
+                                Ha
+                              </button>
+                              <button
+                                @click="showDeleteDialog = false"
+                                class="bg-gray-500 rounded-md text-white py-2 px-4"
+                              >
+                                Yo'q
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </tr>
                     </tbody>
                   </table>
@@ -427,7 +430,7 @@ export default {
       orders: [],
       activeStatus: "",
       statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      showStatus: false
+      showStatus: false,
     };
   },
   methods: {
@@ -435,12 +438,12 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus
-          }
+            status: this.activeStatus,
+          },
         })
         .then(res => {
           console.log(res.data);
-          res.data.forEach((el) => {
+          res.data.forEach(el => {
             el.showStatus = false;
           });
           this.orders = res.data;
@@ -481,11 +484,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getOrders();
-  }
+  },
 };
 </script>
 <style></style>

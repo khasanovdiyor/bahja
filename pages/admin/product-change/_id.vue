@@ -6,9 +6,12 @@
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-green-400 text-white text-center"
-        > <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
-                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"></path>
-                </svg>
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
           <i> Mahsulot yangilandi</i>
 
           <span
@@ -30,9 +33,7 @@
           >
         </div>
         <div name="Mahsulot qo'shish">
-          <h2 class="text-xl font-bold  text-gray-700">
-            O'zgartirish
-          </h2>
+          <h2 class="text-xl font-bold text-gray-700">O'zgartirish</h2>
 
           <div>
             <div class="input-group block my-4">
@@ -83,11 +84,13 @@
                 :options="categories"
                 :multiple="true"
                 @select="addCategory"
-                @remove="removeCategory"                
+                @remove="removeCategory"
               >
-              <template
-                ><span class="text-red-500 " slot="noResult">Bunday kategoriya topilmadi!</span>
-              </template> 
+                <template
+                  ><span class="text-red-500" slot="noResult"
+                    >Bunday kategoriya topilmadi!</span
+                  >
+                </template>
               </multiselect>
             </div>
             <div class="my-4">
@@ -99,9 +102,7 @@
                 type="text"
                 class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                 v-model="newProduct.quantity"
-                
                 v-mask="priceMask"
-     
               />
             </div>
             <div class="my-4">
@@ -114,7 +115,6 @@
                 class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
                 v-model="newProduct.price"
                 v-mask="priceMask"
-
               />
             </div>
             <div class="my-4">
@@ -130,10 +130,7 @@
               <div v-if="image">
                 <div>
                   <div class="w-56 h-64 my-5 border shadow-sm">
-                    <img
-                      :src="image"
-                      class="object-cover w-full h-full"
-                    />
+                    <img :src="image" class="object-cover w-full h-full" />
                   </div>
                 </div>
               </div>
@@ -155,10 +152,7 @@
                   :key="index"
                   class="w-56 h-64 my-5 border shadow-sm relative"
                 >
-                  <img
-                    :src="item"
-                    class="object-cover w-full h-full"
-                  />
+                  <img :src="item" class="object-cover w-full h-full" />
                   <span
                     @click="removeImage(index)"
                     class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
@@ -199,13 +193,13 @@
                     </th>
                     <th
                       scope="col"
-                      class="px-6 py-2  text-left text-xs font-bold text-gray-600 uppercase"
+                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
                     >
                       o'chirish
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white ">
+                <tbody class="bg-white">
                   <tr
                     class="border my-5"
                     v-for="(attr, index) in newAttributes"
@@ -334,11 +328,11 @@ import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
-       priceMask: priceMask,
+      priceMask: priceMask,
       newImage: null,
       showSuccess: false,
       showFail: false,
@@ -360,9 +354,9 @@ export default {
         key: null,
         label: null,
         value: null,
-        id: 0
+        id: 0,
       },
-      newAttributes: []
+      newAttributes: [],
     };
   },
   methods: {
@@ -409,7 +403,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             this.newImages.push(e.target.result);
             this.images.push(e.target.result);
           };
@@ -453,7 +447,7 @@ export default {
     updateCategory() {
       let category = {
         product: this.$route.params.id,
-        categories: this.newCategories
+        categories: this.newCategories,
       };
       this.$axios
         .post("product/update-category/", category)
@@ -468,7 +462,7 @@ export default {
       let images = {
         product: this.$route.params.id,
         images: this.images,
-        deleted_images: this.deletedImages
+        deleted_images: this.deletedImages,
       };
       this.$axios
         .post("product/update-images/", images)
@@ -482,7 +476,7 @@ export default {
     updateAttributes() {
       let attributes = {
         product: parseInt(this.$route.params.id),
-        attributes: this.newAttributes
+        attributes: this.newAttributes,
       };
       this.$axios
         .post("product/update-attributes/", attributes)
@@ -521,12 +515,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getProduct();
     this.getCategories();
-  }
+  },
 };
 </script>
 <style scoped>

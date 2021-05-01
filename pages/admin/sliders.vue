@@ -126,13 +126,13 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
       sliders: [],
       showDeleteDialog: false,
-      selectedSliderID: null
+      selectedSliderID: null,
     };
   },
   methods: {
@@ -153,11 +153,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getSliders();
-  }
+  },
 };
 </script>
 

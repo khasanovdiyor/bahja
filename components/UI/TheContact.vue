@@ -3,7 +3,7 @@
     class="bg-black text-white px-5 md:px-16 block sm:flex justify-between py-4"
   >
     <!-- LEFT OF CONTACT BOX -->
-    <div class="sm:flex sm:w-4/5  justify-start ">
+    <div class="sm:flex sm:w-4/5 justify-start">
       <div class="flex items-center mr-4 md:mr-5">
         <img src="~/assets/images/call.svg" alt="phone" class="w-4 mr-1" />
         <a href="tel:+998998856639">+998-99-899-89-98</a>
@@ -23,7 +23,7 @@
     </div>
     <!-- RIGHT OF CONTACT BOX -->
 
-    <div class="flex sm:justify-end ml-0 sm:ml-5 md:ml-0  sm:w-1/4">
+    <div class="flex sm:justify-end ml-0 sm:ml-5 md:ml-0 sm:w-1/4">
       <a href="https://www.instagram.com/bahja.uz/"
         ><img
           src="~/assets/images/instagram.svg"
