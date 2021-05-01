@@ -16,31 +16,18 @@
           X
         </div> -->
       </div>
-      <div
-        class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
-        v-if="showFail"
-      >
-        <div>
-          <span
-            class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between
-          bg-red-400 text-white"
-            v-if="showFail"
-          >
-            ><i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
-          </span>
-
-          <div class="text-center">
-            <span>{{ message }}</span>
-          </div>
-          <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
-          X
-        </div> -->
-        </div>
+      <div>
+        <span
+          class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
+          v-if="showFail"
+        >
+          <i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
+        </span>
+      </div>
+      <div>
         <div class="mb-6">
           <div class="input-group block my-4 my-10">
-            <h2 class="text-xl font-bold mb-10">
-              Brand qo'shish
-            </h2>
+            <h2 class="text-xl font-bold mb-10">Brand qo'shish</h2>
             <label
               for="input"
               class="block font-bold text-gray-600 uppercase text-sm mb-2"
@@ -93,7 +80,7 @@
             <tbody class="bg-white">
               <tr class="border" v-for="brand in brands" :key="brand.id">
                 <td class="px-6 py-1 border">
-                  <div class="flex items-center text-sm py-2 text-gray-500 ">
+                  <div class="flex items-center text-sm py-2 text-gray-500">
                     <div class="flex items-center text-gray-500">
                       {{ brand.id }}
                     </div>
@@ -171,20 +158,20 @@ export default {
       selectedBrandID: null,
       brands: [],
       newBrand: {
-        name: ""
-      }
+        name: "",
+      },
     };
   },
   validations: {
     newBrand: {
       name: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     getBrands() {
-      this.$axios.get("product/brand-list").then(res => {
+      this.$axios.get("product/brand-list").then((res) => {
         console.log(res.data);
         this.brands = res.data;
       });
@@ -193,7 +180,7 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post("product/brand-create/", this.newBrand)
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           loader.hide();
           // this.showNotification(this.showSuccess, "Brand yaratildi");
@@ -206,7 +193,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch(err => {
+        .catch((err) => {
           loader.hide();
           this.showFail = true;
           setTimeout(() => {
@@ -222,7 +209,7 @@ export default {
     deleteBrand(id) {
       this.$axios
         .delete(`product/brand-delete/${id}`)
-        .then(res => {
+        .then((res) => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.message = "Brend o'chirildi";
@@ -232,7 +219,7 @@ export default {
           }, 3000);
           this.getBrands();
         })
-        .catch(err => {
+        .catch((err) => {
           this.showDeleteDialog = false;
           this.showFail = true;
           setTimeout(() => {
@@ -254,11 +241,11 @@ export default {
           this.showFail = false;
         }, 3000);
       }
-    }
+    },
   },
   mounted() {
     this.getBrands();
-  }
+  },
 };
 </script>
 
