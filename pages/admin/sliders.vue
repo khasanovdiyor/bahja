@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr class="border" v-for="slider in sliders" :key="slider.id">
+          <tr class="border " v-for="slider in sliders" :key="slider.id">
             <td class="px-6 py-1 border">
               <div class="flex items-center text-sm py-2">
                 {{ slider.id }}
@@ -92,7 +92,7 @@
               </div>
             </td>
             <div
-              class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-25 flex items-center justify-center"
+              class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
               v-if="showDeleteDialog"
             >
               <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
@@ -126,13 +126,13 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
       sliders: [],
       showDeleteDialog: false,
-      selectedSliderID: null,
+      selectedSliderID: null
     };
   },
   methods: {
@@ -153,11 +153,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getSliders();
-  },
+  }
 };
 </script>
 

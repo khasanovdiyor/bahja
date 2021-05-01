@@ -1,13 +1,13 @@
 <template>
   <div class="flex min-h-screen bg-gray-100">
     <AdminSidebar />
-    <div class="px-8 w-1/2">
+    <div class="px-6  w-9/12">
       <div
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
         v-if="showSuccess"
       >
         <div>
-          <span><i>Brand qo'shildi</i> </span>
+          <i>Brend qo'shildi</i>
         </div>
         <!-- <div
           class="text-white px-4 cursor-pointer"
@@ -21,21 +21,23 @@
           class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-400 text-white"
           v-if="showFail"
         >
-          <i>Brand qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
+          <i>Brend qo'shishda xatolik yuz berdi, qayta urinib koring!</i>
         </span>
       </div>
       <div>
         <div class="mb-6">
           <div class="input-group block my-4 my-10">
-            <h2 class="text-xl font-bold mb-10">Brand qo'shish</h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-10">
+              Brend qo'shish
+            </h2>
             <label
               for="input"
               class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >Brand nomi</label
+              >Brend</label
             >
             <input
               type="text"
-              class="border-2 rounded-md text-sm w-2/3 py-2 pl-5"
+              class="border-2 w-1/2 rounded-md text-sm py-2 pl-5"
               v-model.trim="$v.newBrand.name.$model"
             />
             <div
@@ -50,7 +52,7 @@
             @click="createBrand"
             class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
           >
-            Brand yaratish
+            Brend qo'shish
           </button>
         </div>
         <div>
@@ -59,7 +61,7 @@
               <tr>
                 <th
                   scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 w-16 text-left text-sm font-bold text-gray-700 uppercase"
                 >
                   id
                 </th>
@@ -67,33 +69,33 @@
                   scope="col"
                   class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
                 >
-                  Brand nomi
+                  Brend
                 </th>
                 <th
                   scope="col"
-                  class="px-6 py-2 rounded-tr-md text-left text-sm font-bold text-gray-700 uppercase"
+                  class="px-6 py-2 w-40 rounded-tr-md text-left text-sm font-bold text-gray-700 uppercase"
                 >
                   O'chirish
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr class="border" v-for="brand in brands" :key="brand.id">
-                <td class="px-6 py-1 border">
-                  <div class="flex items-center text-sm py-2 text-gray-500">
-                    <div class="flex items-center text-gray-500">
+              <tr class="" v-for="brand in brands" :key="brand.id">
+                <td class="px-6 py-1 border border-right-none">
+                  <div class="flex items-center text-sm py-2">
+                    <div class="flex items-center text-gray-600">
                       {{ brand.id }}
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-1 border">
-                  <div class="flex items-center text-sm py-2 text-gray-500">
+                  <div class="flex items-center text-sm py-2 text-gray-600">
                     {{ brand.name }}
                   </div>
                 </td>
                 <td class="px-6 py-1 border">
                   <div
-                    class="flex items-center text-sm py-2 text-gray-500 justify-between"
+                    class="flex items-center text-sm py-2 text-gray-600 justify-center"
                   >
                     <div
                       @click="
@@ -111,23 +113,23 @@
                   </div>
                 </td>
                 <div
-                  class="fixed z-40 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
+                  class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
                   v-if="showDeleteDialog"
                 >
-                  <div class="w-1/3 bg-white py-4 px-10">
-                    <span class="font-bold text-xl block mb-6"
+                  <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
+                    <span class="font-bold text-center text-xl block mb-6"
                       >Ushbu brendni o'chirishni xohlaysizmi?</span
                     >
                     <div class="flex justify-between">
                       <button
                         @click="deleteBrand(selectedBrandID)"
-                        class="bg-red-600 text-white py-2 px-4"
+                        class="bg-red-500 rounded-md text-white py-2 px-4"
                       >
                         Ha
                       </button>
                       <button
                         @click="showDeleteDialog = false"
-                        class="bg-gray-600 text-white py-2 px-4"
+                        class="bg-gray-500 rounded-md text-white py-2 px-4"
                       >
                         Yo'q
                       </button>
@@ -158,16 +160,16 @@ export default {
       selectedBrandID: null,
       brands: [],
       newBrand: {
-        name: "",
-      },
+        name: ""
+      }
     };
   },
   validations: {
     newBrand: {
       name: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     getBrands() {
@@ -241,11 +243,11 @@ export default {
           this.showFail = false;
         }, 3000);
       }
-    },
+    }
   },
   mounted() {
     this.getBrands();
-  },
+  }
 };
 </script>
 

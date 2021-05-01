@@ -221,7 +221,7 @@
                 </div>
               </td>
               <div
-                class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-25 flex items-center justify-center"
+                class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
                 v-if="showDeleteDialog"
               >
                 <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
@@ -262,7 +262,7 @@ export default {
   mixins: [global],
   components: {
     AdminSidebar,
-    BaseButton,
+    BaseButton
   },
   data() {
     return {
@@ -284,31 +284,31 @@ export default {
         name: "",
         parent_id: null,
         is_slider: false,
-        order: null,
+        order: null
       },
       newCategories: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       seletedCategories: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     newCategory: {
       name: {
-        required,
+        required
       },
       order: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
 
   methods: {
@@ -318,7 +318,7 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function (event) {
+    previewImage: function(event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
@@ -382,13 +382,13 @@ export default {
             "Kategoriya o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
   },
   activeColor: "red",
-  borderColor: " red",
+  borderColor: " red"
 };
 </script>
 

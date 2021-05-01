@@ -33,7 +33,7 @@
 
         <div class="my-4">
           <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
-            >text</label
+            >Kontent</label
           >
           <input
             type="text"
@@ -93,7 +93,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -105,8 +105,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null,
-      },
+        category: null
+      }
     };
   },
   methods: {
@@ -152,7 +152,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function () {
+      reader.onloadend = function() {
         console.log("RESULT", reader.result);
       };
       reader.readAsDataURL(file);
@@ -177,11 +177,11 @@ export default {
           this.slider = res.data;
           this.slider.category = res.data.category.id;
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getSlider();
-  },
+  }
 };
 </script>

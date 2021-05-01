@@ -50,7 +50,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedProduct.codesize.required &&
-                $v.selectedProduct.codesize.$dirty
+                  $v.selectedProduct.codesize.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -199,9 +199,8 @@
             >Telefon raqam</label
           >
           <input
-            type="tel"
+            type="index"
             class="w-1/2 border-2 rounded-md text-sm py-2 pl-5"
-            placeholder="+998 ## ### ## ##"
             v-model.trim="$v.newOrder.phone_number.$model"
             v-mask="'+998 ## ### ## ##'"
           />
@@ -209,32 +208,19 @@
             class="text-red-400 text-sm"
             v-if="
               !$v.newOrder.phone_number.required &&
-              $v.newOrder.phone_number.$dirty &&
-              $v.newOrder.phone_number.$params.minLength
+                $v.newOrder.phone_number.$dirty
             "
           >
-            <div
-              class="text-red-400 text-sm"
-              v-if="
-                !$v.newOrder.phone_number.required &&
-                $v.newOrder.phone_number.$dirty
-              "
-            >
-              <i>To'ldirish shart</i>
-            </div>
-            <div
-              class="text-red-400 text-sm"
-              v-if="!$v.newOrder.phone_number.minLength"
-            >
-              <i>
-                Buyurtmachi raqami kamida
-
-                {{ $v.newOrder.phone_number.$params.minLength.min }} raqam
-                bo'lishi kerak</i
-              >
-            </div>
+            <i>To'ldirish shart</i>
+          </div>
+          <div
+            class="text-red-400 text-sm"
+            v-if="!$v.newOrder.phone_number.minLength"
+          >
+            <i>Telfon raqam to'liq emas</i>
           </div>
         </div>
+
         <!-- <i>Telefon raqam kamida
                {{ $v.newOrder.phone_number.$params.minLength }} raqam bo'lishi
                 kerak  To'ldirish shart</i>
@@ -265,12 +251,14 @@
 <script>
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
+      priceMask: priceMask,
       requiredMessage: "To'ldirish shart",
       showSuccess: false,
       alreadyAdded: false,
@@ -279,54 +267,54 @@ export default {
       showProductForm: false,
       selectedProduct: {
         id: null,
-        codesize: null,
+        codesize: null
       },
       newProduct: {
-        count: null,
-        product_id: null,
+        count: 0,
+        product_id: null
       },
       newOrder: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     selectedProduct: {
       codesize: {
-        required,
-      },
+        required
+      }
     },
     newProduct: {
       count: {
-        required,
-      },
+        required
+      }
     },
     newOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       count: {
         required,
-        maxLength: minLength(1),
+        minLength: minLength(1)
       },
       phone_number: {
         required,
-        minLength: minLength(17),
+        minLength: minLength(17)
       },
       products: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     addProduct() {
@@ -359,7 +347,7 @@ export default {
           (this.selectedProduct = {}),
             (this.newProduct = {
               count: null,
-              product_id: null,
+              product_id: null
             });
         }
       }
@@ -408,11 +396,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 <style>

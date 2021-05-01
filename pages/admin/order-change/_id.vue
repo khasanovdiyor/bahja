@@ -2,7 +2,7 @@
   <div>
     <div class="flex min-h-screen">
       <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 pt-10">
+      <div class="px-5 mx-auto bg-gray-100 w-4/5 pt-10">
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
@@ -30,7 +30,8 @@
         <div class="pb-10">
           <h2 class="font-bold text-xl mb-5">Buyurtmani o'zgartirish</h2>
           <div class="my-4">
-            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
+            <label
+              class="block font-bold text-gray-600 uppercase text-sm mb-2 mt-4"
               >Buyurtmachi</label
             >
             <input
@@ -58,7 +59,8 @@
             </div>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
+            <label
+              class="block font-bold text-gray-600 uppercase text-sm mb-2 mt-4"
               >Telefon raqam</label
             >
             <input
@@ -71,7 +73,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                $v.selectedOrder.phone_number.$dirty
+                  $v.selectedOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -80,15 +82,12 @@
               class="text-red-400 text-sm"
               v-if="!$v.selectedOrder.phone_number.minLength"
             >
-              <i
-                >Telfon raqam kamida
-                {{ $v.selectedOrder.phone_number.$params.minLength.min }} son
-                bo'lishi kerak</i
-              >
+              <i>Telfon raqam to'liq emas</i>
             </div>
           </div>
           <div class="my-4">
-            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
+            <label
+              class="block font-bold text-gray-600 uppercase text-sm mb-2 mt-4"
               >Buyurtma xolati</label
             >
             <select
@@ -263,39 +262,44 @@
             </table>
           </div>
           <div class="my-10">
-            <h2 class="font-bold text-xl mb-4">Mahsulot qo'shish</h2>
+            <h2 class="font-bold text-xl mb-4 text-gray-800">
+              Mahsulot qo'shish
+            </h2>
             <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
-              >Mahsulot tanlang</label
+              >Mahsulot</label
             >
             <multiselect
               v-model="selectedProduct"
               :options="products"
-              placeholder="Brand tanlang"
+              placeholder="mahsulot tanlang"
               label="codesize"
               @select="selectProduct"
             >
               <template
-                ><span slot="noResult">Bunday mahsulot topilmadi!</span>
+                ><span slot="noResult" class="text-red-500 text-sm"
+                  >Bunday mahsulot topilmadi!</span
+                >
               </template>
             </multiselect>
-          </div>
-          <div class="my-4">
-            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
-              >soni</label
-            >
-            <input
-              type="text"
-              class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              v-model="newProduct.count"
-            />
-          </div>
+            <div class="mt-2">
+              <label
+                class="block font-bold uppercase text-gray-500 text-sm mt-4 mb-2"
+                >son</label
+              >
+              <input
+                type="number"
+                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                v-model="newProduct.count"
+              />
+            </div>
 
-          <button
-            class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
-            @click="createOrderProduct"
-          >
-            Ma'lumotlarni saqlash
-          </button>
+            <button
+              class="bg-gray-800 rounded-md text-sm text-white py-2 my-6 px-4"
+              @click="createOrderProduct"
+            >
+              Ma'lumotlarni saqlash
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -307,7 +311,7 @@ import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
@@ -321,15 +325,15 @@ export default {
       newProduct: {
         order_id: this.$route.params.id,
         count: 0,
-        proudct_id: null,
+        proudct_id: null
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      order: {},
+      order: {}
     };
   },
   watch: {
@@ -344,19 +348,19 @@ export default {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
-    },
+    }
   },
   validations: {
     selectedOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(13),
-      },
-    },
+        minLength: minLength(17)
+      }
+    }
   },
   methods: {
     selectProduct(value, id) {
@@ -466,11 +470,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getOrder();
     this.getProducts();
-  },
+  }
 };
 </script>
+<style scoped></style>

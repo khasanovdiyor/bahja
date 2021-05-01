@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex  h-screen">
     <AdminSidebar />
-    <div class="px-6 w-9/12 pt-10">
+    <div class="px-6 w-9/12 pt-10 bg-gray-100">
       <h1 class="font-bold text-xl text-gray-700 mb-5">
         Buyurtma haqida to'liq ma'lumot
       </h1>
@@ -9,34 +9,34 @@
         <div class="mb-10">
           <table class="min-w-full divide-x divide-gray-200 flex">
             <thead class="bg-gray-200">
-              <tr class="border-gray-400 border-b">
+              <tr class="border-gray-300 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
+                  class="px-6 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Id
                 </th>
               </tr>
-              <tr class="border-gray-400 border-b">
+              <tr class="border-gray-300 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
+                  class="px-6 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Ism
                 </th>
               </tr>
-              <tr class="border-gray-400 border-b">
+              <tr class="border-gray-300 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
+                  class="px-6 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Telefon raqam
                 </th>
               </tr>
-              <tr class="border-gray-400 border-b">
+              <tr class="border-gray-300 border-b">
                 <th
                   scope="col"
-                  class="px-8 block py-2 text-left text-sm font-bold text-gray-600"
+                  class="px-6 block py-2 text-left text-sm font-bold text-gray-600"
                 >
                   Jami narx
                 </th>
@@ -44,28 +44,28 @@
             </thead>
             <tbody>
               <tr class="border">
-                <td class="px-6 py-2 border">
+                <td class="px-6 py-2 border bg-white">
                   <div class="flex items-center text-sm">
                     {{ order.id }}
                   </div>
                 </td>
               </tr>
               <tr class="border">
-                <td class="px-6 py-2 border">
+                <td class="px-6 py-2 border bg-white">
                   <div class="flex items-center text-sm">
                     {{ order.name }}
                   </div>
                 </td>
               </tr>
               <tr class="border">
-                <td class="px-6 py-2 border">
+                <td class="px-6 py-2 border bg-white">
                   <div class="flex items-center text-sm">
                     {{ order.phone_number }}
                   </div>
                 </td>
               </tr>
               <tr class="border">
-                <td class="px-6 py-2 border">
+                <td class="px-6 py-2 border bg-white">
                   <div
                     class="flex items-center text-sm"
                     v-if="order.finish_price"
@@ -199,11 +199,11 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
   data() {
     return {
-      order: {},
+      order: {}
     };
   },
   methods: {
@@ -214,12 +214,16 @@ export default {
           console.log(res.data);
           this.order = res.data;
         });
-    },
+    }
   },
   mounted() {
     this.getOrder();
-  },
+  }
 };
 </script>
 
-<style></style>
+<style scoped>
+tbody td {
+  width: 50rem;
+}
+</style>
