@@ -196,11 +196,7 @@
 </template>
 
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
-  components: {
-    AdminSidebar,
-  },
   data() {
     return {
       order: {},

@@ -263,12 +263,8 @@
   </div>
 </template>
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
-  components: {
-    AdminSidebar,
-  },
   data() {
     return {
       requiredMessage: "To'ldirish shart",

@@ -144,11 +144,9 @@
 </template>
 
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required } from "vuelidate/lib/validators";
 
 export default {
-  components: { AdminSidebar },
   data() {
     return {
       showDeleteDialog: false,

@@ -324,12 +324,8 @@
   </div>
 </template>
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
-  components: {
-    AdminSidebar,
-  },
   data() {
     return {
       priceMask: priceMask,

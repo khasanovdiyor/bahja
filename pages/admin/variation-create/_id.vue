@@ -344,13 +344,9 @@
 </template>
 
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar";
 import { required, minLength } from "vuelidate/lib/validators";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
-  components: {
-    AdminSidebar,
-  },
   data() {
     return {
       priceMask: priceMask,
