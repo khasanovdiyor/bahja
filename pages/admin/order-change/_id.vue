@@ -306,7 +306,6 @@
   </div>
 </template>
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {

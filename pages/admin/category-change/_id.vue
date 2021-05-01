@@ -114,13 +114,7 @@
 </template>
 
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import BaseButton from "~/components/admin/BaseButton.vue";
 export default {
-  components: {
-    AdminSidebar,
-    BaseButton,
-  },
   data() {
     return {
       showDeleteDialog: false,

@@ -107,13 +107,15 @@
                   >kategoriya</label
                 >
                 <multiselect
-                  v-model="selectedCategory"
+                  v-model="selectedProductCategories"
                   :options="categories"
                   placeholder="Kategoriya tanlang"
+                  multiple
+                  taggable
                   label="name"
                   track-by="name"
-                  @select="selectCategory"
-                  @remove="removeCategory"
+                  @select="selectProductCategories"
+                  @remove="removeProductCategories"
                 >
                   <template
                     ><span class="text-red-500" slot="noResult"
@@ -221,11 +223,11 @@
                     <i>{{ requiredMessage }}</i>
                   </div>
                 </div>
-                <div v-if="product.images" class="flex-grow">
+                <div v-if="product.images" class="flex">
                   <div
                     v-for="(item, index) in product.images"
                     :key="index"
-                    class="w-56 h-64 border flex flex-grow relative shadow-sm my-5"
+                    class="w-56 h-64 relative shadow-sm my-5 mr-2"
                   >
                     <img :src="item" class="object-cover w-full m-2 h-full" />
                     <span
@@ -304,7 +306,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 rounded-md text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
                             v-model="attr.key"
                           />
                         </div>
@@ -313,7 +315,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 rounded-md text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
                             v-model="attr.label"
                           />
                         </div>
@@ -322,7 +324,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full border-2 rounded-md text-sm py-2 pl-5"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
                             v-model="attr.value"
                           />
                         </div>
@@ -332,7 +334,7 @@
                           class="flex items-center text-gray-500 justify-center"
                         >
                           <div
-                            @click="RemoveAttribute(product, index)"
+                            @click="removeAttribute(product, index)"
                             class="cursor-pointer hover:underline"
                           >
                             <img
@@ -359,7 +361,7 @@
                         <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1 rounded-md"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
                             v-model="attribute.key"
                           />
                         </div>
@@ -368,7 +370,7 @@
                         <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1 rounded-md"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
                             v-model="attribute.label"
                           />
                         </div>
@@ -377,7 +379,7 @@
                         <div class="flex items-center">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1 rounded-md"
+                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
                             v-model="attribute.value"
                           />
                         </div>
@@ -506,14 +508,15 @@
                   >kategoriya</label
                 >
                 <multiselect
-                  v-model="$v.selectedVariationCategories.$model"
+                  v-model="selectedVariationCategories"
                   placeholder="Kategoriya qo'shing"
                   label="name"
                   track-by="id"
                   :options="categories"
-                  :multiple="true"
-                  @tag="addTag"
+                  multiple
+                  taggable
                   @select="selectVariationCategories"
+                  @remove="removeVariationCategories"
                 ></multiselect>
                 <div
                   class="text-red-400 text-sm"
@@ -577,7 +580,10 @@
                 />
                 <div v-if="variation.image">
                   <div class="w-56 h-64 my-5 border shadow-md">
-                    <img :src="preview" class="object-cover w-full h-full" />
+                    <img
+                      :src="variation.image"
+                      class="object-cover w-full h-full"
+                    />
                   </div>
                 </div>
               </div>
@@ -592,7 +598,20 @@
                   @change="previewVariationMultiImage"
                   class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
                 />
-                <div v-if="variation.images" class="flex"></div>
+                <div v-if="variation.images" class="flex">
+                  <div
+                    v-for="(item, index) in variation.images"
+                    :key="index"
+                    class="w-56 h-64 relative shadow-sm my-5 mr-2"
+                  >
+                    <img :src="item" class="object-cover w-full m-2 h-full" />
+                    <span
+                      @click="removeImage(index, variation.images)"
+                      class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"
+                      >X</span
+                    >
+                  </div>
+                </div>
               </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
@@ -651,13 +670,13 @@
                       <td class="px-6 py-1 border">
                         <input
                           type="text"
-                          class="border w-full text-sm w-5 h-5 pl-5"
+                          class="border w-full w-5 h-5 pl-5"
                           v-model="attrib.value"
                         />
                       </td>
                       <td class="px-2 py-1 mx-auto w-40 border">
                         <div
-                          @click="RemoveAttribute(variation, index)"
+                          @click="removeAttribute(variation, index)"
                           class="cursor-pointer"
                         >
                           <img
@@ -701,7 +720,7 @@
                         <div class="flex items-center text-gray-500">
                           <input
                             type="text"
-                            class="w-full text-sm py-2 pl-5"
+                            class="w-full text-lg border-none py-2 pl-5"
                             v-model="attribute.value"
                           />
                         </div>
@@ -733,8 +752,8 @@
                 v-if="!$v.variation.attributes.minLength"
               >
                 Atributlar kamida
-                {{ $v.variation.attributes.$params.minLength.min }} harf
-                bo'lishi kerak
+                {{ $v.variation.attributes.$params.minLength.min }} ta bo'lishi
+                kerak
               </div>
               <button
                 @click="addVariation"
@@ -820,7 +839,6 @@
                           track-by="id"
                           :options="categories"
                           :multiple="true"
-                          @tag="addTag"
                         ></multiselect>
                       </div>
                     </td>
@@ -845,7 +863,7 @@
                         class="flex items-center text-gray-500 justify-between"
                       >
                         <div
-                          @click="RemoveVariation(index)"
+                          @click="removeVariation(index)"
                           class="cursor-pointer"
                         >
                           <img
@@ -876,8 +894,8 @@ export default {
       priceMask: priceMask,
       requiredMessage: "To'ldirish shart",
       selectedBrand: {},
-      selectedCategories: [],
-      selectedVariationCategories: [],
+      selectedProductCategories: null,
+      selectedVariationCategories: null,
       previewProduct: null,
       previewVariation: null,
       image: null,
@@ -934,6 +952,16 @@ export default {
       deep: true,
       handler() {
         this.variation = Object.assign({}, this.product);
+        this.variation.categories = Array.from(this.product.categories, x => x);
+        this.variation.attributes = Array.from(this.product.attributes, x => x);
+        this.variation.attributes.forEach((_, index) => {
+          this.variation.attributes[index] = Object.assign(
+            {},
+            this.product.attributes[index]
+          );
+        });
+        this.variation.images = Array.from(this.product.images, x => x);
+        this.variation.images = [];
         delete this.variation.variations;
         delete this.variation.is_import;
         delete this.variation.brand;
@@ -1023,14 +1051,22 @@ export default {
     }
   },
   methods: {
-    selectCategories(value, id) {
+    selectProductCategories(value) {
       this.product.categories.push(value.id);
+    },
+    selectVariationCategories(value) {
+      this.variation.categories.push(value.id);
+    },
+    removeProductCategories(value) {
+      const foundIndex = this.product.categories.indexOf(value.id);
+      if (foundIndex !== -1) this.product.categories.splice(foundIndex, 1);
+    },
+    removeVariationCategories(value) {
+      const foundIndex = this.variation.categories.indexOf(value.id);
+      if (foundIndex !== -1) this.variation.categories.splice(foundIndex, 1);
     },
     selectBrand(value) {
       this.product.brand = value.id;
-    },
-    selectVariationCategories(value, id) {
-      this.variation.categories.push(value.id);
     },
     addProductAttribute() {
       this.product.attributes.push(this.attribute);
@@ -1042,8 +1078,8 @@ export default {
       this.attribute = {};
       this.showAddNewKey = false;
     },
-    RemoveAttribute(product, index) {
-      product.attributes.splice(index, 3);
+    removeAttribute(product, index) {
+      product.attributes.splice(index, 1);
     },
     addVariation() {
       this.$v.$touch();
@@ -1055,21 +1091,18 @@ export default {
         this.showAddNewVariation = false;
       }
     },
-    RemoveVariation(index) {
-      this.product.variations.splice(index, 3);
+    removeVariation(index) {
+      this.product.variations.splice(index, 1);
     },
     addImage(product) {
       product.images.push(image);
     },
-    addTag(newTag) {
-      this.selectedCategories.push(newTag);
-    },
     removeImage(index, images) {
-      images.splice(index, 3);
+      images.splice(index, 1);
     },
     previewProductImage(event) {
       var input = event.target;
-      if (input.files) {
+      if (input.files[0]) {
         var reader = new FileReader();
         reader.onload = e => {
           this.product.image = e.target.result;
@@ -1079,7 +1112,7 @@ export default {
     },
     previewVariationImage(event) {
       var input = event.target;
-      if (input.files) {
+      if (input.files[0]) {
         var reader = new FileReader();
         reader.onload = e => {
           this.variation.image = e.target.result;
@@ -1091,7 +1124,7 @@ export default {
       var input = event.target;
       var count = input.files.length;
       var index = 0;
-      if (input.files) {
+      if (input.files.length > 0) {
         while (count--) {
           var reader = new FileReader();
           reader.onload = e => {
@@ -1109,7 +1142,7 @@ export default {
       var input = event.target;
       var count = input.files.length;
       var index = 0;
-      if (input.files) {
+      if (input.files.length > 0) {
         while (count--) {
           var reader = new FileReader();
           reader.onload = e => {

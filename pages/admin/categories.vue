@@ -253,8 +253,6 @@
 </template>
 
 <script>
-import AdminSidebar from "~/components/admin/AdminSidebar.vue";
-import BaseButton from "../../components/admin/BaseButton.vue";
 import priceMask from "~/mixins.js/priceMask.js";
 import { required } from "vuelidate/lib/validators";
 import global from "~/mixins.js/global.js";
