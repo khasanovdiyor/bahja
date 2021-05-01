@@ -73,7 +73,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                  $v.selectedOrder.phone_number.$dirty
+                $v.selectedOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -309,9 +309,6 @@
 import { required, minLength } from "vuelidate/lib/validators";
 
 export default {
-  components: {
-    AdminSidebar
-  },
   data() {
     return {
       orderProductId: 0,
@@ -324,15 +321,15 @@ export default {
       newProduct: {
         order_id: this.$route.params.id,
         count: 0,
-        proudct_id: null
+        proudct_id: null,
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: ""
+        status: "",
       },
       products: [],
-      order: {}
+      order: {},
     };
   },
   watch: {
@@ -347,19 +344,19 @@ export default {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
-    }
+    },
   },
   validations: {
     selectedOrder: {
       name: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
       },
       phone_number: {
         required,
-        minLength: minLength(17)
-      }
-    }
+        minLength: minLength(17),
+      },
+    },
   },
   methods: {
     selectProduct(value, id) {
@@ -469,12 +466,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getOrder();
     this.getProducts();
-  }
+  },
 };
 </script>
 <style scoped></style>

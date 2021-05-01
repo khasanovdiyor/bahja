@@ -91,9 +91,6 @@
 </template>
 <script>
 export default {
-  components: {
-    AdminSidebar
-  },
   data() {
     return {
       preview: null,

@@ -258,10 +258,6 @@ import { required } from "vuelidate/lib/validators";
 import global from "~/mixins.js/global.js";
 export default {
   mixins: [global],
-  components: {
-    AdminSidebar,
-    BaseButton
-  },
   data() {
     return {
       errors: [],

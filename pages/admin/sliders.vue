@@ -124,9 +124,6 @@
 
 <script>
 export default {
-  components: {
-    AdminSidebar
-  },
   data() {
     return {
       sliders: [],

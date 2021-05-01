@@ -252,9 +252,6 @@
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
-  components: {
-    AdminSidebar
-  },
   data() {
     return {
       priceMask: priceMask,
