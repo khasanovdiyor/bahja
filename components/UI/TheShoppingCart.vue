@@ -129,7 +129,7 @@ export default {
   methods: {
     getTotalPrice() {
       this.totalFromParent = 0;
-      this.products.forEach((el) => {
+      this.products.forEach(el => {
         this.totalFromParent += el.price * el.count;
       });
     },

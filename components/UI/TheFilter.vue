@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="filter block sm:flex justify-center md:justify-between  md:px-8 mx-0 md:mx-16 p-5  bg-gray-200 "
+      class="filter block sm:flex justify-center md:justify-between md:px-8 mx-0 md:mx-16 p-5 bg-gray-200"
     >
       <div
         class="flex w-8/12 mx-auto md:w-1/2 sm:mr-10 md:mr-0 justify-between"
@@ -9,7 +9,7 @@
         <div class="leading-8 w-2/5">
           <h2 class="font-semibold mb-3 text-gray-700">RANGI</h2>
           <div class="h-40 scroll overflow-y-scroll">
-            <ul class=" text-gray-600">
+            <ul class="text-gray-600">
               <li
                 class="text-sm capitalize cursor-pointer"
                 v-for="color in colors"
@@ -61,15 +61,15 @@ export default {
   props: {
     sizes: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       colors: [],
       brands: [],
-      sizeList: this.sizes
+      sizeList: this.sizes,
     };
   },
   methods: {
@@ -94,13 +94,13 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getColors();
     this.getBrands();
     console.log("Sizes", this.sizeList);
-  }
+  },
 };
 </script>
 <style>

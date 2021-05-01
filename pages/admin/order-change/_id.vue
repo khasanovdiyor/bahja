@@ -105,7 +105,6 @@
                 {{ status }}
               </option>
             </select>
-            
           </div>
           <button
             class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
@@ -179,7 +178,7 @@
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
-                    <div class=" text-sm">
+                    <div class="text-sm">
                       <span
                         v-for="attr in product.product.attributes"
                         class="block lowercase"
@@ -196,7 +195,7 @@
                   </td>
                   <td class="px-6 py-1 border w-16">
                     <div class="flex items-center text-sm">
-                     {{ product.count }}
+                      {{ product.count }}
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -374,14 +373,14 @@ export default {
             `cart/orderbeta-update/${this.$route.params.id}`,
             this.selectProduct
           )
-          .then((res) => {
+          .then(res => {
             loader.hide();
             this.message = "Buyurtmachi ma'lumotlari yangilandi";
             this.showSuccess = true;
 
             console.log(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             loader.hide();
             this.message =
               "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
@@ -395,7 +394,7 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post(`cart/orderproductbeta-create/`, this.newProduct)
-        .then((res) => {
+        .then(res => {
           this.message = "Yangi mahsulot qo'shildi";
           this.showSuccess = true;
           this.getOrder();
@@ -403,7 +402,7 @@ export default {
           console.log(res.data);
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           this.message =
             "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
@@ -415,7 +414,7 @@ export default {
     getOrder() {
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.order = res.data;
           console.log("Order: ", this.order);
           this.selectedOrder = Object.assign({}, res.data);
@@ -423,32 +422,32 @@ export default {
           delete this.selectedOrder.id;
           delete this.selectedOrder.finish_price;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     getProducts() {
       this.$axios
         .get(`product/codesize/`)
-        .then((res) => {
+        .then(res => {
           this.products = res.data;
           console.log("Selected Product", res.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     deleteOrderProduct(id) {
       this.$axios
         .delete(`cart/orderproductbeta-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           this.showDeleteDialog = false;
           this.getOrder();
           this.message = "Mahsulot o'chirildi";
           this.showSuccess = true;
         })
-        .catch((err) => {
+        .catch(err => {
           this.message =
             "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           this.showFail = true;
@@ -461,10 +460,10 @@ export default {
     updateOrderProduct(id, count) {
       this.$axios
         .patch(`cart/orderproductbeta-update/${id}`, { count: count })
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },

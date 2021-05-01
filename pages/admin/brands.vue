@@ -171,7 +171,7 @@ export default {
   },
   methods: {
     getBrands() {
-      this.$axios.get("product/brand-list").then((res) => {
+      this.$axios.get("product/brand-list").then(res => {
         console.log(res.data);
         this.brands = res.data;
       });
@@ -180,7 +180,7 @@ export default {
       let loader = this.$loading.show();
       this.$axios
         .post("product/brand-create/", this.newBrand)
-        .then((res) => {
+        .then(res => {
           console.log(res.data);
           loader.hide();
           // this.showNotification(this.showSuccess, "Brand yaratildi");
@@ -193,7 +193,7 @@ export default {
             this.showSuccess = false;
           }, 3000);
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           this.showFail = true;
           setTimeout(() => {
@@ -209,7 +209,7 @@ export default {
     deleteBrand(id) {
       this.$axios
         .delete(`product/brand-delete/${id}`)
-        .then((res) => {
+        .then(res => {
           console.log(res.data, "ID:", id);
           this.showDeleteDialog = false;
           this.message = "Brend o'chirildi";
@@ -219,7 +219,7 @@ export default {
           }, 3000);
           this.getBrands();
         })
-        .catch((err) => {
+        .catch(err => {
           this.showDeleteDialog = false;
           this.showFail = true;
           setTimeout(() => {

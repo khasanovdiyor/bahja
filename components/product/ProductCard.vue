@@ -4,7 +4,7 @@
       <img
         :src="product.image"
         alt="product image"
-        class="object-cover object-top  w-full h-full"
+        class="object-cover object-top w-full h-full"
       />
     </div>
 
@@ -30,9 +30,9 @@ export default {
   props: {
     product: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

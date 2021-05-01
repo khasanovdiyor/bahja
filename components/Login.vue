@@ -16,14 +16,14 @@
             <label for="input" class="font-semibold text-black"></label>
             <input
               type="text"
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 rounded-sm "
+              class="p-2 pl-3 mt-2 w-full bg-gray-200 rounded-sm"
               placeholder="Ism"
             />
           </div>
           <div class="input-group">
             <a href="#"
               ><p
-                class=" inline-block text-sm font-semibold text-gray-600 float-right"
+                class="inline-block text-sm font-semibold text-gray-600 float-right"
               >
                 Parolni unutdingizmi?
               </p>
@@ -34,7 +34,7 @@
             >
             <input
               type="password"
-              class="p-2 pl-3 mt-2 w-full bg-gray-200 rounded-sm "
+              class="p-2 pl-3 mt-2 w-full bg-gray-200 rounded-sm"
               placeholder="********"
             />
           </div>

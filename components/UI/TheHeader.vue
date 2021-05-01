@@ -75,11 +75,11 @@ export default {
   props: {
     savedProductsProp: {
       type: Array,
-      default: function() {
+      default: function () {
         return [];
       },
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
@@ -88,14 +88,14 @@ export default {
       showCard: false,
       showSearch: false,
       products: [],
-      totalPrice: 0
+      totalPrice: 0,
     };
   },
   watch: {
-    savedProducts: function(newValue) {
+    savedProducts: function (newValue) {
       this.quantity = this.savedProducts.length;
       localStorage.setItem("products", JSON.stringify(newValue));
-    }
+    },
   },
   methods: {
     toggleSearch() {
@@ -124,7 +124,7 @@ export default {
             console.log(err);
           });
       });
-    }
+    },
   },
   mounted() {
     this.getProducts();
@@ -136,7 +136,7 @@ export default {
     }
     if (this.savedProductsProp) this.quantity = this.savedProductsProp.length;
     else this.quantity = this.savedProducts.length;
-  }
+  },
 };
 </script>
 

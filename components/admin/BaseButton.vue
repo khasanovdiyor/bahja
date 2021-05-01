@@ -10,11 +10,11 @@ export default {
     clickFunction: {
       type: Function,
       required: false,
-      default: function() {
+      default: function () {
         console.log("base button default function");
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

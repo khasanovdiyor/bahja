@@ -31,9 +31,7 @@
 
       <div class="mb-6 my-10">
         <div class="input-group block">
-          <h2 class="text-xl font-bold mb-10 text-gray-700">
-            Tahrirlash
-          </h2>
+          <h2 class="text-xl font-bold mb-10 text-gray-700">Tahrirlash</h2>
           <label
             for="input"
             class="block font-bold text-gray-600 uppercase text-sm mb-2"
@@ -121,7 +119,7 @@ import BaseButton from "~/components/admin/BaseButton.vue";
 export default {
   components: {
     AdminSidebar,
-    BaseButton
+    BaseButton,
   },
   data() {
     return {
@@ -139,8 +137,8 @@ export default {
         parent_id: 0,
         order: 0,
         image: 0,
-        is_slider: false
-      }
+        is_slider: false,
+      },
     };
   },
   methods: {
@@ -150,7 +148,7 @@ export default {
     removeCategory(value, id) {
       this.newCategory.parent_id = 0;
     },
-    previewImage: function(event) {
+    previewImage: function (event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
@@ -221,19 +219,20 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   created() {
     this.getCategories();
   },
   mounted() {
     this.getCategory();
-  }
+  },
 };
 </script>
 
 <style scoped>
 .multiselect {
   width: 50%;
-}</style
+}
+</style
 >>

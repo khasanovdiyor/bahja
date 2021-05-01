@@ -77,7 +77,7 @@
             </tbody>
           </table>
         </div>
-        <table class="min-w-full  divide-y divide-gray-200">
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -113,7 +113,7 @@
               </th>
               <th
                 scope="col"
-                class="px-6 py-2  text-left text-xs font-bold text-gray-600 uppercase"
+                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
                 jami narx
               </th>
@@ -126,39 +126,39 @@
               :key="product.id"
             >
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm ">
+                <div class="flex items-center text-sm">
                   {{ product.product_code }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm ">
+                <div class="flex items-center text-sm">
                   {{ product.product.name }}
                 </div>
               </td>
-              <td class="px-6 py-1 border ">
+              <td class="px-6 py-1 border">
                 <div class="text-sm">
                   <span
                     v-for="attr in product.product.attributes"
                     class="block lowercase"
                     :key="attr.id"
                   >
-                    <b>{{ attr.label }}:</b>  {{ attr.value }}
+                    <b>{{ attr.label }}:</b> {{ attr.value }}
                   </span>
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm " v-if="product.price">
+                <div class="flex items-center text-sm" v-if="product.price">
                   {{ product.price.toLocaleString() }} so'm
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm ">
+                <div class="flex items-center text-sm">
                   {{ product.count }}
                 </div>
               </td>
               <td class="px-6 py-1 border">
                 <div
-                  class="flex items-center text-sm  justify-between"
+                  class="flex items-center text-sm justify-between"
                   v-if="product.single_overall_price"
                 >
                   {{ product.single_overall_price.toLocaleString() }}
@@ -199,11 +199,11 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
-      order: {}
+      order: {},
     };
   },
   methods: {
@@ -214,11 +214,11 @@ export default {
           console.log(res.data);
           this.order = res.data;
         });
-    }
+    },
   },
   mounted() {
     this.getOrder();
-  }
+  },
 };
 </script>
 

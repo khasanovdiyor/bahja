@@ -197,13 +197,13 @@ export default {
       product: {
         id: null,
         attributes: {},
-        variations: []
+        variations: [],
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1
-      }
+        count: 1,
+      },
     };
   },
   watch: {
@@ -211,14 +211,14 @@ export default {
       deep: true,
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
-      }
+      },
     },
     showNotification(newVal) {
       if (newVal === true)
         setTimeout(() => {
           this.showNotification = false;
         }, 3000);
-    }
+    },
   },
   methods: {
     getProduct() {
@@ -230,7 +230,7 @@ export default {
         .then(res => {
           this.makeProductList(res.data);
           console.log("product-list", this.product_list);
-          const product = this.product_list.find(function(el) {
+          const product = this.product_list.find(function (el) {
             console.log("product.id", el.id, "id", parseInt(id));
             return el.id === parseInt(id);
           });
@@ -325,7 +325,7 @@ export default {
         this.message =
           "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-    }
+    },
   },
   mounted() {
     this.getProduct();
@@ -337,7 +337,7 @@ export default {
     }
 
     // this.changeProduct(selected_attrs);
-  }
+  },
 };
 </script>
 

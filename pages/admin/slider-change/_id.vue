@@ -68,15 +68,12 @@
             type="file"
             accept="image/*"
             @change="previewImage"
-            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5 "
+            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
           />
           <div v-if="preview">
             <div>
-             <div class="w-56 h-64 my-5 border shadow-md">
-                <img
-                  :src="preview"
-                   class="object-cover w-full h-full"
-                />
+              <div class="w-56 h-64 my-5 border shadow-md">
+                <img :src="preview" class="object-cover w-full h-full" />
               </div>
             </div>
           </div>
@@ -96,7 +93,7 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -108,8 +105,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null
-      }
+        category: null,
+      },
     };
   },
   methods: {
@@ -155,7 +152,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         console.log("RESULT", reader.result);
       };
       reader.readAsDataURL(file);
@@ -180,11 +177,11 @@ export default {
           this.slider = res.data;
           this.slider.category = res.data.category.id;
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
     this.getSlider();
-  }
+  },
 };
 </script>

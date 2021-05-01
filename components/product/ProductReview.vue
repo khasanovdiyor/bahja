@@ -42,15 +42,13 @@
           :star-size="15"
         >
         </star-rating>
-        <button class="bg-black px-4 py-2 text-white">
-          Fikr bildirish
-        </button>
+        <button class="bg-black px-4 py-2 text-white">Fikr bildirish</button>
       </div>
     </div>
     <div>
       <div class="flex justify-between mt-6 mb-2">
         <span class="font-bold text-lg">Mirjahon</span>
-        <div class="flex items-center ">
+        <div class="flex items-center">
           <span class="text-gray-600 mr-4">3 daqiqa oldin</span>
           <star-rating
             :increment="0.5"

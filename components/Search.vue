@@ -106,13 +106,13 @@ export default {
             size: 5,
           },
         })
-        .then((res) => {
+        .then(res => {
           this.products = res.data.results;
           if (!res.data.results) {
             this.notFound = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },

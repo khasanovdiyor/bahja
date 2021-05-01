@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen  flex">
+  <div class="min-h-screen flex">
     <AdminSidebar />
     <div class="px-6 w-9/12 mb-10">
       <div
@@ -33,7 +33,9 @@
 
       <div>
         <div class="input-group block my-4">
-          <label for="input" class="block text-gray-600 font-bold uppercase text-sm mb-2"
+          <label
+            for="input"
+            class="block text-gray-600 font-bold uppercase text-sm mb-2"
             >nom</label
           >
           <input
@@ -49,7 +51,9 @@
           </div>
         </div>
         <div class="input-group block my-4">
-          <label for="input" class="block text-gray-600 font-bold uppercase text-sm mb-2"
+          <label
+            for="input"
+            class="block text-gray-600 font-bold uppercase text-sm mb-2"
             >kod</label
           >
           <input
@@ -68,7 +72,9 @@
           </div>
         </div>
         <div class="my-4">
-          <label class="block text-gray-600 font-bold uppercase text-sm mb-2">tavsif</label>
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >tavsif</label
+          >
           <textarea
             class="w-1/2 border-2 text-sm py-2 pl-5"
             v-model="$v.variation.description.$model"
@@ -111,7 +117,9 @@
         </div>
 
         <div class="my-4">
-          <label class="block text-gray-600 font-bold uppercase text-sm mb-2">son</label>
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >son</label
+          >
           <input
             type="text"
             class="w-1/2 rounded-md border-2 text-sm py-2 pl-5"
@@ -128,7 +136,9 @@
           </div>
         </div>
         <div class="my-4">
-          <label class="block text-gray-600 font-bold uppercase text-sm mb-2">narx</label>
+          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
+            >narx</label
+          >
           <input
             type="string"
             class="w-1/2 rounded-md border-2 text-sm py-2 pl-5"
@@ -170,13 +180,13 @@
             accept="image/*"
             multiple="multiple"
             @change="previewVariationMultiImage"
-            class= "border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
+            class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
           />
           <div v-if="variation.images" class="flex flex-wrap">
             <div
               v-for="(item, index) in variation.images"
               :key="index"
-               class="w-56 h-64 my-5 border shadow-sm relative"
+              class="w-56 h-64 my-5 border shadow-sm relative"
             >
               <img :src="item" class="object-cover w-full h-full" />
               <span
@@ -250,15 +260,12 @@
                   />
                 </td>
                 <td class="px-2 py-1 border">
-                  <div
-                   
-                  >
+                  <div>
                     <img
                       src="~/assets/images/delete.svg"
                       class="w-5 h-5 mx-auto cursor-pointer"
                       alt="delete"
                       @click="RemoveAttribute(variation, index)"
-                
                     />
                   </div>
                 </td>
@@ -322,8 +329,8 @@
           </div>
         </div>
         <div class="text-red-400" v-if="!$v.variation.attributes.minLength">
-          Kamida {{ $v.variation.attributes.$params.minLength.min }} ta
-          attribut kiritish shart
+          Kamida {{ $v.variation.attributes.$params.minLength.min }} ta attribut
+          kiritish shart
         </div>
         <button
           @click="createVariation"
@@ -421,7 +428,7 @@ export default {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           this.variation.image = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
@@ -434,7 +441,7 @@ export default {
       if (input.files) {
         while (count--) {
           var reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             if (this.variation.images.length < 5)
               this.variation.images.push(e.target.result);
             console.log("RESULT" + index, e.target.result);
@@ -456,7 +463,7 @@ export default {
         this.variation.parent_id = this.$route.params.id;
         this.$axios
           .post("product/variation-create/", this.variation)
-          .then((res) => {
+          .then(res => {
             console.log(res);
             loader.hide();
             this.showSuccess = true;
@@ -465,7 +472,7 @@ export default {
             });
             this.productVariation = {};
           })
-          .catch((err) => {
+          .catch(err => {
             loader.hide();
             this.showFail = true;
             setTimeout(() => {

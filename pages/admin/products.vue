@@ -121,29 +121,29 @@
               </div>
             </td>
             <div
-                          class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
-                    v-if="showDeleteDialog"
+              class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
+              v-if="showDeleteDialog"
+            >
+              <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
+                <span class="font-bold text-xl text-center block mb-6"
+                  >Ushbu mahsulotnio'chirishni xohlaysizmi?</span
+                >
+                <div class="flex justify-between">
+                  <button
+                    @click="deleteOrder(deleteOrderID)"
+                    class="bg-red-500 rounded-md text-white py-2 px-4"
                   >
-                    <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
-                      <span class="font-bold text-xl text-center block mb-6"
-                        >Ushbu mahsulotnio'chirishni xohlaysizmi?</span
-                      >
-                      <div class="flex justify-between">
-                        <button
-                          @click="deleteOrder(deleteOrderID)"
-                          class="bg-red-500 rounded-md text-white py-2 px-4"
-                        >
-                          Ha
-                        </button>
-                        <button
-                          @click="showDeleteDialog = false"
-                          class="bg-gray-500 rounded-md text-white py-2 px-4"
-                        >
-                          Yo'q
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                    Ha
+                  </button>
+                  <button
+                    @click="showDeleteDialog = false"
+                    class="bg-gray-500 rounded-md text-white py-2 px-4"
+                  >
+                    Yo'q
+                  </button>
+                </div>
+              </div>
+            </div>
           </tr>
         </tbody>
       </table>
@@ -155,13 +155,13 @@
 import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
       products: [],
       showDeleteDialog: false,
-      selectedProductID: null
+      selectedProductID: null,
     };
   },
   methods: {
@@ -182,11 +182,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getProducts();
-  }
+  },
 };
 </script>
 

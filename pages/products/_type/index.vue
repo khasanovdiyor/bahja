@@ -133,13 +133,13 @@ export default {
             ordering: ordering,
           },
         })
-        .then((res) => {
+        .then(res => {
           console.log("list", res.data);
           this.products = res.data.results;
           this.showSort = false;
           this.selectedSort = text;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -151,11 +151,11 @@ export default {
             is_import: true ? this.$route.params.type === "import" : false,
           },
         })
-        .then((res) => {
+        .then(res => {
           this.products = res.data.results;
           loader.hide();
         })
-        .catch((err) => {
+        .catch(err => {
           loader.hide();
           console.log(err);
         });

@@ -1,15 +1,15 @@
 <template>
   <div class="flex bg-gray-100">
     <AdminSidebar class="w-1/5" />
-    <div class="px-5 pt-10 w-9/12 ">
+    <div class="px-5 pt-10 w-9/12">
       <h1 class="font-bold text-xl mb-6 text-gray-900">Mahsulotlar</h1>
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">
-          <thead class="bg-gray-200 w-1/4 ">
+          <thead class="bg-gray-200 w-1/4">
             <tr class="border-gray-400 border-b">
               <th
                 scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600 "
+                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
                 id
               </th>
@@ -54,7 +54,7 @@
                 brand
               </th>
             </tr>
-             <tr class="border-gray-400 border-b">
+            <tr class="border-gray-400 border-b">
               <th
                 scope="col"
                 class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
@@ -62,7 +62,7 @@
                 son
               </th>
             </tr>
-            <tr class="border-gray-400 ">
+            <tr class="border-gray-400">
               <th
                 scope="col"
                 class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
@@ -70,23 +70,21 @@
                 narx (so'm)
               </th>
             </tr>
-           
           </thead>
           <tbody class="bg-white w-full border">
             <tr class="">
-              <td
-               class="product-width px-6 py-2 border-b text-sm">
-                  {{ product.id }}
+              <td class="product-width px-6 py-2 border-b text-sm">
+                {{ product.id }}
               </td>
             </tr>
             <tr class="border-b">
               <td class="product-width px-6 py-2 text-sm">
-                  {{ product.name }}
+                {{ product.name }}
               </td>
             </tr>
             <tr class="">
               <td class="product-width px-6 py-2 border-b text-sm">
-                  {{ product.product_code }}
+                {{ product.product_code }}
               </td>
             </tr>
             <tr class="border-b">
@@ -98,7 +96,7 @@
             </tr>
             <tr class="border-b">
               <td
-                class="product-width px-6 py-2 "
+                class="product-width px-6 py-2"
                 v-for="category in product.categories"
                 :key="category.id"
               >
@@ -113,7 +111,7 @@
                   {{ product.brand.name }}
                 </div>
               </td>
-            </tr> 
+            </tr>
             <tr class="border-b">
               <td class="px-6 py-2">
                 <div class="flex items-center text-sm">
@@ -126,11 +124,9 @@
               <td class="px-6 py-2">
                 <div class="flex items-center text-sm">
                   {{ product.price }}
-                
                 </div>
               </td>
             </tr>
-           
           </tbody>
         </table>
       </div>
@@ -199,7 +195,7 @@
         <div class="flex items-center justify-between">
           <h2 class="font-bold text-xl my-4 text-gray-700">O'zgarishlar</h2>
         </div>
-        <table class="min-w-full divide-y divide-gray-200">  
+        <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-200">
             <tr>
               <th
@@ -226,7 +222,7 @@
               >
                 Kategoriya
               </th>
-               <th
+              <th
                 scope="col"
                 class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
@@ -238,12 +234,12 @@
               >
                 Narx
               </th>
-             
+
               <th
                 scope="col"
                 class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
               >
-               buyruqlar
+                buyruqlar
               </th>
             </tr>
           </thead>
@@ -270,7 +266,6 @@
               </td>
               <td class="px-6 py-1 border text-sm">
                 {{ variation.price }}
-               
               </td>
               <td class="px-6 py-1 border text-sm">
                 {{ variation.quantity }}
@@ -310,7 +305,7 @@
             >
               <h2 class="font-bold text-xl text-gray-800 mt-10">Attributlar</h2>
               <table class="w-full divide-y divide-gray-200 mt-5">
-                <thead class=" bg-gray-200">
+                <thead class="bg-gray-200">
                   <tr class="border">
                     <th
                       scope="col"
@@ -352,7 +347,7 @@
                     <td class="px-6 py-1 border text-sm">
                       {{ index }}
                     </td>
-                    <td class="px-6 py-1 border text-sm ">
+                    <td class="px-6 py-1 border text-sm">
                       {{ attrib.label }}
                     </td>
                     <td class="px-6 py-1 border text-sm">
@@ -379,17 +374,17 @@
         <span class="font-bold my-5 mt-5 text-xl block text-gray-700"
           >Galereya rasmlari</span
         >
-          <div
-            v-for="image in product.images"
-            :key="image"
-            class="inline-block w-56 h-64 my-5 mr-4 border shadow-sm"
-          >
-            <img
-              :src="image"
-              class="object-cover w-full h-full"
-              alt="gallery image"
-            />
-          </div>
+        <div
+          v-for="image in product.images"
+          :key="image"
+          class="inline-block w-56 h-64 my-5 mr-4 border shadow-sm"
+        >
+          <img
+            :src="image"
+            class="object-cover w-full h-full"
+            alt="gallery image"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -400,7 +395,7 @@ import AdminSidebar from "~/components/admin/AdminSidebar.vue";
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -410,8 +405,8 @@ export default {
       product: {
         brand: {},
         color: {},
-        category: {}
-      }
+        category: {},
+      },
     };
   },
   methods: {
@@ -432,16 +427,16 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   mounted() {
     this.getProduct();
-  }
+  },
 };
 </script>
 
-<style> 
-.product-width{
-width: 60rem;
+<style>
+.product-width {
+  width: 60rem;
 }
 </style>

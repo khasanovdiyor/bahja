@@ -67,23 +67,23 @@ export default {
 
       this.$axios
         .get("product/slider/list/")
-        .then((res) => {
+        .then(res => {
           console.log("slider-list", res.data);
-          res.data.forEach((element) => {
+          res.data.forEach(element => {
             me.slides.push(element);
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     getCategorySliders() {
       this.$axios
         .get("product/category-slider")
-        .then((res) => {
+        .then(res => {
           this.categorySliders = res.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
