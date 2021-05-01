@@ -326,7 +326,7 @@
                       </td>
                       <td class="px-2 py-1 border">
                         <div
-                          class="flex items-center text-gray-500 justify-between"
+                          class="flex items-center text-gray-500 justify-center"
                         >
                           <div
                             @click="RemoveAttribute(product, index)"
@@ -335,7 +335,7 @@
                             <img
                               src="~/assets/images/delete.svg"
                               alt=""
-                              class="w-6"
+                              class="w-5"
                             />
                           </div>
                         </div>
