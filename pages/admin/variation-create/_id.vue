@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex">
-    <AdminSidebar />
-    <div class="px-6 w-9/12 mb-10">
+  <div>
+    <!-- <AdminSidebar /> -->
+    <div>
       <div
         class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-600 text-white"
         v-if="showSuccess"

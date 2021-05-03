@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex min-h-screen bg-gray-100">
-      <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 pt-10">
+    <div>
+      <!-- <AdminSidebar /> -->
+      <div>
         <div
           v-if="showSuccess"
           class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"

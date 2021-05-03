@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex min-h-screen">
-      <AdminSidebar />
+    <div>
+      <!-- <AdminSidebar /> -->
       <div class="px-5 mx-auto bg-gray-100 w-4/5 pt-10">
         <div
           v-if="showSuccess"

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex min-h-screen">
-      <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 pt-10">
+    <div>
+      <!-- <AdminSidebar /> -->
+      <div>
         <div
           v-if="showSuccess"
           class="fixed z-40 text-lg top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
@@ -101,8 +101,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null
-      }
+        category: null,
+      },
     };
   },
   methods: {
@@ -148,7 +148,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         console.log("RESULT", reader.result);
       };
       reader.readAsDataURL(file);
@@ -173,11 +173,11 @@ export default {
           this.slider = res.data;
           this.slider.category = res.data.category.id;
         });
-    }
+    },
   },
   mounted() {
     this.getCategories();
     this.getSlider();
-  }
+  },
 };
 </script>
