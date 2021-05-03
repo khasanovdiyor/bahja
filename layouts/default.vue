@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <Nuxt />
+  <div class="flex min-h-screen">
+    <AdminSidebar class="w-1/5" />
+    <div class="w-3/4">
+      <AdminHeader />
+      <Nuxt class="ml-8 mt-10" />
+    </div>
   </div>
 </template>
 <script>
