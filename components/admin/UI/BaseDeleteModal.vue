@@ -1,12 +1,9 @@
 <template>
   <div
     class="fixed z-40 bg-gray-500 opacity-50 flex items-center justify-center"
-    v-if="showDeleteDialog"
   >
-    <div class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10">
-      <span class="font-bold text-center text-xl block mb-6">{{
-        dialogText
-      }}</span>
+    <div class="w-1/3 rounded-md mx-auto bg-white py-4 px-10">
+      <span class="font-bold text-center text-xl block mb-6">{{ text }}</span>
       <div class="flex justify-between">
         <button
           @click="$emit('delete')"
@@ -26,7 +23,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    text: {
+      type: String,
+      required: true,
+    },
+  },
+};
 </script>
 
 <style>
