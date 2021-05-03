@@ -5,33 +5,10 @@
         <th
           scope="col"
           class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
+          v-for="(head, index) in tableHeaders"
+          :key="index"
         >
-          is main
-        </th>
-
-        <th
-          scope="col"
-          class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-        >
-          key
-        </th>
-        <th
-          scope="col"
-          class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-        >
-          label
-        </th>
-        <th
-          scope="col"
-          class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-        >
-          value
-        </th>
-        <th
-          scope="col"
-          class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
-        >
-          buyruqlar
+          {{ head }}
         </th>
       </tr>
     </thead>
@@ -80,7 +57,11 @@
               @click="$emit('remove-attribute', attributes, index)"
               class="cursor-pointer hover:underline"
             >
-              <img src="~/assets/images/delete.svg" alt="" class="w-6" />
+              <img
+                src="~/assets/images/delete.svg"
+                alt="icon trash"
+                class="w-6"
+              />
             </div>
           </div>
         </td>
@@ -129,37 +110,13 @@
         <td class="px-6 py-1 border">
           <div class="flex items-center text-gray-500 justify-center">
             <div
-              @click="$emit('add-attribute', attribute)"
+              @click="$emit('add-attribute', attributes)"
               class="cursor-pointer hover:underline hover:font-bold"
             >
               Qo'shish
             </div>
           </div>
         </td>
-        <div
-          class="fixed z-40 bg-gray-500 opacity-50 flex items-center justify-center"
-          v-if="showDeleteDialog"
-        >
-          <div class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10">
-            <span class="font-bold text-center text-xl block mb-6"
-              >Ushbu Kategoriyani o'chirishni xohlaysizmi?</span
-            >
-            <div class="flex justify-between">
-              <button
-                @click="deleteCategory(selectedCategoryID)"
-                class="bg-red-500 rounded-md text-white py-2 px-4"
-              >
-                Ha
-              </button>
-              <button
-                @click="showDeleteDialog = false"
-                class="bg-gray-500 rounded-md text-white py-2 px-4"
-              >
-                Yo'q
-              </button>
-            </div>
-          </div>
-        </div>
       </tr>
     </tbody>
   </table>
@@ -176,6 +133,15 @@ export default {
       type: Object,
       required: true,
     },
+    showAddNewKey: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      tableHeaders: ["is_main", "key", "label", "value", "buyruqlar"],
+    };
   },
 };
 </script>
