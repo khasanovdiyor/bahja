@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="flex min-h-screen">
-      <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 bg-gray-100 pt-10">
+    <div>
+      <!-- <AdminSidebar /> -->
+      <div>
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
@@ -21,118 +21,66 @@
               Asosiy ma'lumotlar
             </h2>
 
-            <div class="">
-              <div class="input-group block my-4">
-                <label
-                  for="input"
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Nom</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.name.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.product.name.required && $v.product.name.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="input-group block my-4">
-                <label
-                  for="input"
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Kod</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.product_code.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.product.product_code.required &&
-                      $v.product.product_code.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4 block">
-                <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-2"
-                  >Brend
-                </label>
-                <multiselect
-                  v-model.trim="$v.selectedBrand.$model"
-                  :options="brands"
-                  placeholder="Brand tanlang"
-                  label="name"
-                  track-by="name"
-                  @select="selectBrand"
-                ></multiselect>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.selectedBrand.required && $v.selectedBrand.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >tavsif</label
-                >
-                <textarea
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.description.$model"
-                >
-                </textarea>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.product.description.required &&
-                      $v.product.description.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="w-1/2 text-gray-600 block font-bold uppercase text-sm mb-1"
-                  >kategoriya</label
-                >
-                <multiselect
-                  v-model="selectedProductCategories"
-                  :options="categories"
-                  placeholder="Kategoriya tanlang"
-                  multiple
-                  taggable
-                  label="name"
-                  track-by="name"
-                  @select="selectProductCategories"
-                  @remove="removeProductCategories"
-                >
-                  <template
-                    ><span class="text-red-500" slot="noResult"
-                      >Bunday kategoriya topilmadi!</span
-                    >
-                  </template>
-                </multiselect>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.selectedCategories.required &&
-                      $v.selectedCategories.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
+            <div>
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.name.$model"
+                label="Nom"
+                :required="!$v.product.name.required && $v.product.name.$dirty"
+              />
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.product_code.$model"
+                label="Kod"
+                :required="
+                  !$v.product.product_code.required &&
+                  $v.product.product_code.$dirty
+                "
+              />
+              <BaseSelect
+                class="my-4"
+                v-model="selectedBrand"
+                label="Brend"
+                :options="brands"
+                @select="selectBrand"
+                placeholder="Brend tanlang"
+                :required="
+                  !$v.selectedBrand.required && $v.selectedBrand.$dirty
+                "
+              />
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.description.$model"
+                label="Tavsif"
+                textarea
+                :required="
+                  !$v.product.description.required &&
+                  $v.product.description.$dirty
+                "
+              />
+              <BaseSelect
+                class="my-4"
+                v-model="selectedProductCategories"
+                label="Kategoriya"
+                :options="categories"
+                placeholder="Kategoriya tanlang"
+                noResult="Bunday kategoriya topilmadi"
+                multiple
+                taggable
+                @select="selectProductCategories"
+                @remove="removeProductCategories"
+                :required="
+                  !$v.selectedCategories.required &&
+                  $v.selectedCategories.$dirty
+                "
+              />
+              <BaseTextField
+                v-model.trim="$v.product.quantity.$model"
+                label="Son"
+                :required="
+                  !$v.product.quantity.required && $v.product.quantity.$dirty
+                "
+              />
               <div class="my-4">
                 <label
                   class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
@@ -250,502 +198,111 @@
                 />
               </div>
               <div class="mb-10">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-200">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        is main
-                      </th>
-
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        key
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        label
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        value
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        buyruqlar
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white">
-                    <tr
-                      class="border"
-                      v-for="(attr, index) in product.attributes"
-                      :key="index"
-                    >
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="checkbox"
-                            class="border w-full text-sm w-5 h-5 pl-5"
-                            v-model="attr.is_main"
-                          />
-                        </div>
-                      </td>
-
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attr.key"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attr.label"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attr.value"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-2 py-1 border">
-                        <div
-                          class="flex items-center text-gray-500 justify-center"
-                        >
-                          <div
-                            @click="removeAttribute(product, index)"
-                            class="cursor-pointer hover:underline"
-                          >
-                            <img
-                              src="~/assets/images/delete.svg"
-                              alt=""
-                              class="w-5"
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="border" v-if="showAddNewKey">
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="checkbox"
-                            class="border w-full text-sm w-5 h-5 pl-5"
-                            v-model="attribute.is_main"
-                          />
-                        </div>
-                      </td>
-
-                      <td class="py-1 border">
-                        <div class="flex items-center">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attribute.key"
-                          />
-                        </div>
-                      </td>
-                      <td class="py-1 border">
-                        <div class="flex items-center">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attribute.label"
-                          />
-                        </div>
-                      </td>
-                      <td class="py-1 border">
-                        <div class="flex items-center">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attribute.value"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div
-                          class="flex items-center text-gray-500 justify-center"
-                        >
-                          <div
-                            @click="addProductAttribute"
-                            class="cursor-pointer hover:underline hover:font-bold"
-                          >
-                            Qo'shish
-                          </div>
-                        </div>
-                      </td>
-                      <div
-                        class="fixed z-40 bg-gray-500 opacity-50 flex items-center justify-center"
-                        v-if="showDeleteDialog"
-                      >
-                        <div
-                          class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10"
-                        >
-                          <span class="font-bold text-center text-xl block mb-6"
-                            >Ushbu Kategoriyani o'chirishni xohlaysizmi?</span
-                          >
-                          <div class="flex justify-between">
-                            <button
-                              @click="deleteCategory(selectedCategoryID)"
-                              class="bg-red-500 rounded-md text-white py-2 px-4"
-                            >
-                              Ha
-                            </button>
-                            <button
-                              @click="showDeleteDialog = false"
-                              class="bg-gray-500 rounded-md text-white py-2 px-4"
-                            >
-                              Yo'q
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </tr>
-                  </tbody>
-                </table>
-                <button
-                  @click="showAddNewKey = true"
-                  class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 text-white my-2 py-2"
-                >
-                  Qo'shish
-                </button>
+                <AttributesTable
+                  :attributes="product.attributes"
+                  :attribute="attribute"
+                  :showAddNewKey="showAddNewKey"
+                  @add-attribute="addAttribute"
+                  @remove-attribute="removeAttribute"
+                />
+                <BaseButtonLink
+                  class="mt-2"
+                  buttonText="Qo'shish"
+                  @button-click="showAddNewKey = true"
+                />
               </div>
-              <button
-                @click="createProduct"
-                class="block bg-gray-800 w- text-sm text-center rounded-md px-3 text-white my-2 py-2"
-              >
-                Mahsulot yaratish
-              </button>
+              <BaseButtonLink
+                buttonText="Mahsulot yaratish"
+                @button-click="createProduct"
+              />
             </div>
           </tab>
           <tab name="O'zgartirish" class="w-full text-lg">
             <h2 class="text-xl font-bold text-gray-700 mb-10">O'zgartirish</h2>
 
             <div class="w-full">
-              <div class="input-group block my-4">
-                <label
-                  for="input"
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Nom</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.variation.name.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.variation.name.required && $v.variation.name.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="input-group block my-4">
-                <label
-                  for="input"
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Kod</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.variation.product_code.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.variation.product_code.required &&
-                      $v.variation.product_code.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >tavsif</label
-                >
-                <textarea
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.variation.description.$model"
-                >
-                </textarea>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.variation.description.required &&
-                      $v.variation.description.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label class="w-1/2 block font-bold uppercase text-sm mb-1"
-                  >kategoriya</label
-                >
-                <multiselect
-                  v-model="selectedVariationCategories"
-                  placeholder="Kategoriya qo'shing"
-                  label="name"
-                  track-by="id"
-                  :options="categories"
-                  multiple
-                  taggable
-                  @select="selectVariationCategories"
-                  @remove="removeVariationCategories"
-                ></multiselect>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.selectedVariationCategories.required &&
-                      $v.selectedVariationCategories.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >son</label
-                >
-                <input
-                  type="string"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.variation.quantity.$model"
-                  v-mask="priceMask"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.variation.quantity.required &&
-                      $v.variation.quantity.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >narx</label
-                >
-                <input
-                  type="string"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.price.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.product.price.required && $v.product.price.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >asosiy rasm </label
-                ><input
-                  type="file"
-                  accept="image/*"
-                  @change="previewVariationImage"
-                  class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
-                  placeholder="cdsafd"
-                />
-                <div v-if="variation.image">
-                  <div class="w-56 h-64 my-5 border shadow-md">
-                    <img
-                      :src="variation.image"
-                      class="object-cover w-full h-full"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >galereya rasmlari</label
-                ><input
-                  type="file"
-                  accept="image/*"
-                  multiple="multiple"
-                  @change="previewVariationMultiImage"
-                  class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
-                />
-                <div v-if="variation.images" class="flex">
-                  <div
-                    v-for="(item, index) in variation.images"
-                    :key="index"
-                    class="w-56 h-64 relative shadow-sm my-5 mr-2"
-                  >
-                    <img :src="item" class="object-cover w-full m-2 h-full" />
-                    <span
-                      @click="removeImage(index, variation.images)"
-                      class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"
-                      >X</span
-                    >
-                  </div>
-                </div>
-              </div>
+              <BaseTextField
+                v-model="$v.variation.name.$model"
+                label="nom"
+                class="my-4"
+                :required="
+                  !$v.variation.name.required && $v.variation.name.$dirty
+                "
+              />
+              <BaseTextField
+                v-model="$v.variation.product_code.$model"
+                label="Kod"
+                class="my-4"
+                :required="
+                  !$v.variation.product_code.required &&
+                  $v.variation.product_code.$dirty
+                "
+              />
+              <BaseTextField
+                textarea
+                :required="
+                  !$v.variation.description.required &&
+                  $v.variation.description.$dirty
+                "
+                v-model="$v.variation.description.$model"
+                label="Tavsif"
+                class="my-4"
+              />
+              <BaseSelect
+                class="my-4"
+                v-model="selectedVariationCategories"
+                label="kategoriya"
+                placeholder="Kategoriya qo'shing"
+                multiple
+                :options="categories"
+                @select="selectVariationCategories"
+                @remove="removeVariationCategories"
+                :required="
+                  $v.variation.categories && $v.variation.categories.$dirty
+                "
+              />
+              <BaseTextField
+                class="my-4"
+                label="Son"
+                v-model.trim="$v.variation.quantity.$model"
+                :required="
+                  !$v.variation.quantity.required &&
+                  $v.variation.quantity.$dirty
+                "
+              />
+              <BaseTextField
+                label="Narx"
+                v-model.trim="$v.product.price.$model"
+                :required="
+                  !$v.product.price.required && $v.product.price.$dirty
+                "
+              />
+              <BaseImageField
+                label="galereya rasmlari"
+                :image="variation.image"
+                @change="previewVariationImage($event)"
+              />
+              <BaseImageField
+                multiple
+                label="galereya rasmlari"
+                :images="variation.images"
+                @change="previewVariationMultiImage($event)"
+                @remove-image="removeImage"
+              />
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-200">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        is main
-                      </th>
-
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        key
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        label
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        value
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        buyruqlar
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white">
-                    <tr
-                      class="border"
-                      v-for="(attrib, index) in variation.attributes"
-                      :key="index"
-                    >
-                      <td class="px-6 py-1 border">
-                        {{ attrib.is_main }}
-                      </td>
-
-                      <td class="px-6 py-1 border">
-                        {{ attrib.key }}
-                      </td>
-                      <td class="px-6 py-1 border">
-                        {{ attrib.label }}
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <input
-                          type="text"
-                          class="border w-full w-5 h-5 pl-5"
-                          v-model="attrib.value"
-                        />
-                      </td>
-                      <td class="px-2 py-1 mx-auto w-40 border">
-                        <div
-                          @click="removeAttribute(variation, index)"
-                          class="cursor-pointer"
-                        >
-                          <img
-                            src="~/assets/images/delete.svg"
-                            class="w-5 h-5"
-                            alt="pencil icon"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="border" v-if="showAddNewKey">
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="checkbox"
-                            class="border w-full text-sm w-5 h-5 pl-5"
-                            v-model="attribute.is_main"
-                          />
-                        </div>
-                      </td>
-
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5"
-                            v-model="attribute.key"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5"
-                            v-model="attribute.label"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-lg border-none py-2 pl-5"
-                            v-model="attribute.value"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div
-                          class="flex items-center text-gray-500 justify-center"
-                        >
-                          <div
-                            @click="addVariationAttribute"
-                            class="cursor-pointer hover:underline"
-                          >
-                            Qo'shish
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <button
-                  @click="showAddNewKey = true"
-                  class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
-                >
-                  qo'shish
-                </button>
+                <AttributesTable
+                  :attributes="variation.attributes"
+                  :attribute="attribute"
+                  :showAddNewKey="showAddNewKey"
+                  @add-attribute="addAttribute"
+                  @remove-attribute="removeAttribute"
+                />
+                <BaseButtonLink
+                  class="mt-2"
+                  buttonText="Qo'shish"
+                  @button-click="showAddNewKey = true"
+                />
               </div>
               <div
                 class="text-red-400 text-sm"
@@ -755,57 +312,15 @@
                 {{ $v.variation.attributes.$params.minLength.min }} ta bo'lishi
                 kerak
               </div>
-              <button
-                @click="addVariation"
-                class="block bg-gray-800 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
-              >
-                Saqlash
-              </button>
+              <BaseButtonLink
+                buttonText="Saqlash"
+                @button-click="addVariation"
+              />
             </div>
             <div>
               <h2 class="font-bold text-xl my-4">Qo'shilgan o'zgarishlar</h2>
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-200">
-                  <tr>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      Nom
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      kodi
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      kategoriya
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700"
-                    >
-                      NARX (so'm)
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      o'lchami
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      O'chirish
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white">
+              <BaseTable :headers="variationsTableHeaders">
+                <template #body>
                   <tr
                     class="border"
                     v-for="(varProduct, index) in product.variations"
@@ -833,12 +348,12 @@
                       <div class="flex items-center text-gray-500">
                         <multiselect
                           v-model="varProduct.categories"
-                          tag-placeholder="Ushbu kategoriayni qo'shing"
+                          tag-placeholder="Ushbu kategoriyani qo'shing"
                           placeholder="Kategoriya izlang yoki qo'shing"
                           label="name"
                           track-by="id"
                           :options="categories"
-                          :multiple="true"
+                          multiple
                         ></multiselect>
                       </div>
                     </td>
@@ -875,8 +390,8 @@
                       </div>
                     </td>
                   </tr>
-                </tbody>
-              </table>
+                </template>
+              </BaseTable>
             </div>
           </tab>
         </tabs>
@@ -891,7 +406,14 @@ import priceMask from "~/mixins.js/priceMask.js";
 export default {
   data() {
     return {
-      priceMask: priceMask,
+      priceMask,
+      variationsTableHeaders: [
+        "nomi",
+        "kodi",
+        "kategoriyalari",
+        "narxi",
+        "soni",
+      ],
       requiredMessage: "To'ldirish shart",
       selectedBrand: {},
       selectedProductCategories: null,
@@ -925,7 +447,7 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: []
+        variations: [],
       },
       variation: {
         parent_id: 0,
@@ -937,14 +459,14 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null
-      }
+        value: null,
+      },
     };
   },
   watch: {
@@ -965,90 +487,90 @@ export default {
         delete this.variation.variations;
         delete this.variation.is_import;
         delete this.variation.brand;
-      }
+      },
     },
-    "this.showFail": function(newVal) {
+    showFail(newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
       }
     },
-    "this.showSuccess": function(newVal) {
+    showSuccess(newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showSuccess = false;
         }, 3000);
       }
-    }
+    },
   },
   validations: {
     selectedBrand: {
-      required
+      required,
     },
     selectedCategories: {
-      required
+      required,
     },
     selectedVariationCategories: {
-      required
+      required,
     },
     product: {
       name: {
-        required
+        required,
       },
       product_code: {
-        required
+        required,
       },
       price: {
-        required
+        required,
       },
       description: {
-        required
+        required,
       },
       brand: {
-        required
+        required,
       },
       quantity: {
-        required
+        required,
       },
       image: {
-        required
+        required,
       },
       images: {
-        required
+        required,
       },
       attributes: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
       },
       categories: {
-        required
-      }
+        required,
+      },
     },
     variation: {
       name: {
-        required
+        required,
       },
       product_code: {
-        required
+        required,
       },
       quantity: {
-        required
+        required,
       },
       price: {
-        required
+        required,
       },
       description: {
-        required
+        required,
       },
       attributes: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(2),
       },
       categories: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
     selectProductCategories(value) {
@@ -1068,13 +590,8 @@ export default {
     selectBrand(value) {
       this.product.brand = value.id;
     },
-    addProductAttribute() {
-      this.product.attributes.push(this.attribute);
-      this.attribute = {};
-      this.showAddNewKey = false;
-    },
-    addVariationAttribute() {
-      this.variation.attributes.push(this.attribute);
+    addAttribute(attributes) {
+      attributes.push(this.attribute);
       this.attribute = {};
       this.showAddNewKey = false;
     },
@@ -1086,7 +603,7 @@ export default {
       if (!this.$v.$invalid) {
         this.product.variations.push(this.variation);
         this.variation = {
-          attributes: []
+          attributes: [],
         };
         this.showAddNewVariation = false;
       }
@@ -1130,7 +647,6 @@ export default {
           reader.onload = e => {
             if (this.product.images.length < 5)
               this.product.images.push(e.target.result);
-            console.log("RESULT" + index, e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -1148,7 +664,6 @@ export default {
           reader.onload = e => {
             if (this.variation.images.length < 5)
               this.variation.images.push(e.target.result);
-            console.log("RESULT" + index, e.target.result);
           };
           reader.readAsDataURL(input.files[index]);
           index++;
@@ -1201,12 +716,12 @@ export default {
             console.log(err);
           });
       }
-    }
+    },
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  }
+  },
 };
 </script>
 <style scoped></style>
