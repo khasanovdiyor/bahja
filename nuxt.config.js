@@ -65,8 +65,6 @@ export default {
   auth: {
     redirect: {
       login: "/admin/login",
-      logout: "/admin/",
-      callback: "admin//login",
       home: "/admin/"
     },
     strategies: {
@@ -77,17 +75,18 @@ export default {
           maxAge: 24 * 3600
         },
         user: {
-          property: "data.user"
+          property: "name",
+          autoFetch: false
         },
         endpoints: {
           login: { url: "users/token/", method: "post" },
           logout: { url: "logout/", method: "delete" },
-          user: { url: "users/me/", method: "get" }
+          user: { url: "users/me/", method: "get",propertyName: false }
         }
       }
     }
+  },
+  router: {
+    middleware: ["auth"]
   }
-  // router: {
-  //   middleware: ["auth"]
-  // }
 };
