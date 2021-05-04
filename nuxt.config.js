@@ -76,12 +76,11 @@ export default {
         },
         user: {
           property: "name",
-          autoFetch: false
         },
         endpoints: {
           login: { url: "users/token/", method: "post" },
           logout: { url: "logout/", method: "delete" },
-          user: { url: "users/me/", method: "get",propertyName: false }
+          user: { url: "users/me/", method: "get" }
         }
       }
     }

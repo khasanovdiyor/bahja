@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      <!-- <AdminSidebar /> -->
       <div class="flex-1 flex flex-col overflow-hidden">
         <main>
           <div class="mx-auto">
@@ -157,7 +156,7 @@
                   v-if="showDeleteDialog"
                   text="Ushbu buyurtmani o'chirishni xohlaysizmi?"
                   @delete="deleteOrder(deleteOrderID)"
-                  @close-modal="showDeleteDialog = false"
+                  @close="showDeleteDialog = false"
                 />
               </div>
             </div>

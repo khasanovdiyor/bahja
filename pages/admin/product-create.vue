@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      <!-- <AdminSidebar /> -->
       <div>
         <div
           v-if="showSuccess"
@@ -39,7 +38,7 @@
               />
               <BaseSelect
                 class="my-4"
-                v-model="selectedBrand"
+                v-model.trim="$v.selectedBrand.$model"
                 label="Brend"
                 :options="brands"
                 @select="selectBrand"
@@ -415,7 +414,7 @@ export default {
         "soni",
       ],
       requiredMessage: "To'ldirish shart",
-      selectedBrand: {},
+      selectedBrand: null,
       selectedProductCategories: null,
       selectedVariationCategories: null,
       previewProduct: null,

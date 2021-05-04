@@ -84,7 +84,7 @@
         v-if="showDeleteDialog"
         text="Ushbu mahsulotni o'chirishni xohlaysizmi?"
         @delete="deleteProduct(selectedProductID)"
-        @close-modal="showDeleteDialog = false"
+        @close="showDeleteDialog = false"
       />
     </div>
   </div>

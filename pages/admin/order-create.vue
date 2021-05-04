@@ -1,37 +1,21 @@
 <template>
   <div>
     <div>
-      <div>
-        <div
-          v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
-        >
-          Buyurtma qo'shildi
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
-            @click="showSuccess = false"
-            >X</span
-          > -->
-        </div>
-        <div
-          v-if="showError"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
-        >
-          Buyurtma qo'shishda xatolik yuz berdi, qayta urinib ko'ring
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
-            @click="showError = false"
-            >X</span
-          > -->
-        </div>
+      <div class="mb-10">
+        <BaseNotification
+          v-if="showSuccess || showError"
+          :success="showSuccess"
+          :error="showError"
+          :text="alertText"
+        />
         <div class="pb-10">
           <div class="mt-10">
             <h2 class="font-bold text-xl text-gray-800 mb-6">
-              Buyurtma qo'shish
+              Buyurtma qo'shish mahsulotlar {{ $v.newOrder.$invalid }}
             </h2>
             <BaseSelect
               class="my-4"
-              v-model="$v.selectedProduct.$model"
+              v-model.trim="$v.selectedProduct.$model"
               label="Mahsulot"
               :options="products"
               select-label="codesize"
@@ -62,7 +46,7 @@
         </div>
         <div v-if="addedProducts">
           <BaseTable :headers="tableHeaders">
-            <template #border>
+            <template #body>
               <tr
                 class="border cursor-pointer"
                 v-for="(product, index) in addedProducts"
@@ -84,7 +68,10 @@
                   </div>
                 </td>
                 <div
-                  @click="selectedIndex = index"
+                  @click="
+                    selectedIndex = index;
+                    showDeleteDialog = true;
+                  "
                   class="flex justify-center items-center cursor-pointer"
                 >
                   <img
@@ -99,6 +86,7 @@
           <BaseDeleteModal
             v-if="showDeleteDialog"
             text="Ushbu mahsulotni buyurtmadan o'chrimoqchimisiz?"
+            @close="showDeleteDialog = false"
             @delete="removeProduct"
           />
         </div>
@@ -112,7 +100,7 @@
           class="my-4"
           v-model.trim="$v.newOrder.phone_number.$model"
           label="Telefon raqami"
-          mask="'+998 ## ### ## ##'"
+          mask="+998 ## ### ## ##"
           :required="
             !$v.newOrder.phone_number.required &&
             $v.newOrder.phone_number.$dirty
@@ -140,6 +128,7 @@ export default {
     return {
       tableHeaders: ["kod", "o'lcham", "son", "buyruqlar"],
       priceMask,
+      alertText: "",
       showSuccess: false,
       alreadyAdded: false,
       showDeleteDialog: false,
@@ -177,10 +166,6 @@ export default {
         required,
         minLength: minLength(3),
       },
-      count: {
-        required,
-        minLength: minLength(1),
-      },
       phone_number: {
         required,
         minLength: minLength(17),
@@ -192,6 +177,7 @@ export default {
   },
   methods: {
     addProduct() {
+      this.alreadyAdded = false;
       this.$v.selectedProduct.$touch();
       this.$v.newProduct.$touch();
       if (
@@ -218,45 +204,47 @@ export default {
           this.alreadyAdded = true;
         } else {
           this.addedProducts.push(product);
-          (this.selectedProduct = {}),
-            (this.newProduct = {
-              count: null,
-              product_id: null,
-            });
+          this.selectedProduct = {};
+          this.newProduct = {
+            count: null,
+            product_id: null,
+          };
         }
       }
     },
     removeProduct(index) {
       this.newOrder.products.splice(index, 1);
       this.addedProducts.splice(index, 1);
+      this.showDeleteDialog = false;
     },
-    selectProduct(value, id) {
+    selectProduct(value) {
       this.newProduct.product_id = value.id;
     },
     createOrder() {
       this.$v.newOrder.$touch();
-      if (this.$v.newOrder.$invalid) {
-        this.submitStatus = "ERROR";
-      } else {
+      if (!this.$v.newOrder.$invalid) {
         let loader = this.$loading.show();
         this.$axios
-          .post("product/order/create/", formData)
+          .post("cart/orderbeta-create/", this.newOrder)
           .then(res => {
-            loader.hide();
             console.log(res.data);
             this.showSuccess = true;
+            this.alertText = "Buyurtma qabul qilindi!";
             setTimeout(() => {
               this.showSuccess = false;
             }, 3000);
           })
           .catch(err => {
-            loader.hide();
             this.showError = true;
+            this.alertText = "Buyurtma qo'shishda xatolik yuz berdi!";
             setTimeout(() => {
               this.showError = false;
             }, 3000);
 
             console.log(err);
+          })
+          .finally(() => {
+            loader.hide();
           });
       }
     },
@@ -265,7 +253,6 @@ export default {
         .get(`product/codesize/`)
         .then(res => {
           this.products = res.data;
-          console.log("Selected Product", res.data);
         })
         .catch(err => {
           console.log(err);

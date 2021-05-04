@@ -63,7 +63,7 @@
         v-if="showDeleteDialog"
         text="Ushbu slayderni o'chirishni xohlaysizmi?"
         @delete="deleteSlider(selectedSliderID)"
-        @close-modal="showDeleteDialog = false"
+        @close="showDeleteDialog = false"
       />
     </div>
   </div>

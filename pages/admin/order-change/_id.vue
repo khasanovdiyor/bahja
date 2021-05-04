@@ -1,8 +1,7 @@
 <template>
   <div>
     <div>
-      <!-- <AdminSidebar /> -->
-      <div class="px-5 mx-auto bg-gray-100 w-4/5 pt-10">
+      <div>
         <div
           v-if="showSuccess"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"

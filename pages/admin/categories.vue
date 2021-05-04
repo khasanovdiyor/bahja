@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <AdminSidebar /> -->
     <div>
       <div>
         <div class="flex items-center justify-between mb-6">
@@ -72,7 +71,7 @@
           v-if="showDeleteDialog"
           text="Ushbu mahsulotni o'chirishni xohlaysizmi?"
           @delete="deleteCategory(selectedCategoryID)"
-          @close-modal="showDeleteDialog = false"
+          @close="showDeleteDialog = false"
         />
       </div>
     </div>

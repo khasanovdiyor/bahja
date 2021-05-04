@@ -1,18 +1,18 @@
 <template>
   <div>
-    <label class="w-1/2 block font-bold text-grey-700 uppercase text-sm mb-1">{{
+    <label class="w-1/2 block font-bold text-gray-600 uppercase text-sm mb-1">{{
       label
     }}</label>
     <multiselect
       :value="value"
-      @input="$emit('input', $event.target.value)"
+      @input="$emit('input', $event)"
       :placeholder="placeholder"
       :label="selectLabel"
       track-by="id"
       :options="options"
       :multiple="multiple"
       :taggable="taggable"
-      @select="$emit('select')"
+      @select="$emit('select', $event)"
       @remove="$emit('remove')"
     >
       <template v-if="multiple"
