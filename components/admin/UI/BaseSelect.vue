@@ -1,8 +1,13 @@
 <template>
   <div>
-    <label class="w-1/2 block font-bold text-gray-600 uppercase text-sm mb-1">{{
-      label
-    }}</label>
+    <label
+      v-if="label"
+      class="w-1/2 block font-bold text-gray-600 relative uppercase text-sm mb-1"
+      >{{ label }}
+      <p v-if="required" class="inline-block text-xs absolute text-red-500">
+        &#10043;
+      </p></label
+    >
     <multiselect
       :value="value"
       @input="$emit('input', $event)"
@@ -13,13 +18,13 @@
       :multiple="multiple"
       :taggable="taggable"
       @select="$emit('select', $event)"
-      @remove="$emit('remove')"
+      @remove="$emit('remove', $event)"
     >
       <template v-if="multiple"
         ><span class="text-red-500" slot="noResult">{{ noResult }}</span>
       </template>
     </multiselect>
-    <div class="text-red-400 text-sm" v-if="required">
+    <div class="text-red-400 text-sm" v-if="requiredMessage">
       <i>To'ldirish shart</i>
     </div>
     <slot name="validation"></slot>
@@ -34,7 +39,7 @@ export default {
     },
     label: {
       type: String,
-      required: true,
+      default: "",
     },
     selectLabel: {
       type: String,
@@ -59,6 +64,10 @@ export default {
     options: {
       type: Array,
       required: true,
+    },
+    requiredMessage: {
+      type: Boolean,
+      defult: false,
     },
     required: {
       type: Boolean,

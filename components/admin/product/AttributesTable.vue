@@ -66,10 +66,7 @@
           </div>
         </td>
       </tr>
-      <tr
-        class="border"
-        v-if="showAddNewKey && Object.keys(attribute).length > 3"
-      >
+      <tr class="border" v-if="showAddNewKey">
         <td class="px-6 py-1 border">
           <div class="flex items-center text-gray-500">
             <input

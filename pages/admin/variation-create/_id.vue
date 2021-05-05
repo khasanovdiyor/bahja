@@ -484,9 +484,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.multiselect {
-  width: 50%;
-}
-</style>

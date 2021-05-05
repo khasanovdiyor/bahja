@@ -1,8 +1,11 @@
 <template>
   <div>
     <label
-      class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-      >{{ label }}</label
+      class="block font-bold text-gray-600 text-gray-600 relative uppercase text-sm mb-1"
+      >{{ label }}
+      <p v-if="required" class="inline-block text-xs absolute text-red-500">
+        &#10043;
+      </p></label
     ><input
       type="file"
       accept="image/*"
@@ -48,6 +51,10 @@ export default {
       default: "",
     },
     multipe: {
+      type: Boolean,
+      default: false,
+    },
+    required: {
       type: Boolean,
       default: false,
     },
