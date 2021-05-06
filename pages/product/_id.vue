@@ -192,13 +192,13 @@ export default {
       product: {
         id: null,
         attributes: {},
-        variations: []
+        variations: [],
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1
-      }
+        count: 1,
+      },
     };
   },
   watch: {
@@ -206,14 +206,14 @@ export default {
       deep: true,
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
-      }
+      },
     },
     showNotification(newVal) {
       if (newVal === true)
         setTimeout(() => {
           this.showNotification = false;
         }, 3000);
-    }
+    },
   },
 
   methods: {
@@ -226,7 +226,7 @@ export default {
         .then(res => {
           this.makeProductList(res.data);
           console.log("product-list", this.product_list);
-          const product = this.product_list.find(function(el) {
+          const product = this.product_list.find(function (el) {
             console.log("product.id", el.id, "id", parseInt(id));
             return el.id === parseInt(id);
           });
@@ -300,23 +300,11 @@ export default {
         this.message =
           "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-    }
+    },
   },
   mounted() {
     this.getProduct();
-<<<<<<< HEAD
   },
-=======
-    if (localStorage.products) {
-      let json_string = localStorage.getItem("products");
-      if (json_string.length !== 0) {
-        this.savedProducts = JSON.parse(json_string);
-      }
-    }
-
-    // this.changeProduct(selected_attrs);
-  }
->>>>>>> b7915d02acc5aa815f540c5111609d8a45a38ba5
 };
 </script>
 
