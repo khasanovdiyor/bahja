@@ -1,13 +1,41 @@
 <template>
   <div>
-    <div>
-      <div>
-        <BaseNotification
-          v-if="showSuccess || showError"
-          :success="showSuccess"
-          :error="showError"
-          :text="alertText"
-        />
+    <div class="flex min-h-screen">
+      <AdminSidebar />
+      <div class="px-5 mx-auto w-4/5 bg-gray-100 pt-10">
+        <div
+          v-if="showSuccess"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
+          <i>Yangi mahsulot yaratildi</i>
+
+          <span
+            class="absolute right-10 cursor-pointer"
+            @click="showSuccess = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showFail"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
+          <i> Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
+          <span
+            class="absolute font-bold right-10 cursor-pointer"
+            @click="showFail = false"
+            >X</span
+          >
+        </div>
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Asosiy ma'lumotlar">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
@@ -32,7 +60,7 @@
                 required
                 :required-message="
                   !$v.product.product_code.required &&
-                  $v.product.product_code.$dirty
+                    $v.product.product_code.$dirty
                 "
               />
               <BaseSelect
@@ -55,7 +83,7 @@
                 required
                 :required-message="
                   !$v.product.description.required &&
-                  $v.product.description.$dirty
+                    $v.product.description.$dirty
                 "
               />
               <BaseSelect
@@ -72,7 +100,7 @@
                 required
                 :required-message="
                   !$v.selectedCategories.required &&
-                  $v.selectedCategories.$dirty
+                    $v.selectedCategories.$dirty
                 "
               />
               <BaseTextField
@@ -158,88 +186,178 @@
             </h2>
 
             <div class="w-full">
-              <BaseTextField
-                v-model="$v.variation.name.$model"
-                label="nom"
-                class="my-4"
-                required
-                :required-message="
-                  !$v.variation.name.required && $v.variation.name.$dirty
-                "
-              />
-              <BaseTextField
-                v-model="$v.variation.product_code.$model"
-                label="Kod"
-                class="my-4"
-                required
-                :required-message="
-                  !$v.variation.product_code.required &&
-                  $v.variation.product_code.$dirty
-                "
-              />
-              <BaseTextField
-                textarea
-                required
-                :required-message="
-                  !$v.variation.description.required &&
-                  $v.variation.description.$dirty
-                "
-                v-model="$v.variation.description.$model"
-                label="Tavsif"
-                class="my-4"
-              />
-              <BaseSelect
-                class="my-4 w-1/2"
-                v-model="$v.selectedVariationCategories.$model"
-                label="kategoriya"
-                placeholder="Kategoriya qo'shing"
-                multiple
-                :options="categories"
-                @select="value => selectCategories(value, variation.categories)"
-                @remove="value => removeCategories(value, variation.categories)"
-                required
-                :required-message="
-                  !$v.selectedVariationCategories.required &&
-                  $v.selectedVariationCategories.$dirty
-                "
-              />
-              <BaseTextField
-                class="my-4"
-                label="Son"
-                v-model.trim="$v.variation.quantity.$model"
-                :mask="priceMask"
-                required
-                :required-message="
-                  !$v.variation.quantity.required &&
-                  $v.variation.quantity.$dirty
-                "
-              />
-              <BaseTextField
-                label="Narx"
-                v-model.trim="$v.variation.maskPrice.$model"
-                :mask="priceMask"
-                required
-                :required-message="
-                  !$v.variation.maskPrice.required &&
-                  $v.variation.maskPrice.$dirty
-                "
-              />
-              <BaseImageField
-                class="my-4"
-                label="Rasm"
-                :image="variation.image"
-                required
-                @change="value => previewImage(value, variation, false)"
-              />
-              <BaseImageField
-                class="my-4"
-                multiple
-                required
-                label="galereya rasmlari"
-                :images="variation.images"
-                @change="value => previewImage(value, variation, true)"
-                @remove-image="removeImage"
-              />
+              <div class="input-group block my-4">
+                <label
+                  for="input"
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >Nom</label
+                >
+                <input
+                  type="text"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                  v-model.trim="$v.variation.name.$model"
+                />
+                <div
+                  class="text-red-400 text-sm"
+                  v-if="!$v.variation.name.required && $v.variation.name.$dirty"
+                >
+                  <i>{{ requiredMessage }}</i>
+                </div>
+              </div>
+              <div class="input-group block my-4">
+                <label
+                  for="input"
+                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
+                  >Kod</label
+                >
+                <input
+                  type="text"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                  v-model.trim="$v.variation.product_code.$model"
+                />
+                <div
+                  class="text-red-400 text-sm"
+                  v-if="
+                    !$v.variation.product_code.required &&
+                      $v.variation.product_code.$dirty
+                  "
+                >
+                  <i>{{ requiredMessage }}</i>
+                </div>
+              </div>
+              <div class="my-4">
+                <label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >tavsif</label
+                >
+                <textarea
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                  v-model.trim="$v.variation.description.$model"
+                >
+                </textarea>
+                <div
+                  class="text-red-400 text-sm"
+                  v-if="
+                    !$v.variation.description.required &&
+                      $v.variation.description.$dirty
+                  "
+                >
+                  <i>{{ requiredMessage }}</i>
+                </div>
+              </div>
+              <div class="my-4">
+                <label class="w-1/2 block font-bold uppercase text-sm mb-1"
+                  >kategoriya</label
+                >
+                <multiselect
+                  v-model="selectedVariationCategories"
+                  placeholder="Kategoriya qo'shing"
+                  label="name"
+                  track-by="id"
+                  :options="categories"
+                  multiple
+                  taggable
+                  @select="selectVariationCategories"
+                  @remove="removeVariationCategories"
+                ></multiselect>
+                <div
+                  class="text-red-400 text-sm"
+                  v-if="
+                    !$v.selectedVariationCategories.required &&
+                      $v.selectedVariationCategories.$dirty
+                  "
+                >
+                  <i>{{ requiredMessage }}</i>
+                </div>
+              </div>
+
+              <div class="my-4">
+                <label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >son</label
+                >
+                <input
+                  type="string"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                  v-model.trim="$v.variation.quantity.$model"
+                  v-mask="priceMask"
+                />
+                <div
+                  class="text-red-400 text-sm"
+                  v-if="
+                    !$v.variation.quantity.required &&
+                      $v.variation.quantity.$dirty
+                  "
+                >
+                  <i>{{ requiredMessage }}</i>
+                </div>
+              </div>
+              <div class="my-4">
+                <label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >narx</label
+                >
+                <input
+                  type="string"
+                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+                  v-model.trim="$v.product.price.$model"
+                />
+                <div
+                  class="text-red-400 text-sm"
+                  v-if="!$v.product.price.required && $v.product.price.$dirty"
+                >
+                  <i>{{ requiredMessage }}</i>
+                </div>
+              </div>
+              <div class="my-4">
+                <label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >asosiy rasm </label
+                ><input
+                  type="file"
+                  accept="image/*"
+                  @change="previewVariationImage"
+                  class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
+                  placeholder="cdsafd"
+                />
+                <div v-if="variation.image">
+                  <div class="w-56 h-64 my-5 border shadow-md">
+                    <img
+                      :src="variation.image"
+                      class="object-cover w-full h-full"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="my-4">
+                <label
+                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  >galereya rasmlari</label
+                ><input
+                  type="file"
+                  accept="image/*"
+                  multiple="multiple"
+                  @change="previewVariationMultiImage"
+                  class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
+                />
+                <div v-if="variation.images" class="flex flex-wrap">
+                  <div
+                    v-for="(item, index) in variation.images"
+                    :key="index"
+                    class="w-56 h-64 relative shadow-sm my-5 mr-2 flex flex-wrap"
+                  >
+                    <img
+                      :src="item"
+                      class="object-cover flex flex-wrap w-full m-2 h-full"
+                    />
+                    <span
+                      @click="removeImage(index, variation.images)"
+                      class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"
+                      >X</span
+                    >
+                  </div>
+                </div>
+              </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
                 <AttributesTable
@@ -365,7 +483,7 @@ export default {
         "kategoriyalari",
         "narxi",
         "soni",
-        "buyruqlar",
+        "buyruqlar"
       ],
       selectedBrand: null,
       selectedProductCategories: null,
@@ -409,14 +527,14 @@ export default {
         categories: [],
         //temporary vars
         selectedCategories: null,
-        maskPrice: null,
+        maskPrice: null
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   computed: {
@@ -432,7 +550,7 @@ export default {
       return this.createProductClicked && this.product.attributes.length < 2
         ? true
         : false;
-    },
+    }
   },
   watch: {
     product: {
@@ -443,7 +561,7 @@ export default {
         this.variation.description = this.product.description;
         this.variation.quantity = this.product.quantity;
         this.variation.maskPrice = this.product.price;
-      },
+      }
     },
     "product.categories": {
       handler() {
@@ -453,7 +571,7 @@ export default {
             this.selectedProductCategories,
             x => x
           );
-      },
+      }
     },
     "product.attributes": {
       handler() {
@@ -464,7 +582,7 @@ export default {
             this.product.attributes[index]
           );
         });
-      },
+      }
     },
     "variation.categories": {
       handler() {
@@ -474,7 +592,7 @@ export default {
             .map(el => el),
           x => x
         );
-      },
+      }
     },
     showError(newVal) {
       if (newVal == true) {
@@ -489,69 +607,69 @@ export default {
           this.showSuccess = false;
         }, 3000);
       }
-    },
+    }
   },
   validations: {
     selectedBrand: {
-      required,
+      required
     },
     selectedCategories: {
-      required,
+      required
     },
     selectedVariationCategories: {
-      required,
+      required
     },
     product: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       brand: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
+        required
+      }
     },
     variation: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       maskPrice: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategories(value, categories) {
@@ -660,12 +778,12 @@ export default {
           });
       }
       this.createProductClicked = false;
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  },
+  }
 };
 </script>
 <style scoped></style>

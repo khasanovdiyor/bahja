@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="w-full relative px-5 flex text-xl items-center float-right py-8 font-semibold h-8 bg-black text-white"
+      class="w-full relative px-5 flex text-lg items-center float-right py-7 font-semibold h-6 bg-black text-white"
     >
       QIDIRUV
       <img
@@ -27,8 +27,8 @@
           <input
             type="text"
             v-model="searchKey"
-            class="px-2 text-gray-600 py-2 border w-full rounded-sm"
-            placeholder="Mahsulot qidiring..."
+            class="px-2 text-gray-600 py-2 border rounded-md w-full"
+            placeholder="Mahsulot qidirish..."
             v-debounce:300ms="searchProducts"
           />
         </div>
@@ -54,7 +54,10 @@
                 alt="koylak"
               />
               <span class="w-full px-5">
-                <h2 class="font-semibold text-gray-400">Mahsulot nomi</h2>
+                <h2 class="font-semibold text-gray-400">
+                  Mahsulot nomi
+                </h2>
+                {{ product.name }}
 
                 <p
                   class="text-sm font-bold text-gray-600"
@@ -62,19 +65,18 @@
                 >
                   {{ product.attributes.color.value }} {{ product.size }}
                 </p>
-
                 <div class="flex mt-8">
                   <p
                     class="font-bold ml-5 text-gray-700 text-lg"
                     v-if="product.price"
                   >
-                    {{ product.price.toLocaleString() }} UZS
+                    {{ product.price.toLocaleString() }} so'm
                   </p>
                   <img
                     @click="deleteProduct(index)"
                     class="w-5 ml-auto cursor-pointer"
                     src="~/assets/images/delete.svg"
-                    alt="o'chirish"
+                    alt="delete"
                     value="o'chirish"
                   />
                 </div>
@@ -94,7 +96,7 @@ export default {
       selectedCategory: {},
       searchKey: "",
       notFound: false,
-      products: [],
+      products: []
     };
   },
   methods: {
@@ -103,8 +105,8 @@ export default {
         .get(`product/list/`, {
           params: {
             search: this.searchKey,
-            size: 5,
-          },
+            size: 5
+          }
         })
         .then(res => {
           this.products = res.data.results;
@@ -115,11 +117,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
 

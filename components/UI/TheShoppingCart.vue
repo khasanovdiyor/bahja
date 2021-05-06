@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="w-full flex items-center justify-between px-5 text-xl py-8 font-semibold h-8 bg-black text-white"
+      class="w-full flex items-center justify-between px-5 text-lg py-7 font-semibold h-6 bg-black text-white"
     >
       SHOPPING CART
       <img
@@ -90,9 +90,7 @@
           </nuxt-link>
         </div>
 
-        <span v-else class="font-bold text-2xl"
-          >Savatchaga mahsulot qo'shmadingiz</span
-        >
+        <span v-else class="font-bold text-2xl">Savatcha bo'sh</span>
       </div>
     </div>
   </div>

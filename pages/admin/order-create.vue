@@ -1,13 +1,40 @@
 <template>
   <div>
-    <div>
-      <div class="mb-10">
-        <BaseNotification
-          v-if="showSuccess || showError"
-          :success="showSuccess"
-          :error="showError"
-          :text="alertText"
-        />
+    <div class="flex min-h-screen bg-gray-100">
+      <AdminSidebar />
+      <div class="px-5 mx-auto w-4/5">
+        <div
+          v-if="showSuccess"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"
+            ></path>
+          </svg>
+          <i>Buyurtma qo'shildi</i>
+          <span
+            class="absolute right-10 cursor-pointer"
+            @click="showSuccess = false"
+            >X</span
+          >
+        </div>
+        <div
+          v-if="showFail"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
+          <i> Buyurtma qo'shishda xatolik yuz berdi, qayta urinib ko'ring</i>
+          <span
+            class="absolute font-bold right-10 cursor-pointer"
+            @click="showFail = false"
+            >X</span
+          >
+        </div>
         <div class="pb-10">
           <div class="mt-10">
             <h2 class="font-bold text-xl text-gray-800 mb-6">
@@ -23,7 +50,7 @@
               noResult="Bunday mahsulot topilmadi"
               :required="
                 !$v.selectedProduct.codesize.required &&
-                $v.selectedProduct.codesize.$dirty
+                  $v.selectedProduct.codesize.$dirty
               "
               @select="selectProduct"
             />
@@ -103,7 +130,7 @@
           mask="+998 ## ### ## ##"
           :required="
             !$v.newOrder.phone_number.required &&
-            $v.newOrder.phone_number.$dirty
+              $v.newOrder.phone_number.$dirty
           "
         />
         <BaseButtonLink
@@ -135,45 +162,45 @@ export default {
       showError: false,
       selectedProduct: {
         id: null,
-        codesize: null,
+        codesize: null
       },
       newProduct: {
         count: 0,
-        product_id: null,
+        product_id: null
       },
       newOrder: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     selectedProduct: {
       codesize: {
-        required,
-      },
+        required
+      }
     },
     newProduct: {
       count: {
-        required,
-      },
+        required
+      }
     },
     newOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(17),
+        minLength: minLength(17)
       },
       products: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     addProduct() {
@@ -207,7 +234,7 @@ export default {
           this.selectedProduct = {};
           this.newProduct = {
             count: null,
-            product_id: null,
+            product_id: null
           };
         }
       }
@@ -257,12 +284,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
-<style>
-</style>
+<style></style>
