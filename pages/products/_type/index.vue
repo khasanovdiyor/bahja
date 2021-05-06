@@ -1,7 +1,5 @@
 <template>
   <div>
-    <TheContact />
-    <TheHeader />
     <div class="sm:flex">
       <TheSidebar :currentLink="link" />
       <div class="w-full">
@@ -93,8 +91,6 @@
         </div>
       </div>
     </div>
-
-    <TheFooter class="mt-56" />
   </div>
 </template>
 <script>
@@ -171,12 +167,6 @@ export default {
   mounted() {
     this.getSizes();
     this.getProducts();
-    if (localStorage.products) {
-      let json_string = localStorage.getItem("products");
-      if (json_string.length !== 0) {
-        this.savedProducts = JSON.parse(json_string);
-      }
-    }
   },
 };
 </script>

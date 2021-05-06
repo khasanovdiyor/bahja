@@ -1,7 +1,5 @@
 <template>
   <div>
-    <TheContact />
-    <TheHeader />
     <div class="px-16">
       <p class="text-center text-xl font-bold text-gray-700 my-10">
         Biz haqimizda
@@ -35,7 +33,6 @@
         <br />
       </div>
     </div>
-    <TheFooter />
   </div>
 </template>
 <script>

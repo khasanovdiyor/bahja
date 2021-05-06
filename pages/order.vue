@@ -1,7 +1,5 @@
 <template>
   <div>
-    <TheContact />
-    <TheHeader />
     <div
       v-if="showSuccess"
       class="flex items-center mx-auto z-40 py-2 w-9/12 bg-green-500 text-lg text-white"
@@ -98,7 +96,6 @@
         </nuxt-link>
       </div>
     </div>
-    <TheFooter />
   </div>
 </template>
 

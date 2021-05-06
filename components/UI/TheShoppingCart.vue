@@ -69,7 +69,6 @@
                   class="w-5 ml-auto cursor-pointer"
                   src="~/assets/images/delete.svg"
                   alt="o'chirish"
-                  value="o'chirish"
                 />
               </div>
             </span>
@@ -81,7 +80,7 @@
       <div>
         <div v-if="products.length > 0">
           <h3 class="uppercase w-2/3 mb-6 mx-auto font-semibold">
-            jami: {{ totalFromParent.toLocaleString() }}
+            jami: {{ total.toLocaleString() }}
           </h3>
           <nuxt-link
             to="/order"
@@ -101,7 +100,7 @@
 
 <script>
 import global from "~/mixins.js/global.js";
-
+import { mapGetters } from "vuex";
 export default {
   mixins: [global],
   props: {
@@ -109,47 +108,39 @@ export default {
       type: Array,
       required: true,
     },
-    savedProducts: {
-      type: Array,
-      required: true,
-    },
-    totalFromParent: {
-      type: Number,
-      required: true,
-    },
   },
-  watch: {
-    savedProducts: {
-      deep: true,
-      handler(newValue) {
-        localStorage.setItem("products", JSON.stringify(newValue));
-      },
+  computed: {
+    ...mapGetters({
+      savedProducts: "products/savedProducts",
+    }),
+    total() {
+      return this.products.reduce((a, b) => a + b.price * b.count, 0);
     },
   },
   methods: {
     getTotalPrice() {
-      this.totalFromParent = 0;
-      this.products.forEach(el => {
-        this.totalFromParent += el.price * el.count;
+      this.total = 0;
+      this.products.forEach((el, idx) => {
+        this.total += el.price * this.savedProducts[idx].count;
       });
     },
     increment(index) {
       if (this.savedProducts[index].count < this.products[index].quantity) {
-        this.savedProducts[index].count++;
-        this.products[index].count++;
+        this.$store.dispatch("products/incrementCount", index);
+        this.$emit("increment", index);
         this.getTotalPrice();
       }
     },
     decrement(index) {
       if (this.savedProducts[index].count > 1) {
-        this.savedProducts[index].count--;
-        this.products[index].count--;
+        this.$store.dispatch("products/decrementCount", index);
+        this.$emit("decrement", index);
         this.getTotalPrice();
       }
     },
     deleteProduct(index) {
-      this.products.splice(index, 1);
-      this.savedProducts.splice(index, 1);
+      this.$emit("delete", index);
+      this.$store.dispatch("products/deleteProduct", index);
     },
   },
   mounted() {

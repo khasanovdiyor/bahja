@@ -21,302 +21,144 @@
           >
         </div>
         <div
-          v-if="showFail"
+          v-if="showError"
           class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-red-400 text-white text-center"
         >
           <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
 
           <span
             class="absolute right-6 cursor-pointer"
-            @click="showFail = false"
+            @click="showError = false"
             >X</span
           >
         </div>
         <div name="Mahsulot qo'shish">
           <h2 class="text-xl font-bold text-gray-700">O'zgartirish</h2>
-
           <div>
-            <div class="input-group block my-4">
-              <label
-                for="input"
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >Nom</label
-              >
-              <input
-                type="text"
-                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                v-model="newProduct.name"
+            <BaseTextField
+              class="my-4"
+              v-model.trim="$v.product.name.$model"
+              label="Nom"
+              required
+              :required-message="
+                !$v.product.name.required && $v.product.name.$dirty
+              "
+            />
+            <BaseTextField
+              class="my-4"
+              v-model.trim="$v.product.product_code.$model"
+              label="Kod"
+              mask="NNNNNNN"
+              required
+              :required-message="
+                !$v.product.product_code.required &&
+                $v.product.product_code.$dirty
+              "
+            />
+            <!-- <BaseSelect
+              class="my-4 w-1/2"
+              v-model.trim="$v.selectedBrand.$model"
+              label="Brend"
+              :options="brands"
+              @select="selectBrand"
+              placeholder="Brend tanlang"
+              required
+              :required-message="
+                !$v.selectedBrand.required && $v.selectedBrand.$dirty
+              "
+            /> -->
+            <BaseTextField
+              class="my-4"
+              v-model.trim="$v.product.description.$model"
+              label="Tavsif"
+              textarea
+              required
+              :required-message="
+                !$v.product.description.required &&
+                $v.product.description.$dirty
+              "
+            />
+            <BaseSelect
+              class="my-4 w-1/2"
+              v-model="$v.selectedProductCategories.$model"
+              label="Kategoriya"
+              :options="categories"
+              placeholder="Kategoriya tanlang"
+              noResult="Bunday kategoriya topilmadi"
+              multiple
+              taggable
+              @select="value => selectCategories(value, product.categories)"
+              @remove="value => removeCategories(value, product.categories)"
+              required
+              :required-message="
+                !$v.selectedProductCategories.required &&
+                $v.selectedProductCategories.$dirty
+              "
+            />
+            <BaseTextField
+              class="my-4"
+              v-model.trim="$v.product.quantity.$model"
+              label="Son"
+              :mask="priceMask"
+              required
+              :required-message="
+                !$v.product.quantity.required && $v.product.quantity.$dirty
+              "
+            />
+            <BaseTextField
+              class="my-4"
+              v-model.trim="$v.product.price.$model"
+              label="Narx"
+              :mask="priceMask"
+              required
+              :required-message="
+                !$v.product.price.required && $v.product.price.$dirty
+              "
+            />
+            <BaseImageField
+              class="my-4"
+              label="Rasm"
+              :image="product.image"
+              required
+              @change="value => previewImage(value, product, false)"
+            />
+            <div class="text-red-400 text-sm" v-if="imageRequired">
+              Rasm qo'yish shart
+            </div>
+            <BaseImageField
+              class="my-4"
+              multiple
+              required
+              label="galereya rasmlari"
+              :images="product.images"
+              @change="value => previewImage(value, product, true)"
+              @remove-image="removeImage"
+            />
+            <div class="text-red-400 text-sm" v-if="imagesMinLength">
+              Gallereya rasmlari kamida 3 ta bo'lishi kerak
+            </div>
+            <div class="mb-10">
+              <AttributesTable
+                v-if="product.attributes"
+                :attributes="newAttributes"
+                :attribute="attribute"
+                :showAddNewKey="showAddNewKey"
+                @add-attribute="addAttribute"
+                @remove-attribute="removeAttribute"
               />
-            </div>
-            <div class="input-group block my-4">
-              <label
-                for="input"
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >Kod</label
-              >
-              <input
-                type="text"
-                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                v-model="newProduct.product_code"
+              <BaseButtonLink
+                class="mt-2"
+                buttonText="Qo'shish"
+                @button-click="showAddNewKey = true"
               />
-            </div>
-            <div class="my-4">
-              <label
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >tavsif</label
-              >
-              <textarea
-                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                v-model="newProduct.description"
-              >
-              </textarea>
-            </div>
-            <div class="my-4">
-              <label
-                class="w-1/2 block font-bold text-gray-500 uppercase text-sm mb-2"
-                >kategoriya</label
-              >
-              <multiselect
-                v-model="newCategories"
-                placeholder="Kategoriya tanlang"
-                label="name"
-                track-by="name"
-                :options="categories"
-                :multiple="true"
-                @select="addCategory"
-                @remove="removeCategory"
-              >
-                <template
-                  ><span class="text-red-500" slot="noResult"
-                    >Bunday kategoriya topilmadi!</span
-                  >
-                </template>
-              </multiselect>
-            </div>
-            <div class="my-4">
-              <label
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >son</label
-              >
-              <input
-                type="text"
-                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                v-model="newProduct.quantity"
-                v-mask="priceMask"
-              />
-            </div>
-            <div class="my-4">
-              <label
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >narx</label
-              >
-              <input
-                type="string"
-                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                v-model="newProduct.price"
-                v-mask="priceMask"
-              />
-            </div>
-            <div class="my-4">
-              <label
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >asosiy rasm</label
-              ><input
-                type="file"
-                accept="image/*"
-                @change="previewProductImage"
-                class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
-              />
-              <div v-if="image">
-                <div>
-                  <div class="w-56 h-64 my-5 border shadow-sm">
-                    <img :src="image" class="object-cover w-full h-full" />
-                  </div>
-                </div>
+              <div class="text-red-400 text-sm" v-if="attributesMinLength">
+                Atributlar kamida 2 ta bo'lishi kerak
               </div>
             </div>
-            <div class="my-4">
-              <label
-                class="block font-bold text-gray-500 uppercase text-sm mb-2"
-                >galereya rasmlari</label
-              ><input
-                type="file"
-                accept="image/*"
-                multiple="multiple"
-                @change="previewProductMultiImage"
-                class="border-2 rounded-md bg-white text-sm w-1/2 py-2 pl-5"
-              />
-              <div v-if="newImages" class="flex flex-wrap">
-                <div
-                  v-for="(item, index) in newImages"
-                  :key="index"
-                  class="w-56 h-64 my-5 border shadow-sm relative"
-                >
-                  <img :src="item" class="object-cover w-full h-full" />
-                  <span
-                    @click="removeImage(index)"
-                    class="absolute top-4 right-4 bg-white w-6 h-6 flex items-center justify-center cursor-pointer rounded-full"
-                    >X</span
-                  >
-                </div>
-              </div>
-              <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
-            </div>
-            <div class="">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-200">
-                  <tr>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                    >
-                      is main
-                    </th>
-
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                    >
-                      key
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                    >
-                      label
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                    >
-                      value
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                    >
-                      o'chirish
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white">
-                  <tr
-                    class="border my-5"
-                    v-for="(attr, index) in newAttributes"
-                    :key="index"
-                  >
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-gray-500">
-                        <input
-                          type="checkbox"
-                          class="border rounded-md w-full text-md w-5 px-5"
-                          v-model="attr.is_main"
-                        />
-                      </div>
-                    </td>
-
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        {{ attr.key }}
-                      </div>
-                    </td>
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        <input
-                          type="text"
-                          class="border rounded-md w-full text-sm w-5 h-5 p-4 px-5"
-                          v-model="attr.label"
-                        />
-                      </div>
-                    </td>
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        <input
-                          type="text"
-                          class="border rounded-md w-full text-sm w-5 h-5 p-4 px-5"
-                          v-model="attr.value"
-                        />
-                      </div>
-                    </td>
-                    <td class="px-2 py-1 border">
-                      <div class="flex items-center text-sm justify-between">
-                        <div
-                          @click="removeAttribute(product, index)"
-                          class="cursor-pointer hover:underline"
-                        >
-                          <img
-                            src="~/assets/images/delete.svg"
-                            alt=""
-                            class="w-5 ml-5"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="border" v-if="showAddNewKey">
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        <input
-                          type="checkbox"
-                          class="border w-full text-sm w-5 h-5 pl-5"
-                          v-model="attribute.is_main"
-                        />
-                      </div>
-                    </td>
-
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        <input
-                          type="text"
-                          class="text-sm py-2 pl-5"
-                          v-model="attribute.key"
-                        />
-                      </div>
-                    </td>
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        <input
-                          type="text"
-                          class="text-sm py-2 pl-5"
-                          v-model="attribute.label"
-                        />
-                      </div>
-                    </td>
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm">
-                        <input
-                          type="text"
-                          class="text-sm py-2 pl-5"
-                          v-model="attribute.value"
-                        />
-                      </div>
-                    </td>
-                    <td class="px-6 py-1 border">
-                      <div class="flex items-center text-sm justify-center">
-                        <div
-                          @click="addProductAttribute"
-                          class="cursor-pointer hover:underline"
-                        >
-                          Qo'shish
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div
-                @click="showAddNewKey = true"
-                class="block bg-gray-800 w-24 cursor-pointer text-sm text-center rounded-md px-3 text-white my-5 py-2 mb-5"
-              >
-                Qo'shish
-              </div>
-            </div>
-            <button
-              @click="sendAll"
-              class="block bg-gray-800 text-sm text-center rounded-md px-3 text-white py-2 mb-5"
-            >
-              Ma'lumotlarni yangilash
-            </button>
+            <BaseButtonLink
+              buttonText="Mahsulot yaratish"
+              @button-click="updateProduct"
+            />
           </div>
         </div>
       </div>
@@ -325,23 +167,23 @@
 </template>
 <script>
 import priceMask from "~/mixins.js/priceMask.js";
+import { required, minLength } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
-      priceMask: priceMask,
+      priceMask,
+      selectedProductCategories: null,
       newImage: null,
       showSuccess: false,
-      showFail: false,
-      showProductForm: false,
+      showError: false,
       showAddNewKey: false,
       showDeleteDialog: false,
-      selectedProduct: {},
       newCategories: [],
       image: null,
       newImages: [],
       images: [],
       deletedImages: [],
-      newProduct: {},
+      product: {},
       categories: [],
       brands: [],
       product: {},
@@ -355,7 +197,66 @@ export default {
       newAttributes: [],
     };
   },
+  validations: {
+    selectedProductCategories: {
+      required,
+    },
+    product: {
+      name: {
+        required,
+      },
+      product_code: {
+        required,
+      },
+      price: {
+        required,
+      },
+      description: {
+        required,
+      },
+      brand: {
+        required,
+      },
+      quantity: {
+        required,
+      },
+      attributes: {
+        required,
+        minLength: minLength(2),
+      },
+      categories: {
+        required,
+      },
+    },
+  },
+  computed: {
+    imagesMinLength() {
+      return this.createProductClicked && this.product.images.length < 3
+        ? true
+        : false;
+    },
+    imageRequired() {
+      return !this.product.image && this.createProductClicked ? true : false;
+    },
+    attributesMinLength() {
+      return this.createProductClicked && this.product.attributes.length < 2
+        ? true
+        : false;
+    },
+  },
   methods: {
+    addAttribute(attributes) {
+      attributes.push(this.attribute);
+      this.attribute = {};
+      this.showAddNewKey = false;
+    },
+    selectCategories(value, categories) {
+      categories.push(value.id);
+    },
+    removeCategories(value, categories) {
+      const foundIndex = categories.indexOf(value.id);
+      if (foundIndex !== -1) categories.splice(foundIndex, 1);
+    },
     addCategory(value, id) {
       this.newCategories.push(value.id);
     },
@@ -373,52 +274,38 @@ export default {
     removeAttribute(product, index) {
       this.newAttributes.splice(index, 1);
     },
-    addTag(newTag) {
-      this.selectedCategories.push(newTag);
-    },
     removeImage(index) {
       this.deletedImages.push(this.newImages[index]);
       console.log(this.preview_list);
       this.newImages.splice(index, 1);
     },
-    previewProductImage(event) {
-      var input = event.target;
-      this.newProduct.image = input.files[0];
-      if (input.files) {
-        var reader = new FileReader();
-        reader.onload = e => {
-          this.product.image = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
-    previewProductMultiImage(event) {
-      var input = event.target;
-      var count = input.files.length;
-      var index = 0;
-      if (input.files) {
+    previewImage(event, product, multiple) {
+      let images = event.target.files;
+      let count = images.length;
+      let index = 0;
+      if (count > 0) {
         while (count--) {
           var reader = new FileReader();
           reader.onload = e => {
-            this.newImages.push(e.target.result);
-            this.images.push(e.target.result);
+            if (!multiple) product.image = e.target.result;
+            else if (product.images.length < 5)
+              product.images.push(e.target.result);
           };
-          reader.readAsDataURL(input.files[index]);
+          reader.readAsDataURL(images[index]);
           index++;
         }
       }
-      console.log("this.product:", this.product);
     },
     updateProduct() {
       const formData = new FormData();
-      formData.append("name", this.newProduct.name);
-      formData.append("description", this.newProduct.description);
-      formData.append("product_code", this.newProduct.product_code);
-      formData.append("price", this.newProduct.price);
-      formData.append("quantity", this.newProduct.quantity);
+      formData.append("name", this.product.name);
+      formData.append("description", this.product.description);
+      formData.append("product_code", this.product.product_code);
+      formData.append("price", this.product.price);
+      formData.append("quantity", this.product.quantity);
       formData.append("image", this.newImage);
       this.$axios
-        .patch(`product/update/${this.$route.params.id}`, this.newProduct)
+        .patch(`product/update/${this.$route.params.id}`, this.product)
         .then(res => {
           loader.hide();
           this.showSuccess = true;
@@ -433,9 +320,9 @@ export default {
         })
         .catch(err => {
           loader.hide();
-          this.showFail = true;
+          this.showError = true;
           setTimeout(() => {
-            this.showFail = false;
+            this.showError = false;
           }, 3000);
           console.log(err);
         });
@@ -493,7 +380,7 @@ export default {
     },
     getProduct() {
       this.$axios
-        .get(`product/detail/${this.$route.params.id}`)
+        .get(`product/specific/${this.$route.params.id}`)
         .then(res => {
           this.image = res.data.image;
           let i = 0;
@@ -506,7 +393,24 @@ export default {
             }
             this.newAttributes.push(attribute);
           }
-          this.newProduct = res.data;
+          this.product = res.data;
+          console.log(this.categories, this.product.categories);
+          this.product.categories.forEach(element => {
+            this.selectedProductCategories = this.categories.filter(el => {
+              return el.id === element.id;
+            });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getCategories() {
+      this.$axios
+        .get("product/category-all/")
+        .then(res => {
+          this.categories = res.data;
+          this.getProduct();
         })
         .catch(err => {
           console.log(err);
@@ -514,7 +418,6 @@ export default {
     },
   },
   mounted() {
-    this.getProduct();
     this.getCategories();
   },
 };

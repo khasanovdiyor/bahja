@@ -1,7 +1,5 @@
 <template>
   <div>
-    <TheContact />
-    <TheHeader :savedProductsProp="savedProducts" />
     <div
       v-if="showNotification"
       class="relative flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md py-5 pl-6 pr-8 sm:pr-6"
@@ -113,7 +111,7 @@
               +
             </button>
           </span>
-          <span class="font-bold text-2xl" v-if="product.price">{{
+          <span class="font-bold text-2xl w-32" v-if="product.price">{{
             product.price.toLocaleString()
           }}</span>
           <button
@@ -176,15 +174,12 @@
         <!-- <ProductReview v-if="false" /> -->
       </div>
     </div>
-
-    <TheFooter />
   </div>
 </template>
 
 <script>
 import global from "~/mixins.js/global.js";
 import slider from "~/mixins.js/slider.js";
-
 export default {
   layout: "user",
   mixins: [global, slider],
@@ -194,7 +189,6 @@ export default {
       showNotification: false,
       message: "",
       showCommentBox: false,
-      savedProducts: [],
       product: {
         id: null,
         attributes: {},
@@ -221,6 +215,7 @@ export default {
         }, 3000);
     },
   },
+
   methods: {
     getProduct() {
       let loader = this.$loading.show();
@@ -292,31 +287,10 @@ export default {
     saveToCart() {
       // localStorage dan o'qish
       try {
-        let json_string = [];
-        if (localStorage.products) {
-          json_string = localStorage.getItem("products");
-        }
-
-        let ls = [];
-        if (json_string.length !== 0) {
-          ls = JSON.parse(json_string) || [];
-        }
-
-        // make simple object
         let selected_product = JSON.parse(JSON.stringify(this.selectedProduct));
-        // product qidirish
-        let index = ls.findIndex(
-          el =>
-            parseInt(el.product_id) === parseInt(selected_product.product_id)
-        );
 
-        if (index === -1) {
-          ls.push(selected_product);
-        } else {
-          ls[index].count = selected_product.count;
-        }
-        this.savedProducts = ls;
-        localStorage.setItem("products", JSON.stringify(ls));
+        this.$store.dispatch("products/addProductToCart", selected_product);
+
         this.showNotification = true;
         this.showSuccess = true;
         this.message = "Mahsulot savatchaga qo'shildi!";
@@ -330,14 +304,6 @@ export default {
   },
   mounted() {
     this.getProduct();
-    if (localStorage.products) {
-      let json_string = localStorage.getItem("products");
-      if (json_string.length !== 0) {
-        this.savedProducts = JSON.parse(json_string);
-      }
-    }
-
-    // this.changeProduct(selected_attrs);
   },
 };
 </script>

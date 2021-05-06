@@ -1,18 +1,7 @@
 <template>
   <!--CONTAINER -->
   <div>
-    <!-- CONTACT BOX  -->
-    <!-- END OF CONTACT BOX -->
-    <!-- SHOWCASE CONTAINER -->
     <div class="relative">
-      <!-- HEADER - NAVIGATION -->
-      <div class="">
-        <div class="w-full bg-white">
-          <TheContact />
-          <TheHeader />
-        </div>
-      </div>
-
       <!-- SHOWCASE -->
       <div class="mt-10">
         <TheShowcase />
@@ -25,9 +14,9 @@
           </div>
         </div>
 
-        <div>
+        <div class="">
           <!-- PRODUCTS CONTAINER -->
-          <div class="mt-10 flex gap-16 flex-wrap content-start">
+          <div class="mt-10 flex gap-20 flex-wrap">
             <!-- Product card -->
             <nuxt-link
               class="mb-6 mx-auto sm:mx-0 cursor-pointer transition duration-150 transform hover:scale-105"
@@ -94,7 +83,6 @@
       </splide>
     </div>
     <InfoBox />
-    <TheFooter />
   </div>
   <!-- END OF CONTAINER -->
 </template>

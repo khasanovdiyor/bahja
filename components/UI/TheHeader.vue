@@ -18,7 +18,7 @@
         </li>
         <li>
           <nuxt-link to="/products/import" class="font-semibold text-lg">
-            Import mahsulotlar
+            Import mahsulotlar {{ savedProducts }}
           </nuxt-link>
         </li>
       </ul>
@@ -38,14 +38,9 @@
           class="w-7"
         />
         <span
-          v-if="savedProductsProp"
+          v-if="savedProducts"
           class="absolute top-3 left-3 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-gray-700"
-          >{{ savedProductsProp.length }}</span
-        >
-        <span
-          v-else
-          class="absolute top-3 left-3 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-gray-700"
-          >{{ savedProductsProp.length }}</span
+          >{{ savedProducts.length }}</span
         >
       </div>
 
@@ -54,8 +49,9 @@
           <TheShoppingCart
             @toggleCard="toggleCard"
             :products="products"
-            :savedProducts="savedProducts"
-            :totalFromParent="totalPrice"
+            @increment="idx => products[idx].count++"
+            @decrement="idx => products[idx].count--"
+            @delete="idx => products.splice(idx, 1)"
           />
         </div>
       </transition>
@@ -70,32 +66,21 @@
 
 <script>
 import global from "~/mixins.js/global.js";
+import { mapGetters } from "vuex";
 export default {
+  layout: "user",
   mixins: [global],
-  props: {
-    savedProductsProp: {
-      type: Array,
-      default: function () {
-        return [];
-      },
-      required: false,
-    },
-  },
   data() {
     return {
-      savedProducts: [],
-      quantity: 0,
       showCard: false,
       showSearch: false,
       products: [],
-      totalPrice: 0,
     };
   },
-  watch: {
-    savedProducts: function (newValue) {
-      this.quantity = this.savedProducts.length;
-      localStorage.setItem("products", JSON.stringify(newValue));
-    },
+  computed: {
+    ...mapGetters({
+      savedProducts: "products/savedProducts",
+    }),
   },
   methods: {
     toggleSearch() {
@@ -106,36 +91,25 @@ export default {
       this.showCard = !this.showCard;
     },
     getProducts() {
-      if (this.savedProductsProp) {
-        this.savedProducts = this.savedProductsProp;
-      }
-      this.savedProducts.forEach(element => {
-        this.products = [];
-        this.totalPrice = 0;
-        this.$axios
-          .get(`product/specific/${element.product_id}`)
-          .then(res => {
-            this.totalPrice += res.data.price * element.count;
-            this.products.push(
-              Object.assign({ count: element.count }, res.data)
-            );
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      });
+      if (this.savedProducts.length > 0)
+        this.savedProducts.forEach(element => {
+          this.products = [];
+          this.totalPrice = 0;
+          this.$axios
+            .get(`product/specific/${element.product_id}`)
+            .then(res => {
+              this.products.push(
+                Object.assign({ count: element.count }, res.data)
+              );
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        });
     },
   },
   mounted() {
     this.getProducts();
-    if (localStorage.products) {
-      let json_string = localStorage.getItem("products");
-      if (json_string.length !== 0) {
-        this.savedProducts = JSON.parse(json_string);
-      }
-    }
-    if (this.savedProductsProp) this.quantity = this.savedProductsProp.length;
-    else this.quantity = this.savedProducts.length;
   },
 };
 </script>

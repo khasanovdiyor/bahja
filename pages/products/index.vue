@@ -1,7 +1,5 @@
 <template>
   <div>
-    <TheContact />
-    <TheHeader />
     <div class="flex">
       <TheSidebar :currentLink="link" />
       <div class="px-16 w-full">
@@ -29,8 +27,6 @@
         </div>
       </div>
     </div>
-
-    <TheFooter />
   </div>
 </template>
 <script>

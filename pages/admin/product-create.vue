@@ -269,7 +269,7 @@
                 <template #body>
                   <tr
                     class="border"
-                    v-for="(varProduct, index) in product.variations"
+                    v-for="(varProduct, index) in variations"
                     :key="index"
                   >
                     <td class="px-2 py-1 border">
@@ -393,8 +393,9 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        variations: [],
       },
+      variations: [],
+
       variation: {
         parent_id: null,
         name: null,
@@ -574,8 +575,8 @@ export default {
     addVariation() {
       this.$v.variation.$touch();
       if (!this.$v.variation.$invalid) {
-        this.product.variations.push(this.variation);
-        console.log(this.product.variations);
+        this.variations.push(this.variation);
+        console.log(this.variations);
         this.showAddNewVariation = false;
       }
     },
@@ -630,6 +631,7 @@ export default {
       this.$v.product.$touch();
       if (!this.$v.product.$invalid) {
         this.product.price = parseInt(this.product.price.replace(/\s/g, ""));
+        this.product.variations = this.variations;
         if (this.product.variations.length > 0)
           for (let el of this.product.variations) {
             el.price = parseInt(el.maskPrice.toString().replace(/\s/g, ""));
