@@ -37,8 +37,8 @@ export default {
       showFail: false,
       message: "",
       newBrand: {
-        name: "",
-      },
+        name: ""
+      }
     };
   },
   methods: {
@@ -66,8 +66,8 @@ export default {
           }, 3000);
           console.log(err);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

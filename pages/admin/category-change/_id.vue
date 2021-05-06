@@ -130,8 +130,8 @@ export default {
         parent_id: 0,
         order: 0,
         image: 0,
-        is_slider: false,
-      },
+        is_slider: false
+      }
     };
   },
   methods: {
@@ -212,14 +212,14 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     this.getCategories();
   },
   mounted() {
     this.getCategory();
-  },
+  }
 };
 </script>
 

@@ -104,16 +104,16 @@ export default {
   props: {
     products: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     ...mapGetters({
-      savedProducts: "products/savedProducts",
+      savedProducts: "products/savedProducts"
     }),
     total() {
       return this.products.reduce((a, b) => a + b.price * b.count, 0);
-    },
+    }
   },
   methods: {
     getTotalPrice() {
@@ -139,11 +139,11 @@ export default {
     deleteProduct(index) {
       this.$emit("delete", index);
       this.$store.dispatch("products/deleteProduct", index);
-    },
+    }
   },
   mounted() {
     this.getTotalPrice();
-  },
+  }
 };
 </script>
 

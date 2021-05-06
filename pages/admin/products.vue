@@ -97,7 +97,7 @@ export default {
       products: [],
       showDeleteDialog: false,
       selectedProductID: null,
-      tableHeaders: ["id", "nomi", "kodi", "atributlar", "narxi", "buyruqlar"],
+      tableHeaders: ["id", "nomi", "kodi", "atributlar", "narxi", "buyruqlar"]
     };
   },
   methods: {
@@ -118,11 +118,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 

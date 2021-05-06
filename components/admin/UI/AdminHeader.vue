@@ -55,15 +55,15 @@
 export default {
   data() {
     return {
-      showUserDropdown: false,
+      showUserDropdown: false
     };
   },
   methods: {
     logout() {
       this.$auth.logout();
       this.$router.push("/");
-    },
-  },
+    }
+  }
 };
 </script>
 

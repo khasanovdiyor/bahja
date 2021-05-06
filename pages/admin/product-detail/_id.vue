@@ -401,8 +401,8 @@ export default {
       product: {
         brand: {},
         color: {},
-        category: {},
-      },
+        category: {}
+      }
     };
   },
   methods: {
@@ -423,11 +423,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProduct();
-  },
+  }
 };
 </script>
 

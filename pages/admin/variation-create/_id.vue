@@ -70,7 +70,7 @@
             class="text-red-400"
             v-if="
               !$v.variation.product_code.required &&
-                $v.variation.product_code.$dirty
+              $v.variation.product_code.$dirty
             "
           >
             <i class="text-sm"> {{ requiredMessage }}</i>
@@ -89,7 +89,7 @@
             class="text-red-400"
             v-if="
               !$v.variation.description.required &&
-                $v.variation.description.$dirty
+              $v.variation.description.$dirty
             "
           >
             <i class="text-sm"> {{ requiredMessage }}</i>
@@ -114,7 +114,7 @@
             class="text-red-400"
             v-if="
               !$v.selectedVariationCategories.required &&
-                $v.selectedVariationCategories.$dirty
+              $v.selectedVariationCategories.$dirty
             "
           >
             <i class="text-sm"> {{ requiredMessage }}</i>

@@ -100,8 +100,8 @@ export default {
       slider: {
         text: "",
         image: null,
-        category: null,
-      },
+        category: null
+      }
     };
   },
   methods: {
@@ -172,11 +172,11 @@ export default {
           this.slider = res.data;
           this.slider.category = res.data.category.id;
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getSlider();
-  },
+  }
 };
 </script>

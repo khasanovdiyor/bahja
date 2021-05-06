@@ -69,15 +69,15 @@ export default {
       showDeleteDialog: false,
       selectedBrandID: null,
       brands: [],
-      tableHeaders: ["id", "nomi", "buyruqlar"],
+      tableHeaders: ["id", "nomi", "buyruqlar"]
     };
   },
   validations: {
     newBrand: {
       name: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     getBrands() {
@@ -108,11 +108,11 @@ export default {
           }, 3000);
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getBrands();
-  },
+  }
 };
 </script>
 

@@ -364,7 +364,7 @@ export default {
         "kategoriyalari",
         "narxi",
         "soni",
-        "buyruqlar",
+        "buyruqlar"
       ],
       selectedBrand: null,
       selectedProductCategories: null,
@@ -391,7 +391,7 @@ export default {
         quantity: null,
         image: null,
         images: [],
-        attributes: [],
+        attributes: []
       },
       variations: [],
       variation: {
@@ -407,14 +407,14 @@ export default {
         categories: [],
         //temporary vars
         selectedCategories: null,
-        maskPrice: null,
+        maskPrice: null
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   computed: {
@@ -430,7 +430,7 @@ export default {
       return this.createProductClicked && this.product.attributes.length < 2
         ? true
         : false;
-    },
+    }
   },
   watch: {
     product: {
@@ -441,7 +441,7 @@ export default {
         this.variation.description = this.product.description;
         this.variation.quantity = this.product.quantity;
         this.variation.maskPrice = this.product.price;
-      },
+      }
     },
     "product.categories": {
       handler() {
@@ -451,7 +451,7 @@ export default {
             this.selectedProductCategories,
             x => x
           );
-      },
+      }
     },
     "product.attributes": {
       handler() {
@@ -462,7 +462,7 @@ export default {
             this.product.attributes[index]
           );
         });
-      },
+      }
     },
     "variation.categories": {
       handler() {
@@ -472,7 +472,7 @@ export default {
             .map(el => el),
           x => x
         );
-      },
+      }
     },
     showError(newVal) {
       if (newVal == true) {
@@ -487,69 +487,69 @@ export default {
           this.showSuccess = false;
         }, 3000);
       }
-    },
+    }
   },
   validations: {
     selectedBrand: {
-      required,
+      required
     },
     selectedCategories: {
-      required,
+      required
     },
     selectedVariationCategories: {
-      required,
+      required
     },
     product: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       brand: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
+        required
+      }
     },
     variation: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       maskPrice: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategories(value, categories) {
@@ -658,12 +658,12 @@ export default {
           });
       }
       this.createProductClicked = false;
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  },
+  }
 };
 </script>
 <style scoped></style>

@@ -54,9 +54,7 @@
                 alt="koylak"
               />
               <span class="w-full px-5">
-                <h2 class="font-semibold text-gray-400">
-                  Mahsulot nomi
-                </h2>
+                <h2 class="font-semibold text-gray-400">Mahsulot nomi</h2>
                 {{ product.name }}
 
                 <p

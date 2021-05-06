@@ -179,7 +179,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function() {};
+      reader.onloadend = function () {};
       reader.readAsDataURL(file);
     },
     getCategories() {

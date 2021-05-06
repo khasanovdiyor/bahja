@@ -87,7 +87,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                  $v.selectedOrder.phone_number.$dirty
+                $v.selectedOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>

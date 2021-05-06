@@ -33,7 +33,7 @@
         :class="{
           'lg:col-span-2 xl:col-span-1 sm:h-auto h-36 col-span-4 sm:col-span-2 md:col-span-2 md:row-span-1':
             index < 2,
-          'xl:col-span-2  col-span-4 md:col-span-4 h-36 xl:h-auto': index > 1,
+          'xl:col-span-2  col-span-4 md:col-span-4 h-36 xl:h-auto': index > 1
         }"
         :style="{ backgroundImage: `url(${slide.image})` }"
       >
@@ -57,8 +57,8 @@ export default {
         rewind: true,
         width: 1020,
         perPage: 1,
-        gap: "1rem",
-      },
+        gap: "1rem"
+      }
     };
   },
   methods: {
@@ -86,12 +86,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategorySliders();
     this.$nextTick(this.$nextTick(() => this.getSlider()));
-  },
+  }
 };
 </script>
 

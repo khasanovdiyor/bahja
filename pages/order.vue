@@ -113,7 +113,7 @@ export default {
       phone: "",
       showSuccess: false,
       showFail: false,
-      savedProducts: [],
+      savedProducts: []
     };
   },
   seletedCategories: {
@@ -124,22 +124,22 @@ export default {
     categories: [],
     order: {
       name: null,
-      phone_number: null,
-    },
+      phone_number: null
+    }
   },
   validations: {
     order: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
-        required,
+        required
       },
       order: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     sendOrder() {
@@ -147,7 +147,7 @@ export default {
       let orderData = {
         name: this.name,
         phone_number: this.phone,
-        products: products,
+        products: products
       };
       this.$axios
         .post(`cart/orderbeta-create/`, orderData)
@@ -186,7 +186,7 @@ export default {
       }
 
       e.preventDefault();
-    },
+    }
   },
 
   mounted() {
@@ -199,6 +199,6 @@ export default {
       }
     }
     loader.hide();
-  },
+  }
 };
 </script>

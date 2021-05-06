@@ -319,7 +319,7 @@ export default {
         "son",
         "narx",
         "status",
-        "buyruqlar",
+        "buyruqlar"
       ],
       newOrder: "",
       newOrderMoney: "",
@@ -336,34 +336,34 @@ export default {
 
       selectedSortOrder: {
         name: "1 kunlik",
-        day: 1,
+        day: 1
       },
       selectedSortMoney: {
         name: "1 kunlik",
-        day: 1,
+        day: 1
       },
       selectedSortProduct: {
         name: "1 kunlik",
-        day: 1,
+        day: 1
       },
       sortOptions: [
         {
           name: "1 kunlik",
-          day: 1,
+          day: 1
         },
         {
           name: "Haftalik",
-          day: 7,
+          day: 7
         },
         {
           name: "Oylik",
-          day: 30,
+          day: 30
         },
         {
           name: "Yillik",
-          day: 365,
-        },
-      ],
+          day: 365
+        }
+      ]
     };
   },
   methods: {
@@ -371,8 +371,8 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus,
-          },
+            status: this.activeStatus
+          }
         })
         .then(res => {
           console.log(res.data);
@@ -463,14 +463,14 @@ export default {
           this.showStatus = false;
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getOrders();
     this.getStatsNewOrder(this.selectedSortOrder);
     this.getStatsNewOrderMoney(this.selectedSortMoney);
     this.getStatsNewProducts(this.selectedSortProduct);
-  },
+  }
 };
 </script>
 <style></style>

@@ -78,19 +78,19 @@ export default {
         name: "",
         parent_id: null,
         is_slider: false,
-        order: null,
-      },
+        order: null
+      }
     };
   },
   validations: {
     newCategory: {
       name: {
-        required,
+        required
       },
       order: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategory(value) {
@@ -142,8 +142,8 @@ export default {
         .finally(() => {
           loader.hide();
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

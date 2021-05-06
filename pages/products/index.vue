@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       products: [],
-      link: "category",
+      link: "category"
     };
   },
   methods: {
@@ -53,10 +53,10 @@ export default {
           loader.hide();
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>

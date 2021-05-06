@@ -38,17 +38,17 @@ export default {
   props: {
     text: {
       type: String,
-      required: true,
+      required: true
     },
     success: {
       type: Boolean,
-      default: false,
+      default: false
     },
     error: {
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 };
 </script>
 

@@ -64,17 +64,17 @@ export default {
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha",
+          text: "Narx o'sish bo'yicha"
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha",
+          text: "Narx kamayish bo'yicha"
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha",
-        },
-      ],
+          text: "Mahsulot nomi bo'yicha"
+        }
+      ]
     };
   },
   methods: {
@@ -83,8 +83,8 @@ export default {
         .get(`product/list/`, {
           params: {
             is_import: true ? this.$route.params.type === "Import" : false,
-            ordering: ordering,
-          },
+            ordering: ordering
+          }
         })
         .then(res => {
           console.log("list", res.data);
@@ -101,8 +101,8 @@ export default {
       this.$axios
         .get(`product/by-category/${this.$route.params.slug}/`, {
           params: {
-            is_import: true ? this.$route.params.type === "Import" : false,
-          },
+            is_import: true ? this.$route.params.type === "Import" : false
+          }
         })
         .then(res => {
           console.log("list", res.data);
@@ -113,10 +113,10 @@ export default {
           loader.hide();
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>

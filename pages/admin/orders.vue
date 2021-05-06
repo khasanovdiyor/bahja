@@ -177,7 +177,7 @@ export default {
         "son",
         "narx",
         "status",
-        "buyruqlar",
+        "buyruqlar"
       ],
       sidebarOpen: false,
       showDeleteDialog: false,
@@ -185,7 +185,7 @@ export default {
       orders: [],
       activeStatus: "",
       statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      showStatus: false,
+      showStatus: false
     };
   },
   methods: {
@@ -193,8 +193,8 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus,
-          },
+            status: this.activeStatus
+          }
         })
         .then(res => {
           console.log(res.data);
@@ -239,11 +239,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getOrders();
-  },
+  }
 };
 </script>
 <style></style>

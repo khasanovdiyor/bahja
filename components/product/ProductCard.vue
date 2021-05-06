@@ -30,9 +30,9 @@ export default {
   props: {
     product: {
       type: Object,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 

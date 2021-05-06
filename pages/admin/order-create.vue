@@ -135,45 +135,45 @@ export default {
       showError: false,
       selectedProduct: {
         id: null,
-        codesize: null,
+        codesize: null
       },
       newProduct: {
         count: 0,
-        product_id: null,
+        product_id: null
       },
       newOrder: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     selectedProduct: {
       codesize: {
-        required,
-      },
+        required
+      }
     },
     newProduct: {
       count: {
-        required,
-      },
+        required
+      }
     },
     newOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(17),
+        minLength: minLength(17)
       },
       products: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     addProduct() {
@@ -207,7 +207,7 @@ export default {
           this.selectedProduct = {};
           this.newProduct = {
             count: null,
-            product_id: null,
+            product_id: null
           };
         }
       }
@@ -256,11 +256,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 <style>

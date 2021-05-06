@@ -74,13 +74,13 @@ export default {
     return {
       showCard: false,
       showSearch: false,
-      products: [],
+      products: []
     };
   },
   computed: {
     ...mapGetters({
-      savedProducts: "products/savedProducts",
-    }),
+      savedProducts: "products/savedProducts"
+    })
   },
   methods: {
     toggleSearch() {
@@ -106,11 +106,11 @@ export default {
               console.log(err);
             });
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 

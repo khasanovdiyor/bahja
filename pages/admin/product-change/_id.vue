@@ -196,42 +196,42 @@ export default {
         key: null,
         label: null,
         value: null,
-        id: 0,
+        id: 0
       },
-      newAttributes: [],
+      newAttributes: []
     };
   },
   validations: {
     selectedProductCategories: {
-      required,
+      required
     },
     product: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       brand: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   computed: {
     imagesMinLength() {
@@ -246,7 +246,7 @@ export default {
       return this.createProductClicked && this.product.attributes.length < 2
         ? true
         : false;
-    },
+    }
   },
   methods: {
     addAttribute(attributes) {
@@ -334,7 +334,7 @@ export default {
     updateCategory() {
       let category = {
         product: this.$route.params.id,
-        categories: this.newCategories,
+        categories: this.newCategories
       };
       this.$axios
         .post("product/update-category/", category)
@@ -349,7 +349,7 @@ export default {
       let images = {
         product: this.$route.params.id,
         images: this.images,
-        deleted_images: this.deletedImages,
+        deleted_images: this.deletedImages
       };
       this.$axios
         .post("product/update-images/", images)
@@ -363,7 +363,7 @@ export default {
     updateAttributes() {
       let attributes = {
         product: parseInt(this.$route.params.id),
-        attributes: this.newAttributes,
+        attributes: this.newAttributes
       };
       this.$axios
         .post("product/update-attributes/", attributes)
@@ -419,11 +419,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
 <style scoped>

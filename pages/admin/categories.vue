@@ -87,7 +87,7 @@ export default {
       tableHeaders: ["id", "nomi", "rasmi", "buyruqlar"],
       showDeleteDialog: false,
       categories: [],
-      selectedCategoryID: null,
+      selectedCategoryID: null
     };
   },
 
@@ -110,11 +110,11 @@ export default {
             "Kategoriya o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
 

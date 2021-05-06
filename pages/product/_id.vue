@@ -192,13 +192,13 @@ export default {
       product: {
         id: null,
         attributes: {},
-        variations: [],
+        variations: []
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1,
-      },
+        count: 1
+      }
     };
   },
   watch: {
@@ -206,14 +206,14 @@ export default {
       deep: true,
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
-      },
+      }
     },
     showNotification(newVal) {
       if (newVal === true)
         setTimeout(() => {
           this.showNotification = false;
         }, 3000);
-    },
+    }
   },
 
   methods: {
@@ -300,11 +300,11 @@ export default {
         this.message =
           "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-    },
+    }
   },
   mounted() {
     this.getProduct();
-  },
+  }
 };
 </script>
 
