@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="w-full flex items-center justify-between px-5 text-xl py-8 font-semibold h-8 bg-black text-white"
+      class="w-full flex items-center justify-between px-5 text-lg py-7 font-semibold h-6 bg-black text-white"
     >
       SHOPPING CART
       <img
@@ -91,9 +91,7 @@
           </nuxt-link>
         </div>
 
-        <span v-else class="font-bold text-2xl"
-          >Savatchaga mahsulot qo'shmadingiz</span
-        >
+        <span v-else class="font-bold text-2xl">Savatcha bo'sh</span>
       </div>
     </div>
   </div>
@@ -107,24 +105,24 @@ export default {
   props: {
     products: {
       type: Array,
-      required: true,
+      required: true
     },
     savedProducts: {
       type: Array,
-      required: true,
+      required: true
     },
     totalFromParent: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
   watch: {
     savedProducts: {
       deep: true,
       handler(newValue) {
         localStorage.setItem("products", JSON.stringify(newValue));
-      },
-    },
+      }
+    }
   },
   methods: {
     getTotalPrice() {
@@ -150,11 +148,11 @@ export default {
     deleteProduct(index) {
       this.products.splice(index, 1);
       this.savedProducts.splice(index, 1);
-    },
+    }
   },
   mounted() {
     this.getTotalPrice();
-  },
+  }
 };
 </script>
 

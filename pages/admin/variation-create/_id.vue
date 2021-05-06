@@ -3,31 +3,36 @@
     <AdminSidebar />
     <div class="px-6 w-9/12 mb-10">
       <div
-        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-green-600 text-white"
         v-if="showSuccess"
+        class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
       >
-        <div>
-          <span>O'zgarish qo'shildi</span>
-        </div>
-        <div
-          class="text-white px-4 cursor-pointer"
+        <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+          <path
+            d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"
+          ></path>
+        </svg>
+        <i>O'zgarish qo'shildi</i>
+        <span
+          class="absolute right-10 cursor-pointer"
           @click="showSuccess = false"
+          >X</span
         >
-          X
-        </div>
       </div>
       <div
-        class="py-2 px-4 flex fixed w-1/2 mx-auto text-xl justify-between bg-red-600 text-white"
         v-if="showFail"
+        class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
       >
-        <div>
-          <span
-            >O'zgarish qo'shishda xatolik yuz berdi, qayta urinib koring</span
-          >
-        </div>
-        <div class="text-white px-4 cursor-pointer" @click="showFail = false">
-          X
-        </div>
+        <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+          <path
+            d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+          ></path>
+        </svg>
+        <i> O'zgarish qo'shishda xatolik yuz berdi, qayta urinib ko'ring</i>
+        <span
+          class="absolute font-bold right-10 cursor-pointer"
+          @click="showFail = false"
+          >X</span
+        >
       </div>
       <h2 class="text-xl font-bold text-gray-800 pt-10">O'zgarish qoshish</h2>
 
@@ -65,7 +70,7 @@
             class="text-red-400"
             v-if="
               !$v.variation.product_code.required &&
-              $v.variation.product_code.$dirty
+                $v.variation.product_code.$dirty
             "
           >
             <i class="text-sm"> {{ requiredMessage }}</i>
@@ -84,7 +89,7 @@
             class="text-red-400"
             v-if="
               !$v.variation.description.required &&
-              $v.variation.description.$dirty
+                $v.variation.description.$dirty
             "
           >
             <i class="text-sm"> {{ requiredMessage }}</i>
@@ -109,7 +114,7 @@
             class="text-red-400"
             v-if="
               !$v.selectedVariationCategories.required &&
-              $v.selectedVariationCategories.$dirty
+                $v.selectedVariationCategories.$dirty
             "
           >
             <i class="text-sm"> {{ requiredMessage }}</i>
@@ -366,44 +371,44 @@ export default {
         image: null,
         images: [],
         attributes: [],
-        categories: [],
+        categories: []
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   validations: {
     selectedVariationCategories: {
-      required,
+      required
     },
     variation: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectVariationCategories(value, id) {
@@ -477,11 +482,11 @@ export default {
             console.log(err);
           });
       }
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
 

@@ -5,15 +5,36 @@
       <div class="px-5 mx-auto w-4/5 bg-gray-100 pt-10">
         <div
           v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
         >
-          <i>Mahsulot yaratildi</i>
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
+          <i>Yangi mahsulot yaratildi</i>
+
+          <span
+            class="absolute right-10 cursor-pointer"
+            @click="showSuccess = false"
+            >X</span
+          >
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
         >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
           <i> Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring</i>
+          <span
+            class="absolute font-bold right-10 cursor-pointer"
+            @click="showFail = false"
+            >X</span
+          >
         </div>
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Asosiy ma'lumotlar">
@@ -598,13 +619,16 @@
                   @change="previewVariationMultiImage"
                   class="w-1/2 border-2 rounded-md bg-white text-sm py-2 pl-5"
                 />
-                <div v-if="variation.images" class="flex">
+                <div v-if="variation.images" class="flex flex-wrap">
                   <div
                     v-for="(item, index) in variation.images"
                     :key="index"
-                    class="w-56 h-64 relative shadow-sm my-5 mr-2"
+                    class="w-56 h-64 relative shadow-sm my-5 mr-2 flex flex-wrap"
                   >
-                    <img :src="item" class="object-cover w-full m-2 h-full" />
+                    <img
+                      :src="item"
+                      class="object-cover flex flex-wrap w-full m-2 h-full"
+                    />
                     <span
                       @click="removeImage(index, variation.images)"
                       class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"

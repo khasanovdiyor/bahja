@@ -1,32 +1,46 @@
 <template>
   <div>
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen bg-gray-100">
       <AdminSidebar />
-      <div class="px-5 mx-auto bg-gray-100 w-4/5 pt-10">
+      <div class="px-5 mx-auto w-4/5 pt-10">
         <div
           v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
         >
-          <i>{{ message }}</i>
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"
+            ></path>
+          </svg>
 
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
+          <i>Buyurtmachi ma'lumotlari yangilandi</i>
+
+          <span
+            class="absolute right-8 cursor-pointer"
             @click="showSuccess = false"
             >X</span
-          > -->
-        </div>
-        <div
-          v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
-        >
-          <i>{{ message }}</i>
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
-            @click="showFail = false"
-            >X</span
-          > -->
+          >
         </div>
 
+        <div
+          v-if="showFail"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
+        >
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
+          <i
+            >Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib
+            ko'ring</i
+          >
+          <span
+            class="absolute right-8 cursor-pointer"
+            @click="showFail = false"
+            >X</span
+          >
+        </div>
         <div class="pb-10">
           <h2 class="font-bold text-xl mb-5">Buyurtmani o'zgartirish</h2>
           <div class="my-4">
@@ -73,7 +87,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                $v.selectedOrder.phone_number.$dirty
+                  $v.selectedOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -321,15 +335,15 @@ export default {
       newProduct: {
         order_id: this.$route.params.id,
         count: 0,
-        proudct_id: null,
+        proudct_id: null
       },
       selectedOrder: {
         name: "",
         phone_number: "",
-        status: "",
+        status: ""
       },
       products: [],
-      order: {},
+      order: {}
     };
   },
   watch: {
@@ -344,19 +358,19 @@ export default {
         setTimeout(() => {
           this.showFail = false;
         }, 3000);
-    },
+    }
   },
   validations: {
     selectedOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(17),
-      },
-    },
+        minLength: minLength(17)
+      }
+    }
   },
   methods: {
     selectProduct(value, id) {
@@ -375,15 +389,12 @@ export default {
           )
           .then(res => {
             loader.hide();
-            this.message = "Buyurtmachi ma'lumotlari yangilandi";
             this.showSuccess = true;
 
             console.log(res.data);
           })
           .catch(err => {
             loader.hide();
-            this.message =
-              "Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib ko'ring";
             this.showFail = true;
 
             console.log(err);
@@ -466,12 +477,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getOrder();
     this.getProducts();
-  },
+  }
 };
 </script>
 <style scoped></style>

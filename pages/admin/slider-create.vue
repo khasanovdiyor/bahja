@@ -112,25 +112,25 @@ export default {
       slider: {
         text: null,
         image: null,
-        category: null,
-      },
+        category: null
+      }
     };
   },
   validations: {
     selectedCategory: {
-      required,
+      required
     },
     slider: {
       text: {
-        required,
+        required
       },
       image: {
-        required,
+        required
       },
       category: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     selectCategory(value, id) {
@@ -179,7 +179,7 @@ export default {
       }
       var file = event.target.files[0];
       var reader = new FileReader();
-      reader.onloadend = function () {};
+      reader.onloadend = function() {};
       reader.readAsDataURL(file);
     },
     getCategories() {
@@ -192,11 +192,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-  },
+  }
 };
 </script>
 <style scoped>

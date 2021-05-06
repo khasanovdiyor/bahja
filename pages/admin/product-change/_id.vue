@@ -1,13 +1,13 @@
-  <template>
+<template>
   <div>
     <div class="flex">
       <AdminSidebar class="w-1/3" />
       <div class="px-5 mx-auto w-4/5 pt-10 bg-gray-100">
         <div
           v-if="showSuccess"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-green-400 text-white text-center"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
         >
-          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
             <path
               d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
             ></path>
@@ -15,19 +15,23 @@
           <i> Mahsulot yangilandi</i>
 
           <span
-            class="absolute right-6 cursor-pointer"
+            class="absolute right-10 cursor-pointer"
             @click="showSuccess = false"
             >X</span
           >
         </div>
         <div
           v-if="showFail"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-red-400 text-white text-center"
+          class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
         >
-          <i> Mahsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
-
+          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
+            <path
+              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+            ></path>
+          </svg>
+          <i> Maxsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
           <span
-            class="absolute right-6 cursor-pointer"
+            class="absolute font-bold right-10 cursor-pointer"
             @click="showFail = false"
             >X</span
           >
@@ -350,9 +354,9 @@ export default {
         key: null,
         label: null,
         value: null,
-        id: 0,
+        id: 0
       },
-      newAttributes: [],
+      newAttributes: []
     };
   },
   methods: {
@@ -443,7 +447,7 @@ export default {
     updateCategory() {
       let category = {
         product: this.$route.params.id,
-        categories: this.newCategories,
+        categories: this.newCategories
       };
       this.$axios
         .post("product/update-category/", category)
@@ -458,7 +462,7 @@ export default {
       let images = {
         product: this.$route.params.id,
         images: this.images,
-        deleted_images: this.deletedImages,
+        deleted_images: this.deletedImages
       };
       this.$axios
         .post("product/update-images/", images)
@@ -472,7 +476,7 @@ export default {
     updateAttributes() {
       let attributes = {
         product: parseInt(this.$route.params.id),
-        attributes: this.newAttributes,
+        attributes: this.newAttributes
       };
       this.$axios
         .post("product/update-attributes/", attributes)
@@ -511,12 +515,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProduct();
     this.getCategories();
-  },
+  }
 };
 </script>
 <style scoped>
