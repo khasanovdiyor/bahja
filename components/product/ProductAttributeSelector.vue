@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ selector_data }}
     <div
       class="mb-6 w-full mx-auto lg:mx-0 lg:w-1/2"
       v-for="(item, index) in selector_data"

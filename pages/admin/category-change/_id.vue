@@ -1,6 +1,5 @@
 <template>
   <div ref="formContainer">
-    <!-- <AdminSidebar /> -->
     <div>
       <div
         class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
