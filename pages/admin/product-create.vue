@@ -39,225 +39,111 @@
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Asosiy ma'lumotlar">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
-              Asosiy ma'lumotlar
+              Asosiy ma'lumotlar {{ product }}
             </h2>
 
-            <div class="">
-              <div class="input-group block my-4">
-                <label
-                  for="input"
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Nom</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.name.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.product.name.required && $v.product.name.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
+            <div>
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.name.$model"
+                label="Nom"
+                required
+                :required-message="
+                  !$v.product.name.required && $v.product.name.$dirty
+                "
+              />
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.product_code.$model"
+                label="Kod"
+                mask="NNNNNNN"
+                required
+                :required-message="
+                  !$v.product.product_code.required &&
+                    $v.product.product_code.$dirty
+                "
+              />
+              <BaseSelect
+                class="my-4 w-1/2"
+                v-model.trim="$v.selectedBrand.$model"
+                label="Brend"
+                :options="brands"
+                @select="selectBrand"
+                placeholder="Brend tanlang"
+                required
+                :required-message="
+                  !$v.selectedBrand.required && $v.selectedBrand.$dirty
+                "
+              />
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.description.$model"
+                label="Tavsif"
+                textarea
+                required
+                :required-message="
+                  !$v.product.description.required &&
+                    $v.product.description.$dirty
+                "
+              />
+              <BaseSelect
+                class="my-4 w-1/2"
+                v-model="selectedProductCategories"
+                label="Kategoriya"
+                :options="categories"
+                placeholder="Kategoriya tanlang"
+                noResult="Bunday kategoriya topilmadi"
+                multiple
+                taggable
+                @select="value => selectCategories(value, product.categories)"
+                @remove="value => removeCategories(value, product.categories)"
+                required
+                :required-message="
+                  !$v.selectedCategories.required &&
+                    $v.selectedCategories.$dirty
+                "
+              />
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.quantity.$model"
+                label="Son"
+                :mask="priceMask"
+                required
+                :required-message="
+                  !$v.product.quantity.required && $v.product.quantity.$dirty
+                "
+              />
+              <BaseTextField
+                class="my-4"
+                v-model.trim="$v.product.price.$model"
+                label="Narx"
+                :mask="priceMask"
+                required
+                :required-message="
+                  !$v.product.price.required && $v.product.price.$dirty
+                "
+              />
+              <BaseImageField
+                class="my-4"
+                label="Rasm"
+                :image="product.image"
+                required
+                @change="value => previewImage(value, product, false)"
+              />
+              <div class="text-red-400 text-sm" v-if="imageRequired">
+                Rasm qo'yish shart
               </div>
-              <div class="input-group block my-4">
-                <label
-                  for="input"
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >Kod</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.product_code.$model"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.product.product_code.required &&
-                      $v.product.product_code.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4 block">
-                <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-2"
-                  >Brend
-                </label>
-                <multiselect
-                  v-model.trim="$v.selectedBrand.$model"
-                  :options="brands"
-                  placeholder="Brand tanlang"
-                  label="name"
-                  track-by="name"
-                  @select="selectBrand"
-                ></multiselect>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.selectedBrand.required && $v.selectedBrand.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 uppercase text-sm mb-1"
-                  >tavsif</label
-                >
-                <textarea
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.description.$model"
-                >
-                </textarea>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.product.description.required &&
-                      $v.product.description.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="w-1/2 text-gray-600 block font-bold uppercase text-sm mb-1"
-                  >kategoriya</label
-                >
-                <multiselect
-                  v-model="selectedProductCategories"
-                  :options="categories"
-                  placeholder="Kategoriya tanlang"
-                  multiple
-                  taggable
-                  label="name"
-                  track-by="name"
-                  @select="selectProductCategories"
-                  @remove="removeProductCategories"
-                >
-                  <template
-                    ><span class="text-red-500" slot="noResult"
-                      >Bunday kategoriya topilmadi!</span
-                    >
-                  </template>
-                </multiselect>
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.selectedCategories.required &&
-                      $v.selectedCategories.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >son</label
-                >
-                <input
-                  type="text"
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model="$v.product.quantity.$model"
-                  v-mask="priceMask"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="
-                    !$v.product.quantity.required && $v.product.quantity.$dirty
-                  "
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold relative text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >narx
-                  <p class="inline-block text-xs absolute text-red-500">
-                    &#10043;
-                  </p>
-                </label>
-                <input
-                  type="string"
-                  placeholder=""
-                  class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                  v-model.trim="$v.product.price.$model"
-                  v-mask="priceMask"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.product.price.required && $v.product.price.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-              </div>
-              <div class="my-4">
-                <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                  >Asosiy rasm</label
-                ><input
-                  type="file"
-                  accept="image/*"
-                  @change="previewProductImage"
-                  class="border-2 rounded-md text-sm bg-white w-1/2 py-1 pl-5"
-                />
-                <div
-                  class="text-red-400 text-sm"
-                  v-if="!$v.product.image.required && $v.product.image.$dirty"
-                >
-                  <i>{{ requiredMessage }}</i>
-                </div>
-                <div v-if="product.image">
-                  <div>
-                    <div class="w-56 h-64 border shadow-sm my-5">
-                      <img
-                        :src="product.image"
-                        class="object-cover w-full h-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="my-4">
-                <div>
-                  <label
-                    class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
-                    >galereya rasmlari</label
-                  ><input
-                    type="file"
-                    accept="image/*"
-                    multiple="multiple"
-                    @change="previewProductMultiImage"
-                    class="border-2 rounded-md text-sm bg-white w-1/2 py-1 pl-5"
-                  />
-                  <div
-                    class="text-red-400 text-sm"
-                    v-if="
-                      !$v.product.images.required && $v.product.images.$dirty
-                    "
-                  >
-                    <i>{{ requiredMessage }}</i>
-                  </div>
-                </div>
-                <div v-if="product.images" class="flex">
-                  <div
-                    v-for="(item, index) in product.images"
-                    :key="index"
-                    class="w-56 h-64 relative shadow-sm my-5 mr-2"
-                  >
-                    <img :src="item" class="object-cover w-full m-2 h-full" />
-                    <span
-                      @click="removeImage(index, product.images)"
-                      class="absolute top-4 right-4 bg-white w-5 h-5 flex items-center justify-center cursor-pointer rounded-full"
-                      >X</span
-                    >
-                  </div>
-                </div>
+              <BaseImageField
+                class="my-4"
+                multiple
+                required
+                label="galereya rasmlari"
+                :images="product.images"
+                @change="value => previewImage(value, product, true)"
+                @remove-image="removeImage"
+              />
+              <div class="text-red-400 text-sm" v-if="imagesMinLength">
+                Gallereya rasmlari kamida 3 ta bo'lishi kerak
               </div>
               <div class="my-4">
                 <label
@@ -271,198 +157,33 @@
                 />
               </div>
               <div class="mb-10">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-200">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        is main
-                      </th>
-
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        key
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        label
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        value
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
-                      >
-                        buyruqlar
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white">
-                    <tr
-                      class="border"
-                      v-for="(attr, index) in product.attributes"
-                      :key="index"
-                    >
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="checkbox"
-                            class="border w-full text-sm w-5 h-5 pl-5"
-                            v-model="attr.is_main"
-                          />
-                        </div>
-                      </td>
-
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attr.key"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attr.label"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attr.value"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-2 py-1 border">
-                        <div
-                          class="flex items-center text-gray-500 justify-center"
-                        >
-                          <div
-                            @click="removeAttribute(product, index)"
-                            class="cursor-pointer hover:underline"
-                          >
-                            <img
-                              src="~/assets/images/delete.svg"
-                              alt=""
-                              class="w-5"
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="border" v-if="showAddNewKey">
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="checkbox"
-                            class="border w-full text-sm w-5 h-5 pl-5"
-                            v-model="attribute.is_main"
-                          />
-                        </div>
-                      </td>
-
-                      <td class="py-1 border">
-                        <div class="flex items-center">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attribute.key"
-                          />
-                        </div>
-                      </td>
-                      <td class="py-1 border">
-                        <div class="flex items-center">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attribute.label"
-                          />
-                        </div>
-                      </td>
-                      <td class="py-1 border">
-                        <div class="flex items-center">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5 mx-5 my-1"
-                            v-model="attribute.value"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div
-                          class="flex items-center text-gray-500 justify-center"
-                        >
-                          <div
-                            @click="addProductAttribute"
-                            class="cursor-pointer hover:underline hover:font-bold"
-                          >
-                            Qo'shish
-                          </div>
-                        </div>
-                      </td>
-                      <div
-                        class="fixed z-40 bg-gray-500 opacity-50 flex items-center justify-center"
-                        v-if="showDeleteDialog"
-                      >
-                        <div
-                          class="w-1/3 opasity-0 rounded-md mx-auto bg-white py-4 px-10"
-                        >
-                          <span class="font-bold text-center text-xl block mb-6"
-                            >Ushbu Kategoriyani o'chirishni xohlaysizmi?</span
-                          >
-                          <div class="flex justify-between">
-                            <button
-                              @click="deleteCategory(selectedCategoryID)"
-                              class="bg-red-500 rounded-md text-white py-2 px-4"
-                            >
-                              Ha
-                            </button>
-                            <button
-                              @click="showDeleteDialog = false"
-                              class="bg-gray-500 rounded-md text-white py-2 px-4"
-                            >
-                              Yo'q
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </tr>
-                  </tbody>
-                </table>
-                <button
-                  @click="showAddNewKey = true"
-                  class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 text-white my-2 py-2"
-                >
-                  Qo'shish
-                </button>
+                <AttributesTable
+                  :attributes="product.attributes"
+                  :attribute="attribute"
+                  :showAddNewKey="showAddNewKey"
+                  @add-attribute="addAttribute"
+                  @remove-attribute="removeAttribute"
+                />
+                <BaseButtonLink
+                  class="mt-2"
+                  buttonText="Qo'shish"
+                  @button-click="showAddNewKey = true"
+                />
+                <div class="text-red-400 text-sm" v-if="attributesMinLength">
+                  Atributlar kamida 2 ta bo'lishi kerak
+                </div>
               </div>
-              <button
-                @click="createProduct"
-                class="block bg-gray-800 w- text-sm text-center rounded-md px-3 text-white my-2 py-2"
-              >
-                Mahsulot yaratish
-              </button>
+              <BaseButtonLink
+                buttonText="Mahsulot yaratish"
+                @button-click="createProduct"
+              />
             </div>
           </tab>
           <tab name="O'zgartirish" class="w-full text-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-10">O'zgartirish</h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-10">
+              O'zgarishlar {{ variation.selectedCategories }}
+              {{ variation.categories }}
+            </h2>
 
             <div class="w-full">
               <div class="input-group block my-4">
@@ -639,197 +360,31 @@
               </div>
               <div class="mb-10">
                 <h2 class="font-bold text-xl my-4">Attributlar</h2>
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-200">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        is main
-                      </th>
-
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        key
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        label
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        value
-                      </th>
-                      <th
-                        scope="col"
-                        class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase"
-                      >
-                        buyruqlar
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white">
-                    <tr
-                      class="border"
-                      v-for="(attrib, index) in variation.attributes"
-                      :key="index"
-                    >
-                      <td class="px-6 py-1 border">
-                        {{ attrib.is_main }}
-                      </td>
-
-                      <td class="px-6 py-1 border">
-                        {{ attrib.key }}
-                      </td>
-                      <td class="px-6 py-1 border">
-                        {{ attrib.label }}
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <input
-                          type="text"
-                          class="border w-full w-5 h-5 pl-5"
-                          v-model="attrib.value"
-                        />
-                      </td>
-                      <td class="px-2 py-1 mx-auto w-40 border">
-                        <div
-                          @click="removeAttribute(variation, index)"
-                          class="cursor-pointer"
-                        >
-                          <img
-                            src="~/assets/images/delete.svg"
-                            class="w-5 h-5"
-                            alt="pencil icon"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="border" v-if="showAddNewKey">
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="checkbox"
-                            class="border w-full text-sm w-5 h-5 pl-5"
-                            v-model="attribute.is_main"
-                          />
-                        </div>
-                      </td>
-
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5"
-                            v-model="attribute.key"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-sm py-2 pl-5"
-                            v-model="attribute.label"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div class="flex items-center text-gray-500">
-                          <input
-                            type="text"
-                            class="w-full text-lg border-none py-2 pl-5"
-                            v-model="attribute.value"
-                          />
-                        </div>
-                      </td>
-                      <td class="px-6 py-1 border">
-                        <div
-                          class="flex items-center text-gray-500 justify-center"
-                        >
-                          <div
-                            @click="addVariationAttribute"
-                            class="cursor-pointer hover:underline"
-                          >
-                            Qo'shish
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <button
-                  @click="showAddNewKey = true"
-                  class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
-                >
-                  qo'shish
-                </button>
+                <AttributesTable
+                  :attributes="variation.attributes"
+                  :attribute="attribute"
+                  :showAddNewKey="showAddNewKey"
+                  @add-attribute="addAttribute"
+                  @remove-attribute="removeAttribute"
+                />
+                <BaseButtonLink
+                  class="mt-2"
+                  buttonText="Qo'shish"
+                  @button-click="showAddNewKey = true"
+                />
               </div>
-              <div
-                class="text-red-400 text-sm"
-                v-if="!$v.variation.attributes.minLength"
-              >
-                Atributlar kamida
-                {{ $v.variation.attributes.$params.minLength.min }} ta bo'lishi
-                kerak
+              <div class="text-red-400 text-sm" v-if="attributesMinLength">
+                Atributlar kamida 2 ta bo'lishi kerak
               </div>
-              <button
-                @click="addVariation"
-                class="block bg-gray-800 text-sm text-center rounded-md px-3 mt-5 text-white py-2"
-              >
-                Saqlash
-              </button>
+              <BaseButtonLink
+                buttonText="Saqlash"
+                @button-click="addVariation"
+              />
             </div>
             <div>
               <h2 class="font-bold text-xl my-4">Qo'shilgan o'zgarishlar</h2>
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-200">
-                  <tr>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      Nom
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      kodi
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      kategoriya
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700"
-                    >
-                      NARX (so'm)
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      o'lchami
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                    >
-                      O'chirish
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white">
+              <BaseTable :headers="variationsTableHeaders">
+                <template #body>
                   <tr
                     class="border"
                     v-for="(varProduct, index) in product.variations"
@@ -839,7 +394,7 @@
                       <div class="flex items-center text-gray-500">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2"
+                          class="w-full text-sm py-2"
                           v-model="varProduct.name"
                         />
                       </div>
@@ -848,43 +403,49 @@
                       <div class="flex items-center text-gray-500">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2"
+                          class="w-full text-sm py-2"
                           v-model="varProduct.product_code"
                         />
                       </div>
                     </td>
                     <td class="px-2 py-1 border">
-                      <div class="flex items-center text-gray-500">
-                        <multiselect
-                          v-model="varProduct.categories"
-                          tag-placeholder="Ushbu kategoriayni qo'shing"
-                          placeholder="Kategoriya izlang yoki qo'shing"
-                          label="name"
-                          track-by="id"
-                          :options="categories"
-                          :multiple="true"
-                        ></multiselect>
-                      </div>
+                      <BaseSelect
+                        v-model="varProduct.selectedCategories"
+                        :options="categories"
+                        placeholder="Kategoriya izlang yoki qo'shing"
+                        multiple
+                        taggable
+                        @select="
+                          value =>
+                            selectCategories(value, varProduct.categories)
+                        "
+                        @remove="
+                          value =>
+                            removeCategories(value, varProduct.categories)
+                        "
+                      />
                     </td>
                     <td class="px-2 py-1 border">
                       <div class="flex items-center text-gray-500">
                         <input
                           type="text"
-                          class="w-full border-2 text-sm py-2"
-                          v-model="varProduct.price"
+                          class="w-full text-sm py-2"
+                          v-model="varProduct.maskPrice"
+                          v-mask="priceMask"
                         />
                       </div>
                     </td>
                     <td class="px-2 py-1 border">
                       <input
                         type="text"
-                        class="w-full border-2 text-sm py-2"
+                        class="w-full text-sm py-2"
                         v-model="varProduct.quantity"
+                        v-mask="priceMask"
                       />
                     </td>
                     <td class="px-2 py-1 border">
                       <div
-                        class="flex items-center text-gray-500 justify-between"
+                        class="flex items-center text-gray-500 justify-center"
                       >
                         <div
                           @click="removeVariation(index)"
@@ -899,8 +460,8 @@
                       </div>
                     </td>
                   </tr>
-                </tbody>
-              </table>
+                </template>
+              </BaseTable>
             </div>
           </tab>
         </tabs>
@@ -915,27 +476,28 @@ import priceMask from "~/mixins.js/priceMask.js";
 export default {
   data() {
     return {
-      priceMask: priceMask,
-      requiredMessage: "To'ldirish shart",
-      selectedBrand: {},
+      priceMask,
+      variationsTableHeaders: [
+        "nomi",
+        "kodi",
+        "kategoriyalari",
+        "narxi",
+        "soni",
+        "buyruqlar"
+      ],
+      selectedBrand: null,
       selectedProductCategories: null,
       selectedVariationCategories: null,
-      previewProduct: null,
-      previewVariation: null,
-      image: null,
-      preview_list: [],
-      image_list: [],
       showSuccess: false,
-      showFail: false,
+      showError: false,
+      alertText: "",
       showDeleteDialog: false,
-      showVariationForm: false,
-      showProductForm: false,
       showAddNewKey: false,
       showAddNewVariation: false,
+      createProductClicked: false,
       colors: [],
       brands: [],
       categories: [],
-      isVariationEmpty: false,
       product: {
         parent_id: 0,
         name: null,
@@ -952,16 +514,19 @@ export default {
         variations: []
       },
       variation: {
-        parent_id: 0,
+        parent_id: null,
         name: null,
         product_code: null,
-        price: 0,
+        price: null,
         description: null,
         quantity: null,
         image: null,
         images: [],
         attributes: [],
-        categories: []
+        categories: [],
+        //temporary vars
+        selectedCategories: null,
+        maskPrice: null
       },
       attribute: {
         is_main: false,
@@ -971,12 +536,44 @@ export default {
       }
     };
   },
+  computed: {
+    imagesMinLength() {
+      return this.createProductClicked && this.product.images.length < 3
+        ? true
+        : false;
+    },
+    imageRequired() {
+      return !this.product.image && this.createProductClicked ? true : false;
+    },
+    attributesMinLength() {
+      return this.createProductClicked && this.product.attributes.length < 2
+        ? true
+        : false;
+    }
+  },
   watch: {
     product: {
       deep: true,
       handler() {
-        this.variation = Object.assign({}, this.product);
+        this.variation.name = this.product.name;
+        this.variation.product_code = this.product.product_code;
+        this.variation.description = this.product.description;
+        this.variation.quantity = this.product.quantity;
+        this.variation.maskPrice = this.product.price;
+      }
+    },
+    "product.categories": {
+      handler() {
         this.variation.categories = Array.from(this.product.categories, x => x);
+        if (this.selectedProductCategories)
+          this.selectedVariationCategories = Array.from(
+            this.selectedProductCategories,
+            x => x
+          );
+      }
+    },
+    "product.attributes": {
+      handler() {
         this.variation.attributes = Array.from(this.product.attributes, x => x);
         this.variation.attributes.forEach((_, index) => {
           this.variation.attributes[index] = Object.assign(
@@ -984,21 +581,26 @@ export default {
             this.product.attributes[index]
           );
         });
-        this.variation.images = Array.from(this.product.images, x => x);
-        this.variation.images = [];
-        delete this.variation.variations;
-        delete this.variation.is_import;
-        delete this.variation.brand;
       }
     },
-    "this.showFail": function(newVal) {
+    "variation.categories": {
+      handler() {
+        this.variation.selectedCategories = Array.from(
+          this.categories
+            .filter((el, index) => el.id === this.variation.categories[index])
+            .map(el => el),
+          x => x
+        );
+      }
+    },
+    showError(newVal) {
       if (newVal == true) {
         setTimeout(() => {
-          this.showFail = false;
+          this.showError = false;
         }, 3000);
       }
     },
-    "this.showSuccess": function(newVal) {
+    showSuccess(newVal) {
       if (newVal == true) {
         setTimeout(() => {
           this.showSuccess = false;
@@ -1035,12 +637,6 @@ export default {
       quantity: {
         required
       },
-      image: {
-        required
-      },
-      images: {
-        required
-      },
       attributes: {
         required,
         minLength: minLength(2)
@@ -1059,7 +655,7 @@ export default {
       quantity: {
         required
       },
-      price: {
+      maskPrice: {
         required
       },
       description: {
@@ -1075,43 +671,29 @@ export default {
     }
   },
   methods: {
-    selectProductCategories(value) {
-      this.product.categories.push(value.id);
+    selectCategories(value, categories) {
+      categories.push(value.id);
     },
-    selectVariationCategories(value) {
-      this.variation.categories.push(value.id);
-    },
-    removeProductCategories(value) {
-      const foundIndex = this.product.categories.indexOf(value.id);
-      if (foundIndex !== -1) this.product.categories.splice(foundIndex, 1);
-    },
-    removeVariationCategories(value) {
-      const foundIndex = this.variation.categories.indexOf(value.id);
-      if (foundIndex !== -1) this.variation.categories.splice(foundIndex, 1);
+    removeCategories(value, categories) {
+      const foundIndex = categories.indexOf(value.id);
+      if (foundIndex !== -1) categories.splice(foundIndex, 1);
     },
     selectBrand(value) {
       this.product.brand = value.id;
     },
-    addProductAttribute() {
-      this.product.attributes.push(this.attribute);
+    addAttribute(attributes) {
+      attributes.push(this.attribute);
       this.attribute = {};
       this.showAddNewKey = false;
     },
-    addVariationAttribute() {
-      this.variation.attributes.push(this.attribute);
-      this.attribute = {};
-      this.showAddNewKey = false;
-    },
-    removeAttribute(product, index) {
-      product.attributes.splice(index, 1);
+    removeAttribute(attributes, index) {
+      attributes.splice(index, 1);
     },
     addVariation() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
+      this.$v.variation.$touch();
+      if (!this.$v.variation.$invalid) {
         this.product.variations.push(this.variation);
-        this.variation = {
-          attributes: []
-        };
+        console.log(this.product.variations);
         this.showAddNewVariation = false;
       }
     },
@@ -1124,61 +706,22 @@ export default {
     removeImage(index, images) {
       images.splice(index, 1);
     },
-    previewProductImage(event) {
-      var input = event.target;
-      if (input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = e => {
-          this.product.image = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
-    previewVariationImage(event) {
-      var input = event.target;
-      if (input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = e => {
-          this.variation.image = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    },
-    previewProductMultiImage(event) {
-      var input = event.target;
-      var count = input.files.length;
-      var index = 0;
-      if (input.files.length > 0) {
+    previewImage(event, product, multiple) {
+      let images = event.target.files;
+      let count = images.length;
+      let index = 0;
+      if (count > 0) {
         while (count--) {
           var reader = new FileReader();
           reader.onload = e => {
-            if (this.product.images.length < 5)
-              this.product.images.push(e.target.result);
-            console.log("RESULT" + index, e.target.result);
+            if (!multiple) product.image = e.target.result;
+            else if (product.images.length < 5)
+              product.images.push(e.target.result);
           };
-          reader.readAsDataURL(input.files[index]);
+          reader.readAsDataURL(images[index]);
           index++;
         }
       }
-      console.log("this.product:", this.product);
-    },
-    previewVariationMultiImage(event) {
-      var input = event.target;
-      var count = input.files.length;
-      var index = 0;
-      if (input.files.length > 0) {
-        while (count--) {
-          var reader = new FileReader();
-          reader.onload = e => {
-            if (this.variation.images.length < 5)
-              this.variation.images.push(e.target.result);
-            console.log("RESULT" + index, e.target.result);
-          };
-          reader.readAsDataURL(input.files[index]);
-          index++;
-        }
-      }
-      console.log("this.product:", this.product);
     },
     getBrands() {
       this.$axios
@@ -1201,30 +744,38 @@ export default {
         });
     },
     createProduct() {
-      if (this.product.variations.length === 0) {
-        this.isVariationEmpty = true;
-      }
-
-      if (this.isVariationEmpty && !this.$v.product.$invalid) {
+      this.createProductClicked = true;
+      this.$v.product.$touch();
+      if (!this.$v.product.$invalid) {
+        this.product.price = parseInt(this.product.price.replace(/\s/g, ""));
+        if (this.product.variations.length > 0)
+          for (let el of this.product.variations) {
+            el.price = parseInt(el.maskPrice.toString().replace(/\s/g, ""));
+            el.quantity = parseInt(el.quantity.toString().replace(/\s/g, ""));
+            delete el.selectedCategories;
+            delete el.maskPrice;
+          }
+        this.product.variations = [];
         let loader = this.$loading.show();
         this.$axios
           .post("product/create/", this.product)
           .then(res => {
             console.log(res);
             this.showSuccess = true;
+            this.alertText = "Mahsulot yaratildi";
             this.productVariation = {};
-            this.image_list = [];
-            this.preview_list = [];
-            this.image = null;
-            this.preview = null;
-            loader.hide();
           })
           .catch(err => {
-            loader.hide();
-            this.showFail = true;
+            this.showError = true;
+            this.alertText =
+              "Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring";
             console.log(err);
+          })
+          .finally(() => {
+            loader.hide();
           });
       }
+      this.createProductClicked = false;
     }
   },
   mounted() {

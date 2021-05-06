@@ -106,6 +106,7 @@
 import global from "~/mixins.js/global.js";
 import { required, minLength } from "vuelidate/lib/validators";
 export default {
+  layout: "user",
   mixins: [global],
   data() {
     return {

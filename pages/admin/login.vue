@@ -3,7 +3,7 @@
     <div class="flex mt-24 px-6 rounded-md justify-center">
       <div class="w-full md:w-1/3 px-6 pb-8 border-2">
         <div class="w-full">
-          <form class="w-full" @submit.prevent="logIn" method="post">
+          <form class="w-full" @submit.prevent="userLogin" method="post">
             <div class="input-group mb-8 mt-6">
               <label
                 for="input"
@@ -50,6 +50,7 @@
 </template>
 <script>
 export default {
+  layout: "admin",
   data() {
     return {
       login: {
@@ -59,16 +60,16 @@ export default {
     };
   },
   methods: {
-    login(logininfo) {
-      this.$axios
-        .post("users/token/", this.login)
-        .then(res => {
-          this.$auth.strategy.token.set(res.data.token);
-          this.$router.push("/admin/");
-        })
-        .catch(err => {
-          console.log(err);
+    async userLogin() {
+      try {
+        let response = await this.$auth.loginWith("local", {
+          data: this.login,
         });
+        console.log(response);
+        this.$router.push("/admin/");
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

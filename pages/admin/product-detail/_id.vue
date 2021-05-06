@@ -1,7 +1,7 @@
 <template>
-  <div class="flex bg-gray-100">
-    <AdminSidebar class="w-1/5" />
-    <div class="px-5 pt-10 w-9/12">
+  <div>
+    <!-- <AdminSidebar class="w-1/5" /> -->
+    <div>
       <h1 class="font-bold text-xl mb-6 text-gray-900">Mahsulotlar</h1>
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">

@@ -57,6 +57,7 @@
 </template>
 <script>
 export default {
+  layout: "user",
   data() {
     return {
       link: `${this.$route.params.type}/category`,

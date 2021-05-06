@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen">
-    <AdminSidebar />
-    <div class="px-6 w-full lg:w-9/12 bg-gray-100 pt-10">
+  <div>
+    <!-- <AdminSidebar /> -->
+    <div>
       <h1 class="font-bold text-xl text-gray-800 mb-6">Slider</h1>
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">

@@ -38,3 +38,8 @@
     <TheFooter />
   </div>
 </template>
+<script>
+export default {
+  layout: "user",
+};
+</script>

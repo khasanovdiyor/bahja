@@ -1,7 +1,7 @@
 <template>
-  <div class="flex  h-screen">
-    <AdminSidebar />
-    <div class="px-6 w-9/12 pt-10 bg-gray-100">
+  <div>
+    <!-- <AdminSidebar /> -->
+    <div>
       <h1 class="font-bold text-xl text-gray-700 mb-5">
         Buyurtma haqida to'liq ma'lumot
       </h1>

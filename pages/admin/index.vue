@@ -1,70 +1,15 @@
 <template>
   <div>
-    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
-      <div
-        :class="sidebarOpen ? 'block' : 'hidden'"
-        @click="sidebarOpen = false"
-        class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"
-      ></div>
-      <AdminSidebar />
-      <div class="flex-1 flex flex-col overflow-hidden">
-        <header
-          class="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-indigo-600"
-        >
-          <div class="flex items-center">
-            <button
-              @click="sidebarOpen = true"
-              class="text-gray-500 focus:outline-none lg:hidden"
-            >
-              <svg
-                class="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M4 6H20M4 12H20M4 18H11"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-              </svg>
-            </button>
-
-            <!-- <div class="relative mx-4 lg:mx-0">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                <svg
-                  class="h-5 w-5 text-gray-500"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                </svg>
-              </span>
-
-              <input
-                class="form-input w-32 sm:w-64 rounded-md pl-10 pr-4 focus:border-indigo-600"
-                type="text"
-                placeholder="Search"
-              />
-            </div> -->
-          </div>
-        </header>
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-          <div class="container mx-auto px-6 py-8">
-            <h3 class="text-gray-700 text-xl font-bold font-medium">
+    <div>
+      <div class="flex flex-col overflow-hidden">
+        <main>
+          <div class="container mx-auto">
+            <h3 class="text-gray-700 text-xl font-bold font-medium mb-6">
               Statistika
             </h3>
 
-            <div class="mt-5">
-              <div class="flex flex-wrap -mx-6">
+            <div>
+              <div class="flex flex-wrap mx-6">
                 <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
                   <div class="relative">
                     <h3
@@ -234,192 +179,127 @@
 
             <div class="flex flex-col mt-8">
               <div
-                class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+                class="my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
               >
-                <div
-                  class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200"
-                >
-                  <table class="min-w-full bg-gray-200">
-                    <thead>
-                      <tr>
-                        <th
-                          class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          ism
-                        </th>
-                        <th
-                          class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          Telefon raqam
-                        </th>
-                        <th
-                          class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          son
-                        </th>
-                        <th
-                          class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          narx
-                        </th>
-                        <th
-                          class="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          Status
-                        </th>
-                        <th
-                          class="px-6 py-3 w-40 border-b border-gray-200 text-left text-xs leading-4 font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          buyruqlar
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody class="bg-white">
-                      <tr v-for="order in orders" :key="order.id">
-                        <td
-                          class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
-                        >
-                          <div class="flex items-center">
-                            <div class="flex-shrink-0 h-6 w-6">
-                              <img
-                                class="h-6 w-6 rounded-full"
-                                src="~/assets/images/profile-user.svg"
-                                alt=""
-                              />
-                            </div>
-
-                            <div class="ml-4">
-                              <div
-                                class="text-sm leading-5 font-medium text-gray-900"
-                              >
-                                {{ order.name }}
-                              </div>
-                              <!-- <div class="text-sm leading-5 text-gray-500">
-                                +998-99-959-59-59
-                              </div> -->
-                            </div>
+                <BaseTable :headers="tableHeaders">
+                  <template #body>
+                    <tr v-for="order in orders" :key="order.id">
+                      <td
+                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                      >
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-6 w-6">
+                            <img
+                              class="h-6 w-6 rounded-full"
+                              src="~/assets/images/profile-user.svg"
+                              alt=""
+                            />
                           </div>
-                        </td>
-
-                        <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
-                        >
-                          <div class="text-sm leading-5 text-gray-900">
-                            {{ order.phone_number }}
-                          </div>
-                          <!-- <div class="text-sm leading-5 text-gray-500">
-                            Web dev
-                          </div> -->
-                        </td>
-                        <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
-                        >
-                          <div class="text-sm leading-5 text-gray-900">
-                            {{ order.orderproducts.length }}
-                          </div>
-                        </td>
-                        <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
-                        >
-                          <div class="text-sm leading-5 text-gray-900">
-                            {{ order.finish_price }}
-                          </div>
-                        </td>
-                        <td
-                          class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
-                        >
-                          <div class="relative">
+                          <div class="ml-4">
                             <div
-                              v-if="showStatus"
-                              class="w-40 text-sm py-2 px-4"
+                              class="text-sm leading-5 font-medium text-gray-700"
                             >
-                              <span
-                                v-for="status in statuses"
-                                :key="status"
-                                @click="changeStatus(status, order.id)"
-                                class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                                >{{ status }}</span
-                              >
-                            </div>
-                            <span
-                              @click="showStatus = true"
-                              v-if="!showStatus"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                              >{{ order.status }}</span
-                            >
-                          </div>
-                        </td>
-
-                        <td
-                          class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium"
-                        >
-                          <div
-                            class="flex items-center text-gray-500 justify-between"
-                          >
-                            <nuxt-link
-                              :to="`/admin/order-detail/${order.id}`"
-                              class="hover"
-                            >
-                              <img
-                                src="~/assets/images/eye.svg"
-                                class="w-5 h-5"
-                                alt="eye"
-                              />
-                            </nuxt-link>
-                            <nuxt-link :to="`/admin/order-change/${order.id}`">
-                              <img
-                                src="~/assets/images/pencil.svg"
-                                class="w-5 mx-3 h-5"
-                                alt="edit"
-                              />
-                            </nuxt-link>
-                            <div
-                              class="cursor-pointer"
-                              @click="
-                                deleteOrderID = order.id;
-                                showDeleteDialog = true;
-                              "
-                            >
-                              <img
-                                src="~/assets/images/delete.svg"
-                                class="w-5 h-5"
-                                alt="delete"
-                              />
-                            </div>
-                          </div>
-                        </td>
-                        <div
-                          class="fixed z-30 top-0 bottom-0 right-0 left-0 bg-gray-600 opacity-50 flex items-center justify-center"
-                          v-if="showDeleteDialog"
-                        >
-                          <div
-                            class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8"
-                          >
-                            <span
-                              class="font-bold text-xl text-center block mb-6"
-                              >Ushbu buyurtmani o'chirishni xohlaysizmi?</span
-                            >
-                            <div class="flex justify-between">
-                              <button
-                                @click="deleteOrder(deleteOrderID)"
-                                class="bg-red-500 rounded-md text-white py-2 px-4"
-                              >
-                                Ha
-                              </button>
-                              <button
-                                @click="showDeleteDialog = false"
-                                class="bg-gray-500 rounded-md text-white py-2 px-4"
-                              >
-                                Yo'q
-                              </button>
+                              {{ order.name }}
                             </div>
                           </div>
                         </div>
-                      </tr>
-                    </tbody>
-                  </table>
+                      </td>
+                      <td
+                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                      >
+                        <div class="text-sm leading-5 font text-gray-700">
+                          {{ order.phone_number }}
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                      >
+                        <div class="text-sm leading-5 text-gray-900">
+                          {{ order.orderproducts.length }}
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                      >
+                        <div class="text-sm leading-5 text-gray-900">
+                          {{ order.finish_price.toLocaleString() }} so'm
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                      >
+                        <div class="relative">
+                          <div v-if="order.showStatus" class="w-32 3 px-4">
+                            <span
+                              v-for="status in statuses"
+                              :key="status"
+                              @click="changeStatus(status, order)"
+                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              >{{ status }}</span
+                            >
+                          </div>
+                          <span
+                            @click="order.showStatus = true"
+                            v-if="!order.showStatus"
+                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            >{{ order.status }}</span
+                          >
+                        </div>
+                      </td>
+
+                      <td
+                        class="px-6 py-2 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium"
+                      >
+                        <div
+                          class="flex items-center text-gray-500 justify-between"
+                        >
+                          <nuxt-link
+                            :to="`/admin/order-detail/${order.id}`"
+                            class="hover"
+                          >
+                            <img
+                              src="~/assets/images/eye.svg"
+                              class="w-5 h-5"
+                              alt="eye icon"
+                            />
+                          </nuxt-link>
+                          <nuxt-link :to="`/admin/order-change/${order.id}`">
+                            <img
+                              src="~/assets/images/pencil.svg"
+                              class="w-5 h-5"
+                              alt="pencil icon"
+                            />
+                          </nuxt-link>
+                          <div
+                            class="cursor-pointer"
+                            @click="
+                              deleteOrderID = order.id;
+                              showDeleteDialog = true;
+                            "
+                          >
+                            <img
+                              src="~/assets/images/delete.svg"
+                              class="w-5 h-5"
+                              alt="pencil icon"
+                            />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </template>
+                </BaseTable>
+                <div
+                  v-if="orders.length === 0"
+                  class="mx-auto w-1/3 my-10 text-bold text-center text-xl"
+                >
+                  Ushbu statusda buyurtmalar mavjud emas
                 </div>
+                <BaseDeleteModal
+                  v-if="showDeleteDialog"
+                  text="Ushbu buyurtmani o'chirishni xohlaysizmi?"
+                  @delete="deleteOrder(deleteOrderID)"
+                  @close="showDeleteDialog = false"
+                />
               </div>
             </div>
           </div>
@@ -433,7 +313,14 @@
 export default {
   data() {
     return {
-      sidebarOpen: false,
+      tableHeaders: [
+        "ism",
+        "telefon raqam",
+        "son",
+        "narx",
+        "status",
+        "buyruqlar",
+      ],
       newOrder: "",
       newOrderMoney: "",
       showDeleteDialog: false,

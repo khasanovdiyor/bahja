@@ -36,61 +36,17 @@
         >
       </div>
       <div>
-        <div class="mb-6">
-          <div class="input-group block my-4 my-10">
-            <h2 class="text-xl font-bold text-gray-700 mb-10">
-              Brend qo'shish
-            </h2>
-            <label
-              for="input"
-              class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >Brend</label
-            >
-            <input
-              type="text"
-              class="border-2 w-1/2 rounded-md text-sm py-2 pl-5"
-              v-model.trim="$v.newBrand.name.$model"
-            />
-            <div
-              class="text-red-400 text-sm"
-              v-if="!$v.newBrand.name.required && $v.newBrand.name.$dirty"
-            >
-              <i>To'ldirish shart</i>
-            </div>
-          </div>
-
-          <button
-            @click="createBrand"
-            class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
-          >
-            Brend qo'shish
-          </button>
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="font-bold text-xl text-gray-700">Brandlar</h1>
+          <BaseButtonLink
+            link
+            url="/admin/brand-create"
+            buttonText="Qo'shish"
+          />
         </div>
         <div>
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-200">
-              <tr>
-                <th
-                  scope="col"
-                  class="px-6 py-2 w-16 text-left text-sm font-bold text-gray-700 uppercase"
-                >
-                  id
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-2 text-left text-sm font-bold text-gray-700 uppercase"
-                >
-                  Brend
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-2 w-40 rounded-tr-md text-left text-sm font-bold text-gray-700 uppercase"
-                >
-                  O'chirish
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
+          <BaseTable :headers="tableHeaders">
+            <template #body>
               <tr class="" v-for="brand in brands" :key="brand.id">
                 <td class="px-6 py-1 border border-right-none">
                   <div class="flex items-center text-sm py-2">
@@ -154,8 +110,14 @@
                   </div>
                 </div>
               </tr>
-            </tbody>
-          </table>
+            </template>
+          </BaseTable>
+          <BaseDeleteModal
+            v-if="showDeleteDialog"
+            text="Ushbu brendni o'chirishni xohlaysizmi?"
+            @delete="deleteBrand(selectedBrandID)"
+            @close="showDeleteDialog = false"
+          />
         </div>
       </div>
     </div>
@@ -169,14 +131,9 @@ export default {
   data() {
     return {
       showDeleteDialog: false,
-      showSuccess: false,
-      showFail: false,
-      message: "",
       selectedBrandID: null,
       brands: [],
-      newBrand: {
-        name: ""
-      }
+      tableHeaders: ["id", "nomi", "buyruqlar"]
     };
   },
   validations: {
@@ -253,20 +210,6 @@ export default {
           }, 3000);
           console.log(err);
         });
-    },
-    showNotification(show, message) {
-      this.message = message;
-      if (show === this.showSuccess) {
-        this.showSuccess = true;
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 3000);
-      } else if (show === this.showFail) {
-        this.showFail = true;
-        setTimeout(() => {
-          this.showFail = false;
-        }, 3000);
-      }
     }
   },
   mounted() {

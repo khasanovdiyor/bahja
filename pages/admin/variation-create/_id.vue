@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex">
-    <AdminSidebar />
-    <div class="px-6 w-9/12 mb-10">
+  <div>
+    <!-- <AdminSidebar /> -->
+    <div>
       <div
         v-if="showSuccess"
         class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
@@ -489,9 +489,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.multiselect {
-  width: 50%;
-}
-</style>

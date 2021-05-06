@@ -100,8 +100,8 @@
 </template>
 
 <script>
-import Login from "../components/Login.vue";
 export default {
+  layout: "user",
   data() {
     return {
       slides: [],

@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen bg-gray-100" ref="formContainer">
-    <AdminSidebar />
-    <div class="px-5 w-2/3">
+  <div ref="formContainer">
+    <!-- <AdminSidebar /> -->
+    <div>
       <div
         v-if="showSuccess"
         class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
