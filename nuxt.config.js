@@ -30,7 +30,10 @@ export default {
     { src: "~/plugins/vue-mask.js", mode: "client" },
     { src: "~/plugins/vue-loading.js", mode: "client" },
     { src: "~/plugins/vuelidate.js" },
-    { src: "~/plugins/vue-debounce.js" }
+    { src: "~/plugins/vue-debounce.js" },
+    { src: "~/plugins/vue-toast.js", mode: "client" },
+    { src: "~/plugins/vue-paginate.js", mode: "client" },
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -79,7 +82,7 @@ export default {
         },
         endpoints: {
           login: { url: "users/token/", method: "post" },
-          logout: { url: "logout/", method: "delete" },
+          logout: { url: "users/logout/", method: "delete" },
           user: { url: "users/me/", method: "get" }
         }
       }
