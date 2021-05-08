@@ -22,7 +22,9 @@
                   </div>
                 </td>
                 <td class="px-6 py-1 border">
-                  <div class="flex items-center text-sm py-2 text-gray-600">
+                  <div
+                    class="flex items-center capitalize text-sm py-2 text-gray-600"
+                  >
                     {{ brand.name }}
                   </div>
                 </td>
@@ -51,12 +53,20 @@
           <BaseDeleteModal
             v-if="showDeleteDialog"
             text="Ushbu brendni o'chirishni xohlaysizmi?"
+            alert="Ushbu brend bilan unga bo'glangan mahsulotlar ham o'chiriladi!"
             @delete="deleteBrand(selectedBrandID)"
             @close="showDeleteDialog = false"
           />
         </div>
       </div>
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getBrands"
+    />
   </div>
 </template>
 
@@ -69,7 +79,8 @@ export default {
       showDeleteDialog: false,
       selectedBrandID: null,
       brands: [],
-      tableHeaders: ["id", "nomi", "buyruqlar"]
+      tableHeaders: ["id", "nomi", "buyruqlar"],
+      totalPages: null
     };
   },
   validations: {
@@ -80,40 +91,41 @@ export default {
     }
   },
   methods: {
-    getBrands() {
-      this.$axios.get("product/brand-list").then(res => {
-        console.log(res.data);
-        this.brands = res.data;
-      });
+    getBrands(page) {
+      let loader = this.$loading.show();
+      this.$axios
+        .get("product/brand-list", {
+          params: {
+            page: page
+          }
+        })
+        .then(res => {
+          this.brands = res.data.results;
+          this.totalPages = res.data.total_pages;
+        })
+        .finally(() => {
+          loader.hide();
+        });
     },
 
     deleteBrand(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`product/brand-delete/${id}`)
         .then(res => {
-          console.log(res.data, "ID:", id);
-          this.showDeleteDialog = false;
-          this.message = "Brend o'chirildi";
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
+          toast.success(res.data);
           this.getBrands();
         })
         .catch(err => {
+          toast.error(err.response.data);
+        })
+        .finally(() => {
           this.showDeleteDialog = false;
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
         });
     }
   },
   mounted() {
-    this.getBrands();
+    this.getBrands(1);
   }
 };
 </script>
-
-<style></style>

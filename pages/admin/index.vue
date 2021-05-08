@@ -306,6 +306,13 @@
         </main>
       </div>
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getOrders"
+    />
   </div>
 </template>
 
@@ -321,6 +328,7 @@ export default {
         "status",
         "buyruqlar"
       ],
+      totalPages: null,
       newOrder: "",
       newOrderMoney: "",
       showDeleteDialog: false,
@@ -367,19 +375,24 @@ export default {
     };
   },
   methods: {
-    getOrders() {
+    getOrders(page) {
+      let loader = this.$loading.show();
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
+            page: page,
             status: this.activeStatus
           }
         })
         .then(res => {
-          console.log(res.data);
-          this.orders = res.data;
+          this.orders = res.data.results;
+          this.totalPages = res.data.total_pages;
         })
         .catch(err => {
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     getStatsNewOrder(option) {
@@ -430,47 +443,42 @@ export default {
         });
     },
     deleteOrder(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
-          console.log(res.data, "ID:", id);
-          this.showDeleteDialog = false;
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
+          toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
           this.getOrders();
         })
         .catch(err => {
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
+          toast.error(
+            err.response.data || "Buyurtma o'chirishda xatolik yuz berdi"
+          );
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
         });
     },
 
-    changeStatus(status, id) {
-      const formData = new FormData();
-      formData.append("status", status);
+    changeStatus(status, order) {
       this.$axios
-        .patch(`cart/orderbeta-update/${id}`, formData)
+        .patch(`cart/orderbeta-update/${order.id}`, { status })
         .then(res => {
-          this.showStatus = false;
+          this.$toast.success("Status muvaffaqiyatli o'zgardi");
           this.getOrders();
         })
         .catch(err => {
-          this.showStatus = false;
-          console.log(err);
+          this.$toast.error(
+            err.response.data || "Status o'zgarishida xatolik yuz berdi"
+          );
         });
     }
   },
   mounted() {
-    this.getOrders();
+    this.getOrders(1);
     this.getStatsNewOrder(this.selectedSortOrder);
     this.getStatsNewOrderMoney(this.selectedSortMoney);
     this.getStatsNewProducts(this.selectedSortProduct);
   }
 };
 </script>
-<style></style>

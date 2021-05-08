@@ -66,6 +66,13 @@
         @close="showDeleteDialog = false"
       />
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getCategories"
+    />
   </div>
 </template>
 
@@ -76,33 +83,45 @@ export default {
       tableHeaders: ["id", "matn", "kategoriya", "buyruqlar"],
       sliders: [],
       showDeleteDialog: false,
-      selectedSliderID: null
+      selectedSliderID: null,
+      totalPages: null
     };
   },
   methods: {
-    getSliders() {
-      this.$axios.get("product/slider/all").then(res => {
-        console.log(res.data);
-        this.sliders = res.data;
-      });
+    getSliders(page) {
+      let loader = this.$loading.show();
+      this.$axios
+        .get("product/slider/all", {
+          params: {
+            page: page
+          }
+        })
+        .then(res => {
+          this.sliders = res.data.results;
+          this.totalPages = res.data.total_pages;
+        })
+        .finally(() => {
+          loader.hide();
+        });
     },
     deleteSlider(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`product/slider/delete/${id}`)
         .then(res => {
-          console.log(res);
-          this.showDeleteDialog = false;
+          toast.success(res.data);
           this.getSliders();
         })
         .catch(err => {
-          console.log(err);
+          toast.error(err.response.data);
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
         });
     }
   },
   mounted() {
-    this.getSliders();
+    this.getSliders(1);
   }
 };
 </script>
-
-<style></style>

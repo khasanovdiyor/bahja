@@ -87,6 +87,13 @@
         @close="showDeleteDialog = false"
       />
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getProducts"
+    />
   </div>
 </template>
 
@@ -97,33 +104,45 @@ export default {
       products: [],
       showDeleteDialog: false,
       selectedProductID: null,
-      tableHeaders: ["id", "nomi", "kodi", "atributlar", "narxi", "buyruqlar"]
+      tableHeaders: ["id", "nomi", "kodi", "atributlar", "narxi", "buyruqlar"],
+      totalPages: null
     };
   },
   methods: {
-    getProducts() {
-      this.$axios.get("product/list/?parent_id=0").then(res => {
-        console.log(res.data);
-        this.products = res.data.results;
-      });
+    getProducts(page) {
+      let loader = this.$loading.show();
+      this.$axios
+        .get("product/list/", {
+          params: {
+            parent_id: 0,
+            page: page
+          }
+        })
+        .then(res => {
+          console.log(res.data);
+          this.products = res.data.results;
+          this.totalPages = res.data.total_pages;
+        })
+        .finally(() => {
+          loader.hide();
+        });
     },
     deleteProduct(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`product/delete/${id}`)
         .then(res => {
-          console.log(res);
+          toast.success(res.data);
           this.showDeleteDialog = false;
           this.getProducts();
         })
         .catch(err => {
-          console.log(err);
+          toast.error(err.response.data);
         });
     }
   },
   mounted() {
-    this.getProducts();
+    this.getProducts(1);
   }
 };
 </script>
-
-<style></style>
