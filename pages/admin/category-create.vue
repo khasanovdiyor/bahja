@@ -1,24 +1,19 @@
 <template>
   <div>
-    <BaseNotification
-      :text="message"
-      :success="showSuccess"
-      :error="showError"
-    />
     <div class="mb-6">
       <h1 class="font-bold text-xl text-gray-700">Kategoriya qo'shish</h1>
-
       <div>
         <BaseTextField
           class="my-4"
           v-model.trim="$v.newCategory.name.$model"
           label="Nomi"
-          :required="
+          required
+          :required-message="
             !$v.newCategory.name.required && $v.newCategory.name.$dirty
           "
         />
         <BaseSelect
-          class="my-4"
+          class="my-4 w-1/2"
           v-model="selectedCategory"
           label="Kategoriya"
           :options="categories"
@@ -29,11 +24,8 @@
         />
         <BaseTextField
           class="my-4"
-          v-model.trim="$v.newCategory.order.$model"
+          v-model.trim="newCategory.order"
           label="Tartib raqami"
-          :required="
-            !$v.newCategory.order.required && $v.newCategory.order.$dirty
-          "
         />
         <div>
           <label
@@ -50,6 +42,7 @@
         <BaseImageField
           class="my-4"
           label="Rasmi"
+          required
           @change="previewImage"
           :image="preview"
         />
@@ -73,6 +66,7 @@ export default {
       message: "",
       selectedCategory: null,
       preview: null,
+      categories: [],
       image: null,
       newCategory: {
         name: "",
@@ -86,9 +80,6 @@ export default {
     newCategory: {
       name: {
         required
-      },
-      order: {
-        required
       }
     }
   },
@@ -96,8 +87,8 @@ export default {
     selectCategory(value) {
       this.newCategory.parent_id = value.id;
     },
-    removeCategory(value, id) {
-      this.newCategory.parent_id = 0;
+    removeCategory() {
+      this.newCategory.parent_id = null;
     },
     previewImage(event) {
       var input = event.target;
@@ -107,45 +98,34 @@ export default {
           this.preview = e.target.result;
         };
         this.image = input.files[0];
-        reader.readAsDataURL(this.image);
+        if (this.image) reader.readAsDataURL(this.image);
       }
     },
 
     createCategory() {
-      let loader = this.$loading.show();
-      const formData = new FormData();
-      for (let key in this.newCategory) {
-        formData.append(key, this.newCategory[key]);
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        let loader = this.$loading.show();
+        const formData = new FormData();
+        for (let key in this.newCategory) {
+          formData.append(key, this.newCategory[key]);
+        }
+        formData.append("image", this.image);
+        this.$axios
+          .post("product/category-create/", formData)
+          .then(res => {
+            this.$toast.success("Kategoriya yaratildi");
+          })
+          .catch(err => {
+            this.$toast.error(
+              err.response.data || "Kategoriya qo'shishda xatolik yuz berdi"
+            );
+          })
+          .finally(() => {
+            loader.hide();
+          });
       }
-      formData.append("image", this.image);
-      this.$axios
-        .post("product/category-create/", formData)
-        .then(res => {
-          this.message = "Kategoriya yaratildi";
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-          console.log(res.data);
-          this.getCategories();
-        })
-        .catch(err => {
-          this.message =
-            "Kategoriya yaratishda xatolik yuz berdi, qayta urinib ko'ring";
-          this.showError = true;
-          setTimeout(() => {
-            this.showError = false;
-          }, 3000);
-          console.log(err);
-          this.input == "";
-        })
-        .finally(() => {
-          loader.hide();
-        });
     }
   }
 };
 </script>
-
-<style>
-</style>

@@ -2,16 +2,10 @@
   <div>
     <div>
       <div>
-        <BaseNotification
-          v-if="showSuccess || showError"
-          :success="showSuccess"
-          :error="showError"
-          :text="alertText"
-        />
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Asosiy ma'lumotlar">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
-              Asosiy ma'lumotlar {{ product }}
+              Asosiy ma'lumotlar
             </h2>
 
             <div>
@@ -190,7 +184,7 @@
               />
               <BaseSelect
                 class="my-4 w-1/2"
-                v-model="$v.selectedVariationCategories.$model"
+                v-model="$v.variation.selectedCategories.$model"
                 label="kategoriya"
                 placeholder="Kategoriya qo'shing"
                 multiple
@@ -199,8 +193,8 @@
                 @remove="value => removeCategories(value, variation.categories)"
                 required
                 :required-message="
-                  !$v.selectedVariationCategories.required &&
-                  $v.selectedVariationCategories.$dirty
+                  !$v.variation.selectedCategories.required &&
+                  $v.variation.selectedCategories.$dirty
                 "
               />
               <BaseTextField
@@ -297,6 +291,7 @@
                         placeholder="Kategoriya izlang yoki qo'shing"
                         multiple
                         taggable
+                        required
                         @select="
                           value =>
                             selectCategories(value, varProduct.categories)
@@ -330,7 +325,10 @@
                         class="flex items-center text-gray-500 justify-center"
                       >
                         <div
-                          @click="removeVariation(index)"
+                          @click="
+                            selectedVariationIndex = index;
+                            showDeleteDialog = true;
+                          "
                           class="cursor-pointer"
                         >
                           <img
@@ -344,6 +342,12 @@
                   </tr>
                 </template>
               </BaseTable>
+              <BaseDeleteModal
+                v-if="showDeleteDialog"
+                text="O'zgarishni o'chirishni xohlaysizmi"
+                @delete="removeVariation"
+                @close="showDeleteDialog = false"
+              />
             </div>
           </tab>
         </tabs>
@@ -367,14 +371,11 @@ export default {
         "buyruqlar"
       ],
       selectedBrand: null,
+      selectedVariationIndex: null,
       selectedProductCategories: null,
       selectedVariationCategories: null,
-      showSuccess: false,
-      showError: false,
-      alertText: "",
       showDeleteDialog: false,
       showAddNewKey: false,
-      showAddNewVariation: false,
       createProductClicked: false,
       colors: [],
       brands: [],
@@ -446,11 +447,10 @@ export default {
     "product.categories": {
       handler() {
         this.variation.categories = Array.from(this.product.categories, x => x);
-        if (this.selectedProductCategories)
-          this.selectedVariationCategories = Array.from(
-            this.selectedProductCategories,
-            x => x
-          );
+        this.variation.selectedCategories = Array.from(
+          this.selectedProductCategories,
+          x => x
+        );
       }
     },
     "product.attributes": {
@@ -462,30 +462,6 @@ export default {
             this.product.attributes[index]
           );
         });
-      }
-    },
-    "variation.categories": {
-      handler() {
-        this.variation.selectedCategories = Array.from(
-          this.categories
-            .filter((el, index) => el.id === this.variation.categories[index])
-            .map(el => el),
-          x => x
-        );
-      }
-    },
-    showError(newVal) {
-      if (newVal == true) {
-        setTimeout(() => {
-          this.showError = false;
-        }, 3000);
-      }
-    },
-    showSuccess(newVal) {
-      if (newVal == true) {
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 3000);
       }
     }
   },
@@ -548,12 +524,15 @@ export default {
       },
       categories: {
         required
+      },
+      selectedCategories: {
+        required
       }
     }
   },
   methods: {
     selectCategories(value, categories) {
-      categories.push(value.id);
+      if (!categories.includes(value.id)) categories.push(value.id);
     },
     removeCategories(value, categories) {
       const foundIndex = categories.indexOf(value.id);
@@ -573,16 +552,20 @@ export default {
     addVariation() {
       this.$v.variation.$touch();
       if (!this.$v.variation.$invalid) {
-        this.variations.push(this.variation);
+        let varProduct = Object.assign({}, this.variation);
+        varProduct.categories = Array.from(this.variation.categories, x => x);
+        varProduct.selectedCategories = Array.from(
+          this.variation.selectedCategories,
+          x => x
+        );
+        this.variations.push(varProduct);
+
         console.log(this.variations);
-        this.showAddNewVariation = false;
       }
     },
-    removeVariation(index) {
-      this.product.variations.splice(index, 1);
-    },
-    addImage(product) {
-      product.images.push(image);
+    removeVariation() {
+      this.variations.splice(this.selectedVariationIndex, 1);
+      this.showDeleteDialog = false;
     },
     removeImage(index, images) {
       images.splice(index, 1);
@@ -606,9 +589,13 @@ export default {
     },
     getBrands() {
       this.$axios
-        .get("product/brand-list/")
+        .get("product/brand-list/", {
+          params: {
+            size: 1000
+          }
+        })
         .then(res => {
-          this.brands = res.data;
+          this.brands = res.data.results;
         })
         .catch(err => {
           console.log(err);
@@ -616,9 +603,13 @@ export default {
     },
     getCategories() {
       this.$axios
-        .get("product/category-list/")
+        .get("product/category-all/", {
+          params: {
+            size: 1000
+          }
+        })
         .then(res => {
-          this.categories = res.data;
+          this.categories = res.data.results;
         })
         .catch(err => {
           console.log(err);
@@ -637,21 +628,16 @@ export default {
             delete el.selectedCategories;
             delete el.maskPrice;
           }
-        this.product.variations = [];
         let loader = this.$loading.show();
+        let toast = this.$toast;
         this.$axios
           .post("product/create/", this.product)
           .then(res => {
-            console.log(res);
-            this.showSuccess = true;
-            this.alertText = "Mahsulot yaratildi";
-            this.productVariation = {};
+            toast.success("Mahsulot yaratildi");
+            this.variations = [];
           })
           .catch(err => {
-            this.showError = true;
-            this.alertText =
-              "Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring";
-            console.log(err);
+            toast.error(err.response.data);
           })
           .finally(() => {
             loader.hide();
@@ -666,4 +652,3 @@ export default {
   }
 };
 </script>
-<style scoped></style>

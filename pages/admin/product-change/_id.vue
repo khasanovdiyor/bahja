@@ -1,41 +1,7 @@
 <template>
   <div>
     <div>
-      <!-- <AdminSidebar class="w-1/3" /> -->
       <div>
-        <div
-          v-if="showSuccess"
-          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
-        >
-          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-            <path
-              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
-            ></path>
-          </svg>
-          <i> Mahsulot yangilandi</i>
-
-          <span
-            class="absolute right-10 cursor-pointer"
-            @click="showSuccess = false"
-            >X</span
-          >
-        </div>
-        <div
-          v-if="showError"
-          class="fixed z-40 top-0 px-4 py-2 w-2/3 text-lg bg-red-400 text-white text-center"
-        >
-          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-            <path
-              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
-            ></path>
-          </svg>
-          <i> Maxsulot yangilashda xatolik yuz berdi, qayta urinib ko'ring</i>
-          <span
-            class="absolute right-6 cursor-pointer"
-            @click="showError = false"
-            >X</span
-          >
-        </div>
         <div name="Mahsulot qo'shish">
           <h2 class="text-xl font-bold text-gray-700">O'zgartirish</h2>
           <div>
@@ -59,18 +25,6 @@
                 $v.product.product_code.$dirty
               "
             />
-            <!-- <BaseSelect
-              class="my-4 w-1/2"
-              v-model.trim="$v.selectedBrand.$model"
-              label="Brend"
-              :options="brands"
-              @select="selectBrand"
-              placeholder="Brend tanlang"
-              required
-              :required-message="
-                !$v.selectedBrand.required && $v.selectedBrand.$dirty
-              "
-            /> -->
             <BaseTextField
               class="my-4"
               v-model.trim="$v.product.description.$model"
@@ -84,19 +38,18 @@
             />
             <BaseSelect
               class="my-4 w-1/2"
-              v-model="$v.selectedProductCategories.$model"
+              v-model="$v.product.categories.$model"
               label="Kategoriya"
               :options="categories"
               placeholder="Kategoriya tanlang"
               noResult="Bunday kategoriya topilmadi"
               multiple
               taggable
-              @select="value => selectCategories(value, product.categories)"
-              @remove="value => removeCategories(value, product.categories)"
+              @select="value => selectCategories(value, newCategories)"
+              @remove="value => removeCategories(value, newCategories)"
               required
               :required-message="
-                !$v.selectedProductCategories.required &&
-                $v.selectedProductCategories.$dirty
+                !$v.product.categories.required && $v.product.categories.$dirty
               "
             />
             <BaseTextField
@@ -160,8 +113,8 @@
               </div>
             </div>
             <BaseButtonLink
-              buttonText="Mahsulot yaratish"
-              @button-click="updateProduct"
+              buttonText="Ma'lumotlarni yangilash"
+              @button-click="sendAll"
             />
           </div>
         </div>
@@ -177,13 +130,22 @@ export default {
     return {
       priceMask,
       selectedProductCategories: null,
-      newImage: null,
-      showSuccess: false,
-      showError: false,
+      showSuccessProd: false,
+      showErrorProd: false,
+      showSuccessAttr: false,
+      showErrorAttr: false,
+      showSuccessCat: false,
+      showErrorCat: false,
+      showSuccessImages: false,
+      showErrorImages: false,
+      alertTextProd: "",
+      alertTextAttr: "",
+      alertTextImages: "",
+      alertTextCat: "",
       showAddNewKey: false,
       showDeleteDialog: false,
       newCategories: [],
-      image: null,
+      newImage: null,
       newImages: [],
       images: [],
       deletedImages: [],
@@ -205,6 +167,9 @@ export default {
     selectedProductCategories: {
       required
     },
+    newAttributes: {
+      required
+    },
     product: {
       name: {
         required
@@ -223,10 +188,6 @@ export default {
       },
       quantity: {
         required
-      },
-      attributes: {
-        required,
-        minLength: minLength(2)
       },
       categories: {
         required
@@ -256,137 +217,140 @@ export default {
     },
     selectCategories(value, categories) {
       categories.push(value.id);
+      console.log(this.newCategories);
     },
     removeCategories(value, categories) {
       const foundIndex = categories.indexOf(value.id);
       if (foundIndex !== -1) categories.splice(foundIndex, 1);
-    },
-    addCategory(value, id) {
-      this.newCategories.push(value.id);
-    },
-    removeCategory(value, id) {
-      console.log("value.id", value.id);
-      this.newCategories = this.newCategories.filter(
-        category => category !== value.id
-      );
+      console.log(this.newCategories);
     },
     addProductAttribute() {
       this.newAttributes.push(this.attribute);
       this.attribute = {};
       this.showAddNewKey = false;
     },
-    removeAttribute(product, index) {
-      this.newAttributes.splice(index, 1);
+    removeAttribute(attributes, index) {
+      attributes.splice(index, 1);
     },
-    removeImage(index) {
-      this.deletedImages.push(this.newImages[index]);
-      console.log(this.preview_list);
-      this.newImages.splice(index, 1);
+    removeImage(index, images) {
+      console.log("images", images);
+      if (!images[index].includes("data:image/"))
+        this.deletedImages.push(images[index]);
+      images.splice(index, 1);
     },
     previewImage(event, product, multiple) {
       let images = event.target.files;
       let count = images.length;
+      if (multiple === false) this.newImage = images[0];
       let index = 0;
       if (count > 0) {
         while (count--) {
           var reader = new FileReader();
           reader.onload = e => {
             if (!multiple) product.image = e.target.result;
-            else if (product.images.length < 5)
+            else if (product.images.length < 5) {
               product.images.push(e.target.result);
+              this.newImages.push(e.target.result);
+            }
           };
           reader.readAsDataURL(images[index]);
           index++;
         }
       }
     },
-    updateProduct() {
+    async updateProduct() {
       const formData = new FormData();
       formData.append("name", this.product.name);
       formData.append("description", this.product.description);
       formData.append("product_code", this.product.product_code);
-      formData.append("price", this.product.price);
+      formData.append("price", this.product.price.replace(/\s/g, ""));
       formData.append("quantity", this.product.quantity);
       formData.append("image", this.newImage);
-      this.$axios
-        .patch(`product/update/${this.$route.params.id}`, this.product)
-        .then(res => {
-          loader.hide();
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-          console.log(res.data);
-          this.getCategories();
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-        })
-        .catch(err => {
-          loader.hide();
-          this.showError = true;
-          setTimeout(() => {
-            this.showError = false;
-          }, 3000);
-          console.log(err);
-        });
+      const response = await this.$axios.patch(
+        `product/update/${this.$route.params.id}`,
+        formData
+      );
+      return response;
     },
-    updateCategory() {
+    async updateCategory() {
       let category = {
         product: this.$route.params.id,
         categories: this.newCategories
       };
-      this.$axios
-        .post("product/update-category/", category)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      const response = await this.$axios.post(
+        "product/update-category/",
+        category
+      );
+      return response;
     },
-    updateImages() {
+    async updateImages() {
       let images = {
         product: this.$route.params.id,
-        images: this.images,
+        images: this.newImages,
         deleted_images: this.deletedImages
       };
-      this.$axios
-        .post("product/update-images/", images)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      const response = await this.$axios.post("product/update-images/", images);
+      return response;
     },
-    updateAttributes() {
+    async updateAttributes() {
       let attributes = {
         product: parseInt(this.$route.params.id),
         attributes: this.newAttributes
       };
-      this.$axios
-        .post("product/update-attributes/", attributes)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      const response = await this.$axios.post(
+        "product/update-attributes/",
+        attributes
+      );
+      return response;
     },
-    sendAll() {
-      let loader = this.$loading.show();
-      this.updateProduct();
-      this.updateCategory();
-      this.updateImages();
-      this.updateAttributes();
-      loader.hide();
+    async sendAll() {
+      let toast = this.$toast;
+      this.$v.$touch();
+      if (
+        !(
+          this.$v.product.$invalid &&
+          this.$v.newAttributes.$invalid &&
+          this.$v.selectedProductCategories.$invalid
+        )
+      ) {
+        let loader = this.$loading.show();
+        await this.updateProduct()
+          .then(res => {
+            toast.success(res.data);
+          })
+          .catch(err => {
+            toast.error(err.response.data);
+          });
+        await this.updateCategory()
+          .then(res => {
+            toast.success(res.data);
+          })
+          .catch(err => {
+            toast.error(err.response.data);
+          });
+        await this.updateImages()
+          .then(res => {
+            toast.success(res.data);
+          })
+          .catch(err => {
+            toast.error(err.response.data);
+          });
+        await this.updateAttributes()
+          .then(res => {
+            toast.success(res.data);
+          })
+          .catch(err => {
+            toast.error(err.response.data);
+          });
+        this.getProduct();
+        loader.hide();
+      }
     },
     getProduct() {
       this.$axios
         .get(`product/specific/${this.$route.params.id}`)
         .then(res => {
-          this.image = res.data.image;
+          this.newAttributes = [];
           let i = 0;
           for (const key1 in res.data.attributes) {
             let attribute = {};
@@ -398,26 +362,25 @@ export default {
             this.newAttributes.push(attribute);
           }
           this.product = res.data;
-          console.log(this.categories, this.product.categories);
-          this.product.categories.forEach(element => {
-            this.selectedProductCategories = this.categories.filter(el => {
-              return el.id === element.id;
-            });
-          });
+          this.newCategories = this.product.categories.map(el => el.id);
         })
         .catch(err => {
           console.log(err);
         });
     },
     getCategories() {
+      let loader = this.$loading.show();
       this.$axios
         .get("product/category-all/")
         .then(res => {
-          this.categories = res.data;
+          this.categories = res.data.results;
           this.getProduct();
         })
         .catch(err => {
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
     }
   },
