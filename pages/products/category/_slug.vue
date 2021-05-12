@@ -21,7 +21,7 @@
               <li
                 v-for="option in sortOptions"
                 :key="option.slug"
-                @click="getProductsBySort(option.slug, option.text)"
+                @click="getProductsBySort(1, option.slug, option.text)"
                 class="cursor-pointer hover:bg-gray-200 py-2 px-4"
               >
                 {{ option.text }}
@@ -49,6 +49,15 @@
         </div>
       </div>
     </div>
+    <div class="flex justify-center">
+      <BasePagination
+        class="w-1/4"
+        v-if="totalPages > 1"
+        :page-count="totalPages"
+        :page-range="totalPages > 6 ? 4 : totalPages"
+        :click-handler="getProducts"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -59,6 +68,7 @@ export default {
       link: `category`,
       products: [],
       selectedSort: "Tartiblash",
+      totalPages: null,
       showSort: false,
       savedProducts: [],
       sortOptions: [
@@ -78,40 +88,31 @@ export default {
     };
   },
   methods: {
-    getProductsBySort(ordering, text) {
+    getProducts(page, ordering = "", text = "Tartiblash") {
+      let loader = this.$loading.show();
       this.$axios
-        .get(`product/list/`, {
+        .get(`product/by-category/${this.$route.params.slug}/`, {
           params: {
-            ordering: ordering
+            page,
+            ordering
           }
         })
         .then(res => {
-          console.log("list", res.data);
           this.products = res.data.results;
+          this.totalPages = res.data.total_pages;
           this.showSort = false;
           this.selectedSort = text;
         })
         .catch(err => {
           console.log(err);
-        });
-    },
-    getProducts() {
-      let loader = this.$loading.show();
-      this.$axios
-        .get(`product/by-category/${this.$route.params.slug}/`)
-        .then(res => {
-          console.log("list", res.data);
-          this.products = res.data.results;
-          loader.hide();
         })
-        .catch(err => {
+        .finally(() => {
           loader.hide();
-          console.log(err);
         });
     }
   },
   mounted() {
-    this.getProducts();
+    this.getProducts(1);
   }
 };
 </script>
