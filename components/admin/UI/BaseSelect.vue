@@ -35,45 +35,45 @@
 export default {
   props: {
     value: {
-      required: true,
+      required: true
     },
     label: {
       type: String,
-      default: "",
+      default: ""
     },
     selectLabel: {
       type: String,
-      default: "name",
+      default: "name"
     },
     placeholder: {
       type: String,
-      required: true,
+      required: true
     },
     noResult: {
       type: String,
-      default: "So'rovingiz topilmadi",
+      default: "So'rovingiz topilmadi"
     },
     multiple: {
       type: Boolean,
-      default: false,
+      default: false
     },
     taggable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     options: {
       type: Array,
-      required: true,
+      required: true
     },
     requiredMessage: {
       type: Boolean,
-      defult: false,
+      defult: false
     },
     required: {
       type: Boolean,
-      defult: false,
-    },
-  },
+      defult: false
+    }
+  }
 };
 </script>
 

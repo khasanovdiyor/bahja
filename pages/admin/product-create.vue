@@ -2,16 +2,10 @@
   <div>
     <div>
       <div>
-        <BaseNotification
-          v-if="showSuccess || showError"
-          :success="showSuccess"
-          :error="showError"
-          :text="alertText"
-        />
         <tabs :options="{ useUrlFragment: false }">
           <tab name="Asosiy ma'lumotlar">
             <h2 class="text-xl font-bold text-gray-700 mb-10">
-              Asosiy ma'lumotlar {{ product }}
+              Asosiy ma'lumotlar
             </h2>
 
             <div>
@@ -152,14 +146,11 @@
             </div>
           </tab>
           <tab name="O'zgartirish" class="w-full text-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-10">
-              O'zgarishlar {{ variation.selectedCategories }}
-              {{ variation.categories }}
-            </h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-10">O'zgarishlar</h2>
 
             <div class="w-full">
               <BaseTextField
-                v-model="$v.variation.name.$model"
+                v-model.trim="$v.variation.name.$model"
                 label="nom"
                 class="my-4"
                 required
@@ -168,9 +159,10 @@
                 "
               />
               <BaseTextField
-                v-model="$v.variation.product_code.$model"
+                v-model.trim="$v.variation.product_code.$model"
                 label="Kod"
                 class="my-4"
+                v-mask="'NNNNNNN'"
                 required
                 :required-message="
                   !$v.variation.product_code.required &&
@@ -184,13 +176,13 @@
                   !$v.variation.description.required &&
                   $v.variation.description.$dirty
                 "
-                v-model="$v.variation.description.$model"
+                v-model.trim="$v.variation.description.$model"
                 label="Tavsif"
                 class="my-4"
               />
               <BaseSelect
                 class="my-4 w-1/2"
-                v-model="$v.selectedVariationCategories.$model"
+                v-model="$v.variation.selectedCategories.$model"
                 label="kategoriya"
                 placeholder="Kategoriya qo'shing"
                 multiple
@@ -199,8 +191,8 @@
                 @remove="value => removeCategories(value, variation.categories)"
                 required
                 :required-message="
-                  !$v.selectedVariationCategories.required &&
-                  $v.selectedVariationCategories.$dirty
+                  !$v.variation.selectedCategories.required &&
+                  $v.variation.selectedCategories.$dirty
                 "
               />
               <BaseTextField
@@ -297,6 +289,7 @@
                         placeholder="Kategoriya izlang yoki qo'shing"
                         multiple
                         taggable
+                        required
                         @select="
                           value =>
                             selectCategories(value, varProduct.categories)
@@ -330,7 +323,10 @@
                         class="flex items-center text-gray-500 justify-center"
                       >
                         <div
-                          @click="removeVariation(index)"
+                          @click="
+                            selectedVariationIndex = index;
+                            showDeleteDialog = true;
+                          "
                           class="cursor-pointer"
                         >
                           <img
@@ -344,6 +340,12 @@
                   </tr>
                 </template>
               </BaseTable>
+              <BaseDeleteModal
+                v-if="showDeleteDialog"
+                text="O'zgarishni o'chirishni xohlaysizmi"
+                @delete="removeVariation"
+                @close="showDeleteDialog = false"
+              />
             </div>
           </tab>
         </tabs>
@@ -364,17 +366,14 @@ export default {
         "kategoriyalari",
         "narxi",
         "soni",
-        "buyruqlar",
+        "buyruqlar"
       ],
       selectedBrand: null,
+      selectedVariationIndex: null,
       selectedProductCategories: null,
       selectedVariationCategories: null,
-      showSuccess: false,
-      showError: false,
-      alertText: "",
       showDeleteDialog: false,
       showAddNewKey: false,
-      showAddNewVariation: false,
       createProductClicked: false,
       colors: [],
       brands: [],
@@ -391,7 +390,7 @@ export default {
         quantity: null,
         image: null,
         images: [],
-        attributes: [],
+        attributes: []
       },
       variations: [],
       variation: {
@@ -407,30 +406,28 @@ export default {
         categories: [],
         //temporary vars
         selectedCategories: null,
-        maskPrice: null,
+        maskPrice: null
       },
       attribute: {
         is_main: false,
         key: null,
         label: null,
-        value: null,
-      },
+        value: null
+      }
     };
   },
   computed: {
     imagesMinLength() {
-      return this.createProductClicked && this.product.images.length < 3
-        ? true
-        : false;
+      return !!(this.createProductClicked && this.product.images.length < 3);
     },
     imageRequired() {
-      return !this.product.image && this.createProductClicked ? true : false;
+      return !this.product.image && this.createProductClicked;
     },
     attributesMinLength() {
-      return this.createProductClicked && this.product.attributes.length < 2
-        ? true
-        : false;
-    },
+      return !!(
+        this.createProductClicked && this.product.attributes.length < 2
+      );
+    }
   },
   watch: {
     product: {
@@ -441,17 +438,16 @@ export default {
         this.variation.description = this.product.description;
         this.variation.quantity = this.product.quantity;
         this.variation.maskPrice = this.product.price;
-      },
+      }
     },
     "product.categories": {
       handler() {
         this.variation.categories = Array.from(this.product.categories, x => x);
-        if (this.selectedProductCategories)
-          this.selectedVariationCategories = Array.from(
-            this.selectedProductCategories,
-            x => x
-          );
-      },
+        this.variation.selectedCategories = Array.from(
+          this.selectedProductCategories,
+          x => x
+        );
+      }
     },
     "product.attributes": {
       handler() {
@@ -462,98 +458,77 @@ export default {
             this.product.attributes[index]
           );
         });
-      },
-    },
-    "variation.categories": {
-      handler() {
-        this.variation.selectedCategories = Array.from(
-          this.categories
-            .filter((el, index) => el.id === this.variation.categories[index])
-            .map(el => el),
-          x => x
-        );
-      },
-    },
-    showError(newVal) {
-      if (newVal == true) {
-        setTimeout(() => {
-          this.showError = false;
-        }, 3000);
       }
-    },
-    showSuccess(newVal) {
-      if (newVal == true) {
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 3000);
-      }
-    },
+    }
   },
   validations: {
     selectedBrand: {
-      required,
+      required
     },
     selectedCategories: {
-      required,
+      required
     },
     selectedVariationCategories: {
-      required,
+      required
     },
     product: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       price: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       brand: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
-      },
+        required
+      }
     },
     variation: {
       name: {
-        required,
+        required
       },
       product_code: {
-        required,
+        required
       },
       quantity: {
-        required,
+        required
       },
       maskPrice: {
-        required,
+        required
       },
       description: {
-        required,
+        required
       },
       attributes: {
         required,
-        minLength: minLength(2),
+        minLength: minLength(2)
       },
       categories: {
-        required,
+        required
       },
-    },
+      selectedCategories: {
+        required
+      }
+    }
   },
   methods: {
     selectCategories(value, categories) {
-      categories.push(value.id);
+      if (!categories.includes(value.id)) categories.push(value.id);
     },
     removeCategories(value, categories) {
       const foundIndex = categories.indexOf(value.id);
@@ -573,16 +548,28 @@ export default {
     addVariation() {
       this.$v.variation.$touch();
       if (!this.$v.variation.$invalid) {
-        this.variations.push(this.variation);
+        let varProduct = Object.assign({}, this.variation);
+        varProduct.categories = Array.from(this.variation.categories, x => x);
+        varProduct.selectedCategories = Array.from(
+          this.variation.selectedCategories,
+          x => x
+        );
+        varProduct.images = Array.from(this.variation.images, x => x);
+        varProduct.attributes = Array.from(this.variation.attributes, x => x);
+        varProduct.attributes.forEach((_, index) => {
+          varProduct.attributes[index] = Object.assign(
+            {},
+            this.variation.attributes[index]
+          );
+        });
+        this.variations.push(varProduct);
+
         console.log(this.variations);
-        this.showAddNewVariation = false;
       }
     },
-    removeVariation(index) {
-      this.product.variations.splice(index, 1);
-    },
-    addImage(product) {
-      product.images.push(image);
+    removeVariation() {
+      this.variations.splice(this.selectedVariationIndex, 1);
+      this.showDeleteDialog = false;
     },
     removeImage(index, images) {
       images.splice(index, 1);
@@ -606,9 +593,13 @@ export default {
     },
     getBrands() {
       this.$axios
-        .get("product/brand-list/")
+        .get("product/brand-list/", {
+          params: {
+            size: 1000
+          }
+        })
         .then(res => {
-          this.brands = res.data;
+          this.brands = res.data.results;
         })
         .catch(err => {
           console.log(err);
@@ -616,9 +607,13 @@ export default {
     },
     getCategories() {
       this.$axios
-        .get("product/category-list/")
+        .get("product/category-all/", {
+          params: {
+            size: 1000
+          }
+        })
         .then(res => {
-          this.categories = res.data;
+          this.categories = res.data.results;
         })
         .catch(err => {
           console.log(err);
@@ -637,33 +632,26 @@ export default {
             delete el.selectedCategories;
             delete el.maskPrice;
           }
-        this.product.variations = [];
         let loader = this.$loading.show();
+        let toast = this.$toast;
         this.$axios
           .post("product/create/", this.product)
           .then(res => {
-            console.log(res);
-            this.showSuccess = true;
-            this.alertText = "Mahsulot yaratildi";
-            this.productVariation = {};
+            toast.success("Mahsulot yaratildi");
+            this.variations = [];
           })
           .catch(err => {
-            this.showError = true;
-            this.alertText =
-              "Mahsulot yaratishda xatolik yuz berdi, qayta urinib ko'ring";
-            console.log(err);
+            toast.error(err.response.data);
           })
           .finally(() => {
             loader.hide();
           });
       }
-      this.createProductClicked = false;
-    },
+    }
   },
   mounted() {
     this.getCategories();
     this.getBrands();
-  },
+  }
 };
 </script>
-<style scoped></style>

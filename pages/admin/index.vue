@@ -11,7 +11,11 @@
             <div>
               <div class="flex flex-wrap mx-6">
                 <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
-                  <div class="relative">
+                  <div
+                    class="relative"
+                    tabindex="0"
+                    @focusout="showSortOrder = false"
+                  >
                     <h3
                       class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
                       @click="showSortOrder = true"
@@ -35,7 +39,7 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white h-32"
+                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
                   >
                     <div class="p-3 rounded-full bg-opacity-75">
                       <img
@@ -57,7 +61,11 @@
                 </div>
 
                 <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
-                  <div class="relative">
+                  <div
+                    class="relative"
+                    tabindex="0"
+                    @focusout="showSortMoney = false"
+                  >
                     <h3
                       class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
                       @click="showSortMoney = true"
@@ -81,7 +89,7 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white h-32"
+                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
                   >
                     <div class="p-3 rounded-full bg-orange-600 bg-opacity-75">
                       <img
@@ -103,7 +111,11 @@
                 </div>
 
                 <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
-                  <div class="relative">
+                  <div
+                    class="relative"
+                    tabindex="0"
+                    @focusout="showSortProduct = false"
+                  >
                     <h3
                       class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
                       @click="showSortProduct = true"
@@ -127,7 +139,7 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white h-32"
+                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
                   >
                     <div class="p-3 rounded-full bg-opacity-75">
                       <img
@@ -169,7 +181,7 @@
                   </option>
                 </select>
                 <button
-                  @click="getOrders"
+                  @click="getOrders(1)"
                   class="bg-gray-800 rounded-md text-sm px-4 text-white py-2"
                 >
                   Saralash
@@ -234,14 +246,30 @@
                               v-for="status in statuses"
                               :key="status"
                               @click="changeStatus(status, order)"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full"
+                              :class="{
+                                'bg-green-100 text-green-800':
+                                  status === 'Tugallangan',
+                                'bg-gray-200 text-gray-800':
+                                  status === 'Kutilmoqda',
+                                'bg-red-100 text-red-800':
+                                  status === 'Bekor qilingan'
+                              }"
                               >{{ status }}</span
                             >
                           </div>
                           <span
                             @click="order.showStatus = true"
                             v-if="!order.showStatus"
-                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full"
+                            :class="{
+                              'bg-green-100 text-green-800':
+                                order.status === 'Tugallangan',
+                              'bg-gray-200 text-gray-800':
+                                order.status === 'Kutilmoqda',
+                              'bg-red-100 text-red-800':
+                                order.status === 'Bekor qilingan'
+                            }"
                             >{{ order.status }}</span
                           >
                         </div>
@@ -306,6 +334,13 @@
         </main>
       </div>
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getOrders"
+    />
   </div>
 </template>
 
@@ -319,8 +354,9 @@ export default {
         "son",
         "narx",
         "status",
-        "buyruqlar",
+        "buyruqlar"
       ],
+      totalPages: null,
       newOrder: "",
       newOrderMoney: "",
       showDeleteDialog: false,
@@ -336,50 +372,58 @@ export default {
 
       selectedSortOrder: {
         name: "1 kunlik",
-        day: 1,
+        day: 1
       },
       selectedSortMoney: {
         name: "1 kunlik",
-        day: 1,
+        day: 1
       },
       selectedSortProduct: {
         name: "1 kunlik",
-        day: 1,
+        day: 1
       },
       sortOptions: [
         {
           name: "1 kunlik",
-          day: 1,
+          day: 1
         },
         {
           name: "Haftalik",
-          day: 7,
+          day: 7
         },
         {
           name: "Oylik",
-          day: 30,
+          day: 30
         },
         {
           name: "Yillik",
-          day: 365,
-        },
-      ],
+          day: 365
+        }
+      ]
     };
   },
   methods: {
-    getOrders() {
+    getOrders(page) {
+      let loader = this.$loading.show();
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus,
-          },
+            page,
+            status: this.activeStatus
+          }
         })
         .then(res => {
-          console.log(res.data);
-          this.orders = res.data;
+          res.data.results.forEach(el => {
+            el.showStatus = false;
+          });
+          this.orders = res.data.results;
+          this.totalPages = res.data.total_pages;
         })
         .catch(err => {
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     getStatsNewOrder(option) {
@@ -406,7 +450,7 @@ export default {
           console.log(res.data);
           this.newProducts = res.data.number;
           this.showSortProduct = false;
-          this.selectedSortOrder = option;
+          this.selectedSortProduct = option;
         })
         .catch(err => {
           this.showSortProduct = false;
@@ -430,47 +474,42 @@ export default {
         });
     },
     deleteOrder(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
-          console.log(res.data, "ID:", id);
-          this.showDeleteDialog = false;
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-          this.getOrders();
+          toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
+          this.getOrders(1);
         })
         .catch(err => {
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
+          toast.error(
+            err.response.data || "Buyurtma o'chirishda xatolik yuz berdi"
+          );
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
         });
     },
 
-    changeStatus(status, id) {
-      const formData = new FormData();
-      formData.append("status", status);
+    changeStatus(status, order) {
       this.$axios
-        .patch(`cart/orderbeta-update/${id}`, formData)
+        .patch(`cart/change-status/${order.id}`, { status })
         .then(res => {
-          this.showStatus = false;
+          this.$toast.success("Status muvaffaqiyatli o'zgardi");
           this.getOrders();
         })
         .catch(err => {
-          this.showStatus = false;
-          console.log(err);
+          this.$toast.error(
+            err.response.data || "Status o'zgarishida xatolik yuz berdi"
+          );
         });
-    },
+    }
   },
   mounted() {
-    this.getOrders();
+    this.getOrders(1);
     this.getStatsNewOrder(this.selectedSortOrder);
     this.getStatsNewOrderMoney(this.selectedSortMoney);
     this.getStatsNewProducts(this.selectedSortProduct);
-  },
+  }
 };
 </script>
-<style></style>

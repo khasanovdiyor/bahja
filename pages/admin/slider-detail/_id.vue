@@ -78,7 +78,7 @@
 export default {
   data() {
     return {
-      slider: {},
+      slider: {}
     };
   },
   methods: {
@@ -89,11 +89,11 @@ export default {
           console.log(res.data);
           this.slider = res.data;
         });
-    },
+    }
   },
   mounted() {
     this.getSlider();
-  },
+  }
 };
 </script>
 

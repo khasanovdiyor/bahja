@@ -16,17 +16,17 @@ export default {
   props: {
     link: {
       type: Boolean,
-      default: false,
+      default: false
     },
     buttonText: {
       type: String,
-      required: true,
+      required: true
     },
     url: {
       type: String,
-      default: "",
-    },
-  },
+      default: ""
+    }
+  }
 };
 </script>
 

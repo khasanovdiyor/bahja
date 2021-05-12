@@ -124,22 +124,22 @@ export default {
   props: {
     attributes: {
       type: Array,
-      required: true,
+      required: true
     },
     attribute: {
       type: Object,
-      required: true,
+      required: true
     },
     showAddNewKey: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      tableHeaders: ["is_main", "key", "label", "value", "buyruqlar"],
+      tableHeaders: ["is_main", "key", "label", "value", "buyruqlar"]
     };
-  },
+  }
 };
 </script>
 

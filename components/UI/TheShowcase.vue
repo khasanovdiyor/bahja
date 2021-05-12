@@ -33,7 +33,7 @@
         :class="{
           'lg:col-span-2 xl:col-span-1 sm:h-auto h-36 col-span-4 sm:col-span-2 md:col-span-2 md:row-span-1':
             index < 2,
-          'xl:col-span-2  col-span-4 md:col-span-4 h-36 xl:h-auto': index > 1,
+          'xl:col-span-2  col-span-4 md:col-span-4 h-36 xl:h-auto': index > 1
         }"
         :style="{ backgroundImage: `url(${slide.image})` }"
       >
@@ -57,21 +57,16 @@ export default {
         rewind: true,
         width: 1020,
         perPage: 1,
-        gap: "1rem",
-      },
+        gap: "1rem"
+      }
     };
   },
   methods: {
     getSlider() {
-      let me = this;
-
       this.$axios
         .get("product/slider/list/")
         .then(res => {
-          console.log("slider-list", res.data);
-          res.data.forEach(element => {
-            me.slides.push(element);
-          });
+          this.slides = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -81,17 +76,17 @@ export default {
       this.$axios
         .get("product/category-slider")
         .then(res => {
-          this.categorySliders = res.data;
+          this.categorySliders = res.data.results;
         })
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getCategorySliders();
     this.$nextTick(this.$nextTick(() => this.getSlider()));
-  },
+  }
 };
 </script>
 

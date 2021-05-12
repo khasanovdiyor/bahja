@@ -55,22 +55,22 @@ export default {
     return {
       login: {
         name: "",
-        password: "",
-      },
+        password: ""
+      }
     };
   },
   methods: {
     async userLogin() {
       try {
         let response = await this.$auth.loginWith("local", {
-          data: this.login,
+          data: this.login
         });
         console.log(response);
         this.$router.push("/admin/");
       } catch (err) {
         console.log(err);
       }
-    },
-  },
+    }
+  }
 };
 </script>

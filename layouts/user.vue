@@ -11,7 +11,7 @@
 export default {
   beforeCreate() {
     this.$store.dispatch("products/getSavedProducts");
-  },
+  }
 };
 </script>
 

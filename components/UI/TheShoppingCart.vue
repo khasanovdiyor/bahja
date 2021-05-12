@@ -91,6 +91,7 @@
             jami: {{ total.toLocaleString() }}
           </h3>
           <nuxt-link
+            @click.native="$emit('close')"
             to="/order"
             class="w-48 flex items-center justify-center mx-auto text-sm font-semibold rounded-sm uppercase py-6 h-8 bg-black text-white"
           >
@@ -123,12 +124,6 @@ export default {
     }
   },
   methods: {
-    getTotalPrice() {
-      this.total = 0;
-      this.products.forEach((el, idx) => {
-        this.total += el.price * this.savedProducts[idx].count;
-      });
-    },
     increment(index) {
       if (this.savedProducts[index].count < this.products[index].quantity) {
         this.$store.dispatch("products/incrementCount", index);
@@ -147,9 +142,6 @@ export default {
       this.$emit("delete", index);
       this.$store.dispatch("products/deleteProduct", index);
     }
-  },
-  mounted() {
-    this.getTotalPrice();
   }
 };
 </script>

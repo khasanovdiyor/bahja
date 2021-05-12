@@ -1,46 +1,7 @@
 <template>
   <div>
-    <div class="flex min-h-screen bg-gray-100">
-      <AdminSidebar />
-      <div class="px-5 mx-auto w-4/5 pt-10">
-        <div
-          v-if="showSuccess"
-          class="flex fixed z-40 top-0 py-2 w-9/12 bg-green-500 text-lg text-white text-center"
-        >
-          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-            <path
-              d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"
-            ></path>
-          </svg>
-
-          <i>Buyurtmachi ma'lumotlari yangilandi</i>
-
-          <span
-            class="absolute right-8 cursor-pointer"
-            @click="showSuccess = false"
-            >X</span
-          >
-        </div>
-
-        <div
-          v-if="showFail"
-          class="flex fixed z-40 top-0 py-2 w-9/12 bg-red-500 text-lg text-white text-center"
-        >
-          <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-            <path
-              d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
-            ></path>
-          </svg>
-          <i
-            >Ma'lumotlarni yangilashda xatolik yuz berdi, qayta urinib
-            ko'ring</i
-          >
-          <span
-            class="absolute right-8 cursor-pointer"
-            @click="showFail = false"
-            >X</span
-          >
-        </div>
+    <div>
+      <div>
         <div class="pb-10">
           <h2 class="font-bold text-xl mb-5">Buyurtmani o'zgartirish</h2>
           <div class="my-4">
@@ -87,7 +48,7 @@
               class="text-red-400 text-sm"
               v-if="
                 !$v.selectedOrder.phone_number.required &&
-                  $v.selectedOrder.phone_number.$dirty
+                $v.selectedOrder.phone_number.$dirty
               "
             >
               <i>To'ldirish shart</i>
@@ -119,62 +80,14 @@
               </option>
             </select>
           </div>
-          <button
-            class="bg-gray-800 rounded-md text-sm text-white py-2 px-4"
-            @click="updateOrder"
-          >
-            Ma'lumotlarni yangilash
-          </button>
+          <BaseButtonLink
+            class="mb-4"
+            buttonText="Ma'lumotlarni yangilash"
+            @button-click="updateOrder"
+          />
           <div>
-            <table class="min-w-full divide-y divide-gray-200 my-5">
-              <thead class="bg-gray-200">
-                <tr>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    kod
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    nom
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    Attributlar
-                  </th>
-
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    narx
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    son
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    jami narx
-                  </th>
-                  <th
-                    scope="col"
-                    class="px-6 py-2 w-40 text-left text-xs font-bold text-gray-600 uppercase"
-                  >
-                    buyruqlar
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white" v-if="order.orderproducts">
+            <BaseTable :headers="tableHeaders">
+              <template #body>
                 <tr
                   class="border"
                   v-for="product in order.orderproducts"
@@ -208,7 +121,11 @@
                   </td>
                   <td class="px-6 py-1 border w-16">
                     <div class="flex items-center text-sm">
-                      {{ product.count }}
+                      <input
+                        type="text"
+                        class="w-20 py-2 px-4"
+                        v-model="product.count"
+                      />
                     </div>
                   </td>
                   <td class="px-6 py-1 border">
@@ -247,72 +164,40 @@
                       </div>
                     </div>
                   </td>
-                  <div
-                    class="fixed z-50 top-0 bottom-0 right-0 left-0 bg-gray-600 bg-opacity-50 flex items-center justify-center"
-                    v-if="showDeleteDialog"
-                  >
-                    <div class="w-1/3 opasity-0 rounded-md bg-white py-4 px-8">
-                      <span class="font-bold text-xl text-center block mb-6"
-                        >Ushbu mahsulotni o'chirishni xohlaysizmi?</span
-                      >
-                      <div class="flex justify-between">
-                        <button
-                          @click="deleteOrderProduct(orderProductId)"
-                          class="bg-red-400 rounded-md text-white py-2 px-4"
-                        >
-                          Ha
-                        </button>
-                        <button
-                          @click="showDeleteDialog = false"
-                          class="bg-gray-600 rounded-md text-white py-2 px-4"
-                        >
-                          Yo'q
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                 </tr>
-              </tbody>
-            </table>
+              </template>
+            </BaseTable>
+            <BaseDeleteModal
+              v-if="showDeleteDialog"
+              text="Ushbu mahsulotni buyurtmadan o'chirishni xohlaysizmi?"
+              @delete="deleteOrderProduct"
+              @close="showDeleteDialog = false"
+            />
           </div>
           <div class="my-10">
             <h2 class="font-bold text-xl mb-4 text-gray-800">
               Mahsulot qo'shish
             </h2>
-            <label class="block font-bold uppercase text-gray-500 text-sm mb-2"
-              >Mahsulot</label
-            >
-            <multiselect
+            <BaseSelect
+              class="my-4 w-1/2"
               v-model="selectedProduct"
+              label="Mahsulot"
+              selectLabel="codesize"
+              placeholder="Mahsulot tanlang"
+              noResult="Bunday mahsulot topilmadi!"
               :options="products"
-              placeholder="mahsulot tanlang"
-              label="codesize"
               @select="selectProduct"
-            >
-              <template
-                ><span slot="noResult" class="text-red-500 text-sm"
-                  >Bunday mahsulot topilmadi!</span
-                >
-              </template>
-            </multiselect>
-            <div class="mt-2">
-              <label
-                class="block font-bold uppercase text-gray-500 text-sm mt-4 mb-2"
-                >son</label
-              >
-              <input
-                type="number"
-                class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-                v-model="newProduct.count"
-              />
-            </div>
-
-            <button
-              class="bg-gray-800 rounded-md text-sm text-white py-2 my-6 px-4"
-              @click="createOrderProduct"
-            >
-              Ma'lumotlarni saqlash
-            </button>
+            />
+            <BaseTextField
+              class="my-4"
+              v-model="newProduct.count"
+              :mask="priceMask"
+              label="son"
+            />
+            <BaseButtonLink
+              buttonText="Mahsulot qo'shish"
+              @button-click="createOrderProduct"
+            />
           </div>
         </div>
       </div>
@@ -321,20 +206,28 @@
 </template>
 <script>
 import { required, minLength } from "vuelidate/lib/validators";
+import priceMask from "~/mixins.js/priceMask.js";
 
 export default {
   data() {
     return {
-      orderProductId: 0,
+      priceMask,
+      orderProductId: null,
       showDeleteDialog: false,
-      showSuccess: false,
-      showFail: false,
-      message: "",
       statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      tableHeaders: [
+        "kod",
+        "nom",
+        "attributlar",
+        "narx",
+        "son",
+        "jami narx",
+        "buyruqlar"
+      ],
       selectedProduct: {},
       newProduct: {
         order_id: this.$route.params.id,
-        count: 0,
+        count: null,
         proudct_id: null
       },
       selectedOrder: {
@@ -345,20 +238,6 @@ export default {
       products: [],
       order: {}
     };
-  },
-  watch: {
-    showSuccess() {
-      if (this.showSuccess === true)
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 3000);
-    },
-    showFail() {
-      if (this.showFail === true)
-        setTimeout(() => {
-          this.showFail = false;
-        }, 3000);
-    }
   },
   validations: {
     selectedOrder: {
@@ -373,61 +252,52 @@ export default {
     }
   },
   methods: {
-    selectProduct(value, id) {
+    selectProduct(value) {
       this.newProduct.product_id = value.id;
     },
     updateOrder() {
       this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.submitStatus = "ERROR";
-      } else {
+      if (!this.$v.$invalid) {
         let loader = this.$loading.show();
         this.$axios
           .patch(
             `cart/orderbeta-update/${this.$route.params.id}`,
-            this.selectProduct
+            this.selectedOrder
           )
           .then(res => {
-            loader.hide();
-            this.showSuccess = true;
-
-            console.log(res.data);
+            this.$toast.success(res.data);
+            this.getOrder();
           })
           .catch(err => {
+            this.$toast(err.response.data);
+          })
+          .finally(() => {
             loader.hide();
-            this.showFail = true;
-
-            console.log(err);
           });
       }
     },
     createOrderProduct() {
       let loader = this.$loading.show();
+      this.newProduct.count.replace(/\s/g, "");
       this.$axios
         .post(`cart/orderproductbeta-create/`, this.newProduct)
         .then(res => {
-          this.message = "Yangi mahsulot qo'shildi";
-          this.showSuccess = true;
+          this.$toast.success(res.data);
           this.getOrder();
-
-          console.log(res.data);
-          loader.hide();
         })
         .catch(err => {
-          this.message =
-            "Mahsulot qo'shishda xatolik yuz berdi, qayta urinib ko'ring";
-          this.showFail = true;
-
+          this.$toast.error(err.response.data);
+        })
+        .finally(() => {
           loader.hide();
-          console.log(err);
         });
     },
     getOrder() {
+      let loader = this.$loading.show();
       this.$axios
         .get(`cart/orderbeta-detail/${this.$route.params.id}`)
         .then(res => {
           this.order = res.data;
-          console.log("Order: ", this.order);
           this.selectedOrder = Object.assign({}, res.data);
           delete this.selectedOrder.orderproducts;
           delete this.selectedOrder.id;
@@ -435,6 +305,9 @@ export default {
         })
         .catch(err => {
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     getProducts() {
@@ -448,34 +321,34 @@ export default {
           console.log(err);
         });
     },
-    deleteOrderProduct(id) {
+    deleteOrderProduct() {
       this.$axios
-        .delete(`cart/orderproductbeta-delete/${id}`)
+        .delete(`cart/orderproductbeta-delete/${this.orderProductId}`)
         .then(res => {
-          console.log(res);
-          this.showDeleteDialog = false;
-          this.getOrder();
-          this.message = "Mahsulot o'chirildi";
-          this.showSuccess = true;
+          if (res.status === 204) {
+            this.$router.push("/admin/orders");
+            this.$toast.success("Buyurtma o'chirildi");
+          } else {
+            this.$toast.success(res.data);
+            this.getOrder();
+          }
         })
         .catch(err => {
-          this.message =
-            "Mahsulot o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
-          this.showFail = true;
-          console.log(err);
+          this.$toast.error(err.response.data);
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
         });
-      if (this.order.orderproducts.length === 1) {
-        this.$router.push("/admin/orders");
-      }
     },
     updateOrderProduct(id, count) {
       this.$axios
         .patch(`cart/orderproductbeta-update/${id}`, { count: count })
         .then(res => {
-          console.log(res);
+          this.$toast.success(res.data);
+          this.getOrder();
         })
         .catch(err => {
-          console.log(err);
+          this.$toast.error(err.response.data);
         });
     }
   },
@@ -485,4 +358,3 @@ export default {
   }
 };
 </script>
-<style scoped></style>

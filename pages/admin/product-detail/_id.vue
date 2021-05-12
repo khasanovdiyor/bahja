@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <AdminSidebar class="w-1/5" /> -->
     <div>
       <h1 class="font-bold text-xl mb-6 text-gray-900">Mahsulotlar</h1>
       <div>
@@ -120,10 +119,10 @@
               </td>
             </tr>
 
-            <tr class="border-b">
+            <tr class="border-b" v-if="product.price">
               <td class="px-6 py-2">
                 <div class="flex items-center text-sm">
-                  {{ product.price }}
+                  {{ product.price.toLocaleString() }}
                 </div>
               </td>
             </tr>
@@ -167,7 +166,7 @@
             <tr
               class="border text-sm"
               v-for="(attrib, index) in product.attributes"
-              :key="attrib"
+              :key="index"
             >
               <td class="px-6 py-1 border text-sm">
                 {{ attrib.is_main }}
@@ -246,7 +245,7 @@
           <tbody class="">
             <tr
               class="border bg-white text-sm w-1/2"
-              v-for="variation in product.variations"
+              v-for="variation in variations"
               :key="variation.id"
             >
               <td class="px-6 py-1 border text-sm">
@@ -265,10 +264,10 @@
                 </div>
               </td>
               <td class="px-6 py-1 border text-sm">
-                {{ variation.price }}
+                {{ variation.quantity }}
               </td>
               <td class="px-6 py-1 border text-sm">
-                {{ variation.quantity }}
+                {{ variation.price }}
               </td>
               <td class="px-6 py-1 border text-sm">
                 <div class="flex justify-around">
@@ -300,8 +299,8 @@
             </tr>
             <tr
               class="w-9/12"
-              v-for="variation in product.variations"
-              :key="variation.id"
+              v-for="(variation, index) in variations"
+              :key="index"
             >
               <h2 class="font-bold text-xl text-gray-800 mt-10">Attributlar</h2>
               <table class="w-full divide-y divide-gray-200 mt-5">
@@ -338,7 +337,7 @@
                   <tr
                     class="border"
                     v-for="(attrib, index) in variation.attributes"
-                    :key="attrib"
+                    :key="index"
                   >
                     <td class="px-6 py-1 border text-sm">
                       {{ attrib.is_main }}
@@ -358,6 +357,12 @@
               </table>
             </tr>
           </tbody>
+          <BaseDeleteModal
+            v-if="showDeleteDialog"
+            text="Ushbe mahsulotni o'chirishni xohlaysizmi?"
+            @delete="deleteProduct"
+            @close="showDeleteDialog = false"
+          />
         </table>
       </div>
       <div class="">
@@ -375,8 +380,8 @@
           >Galereya rasmlari</span
         >
         <div
-          v-for="image in product.images"
-          :key="image"
+          v-for="(image, index) in product.images"
+          :key="index"
           class="inline-block w-56 h-64 my-5 mr-4 border shadow-sm"
         >
           <img
@@ -396,38 +401,62 @@ export default {
   data() {
     return {
       priceMask: priceMask,
+      tableHeaders: [
+        "Nom",
+        "kod",
+        "tavsif",
+        "kategoriya",
+        "son",
+        "narx",
+        "buyruqlar"
+      ],
       showDeleteDialog: false,
       selectedProductID: null,
       product: {
         brand: {},
         color: {},
-        category: {},
+        category: {}
       },
+      variations: []
     };
   },
   methods: {
     getProduct() {
-      this.$axios.get(`product/detail/${this.$route.params.id}`).then(res => {
-        console.log(res.data);
-        this.product = res.data;
-      });
-    },
-    deleteProduct(id) {
+      let loader = this.$loading.show();
       this.$axios
-        .delete(`product/delete/${id}`)
+        .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
-          console.log(res);
-          this.showDeleteDialog = true;
-          this.getProducts();
+          console.log(res.data);
+          this.product = res.data.find(el => el.parent_id === 0);
+          console.log(this.product);
+          this.variations = res.data.filter(el => el.parent_id !== 0);
+          console.log(this.variations);
         })
-        .catch(err => {
-          console.log(err);
+        .finally(() => {
+          loader.hide();
         });
     },
+    deleteProduct() {
+      this.$axios
+        .delete(`product/delete/${this.selectedProductID}`)
+        .then(res => {
+          this.$toast.success(res.data || "Mahsulot muvaffaqiyatli o'chirildi");
+          this.getProduc();
+        })
+        .catch(err => {
+          this.$toast.error(
+            err.response.data || "Mahsulot o'chirishda xatolik yuz berdi"
+          );
+          console.log(err);
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
+        });
+    }
   },
   mounted() {
     this.getProduct();
-  },
+  }
 };
 </script>
 

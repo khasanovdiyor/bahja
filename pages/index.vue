@@ -109,23 +109,23 @@ export default {
         breakpoints: {
           1180: {
             perPage: 3,
-            gap: "4rem",
+            gap: "4rem"
           },
           900: {
             perPage: 2,
-            gap: "2rem",
+            gap: "2rem"
           },
           550: {
             perPage: 1,
-            width: "60%",
+            width: "60%"
           },
           450: {
             perPage: 1,
-            width: "80%",
-          },
-        },
+            width: "80%"
+          }
+        }
       },
-      products: [],
+      products: []
     };
   },
   methods: {
@@ -142,7 +142,7 @@ export default {
           loader.hide();
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
@@ -155,7 +155,7 @@ export default {
     setInterval(() => {
       this.currentImg = this.currentImg + 1;
     }, 3000);
-  },
+  }
 };
 </script>
 

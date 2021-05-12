@@ -36,6 +36,7 @@
             </button>
           </div> -->
 
+        <div class="sm:px-2 md:px-8 lg:px-16">
           <div
             class="relative mb-16 outline-none w-64 "
             v-if="products.length > 0"
@@ -53,7 +54,7 @@
                 <li
                   v-for="option in sortOptions"
                   :key="option.slug"
-                  @click="getProductsBySort(option.slug, option.text)"
+                  @click="getProducts(1, option.slug, option.text)"
                   class="cursor-pointer hover:bg-gray-200 py-2 px-4"
                 >
                   {{ option.text }}
@@ -98,6 +99,15 @@
         </div>
       </div>
     </div>
+    <div class="flex justify-center">
+      <BasePagination
+        class="w-1/4"
+        v-if="totalPages > 1"
+        :page-count="totalPages"
+        :page-range="totalPages > 6 ? 4 : totalPages"
+        :click-handler="getProducts"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -110,6 +120,7 @@ export default {
       showSort: false,
       showFilter: false,
       selectedSort: "Tartiblash",
+      totalPages: null,
       sizes: [],
       savedProducts: [],
       sortOptions: [
@@ -129,57 +140,38 @@ export default {
     };
   },
   methods: {
-    getProductsBySort(ordering, text) {
+    getProducts(page = 1, ordering = "", text = "Tartiblash") {
+      let loader = this.$loading.show();
       this.$axios
         .get(`product/list/`, {
           params: {
             is_import: true ? this.$route.params.type === "import" : false,
-            ordering: ordering
+            ordering,
+            page
           }
         })
         .then(res => {
-          console.log("list", res.data);
           this.products = res.data.results;
+          this.totalPages = res.data.total_pages;
           this.showSort = false;
           this.selectedSort = text;
         })
         .catch(err => {
           console.log(err);
-        });
-    },
-    getProducts() {
-      let loader = this.$loading.show();
-      this.$axios
-        .get(`product/list/`, {
-          params: {
-            is_import: true ? this.$route.params.type === "import" : false
-          }
         })
-        .then(res => {
-          this.products = res.data.results;
+        .finally(() => {
           loader.hide();
-        })
-        .catch(err => {
-          loader.hide();
-          console.log(err);
         });
     },
     getSizes() {
       for (let i = 0; i < this.products.length; i++) {
         this.sizes.push(this.products[i].size);
       }
-      console.log("import sizes", this.sizes, "this.products", this.products);
     }
   },
   mounted() {
     this.getSizes();
-    this.getProducts();
-    if (localStorage.products) {
-      let json_string = localStorage.getItem("products");
-      if (json_string.length !== 0) {
-        this.savedProducts = JSON.parse(json_string);
-      }
-    }
+    this.getProducts(1);
   }
 };
 </script>
