@@ -633,15 +633,14 @@ export default {
             delete el.maskPrice;
           }
         let loader = this.$loading.show();
-        let toast = this.$toast;
         this.$axios
           .post("product/create/", this.product)
           .then(res => {
-            toast.success("Mahsulot yaratildi");
+            this.$toast.success("Mahsulot yaratildi");
             this.variations = [];
           })
           .catch(err => {
-            toast.error(err.response.data);
+            this.$toast.error(err.response.data);
           })
           .finally(() => {
             loader.hide();

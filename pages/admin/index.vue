@@ -426,7 +426,12 @@ export default {
           loader.hide();
         });
     },
-    getStatsNewOrder(option) {
+    getStatsNewOrder(
+      option = {
+        name: "1 kunlik",
+        day: 1
+      }
+    ) {
       const formData = new FormData();
       formData.append("date", option.day);
       this.$axios
@@ -441,7 +446,12 @@ export default {
           console.log(err);
         });
     },
-    getStatsNewProducts(option) {
+    getStatsNewProducts(
+      option = {
+        name: "1 kunlik",
+        day: 1
+      }
+    ) {
       const formData = new FormData();
       formData.append("date", option.day);
       this.$axios
@@ -457,7 +467,12 @@ export default {
           console.log(err);
         });
     },
-    getStatsNewOrderMoney(option) {
+    getStatsNewOrderMoney(
+      option = {
+        name: "1 kunlik",
+        day: 1
+      }
+    ) {
       const formData = new FormData();
       formData.append("date", option.day);
       this.$axios
@@ -474,15 +489,14 @@ export default {
         });
     },
     deleteOrder(id) {
-      let toast = this.$toast;
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
-          toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
+          this.$toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
           this.getOrders(1);
         })
         .catch(err => {
-          toast.error(
+          this.$toast.error(
             err.response.data || "Buyurtma o'chirishda xatolik yuz berdi"
           );
         })
@@ -496,9 +510,11 @@ export default {
         .patch(`cart/change-status/${order.id}`, { status })
         .then(res => {
           this.$toast.success("Status muvaffaqiyatli o'zgardi");
-          this.getOrders();
+          this.getOrders(1);
+          this.getStatsNewOrderMoney();
         })
         .catch(err => {
+          order.showStatus = false;
           this.$toast.error(
             err.response.data || "Status o'zgarishida xatolik yuz berdi"
           );

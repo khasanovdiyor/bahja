@@ -14,7 +14,7 @@
           Hozircha bu bo'limda mahsulotlar mavjud emas!
         </h2>
 
-        <div class="mt-10 flex justify-between flex-wrap">
+        <div class="mt-10 flex flex-wrap">
           <!-- Product card -->
           <nuxt-link
             class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"

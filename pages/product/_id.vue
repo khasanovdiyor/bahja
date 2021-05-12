@@ -24,7 +24,6 @@
         </div>
       </div>
     </div>
-    -->
     <div class="px-5 md:px-16 mx-auto py-10 block md:flex">
       <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
         <swiper
@@ -85,7 +84,12 @@
           }}</span>
           <button
             @click="saveToCart"
+            :disabled="product.quantity === 0"
             class="uppercase bg-black text-white py-2 px-4 sm:mx-4"
+            :class="{
+              'opacity-50': product.quantity === 0,
+              'cursor-default': product.quantity === 0
+            }"
           >
             Savatchaga qo'shish
           </button>

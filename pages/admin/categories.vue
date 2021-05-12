@@ -99,15 +99,14 @@ export default {
 
   methods: {
     deleteCategory(id) {
-      let toast = this.$toast;
       this.$axios
         .delete(`product/category-delete/${id}`)
         .then(res => {
-          toast.success(res.data);
+          this.$toast.success(res.data);
           this.getCategories(1);
         })
         .catch(err => {
-          toast.error(err.response.data);
+          this.$toast.error(err.response.data);
         })
         .finally(() => {
           this.showDeleteDialog = false;

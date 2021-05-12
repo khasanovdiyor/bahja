@@ -269,7 +269,7 @@ export default {
             this.getOrder();
           })
           .catch(err => {
-            this.$toast(err.response.data);
+            this.$toast.error(err.response.data);
           })
           .finally(() => {
             loader.hide();

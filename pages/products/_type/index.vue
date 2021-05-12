@@ -83,9 +83,7 @@
           bo'limini tekshiring!
         </h2>
 
-        <div
-          class="mt-10 lg:px-16 px-6 flex justify-around lg:justify-evenly flex-wrap"
-        >
+        <div class="mt-10 lg:px-16 px-6 flex flex-wrap">
           <!-- Product card -->
           <nuxt-link
             class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"

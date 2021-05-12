@@ -3,7 +3,7 @@
     <div class="flex">
       <TheSidebar :currentLink="link" />
       <div class="px-16 w-full">
-        <h1 class="px-16 font-bold text-center text-xl my-5">
+        <h1 class="px-16 font-bold text-center capitalize text-xl my-5">
           {{ $route.params.type }} mahsulotlar
         </h1>
         <div
@@ -36,7 +36,7 @@
           Hozircha bu bo'limda mahsulotlar mavjud emas!
         </h2>
 
-        <div class="mt-10 flex float-left flex-wrap">
+        <div class="mt-10 flex flex-wrap">
           <!-- Product card -->
           <nuxt-link
             class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"

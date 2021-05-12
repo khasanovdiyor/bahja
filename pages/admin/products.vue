@@ -128,16 +128,15 @@ export default {
         });
     },
     deleteProduct(id) {
-      let toast = this.$toast;
       this.$axios
         .delete(`product/delete/${id}`)
         .then(res => {
-          toast.success(res.data);
+          this.$toast.success(res.data);
           this.showDeleteDialog = false;
           this.getProducts();
         })
         .catch(err => {
-          toast.error(err.response.data);
+          this.$toast.error(err.response.data);
         });
     }
   },

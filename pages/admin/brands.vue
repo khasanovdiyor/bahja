@@ -109,15 +109,14 @@ export default {
     },
 
     deleteBrand(id) {
-      let toast = this.$toast;
       this.$axios
         .delete(`product/brand-delete/${id}`)
         .then(res => {
-          toast.success(res.data);
+          this.$toast.success(res.data);
           this.getBrands();
         })
         .catch(err => {
-          toast.error(err.response.data);
+          this.$toast.error(err.response.data);
         })
         .finally(() => {
           this.showDeleteDialog = false;

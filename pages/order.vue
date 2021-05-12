@@ -1,7 +1,8 @@
 <template>
-  <div v-if="!showMessage">
+  <div>
     <div
       class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-12 border-gray-200 pb-8"
+      v-if="!showMessage"
     >
       <div class="w-full px-5 mx-auto">
         <form class="w-full" method="post" enctype="multipart/form-data">
@@ -100,22 +101,26 @@ export default {
   },
   methods: {
     sendOrder() {
-      let orderData = {
-        name: this.order.name,
-        phone_number: this.order.phone_number,
-        products: this.savedProducts
-      };
-      this.$axios
-        .post(`cart/orderbeta-create/`, orderData)
-        .then(res => {
-          this.$toast.success("Buyurtma qabul qilindi");
-          this.$store.dispatch("products/deleteAllProduct");
-        })
-        .catch(err => {
-          this.$toast.error(
-            err.response.data || "Buyurtma berishda xatolik yuz berdi"
-          );
-        });
+      this.$v.touch();
+      if (!this.$v.$invalid) {
+        let orderData = {
+          name: this.order.name,
+          phone_number: this.order.phone_number,
+          products: this.savedProducts
+        };
+        this.$axios
+          .post(`cart/orderbeta-create/`, orderData)
+          .then(res => {
+            this.$toast.success("Buyurtma qabul qilindi");
+            this.$store.dispatch("products/deleteAllProduct");
+            this.showMessage = true;
+          })
+          .catch(err => {
+            this.$toast.error(
+              err.response.data || "Buyurtma berishda xatolik yuz berdi"
+            );
+          });
+      }
     },
 
     checkForm: function (e) {

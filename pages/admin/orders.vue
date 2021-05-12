@@ -45,7 +45,7 @@
                       <td
                         class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
                       >
-                        <div class="flex items-center">
+                        <div class="flex items-center w-32">
                           <div class="flex-shrink-0 h-6 w-6">
                             <img
                               class="h-6 w-6 rounded-full"
@@ -231,15 +231,14 @@ export default {
         });
     },
     deleteOrder(id) {
-      let toast = this.$toast;
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
-          toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
+          this.$toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
           this.getOrders(1);
         })
         .catch(err => {
-          toast.error(
+          this.$toast.error(
             err.response.data || "Buyurtma o'chirishda xatolik yuz berdi"
           );
         })
@@ -248,15 +247,15 @@ export default {
         });
     },
     changeStatus(status, order) {
-      let toast = this.$toast;
       this.$axios
         .patch(`cart/change-status/${order.id}`, { status })
         .then(res => {
-          toast.success("Status muvaffaqiyatli o'zgardi");
+          this.$toast.success("Status muvaffaqiyatli o'zgardi");
           this.getOrders(1);
         })
         .catch(err => {
-          toast.error(err.response.data);
+          order.showStatus = false;
+          this.$toast.error(err.response.data);
         });
     }
   },
