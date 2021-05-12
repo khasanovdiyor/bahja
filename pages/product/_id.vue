@@ -1,50 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="showNotification"
-      class="relative z-20 flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md py-5 pl-6 pr-0 sm:pr-8"
-    >
-      <div
-        class="flex flex-row mx-auto items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0"
-      >
-        <div class="w-6 h-6">
-          <img
-            src="~/assets/images/success.svg"
-            alt="success"
-            class="w-full"
-            v-if="showSuccess"
-          />
-          <img
-            src="~/assets/images/success.svg"
-            alt="success"
-            class="w-full"
-            v-else
-          />
-        </div>
-        <div class="font-medium ml-3">
-          {{ message }}
-        </div>
-      </div>
-      <div
-        @click="showNotification = false"
-        class="absolute sm:relative sm:top-auto sm:right-auto ml-auto right-4 top-4 text-gray-400 hover:text-gray-800 cursor-pointer"
-      >
-        <svg
-          class="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
-      </div>
-    </div>
     <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
       <div class="flex justify-center items-center">
         <h2 class="font-bold sm:text-4xl text-xl self-center">
@@ -202,12 +157,6 @@ export default {
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
       }
-    },
-    showNotification(newVal) {
-      if (newVal === true)
-        setTimeout(() => {
-          this.showNotification = false;
-        }, 3000);
     }
   },
 
@@ -287,15 +236,9 @@ export default {
         let selected_product = JSON.parse(JSON.stringify(this.selectedProduct));
 
         this.$store.dispatch("products/addProductToCart", selected_product);
-
-        this.showNotification = true;
-        this.showSuccess = true;
-        this.message = "Mahsulot savatchaga qo'shildi!";
+        this.$toast.success("Mahsulot savatchaga qo'shildi");
       } catch (err) {
-        this.showNotification = true;
-        this.showSuccess = false;
-        this.message =
-          "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
+        this.$toast.error("Mahsulotni savatchaga qo'shishda xatolik yuz berdi");
       }
     }
   },
