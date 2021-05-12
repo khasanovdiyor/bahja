@@ -46,7 +46,9 @@
           @change="previewImage"
           :image="preview"
         />
-
+        <div class="text-red-400 text-sm" v-if="imageRequired">
+          Rasm qo'yish shart
+        </div>
         <BaseButtonLink
           buttonText="Kategoriya yaratish"
           @button-click="createCategory"
@@ -61,9 +63,7 @@ import { required } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
-      showSuccess: false,
-      showError: false,
-      message: "",
+      createProductClicked: false,
       selectedCategory: null,
       preview: null,
       categories: [],
@@ -81,6 +81,11 @@ export default {
       name: {
         required
       }
+    }
+  },
+  computed: {
+    imageRequired() {
+      return !!!this.image && this.createProductClicked;
     }
   },
   methods: {
@@ -103,8 +108,9 @@ export default {
     },
 
     createCategory() {
+      this.createProductClicked = true;
       this.$v.$touch();
-      if (this.$v.$invalid) {
+      if (!this.$v.$invalid && !this.imageRequired) {
         let loader = this.$loading.show();
         const formData = new FormData();
         for (let key in this.newCategory) {
