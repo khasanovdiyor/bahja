@@ -92,14 +92,30 @@
                               v-for="status in statuses"
                               :key="status"
                               @click="changeStatus(status, order)"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full"
+                              :class="{
+                                'bg-green-100 text-green-800':
+                                  status === 'Tugallangan',
+                                'bg-gray-200 text-gray-800':
+                                  status === 'Kutilmoqda',
+                                'bg-red-100 text-red-800':
+                                  status === 'Bekor qilingan'
+                              }"
                               >{{ status }}</span
                             >
                           </div>
                           <span
                             @click="order.showStatus = true"
                             v-if="!order.showStatus"
-                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full"
+                            :class="{
+                              'bg-green-100 text-green-800':
+                                order.status === 'Tugallangan',
+                              'bg-gray-200 text-gray-800':
+                                order.status === 'Kutilmoqda',
+                              'bg-red-100 text-red-800':
+                                order.status === 'Bekor qilingan'
+                            }"
                             >{{ order.status }}</span
                           >
                         </div>
@@ -201,7 +217,7 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            page: page,
+            page,
             status: this.activeStatus
           }
         })
@@ -220,7 +236,7 @@ export default {
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
           toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
-          this.getOrders();
+          this.getOrders(1);
         })
         .catch(err => {
           toast.error(
@@ -237,7 +253,7 @@ export default {
         .patch(`cart/orderbeta-update/${order.id}`, { status })
         .then(res => {
           toast.success("Status muvaffaqiyatli o'zgardi");
-          this.getOrders();
+          this.getOrders(1);
         })
         .catch(err => {
           toast.error(err.response.data);
