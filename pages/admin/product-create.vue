@@ -146,14 +146,11 @@
             </div>
           </tab>
           <tab name="O'zgartirish" class="w-full text-lg">
-            <h2 class="text-xl font-bold text-gray-700 mb-10">
-              O'zgarishlar {{ variation.selectedCategories }}
-              {{ variation.categories }}
-            </h2>
+            <h2 class="text-xl font-bold text-gray-700 mb-10">O'zgarishlar</h2>
 
             <div class="w-full">
               <BaseTextField
-                v-model="$v.variation.name.$model"
+                v-model.trim="$v.variation.name.$model"
                 label="nom"
                 class="my-4"
                 required
@@ -162,9 +159,10 @@
                 "
               />
               <BaseTextField
-                v-model="$v.variation.product_code.$model"
+                v-model.trim="$v.variation.product_code.$model"
                 label="Kod"
                 class="my-4"
+                v-mask="'NNNNNNN'"
                 required
                 :required-message="
                   !$v.variation.product_code.required &&
@@ -178,7 +176,7 @@
                   !$v.variation.description.required &&
                   $v.variation.description.$dirty
                 "
-                v-model="$v.variation.description.$model"
+                v-model.trim="$v.variation.description.$model"
                 label="Tavsif"
                 class="my-4"
               />
@@ -420,17 +418,15 @@ export default {
   },
   computed: {
     imagesMinLength() {
-      return this.createProductClicked && this.product.images.length < 3
-        ? true
-        : false;
+      return !!(this.createProductClicked && this.product.images.length < 3);
     },
     imageRequired() {
-      return !this.product.image && this.createProductClicked ? true : false;
+      return !this.product.image && this.createProductClicked;
     },
     attributesMinLength() {
-      return this.createProductClicked && this.product.attributes.length < 2
-        ? true
-        : false;
+      return !!(
+        this.createProductClicked && this.product.attributes.length < 2
+      );
     }
   },
   watch: {
@@ -558,6 +554,14 @@ export default {
           this.variation.selectedCategories,
           x => x
         );
+        varProduct.images = Array.from(this.variation.images, x => x);
+        varProduct.attributes = Array.from(this.variation.attributes, x => x);
+        varProduct.attributes.forEach((_, index) => {
+          varProduct.attributes[index] = Object.assign(
+            {},
+            this.variation.attributes[index]
+          );
+        });
         this.variations.push(varProduct);
 
         console.log(this.variations);
@@ -643,7 +647,6 @@ export default {
             loader.hide();
           });
       }
-      this.createProductClicked = false;
     }
   },
   mounted() {

@@ -32,8 +32,7 @@ export default {
     { src: "~/plugins/vuelidate.js" },
     { src: "~/plugins/vue-debounce.js" },
     { src: "~/plugins/vue-toast.js", mode: "client" },
-    { src: "~/plugins/vue-paginate.js", mode: "client" },
-
+    { src: "~/plugins/vue-paginate.js", mode: "client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -61,7 +60,7 @@ export default {
     }
   },
   axios: {
-    baseURL: "http://127.0.0.1:8000/api/"
+    baseURL: "http://192.168.0.112:8000/api/"
 
     // Used as fallback if no runtime config is provided
   },
@@ -78,7 +77,7 @@ export default {
           maxAge: 24 * 3600
         },
         user: {
-          property: "name",
+          property: "name"
         },
         endpoints: {
           login: { url: "users/token/", method: "post" },

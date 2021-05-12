@@ -48,37 +48,43 @@
               v-for="(product, index) in products"
               :key="index"
             >
-              <img
-                :src="product.image"
-                class="w-56 md:w-32 md:h-32 object-cover"
-                alt="koylak"
-              />
-              <span class="w-full px-5">
-                <h2 class="font-semibold text-gray-400">Mahsulot nomi</h2>
-                {{ product.name }}
+              <nuxt-link
+                :to="`/product/${product.id}`"
+                class="flex"
+                @click.native="$emit('close')"
+              >
+                <img
+                  :src="product.image"
+                  class="w-56 md:w-32 md:h-32 object-cover"
+                  alt="koylak"
+                />
+                <span class="w-full px-5">
+                  <h2 class="font-semibold text-gray-400">Mahsulot nomi</h2>
+                  {{ product.name }}
 
-                <p
-                  class="text-sm font-bold text-gray-600"
-                  v-if="product.attributes.color"
-                >
-                  {{ product.attributes.color.value }} {{ product.size }}
-                </p>
-                <div class="flex mt-8">
                   <p
-                    class="font-bold ml-5 text-gray-700 text-lg"
-                    v-if="product.price"
+                    class="text-sm font-bold text-gray-600"
+                    v-if="product.attributes.color"
                   >
-                    {{ product.price.toLocaleString() }} so'm
+                    {{ product.attributes.color.value }} {{ product.size }}
                   </p>
-                  <img
-                    @click="deleteProduct(index)"
-                    class="w-5 ml-auto cursor-pointer"
-                    src="~/assets/images/delete.svg"
-                    alt="delete"
-                    value="o'chirish"
-                  />
-                </div>
-              </span>
+                  <div class="flex mt-8">
+                    <p
+                      class="font-bold ml-5 text-gray-700 text-lg"
+                      v-if="product.price"
+                    >
+                      {{ product.price.toLocaleString() }} so'm
+                    </p>
+                    <img
+                      @click="deleteProduct(index)"
+                      class="w-5 ml-auto cursor-pointer"
+                      src="~/assets/images/delete.svg"
+                      alt="delete"
+                      value="o'chirish"
+                    />
+                  </div>
+                </span>
+              </nuxt-link>
             </div>
           </div>
         </div>

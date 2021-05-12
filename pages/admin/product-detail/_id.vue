@@ -166,7 +166,7 @@
             <tr
               class="border text-sm"
               v-for="(attrib, index) in product.attributes"
-              :key="attrib"
+              :key="index"
             >
               <td class="px-6 py-1 border text-sm">
                 {{ attrib.is_main }}
@@ -245,7 +245,7 @@
           <tbody class="">
             <tr
               class="border bg-white text-sm w-1/2"
-              v-for="variation in product.variations"
+              v-for="variation in variations"
               :key="variation.id"
             >
               <td class="px-6 py-1 border text-sm">
@@ -299,8 +299,8 @@
             </tr>
             <tr
               class="w-9/12"
-              v-for="variation in product.variations"
-              :key="variation.id"
+              v-for="(variation, index) in variations"
+              :key="index"
             >
               <h2 class="font-bold text-xl text-gray-800 mt-10">Attributlar</h2>
               <table class="w-full divide-y divide-gray-200 mt-5">
@@ -337,7 +337,7 @@
                   <tr
                     class="border"
                     v-for="(attrib, index) in variation.attributes"
-                    :key="attrib"
+                    :key="index"
                   >
                     <td class="px-6 py-1 border text-sm">
                       {{ attrib.is_main }}
@@ -380,8 +380,8 @@
           >Galereya rasmlari</span
         >
         <div
-          v-for="image in product.images"
-          :key="image"
+          v-for="(image, index) in product.images"
+          :key="index"
           class="inline-block w-56 h-64 my-5 mr-4 border shadow-sm"
         >
           <img
@@ -416,7 +416,8 @@ export default {
         brand: {},
         color: {},
         category: {}
-      }
+      },
+      variations: []
     };
   },
   methods: {
@@ -426,7 +427,10 @@ export default {
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
           console.log(res.data);
-          this.product = res.data;
+          this.product = res.data.find(el => el.parent_id === 0);
+          console.log(this.product);
+          this.variations = res.data.filter(el => el.parent_id !== 0);
+          console.log(this.variations);
         })
         .finally(() => {
           loader.hide();

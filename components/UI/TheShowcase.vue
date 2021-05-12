@@ -63,15 +63,10 @@ export default {
   },
   methods: {
     getSlider() {
-      let me = this;
-
       this.$axios
         .get("product/slider/list/")
         .then(res => {
-          console.log("slider-list", res.data);
-          res.data.forEach(element => {
-            me.slides.push(element);
-          });
+          this.slides = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -81,7 +76,7 @@ export default {
       this.$axios
         .get("product/category-slider")
         .then(res => {
-          this.categorySliders = res.data;
+          this.categorySliders = res.data.results;
         })
         .catch(err => {
           console.log(err);

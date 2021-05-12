@@ -29,7 +29,7 @@
           @change="previewImage"
         />
         <BaseButtonLink
-          buttonText="Slider yaratish"
+          buttonText="Slider yangilash"
           @button-click="updateSlider"
         />
       </div>

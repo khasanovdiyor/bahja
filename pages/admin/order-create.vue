@@ -5,8 +5,7 @@
         <div class="pb-10">
           <div class="mt-10">
             <h2 class="font-bold text-xl text-gray-800 mb-6">
-              Buyurtma qo'shish mahsulotlar{{ selectedProduct }}
-              {{ newOrder }}
+              Buyurtma qo'shish mahsulotlar
             </h2>
             <BaseSelect
               class="my-4 w-1/2"
