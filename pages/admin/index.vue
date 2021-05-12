@@ -11,7 +11,11 @@
             <div>
               <div class="flex flex-wrap mx-6">
                 <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
-                  <div class="relative">
+                  <div
+                    class="relative"
+                    tabindex="0"
+                    @focusout="showSortOrder = false"
+                  >
                     <h3
                       class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
                       @click="showSortOrder = true"
@@ -35,7 +39,7 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white h-32"
+                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
                   >
                     <div class="p-3 rounded-full bg-opacity-75">
                       <img
@@ -57,7 +61,11 @@
                 </div>
 
                 <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
-                  <div class="relative">
+                  <div
+                    class="relative"
+                    tabindex="0"
+                    @focusout="showSortMoney = false"
+                  >
                     <h3
                       class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
                       @click="showSortMoney = true"
@@ -81,7 +89,7 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white h-32"
+                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
                   >
                     <div class="p-3 rounded-full bg-orange-600 bg-opacity-75">
                       <img
@@ -103,7 +111,11 @@
                 </div>
 
                 <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
-                  <div class="relative">
+                  <div
+                    class="relative"
+                    tabindex="0"
+                    @focusout="showSortProduct = false"
+                  >
                     <h3
                       class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
                       @click="showSortProduct = true"
@@ -127,7 +139,7 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white h-32"
+                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
                   >
                     <div class="p-3 rounded-full bg-opacity-75">
                       <img
@@ -169,7 +181,7 @@
                   </option>
                 </select>
                 <button
-                  @click="getOrders"
+                  @click="getOrders(1)"
                   class="bg-gray-800 rounded-md text-sm px-4 text-white py-2"
                 >
                   Saralash
@@ -234,14 +246,30 @@
                               v-for="status in statuses"
                               :key="status"
                               @click="changeStatus(status, order)"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full"
+                              :class="{
+                                'bg-green-100 text-green-800':
+                                  status === 'Tugallangan',
+                                'bg-gray-200 text-gray-800':
+                                  status === 'Kutilmoqda',
+                                'bg-red-100 text-red-800':
+                                  status === 'Bekor qilingan'
+                              }"
                               >{{ status }}</span
                             >
                           </div>
                           <span
                             @click="order.showStatus = true"
                             v-if="!order.showStatus"
-                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full"
+                            :class="{
+                              'bg-green-100 text-green-800':
+                                order.status === 'Tugallangan',
+                              'bg-gray-200 text-gray-800':
+                                order.status === 'Kutilmoqda',
+                              'bg-red-100 text-red-800':
+                                order.status === 'Bekor qilingan'
+                            }"
                             >{{ order.status }}</span
                           >
                         </div>
@@ -380,11 +408,14 @@ export default {
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            page: page,
+            page,
             status: this.activeStatus
           }
         })
         .then(res => {
+          res.data.results.forEach(el => {
+            el.showStatus = false;
+          });
           this.orders = res.data.results;
           this.totalPages = res.data.total_pages;
         })
@@ -419,7 +450,7 @@ export default {
           console.log(res.data);
           this.newProducts = res.data.number;
           this.showSortProduct = false;
-          this.selectedSortOrder = option;
+          this.selectedSortProduct = option;
         })
         .catch(err => {
           this.showSortProduct = false;
@@ -448,7 +479,7 @@ export default {
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
           toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
-          this.getOrders();
+          this.getOrders(1);
         })
         .catch(err => {
           toast.error(
@@ -462,7 +493,7 @@ export default {
 
     changeStatus(status, order) {
       this.$axios
-        .patch(`cart/orderbeta-update/${order.id}`, { status })
+        .patch(`cart/change-status/${order.id}`, { status })
         .then(res => {
           this.$toast.success("Status muvaffaqiyatli o'zgardi");
           this.getOrders();
