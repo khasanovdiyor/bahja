@@ -74,13 +74,13 @@ export default {
     return {
       showCard: false,
       showSearch: false,
-      products: [],
+      products: []
     };
   },
   computed: {
     ...mapGetters({
-      savedProducts: "products/savedProducts",
-    }),
+      savedProducts: "products/savedProducts"
+    })
   },
   methods: {
     toggleSearch() {
@@ -106,17 +106,17 @@ export default {
               console.log(err);
             });
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 
 <style scoped>
 .slidein {
-  width: 500px;
+  /* min-width: 350px; */
   position: fixed;
   z-index: 100;
   top: 0;

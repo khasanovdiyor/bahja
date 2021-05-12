@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="showNotification"
-      class="relative flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md py-5 pl-6 pr-8 sm:pr-6"
+      class="relative z-20 flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md py-5 pl-6 pr-0 sm:pr-8"
     >
       <div
         class="flex flex-row mx-auto items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0"
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div> -->
-    <div class="px-5 md:px-16 py-10 block md:flex">
+    <div class="px-5 md:px-16 mx-auto py-10 block md:flex">
       <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
         <swiper
           class="swiper gallery-top"
@@ -153,7 +153,7 @@
                 v-for="color in product.variations"
                 :key="color.id"
                 class="text-gray-600"
-                >{{ color.name }},
+                >{{ product.color }},
               </span>
             </div>
             <div>
@@ -192,13 +192,13 @@ export default {
       product: {
         id: null,
         attributes: {},
-        variations: [],
+        variations: []
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1,
-      },
+        count: 1
+      }
     };
   },
   watch: {
@@ -206,14 +206,14 @@ export default {
       deep: true,
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
-      },
+      }
     },
     showNotification(newVal) {
       if (newVal === true)
         setTimeout(() => {
           this.showNotification = false;
         }, 3000);
-    },
+    }
   },
 
   methods: {
@@ -226,7 +226,7 @@ export default {
         .then(res => {
           this.makeProductList(res.data);
           console.log("product-list", this.product_list);
-          const product = this.product_list.find(function (el) {
+          const product = this.product_list.find(function(el) {
             console.log("product.id", el.id, "id", parseInt(id));
             return el.id === parseInt(id);
           });
@@ -300,11 +300,11 @@ export default {
         this.message =
           "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-    },
+    }
   },
   mounted() {
     this.getProduct();
-  },
+  }
 };
 </script>
 

@@ -3,13 +3,11 @@
     <div class="sm:flex">
       <TheSidebar :currentLink="link" />
       <div class="w-full">
-        <h1
-          class="sm:px-2 md:px-8 lg:px-16 capitalize font-bold text-center text-2xl my-5"
-        >
+        <h1 class="lg:px-16 px-6 capitalize font-bold text-center text-xl my-5">
           {{ $route.params.type }}
           mahsulotlar
         </h1>
-        <div class="sm:px-2 md:px-8 lg:px-16">
+        <div class="lg:px-16 px-6">
           <!-- <div>
             <h2
               @click="showFilter = true"
@@ -29,14 +27,23 @@
             <TheFilter v-if="showFilter" :sizes="sizes" />
           </div> -->
 
+          <!-- <div class=" inline-block ml-auto">
+            <button
+              :class="sidebarOpen"
+              class="visible lg:invisible font-bold text-gray-700 z-30"
+            >
+              Bo'limlar
+            </button>
+          </div> -->
+
           <div
-            class="relative mb-16 outline-none"
+            class="relative mb-16 outline-none w-64 "
             v-if="products.length > 0"
             @focusout="showSort = false"
             tabindex="0"
           >
             <h3
-              class="mb-2 inline-block cursor-pointer"
+              class="mb-2 inline-block cursor-pointer "
               @click="showSort = true"
             >
               {{ selectedSort }} &#8595;
@@ -77,7 +84,7 @@
         </h2>
 
         <div
-          class="mt-10 sm:px-2 md:px-8 lg:px-16 flex justify-between flex-wrap"
+          class="mt-10 lg:px-16 px-6 flex justify-around lg:justify-evenly flex-wrap"
         >
           <!-- Product card -->
           <nuxt-link
@@ -108,17 +115,17 @@ export default {
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha",
+          text: "Narx o'sish bo'yicha"
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha",
+          text: "Narx kamayish bo'yicha"
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha",
-        },
-      ],
+          text: "Mahsulot nomi bo'yicha"
+        }
+      ]
     };
   },
   methods: {
@@ -127,8 +134,8 @@ export default {
         .get(`product/list/`, {
           params: {
             is_import: true ? this.$route.params.type === "import" : false,
-            ordering: ordering,
-          },
+            ordering: ordering
+          }
         })
         .then(res => {
           console.log("list", res.data);
@@ -145,8 +152,8 @@ export default {
       this.$axios
         .get(`product/list/`, {
           params: {
-            is_import: true ? this.$route.params.type === "import" : false,
-          },
+            is_import: true ? this.$route.params.type === "import" : false
+          }
         })
         .then(res => {
           this.products = res.data.results;
@@ -162,11 +169,17 @@ export default {
         this.sizes.push(this.products[i].size);
       }
       console.log("import sizes", this.sizes, "this.products", this.products);
-    },
+    }
   },
   mounted() {
     this.getSizes();
     this.getProducts();
-  },
+    if (localStorage.products) {
+      let json_string = localStorage.getItem("products");
+      if (json_string.length !== 0) {
+        this.savedProducts = JSON.parse(json_string);
+      }
+    }
+  }
 };
 </script>

@@ -1,96 +1,103 @@
 <template>
-  <div>
+  <div class="w-full z-100 ">
     <div
-      class="w-full flex items-center justify-between px-5 text-lg py-7 font-semibold h-6 bg-black text-white"
+      class="sm:max-w-full flex items-center justify-between px-5 text-lg py-7 font-semibold h-6 bg-black text-white"
     >
-      SHOPPING CART
+      <p class="pl-5">XARID SAVATCHASI</p>
       <img
         src="~/assets/images/close.svg"
-        class="close-btn top-6 w-4 cursor-pointer"
+        class="close-btn top-6 w-4 cursor-pointer ml-auto"
         alt="close icon"
         @click="$emit('toggleCard')"
       />
     </div>
 
-    <div class="mt-10">
+    <div class="mt-10 pl-2 ml-4">
       <div
-        class="h-96 w-full"
+        class="h-96 w-full ml-5"
         :class="{ 'scroll overflow-y-scroll': products.length > 2 }"
       >
         <div v-if="products">
           <div
-            class="mb-5 flex px-6"
+            class="mb-5 flex w-full ml-5"
             v-for="(product, index) in products"
             :key="index"
           >
-            <div>
+            <div class="border shadow-sm">
               <img
                 :src="product.image"
-                class="w-40 h-28 object-cover"
-                alt="koylak"
+                class="w-32 md:w-32 h-40 object-cover"
+                alt="product-img"
               />
             </div>
 
-            <span class="w-full mt-auto px-5">
-              <h2 class="font-semibold text-gray-600">Mahsulot nomi</h2>
+            <span class="w-48 px-3 mr-4">
+              <h2 class="text-gray-600 ">
+                <b class="">{{ product.name }}</b>
+              </h2>
 
-              <p
-                class="text-sm font-bold text-gray-400"
-                v-if="product.attributes.color"
-              >
-                Rangi: {{ product.attributes.color.value }} O'lchami:
-                {{ product.attributes.size.value }}
+              <p class="text-gray-600" v-if="product.attributes.color">
+                Rangi: <b>{{ product.attributes.color.value }}</b>
+              </p>
+              <p class="text-gray-600">
+                O'lchami: <b>{{ product.attributes.size.value }}</b>
               </p>
 
-              <div class="flex mt-8">
-                <span class="flex items-center h-6 bg-gray-200">
-                  <button
-                    @click="decrement(index)"
-                    class="w-6 text-lg font-bold"
-                  >
-                    -
-                  </button>
-                  <p class="w-6 text-lg text-center">{{ product.count }}</p>
-                  <button
-                    @click="increment(index)"
-                    class="w-6 text-lg font-bold"
-                  >
-                    +
-                  </button>
-                </span>
+              <div class="mt-4">
                 <p
-                  class="font-bold ml-5 text-gray-700 text-lg"
+                  class="font-bold block  text-gray-700 text-lg"
                   v-if="product.price"
                 >
-                  {{ (product.price * product.count).toLocaleString() }} UZS
+                  {{ (product.price * product.count).toLocaleString() }} so'm
                 </p>
-                <img
-                  @click="deleteProduct(index)"
-                  class="w-5 ml-auto cursor-pointer"
-                  src="~/assets/images/delete.svg"
-                  alt="o'chirish"
-                />
+                <div class="flex ">
+                  <span class="flex  items-center h-6 bg-gray-200">
+                    <button
+                      @click="decrement(index)"
+                      class="w-6 text-lg font-bold"
+                    >
+                      -
+                    </button>
+                    <p class="w-6 text-lg text-center">
+                      {{ product.count }}
+                    </p>
+                    <button
+                      @click="increment(index)"
+                      class="w-6 text-lg font-bold"
+                    >
+                      +
+                    </button>
+                  </span>
+
+                  <p class="ml-auto">
+                    <img
+                      @click="deleteProduct(index)"
+                      class="w-5 cursor-pointer"
+                      src="~/assets/images/delete.svg"
+                      alt="delete"
+                    />
+                  </p>
+                </div>
               </div>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div class="flex justify-center">
-      <div>
-        <div v-if="products.length > 0">
-          <h3 class="uppercase w-2/3 mb-6 mx-auto font-semibold">
+    <div class="flex justify-center text-center">
+      <div class="flex justify-center mx-auto text-center">
+        <div v-if="products.length > 0" class="mt-10">
+          <h3 class="uppercase w-56 mb-6 text-center mx-auto font-semibold">
             jami: {{ total.toLocaleString() }}
           </h3>
           <nuxt-link
             to="/order"
-            class="w-56 flex items-center justify-center mx-auto text-sm font-semibold uppercase py-6 h-8 bg-black text-white"
+            class="w-48 flex items-center justify-center mx-auto text-sm font-semibold rounded-sm uppercase py-6 h-8 bg-black text-white"
           >
             buyurtma berish
           </nuxt-link>
         </div>
-
-        <span v-else class="font-bold text-2xl">Savatcha bo'sh</span>
+        <span v-else class="font-bold text-xl px-32">Savatcha bo'sh</span>
       </div>
     </div>
   </div>
@@ -104,16 +111,16 @@ export default {
   props: {
     products: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     ...mapGetters({
-      savedProducts: "products/savedProducts",
+      savedProducts: "products/savedProducts"
     }),
     total() {
       return this.products.reduce((a, b) => a + b.price * b.count, 0);
-    },
+    }
   },
   methods: {
     getTotalPrice() {
@@ -139,17 +146,18 @@ export default {
     deleteProduct(index) {
       this.$emit("delete", index);
       this.$store.dispatch("products/deleteProduct", index);
-    },
+    }
   },
   mounted() {
     this.getTotalPrice();
-  },
+  }
 };
 </script>
 
 <style>
 .scroll::-webkit-scrollbar {
   width: 5px;
+  margin-left: 5px;
 }
 .scroll::-webkit-scrollbar-thumb {
   background: #888;

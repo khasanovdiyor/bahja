@@ -1,6 +1,9 @@
 <template>
   <div
-    class="min-h-screen flex flex-col flex-shrink-0 antialiased bg-gray-50 text-gray-800"
+    :class="
+      sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
+    "
+    class="fixed z-30 inset-y-0 top-0 left-0 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0 min-h-screen flex flex-col flex-shrink-0 antialiased bg-gray-50 text-gray-800"
   >
     <div class="flex flex-col w-64 bg-white h-full border-r">
       <!-- <div class="flex items-center justify-center h-14 border-b">
@@ -51,12 +54,12 @@ export default {
   props: {
     currentLink: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      categories: [],
+      categories: []
     };
   },
   methods: {
@@ -80,11 +83,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     this.getCategories();
-  },
+  }
 };
 </script>
 
@@ -93,5 +96,4 @@ export default {
   background: rgb(0, 0, 0);
   color: white;
 }
-</style
->>
+</style>

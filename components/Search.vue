@@ -1,19 +1,20 @@
 <template>
-  <div>
+  <div class="max-w-sm z-100">
     <div
-      class="w-full relative px-5 flex text-lg items-center float-right py-7 font-semibold h-6 bg-black text-white"
+      class="sm:max-w-full flex items-center justify-between px-5 text-lg py-7 font-semibold h-6 bg-black text-white"
     >
-      QIDIRUV
+      <p class="pl-3">QIDIRUV</p>
+
       <img
         src="@/assets/images/close.svg"
-        class="close-btn absolute right-10 w-4 cursor-pointer"
+        class="close-btn ml-auto w-4 cursor-pointer"
         alt="close icon"
         @click="$emit('toggleSearch')"
       />
     </div>
 
-    <div class="mb-5 w-full px-5 ml-auto">
-      <div class="w-full py-5">
+    <div class="mb-5 sm:max-w-full w-96 pl-0 sm:pl-6 ml-auto">
+      <div class="w-full py-5 pl-5 sm:px-0">
         <!-- <div class="h-24 border-b-2 mb-10">
           <multiselect
             v-model="selectedBrand"
@@ -23,20 +24,20 @@
             track-by="name"
           ></multiselect>
         </div> -->
-        <div class="border-b-2 pb-10 mt-12">
+        <div class="border-b-2 sm:px-0 px-5 mx-auto pb-10 mt-6">
           <input
             type="text"
             v-model="searchKey"
-            class="px-2 text-gray-600 py-2 border rounded-md w-full"
+            class="text-gray-600 py-2 pl-5 border rounded-md w-full"
             placeholder="Mahsulot qidirish..."
             v-debounce:300ms="searchProducts"
           />
         </div>
         <div class="my-6">
-          <h2 class="font-bold text-lg">Qidiruv natijalari...</h2>
+          <h2 class="font-bold text-gray-600 pl-6">Qidiruv natijasi ...</h2>
         </div>
         <div
-          class="h-96"
+          class="h-96 ml-5"
           :class="{ 'scroll overflow-y-scroll': products.length > 2 }"
         >
           <div v-if="products">
@@ -44,42 +45,32 @@
               Qidiruv natijasi topilmadi
             </h2>
             <div
-              class="flex mb-5"
+              class="flex mb-5 "
               v-for="(product, index) in products"
               :key="index"
             >
               <img
                 :src="product.image"
-                class="w-56 md:w-32 md:h-32 object-cover"
-                alt="koylak"
+                class="w-32 md:w-32 h-40 object-cover border shadow-md"
+                alt="product-img"
               />
-              <span class="w-full px-5">
-                <h2 class="font-semibold text-gray-400">
-                  Mahsulot nomi
-                </h2>
-                {{ product.name }}
-
-                <p
-                  class="text-sm font-bold text-gray-600"
-                  v-if="product.attributes.color"
-                >
-                  {{ product.attributes.color.value }} {{ product.size }}
+              <span class="w-1/2 pl-6 leading-relaxed mr-4">
+                <b class="text-gray-700">{{ product.name }}</b>
+                <h3 class="text-gray-600">
+                  Rangi:
+                </h3>
+                <h3 class="  text-gray-600">
+                  O'lchami: <b class="text-gray-700">{{}}</b>
+                </h3>
+                <p class="font-bold text-gray-600">
+                  {{ product.size }}
                 </p>
-                <div class="flex mt-8">
-                  <p
-                    class="font-bold ml-5 text-gray-700 text-lg"
-                    v-if="product.price"
-                  >
-                    {{ product.price.toLocaleString() }} so'm
-                  </p>
-                  <img
-                    @click="deleteProduct(index)"
-                    class="w-5 ml-auto cursor-pointer"
-                    src="~/assets/images/delete.svg"
-                    alt="delete"
-                    value="o'chirish"
-                  />
-                </div>
+                <p
+                  class="font-bold flex mt-8 ml-2 text-gray-700 text-lg"
+                  v-if="product.price"
+                >
+                  {{ product.price.toLocaleString() }} so'm
+                </p>
               </span>
             </div>
           </div>
