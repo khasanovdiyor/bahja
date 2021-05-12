@@ -93,7 +93,7 @@ export default {
       this.$axios
         .get("product/slider/all", {
           params: {
-            page: page
+            page
           }
         })
         .then(res => {
@@ -105,15 +105,16 @@ export default {
         });
     },
     deleteSlider(id) {
-      let toast = this.$toast;
       this.$axios
         .delete(`product/slider/delete/${id}`)
         .then(res => {
-          toast.success(res.data);
-          this.getSliders();
+          this.$toast.success(res.data || "Slider o'chirildi");
+          this.getSliders(1);
         })
         .catch(err => {
-          toast.error(err.response.data);
+          this.$toast.error(
+            err.response.data || "Slider o'chirishda xatolik yuz berdi"
+          );
         })
         .finally(() => {
           this.showDeleteDialog = false;

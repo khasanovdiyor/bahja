@@ -7,8 +7,7 @@
           {{ $route.params.type }}
           mahsulotlar
         </h1>
-        <div class="lg:px-16 px-6">
-          <!-- <div>
+        <!-- <div>
             <h2
               @click="showFilter = true"
               v-if="!showFilter"
@@ -17,7 +16,7 @@
               Filterni korsatish
             </h2>
             <h2
-              @click="showFilter = false"
+              @c lick="showFilter = false"
               v-if="showFilter"
               class="bg-gray-200 px-4 py-2 inline-block cursor-pointer mb-2"
             >
@@ -27,7 +26,7 @@
             <TheFilter v-if="showFilter" :sizes="sizes" />
           </div> -->
 
-          <!-- <div class=" inline-block ml-auto">
+        <!-- <div class=" inline-block ml-auto">
             <button
               :class="sidebarOpen"
               class="visible lg:invisible font-bold text-gray-700 z-30"
@@ -38,13 +37,13 @@
 
         <div class="sm:px-2 md:px-8 lg:px-16">
           <div
-            class="relative mb-16 outline-none w-64 "
+            class="relative mb-16 outline-none w-64"
             v-if="products.length > 0"
             @focusout="showSort = false"
             tabindex="0"
           >
             <h3
-              class="mb-2 inline-block cursor-pointer "
+              class="mb-2 inline-block cursor-pointer"
               @click="showSort = true"
             >
               {{ selectedSort }} &#8595;

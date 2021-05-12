@@ -250,7 +250,7 @@ export default {
     changeStatus(status, order) {
       let toast = this.$toast;
       this.$axios
-        .patch(`cart/orderbeta-update/${order.id}`, { status })
+        .patch(`cart/change-status/${order.id}`, { status })
         .then(res => {
           toast.success("Status muvaffaqiyatli o'zgardi");
           this.getOrders(1);
