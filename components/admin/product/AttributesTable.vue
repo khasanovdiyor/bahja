@@ -19,7 +19,7 @@
             <input
               type="checkbox"
               class="border w-full text-sm w-5 h-5 pl-5"
-              v-model="attr.is_main"
+              v-model.trim="attr.is_main"
             />
           </div>
         </td>
@@ -29,7 +29,7 @@
             <input
               type="text"
               class="w-full text-sm py-2 pl-5 mx-5 my-1"
-              v-model="attr.key"
+              v-model.trim="attr.key"
             />
           </div>
         </td>
@@ -38,7 +38,7 @@
             <input
               type="text"
               class="w-full text-sm py-2 pl-5 mx-5 my-1"
-              v-model="attr.label"
+              v-model.trim="attr.label"
             />
           </div>
         </td>
@@ -47,7 +47,7 @@
             <input
               type="text"
               class="w-full text-sm py-2 pl-5 mx-5 my-1"
-              v-model="attr.value"
+              v-model.trim="attr.value"
             />
           </div>
         </td>
@@ -72,7 +72,7 @@
             <input
               type="checkbox"
               class="border w-full text-sm w-5 h-5 pl-5"
-              v-model="attribute.is_main"
+              v-model.trim="attribute.is_main"
             />
           </div>
         </td>
@@ -82,7 +82,7 @@
             <input
               type="text"
               class="w-full text-sm py-2 pl-5 mx-5 my-1"
-              v-model="attribute.key"
+              v-model.trim="attribute.key"
             />
           </div>
         </td>
@@ -91,7 +91,7 @@
             <input
               type="text"
               class="w-full text-sm py-2 pl-5 mx-5 my-1"
-              v-model="attribute.label"
+              v-model.trim="attribute.label"
             />
           </div>
         </td>
@@ -100,7 +100,7 @@
             <input
               type="text"
               class="w-full text-sm py-2 pl-5 mx-5 my-1"
-              v-model="attribute.value"
+              v-model.trim="attribute.value"
             />
           </div>
         </td>

@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     sendOrder() {
-      this.$v.touch();
+      this.$v.$touch();
       if (!this.$v.$invalid) {
         let orderData = {
           name: this.order.name,
