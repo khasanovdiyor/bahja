@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full z-100 ">
+  <div class="w-full z-100">
     <div
       class="sm:max-w-full flex items-center justify-between px-5 text-lg py-7 font-semibold h-6 bg-black text-white"
     >
@@ -14,44 +14,46 @@
 
     <div class="mt-10 pl-2 ml-4">
       <div
-        class="h-96 w-full ml-5"
+        class="h-96 w-full"
         :class="{ 'scroll overflow-y-scroll': products.length > 2 }"
       >
         <div v-if="products">
           <div
-            class="mb-5 flex w-full ml-5"
+            class="mb-5 flex w-full"
             v-for="(product, index) in products"
             :key="index"
           >
             <div class="border shadow-sm">
               <img
                 :src="product.image"
-                class="w-32 md:w-32 h-40 object-cover"
+                class="w-32 md:w-36 h-32 object-cover"
                 alt="product-img"
               />
             </div>
 
             <span class="w-48 px-3 mr-4">
-              <h2 class="text-gray-600 ">
+              <h2 class="text-gray-600">
                 <b class="">{{ product.name }}</b>
               </h2>
-
-              <p class="text-gray-600" v-if="product.attributes.color">
-                Rangi: <b>{{ product.attributes.color.value }}</b>
-              </p>
-              <p class="text-gray-600">
-                O'lchami: <b>{{ product.attributes.size.value }}</b>
-              </p>
+              <div v-if="product.attributes" class="text-sm">
+                <p
+                  class="text-gray-600"
+                  v-for="attr in product.attributes"
+                  :key="attr.id"
+                >
+                  {{ attr.label }}: <b>{{ attr.value }}</b>
+                </p>
+              </div>
 
               <div class="mt-4">
                 <p
-                  class="font-bold block  text-gray-700 text-lg"
+                  class="font-bold block text-gray-700 text-lg"
                   v-if="product.price"
                 >
                   {{ (product.price * product.count).toLocaleString() }} so'm
                 </p>
-                <div class="flex ">
-                  <span class="flex  items-center h-6 bg-gray-200">
+                <div class="flex">
+                  <span class="flex items-center h-6 bg-gray-200">
                     <button
                       @click="decrement(index)"
                       class="w-6 text-lg font-bold"
@@ -128,14 +130,12 @@ export default {
       if (this.savedProducts[index].count < this.products[index].quantity) {
         this.$store.dispatch("products/incrementCount", index);
         this.$emit("increment", index);
-        this.getTotalPrice();
       }
     },
     decrement(index) {
       if (this.savedProducts[index].count > 1) {
         this.$store.dispatch("products/decrementCount", index);
         this.$emit("decrement", index);
-        this.getTotalPrice();
       }
     },
     deleteProduct(index) {

@@ -44,34 +44,34 @@
             <h2 class="font-semibold" v-if="notFound">
               Qidiruv natijasi topilmadi
             </h2>
-            <div
-              class="flex mb-5 "
-              v-for="(product, index) in products"
-              :key="index"
-            >
-              <img
-                :src="product.image"
-                class="w-32 md:w-32 h-40 object-cover border shadow-md"
-                alt="product-img"
-              />
-              <span class="w-1/2 pl-6 leading-relaxed mr-4">
-                <b class="text-gray-700">{{ product.name }}</b>
-                <h3 class="text-gray-600">
-                  Rangi:
-                </h3>
-                <h3 class="  text-gray-600">
-                  O'lchami: <b class="text-gray-700">{{}}</b>
-                </h3>
-                <p class="font-bold text-gray-600">
-                  {{ product.size }}
-                </p>
-                <p
-                  class="font-bold flex mt-8 ml-2 text-gray-700 text-lg"
-                  v-if="product.price"
-                >
-                  {{ product.price.toLocaleString() }} so'm
-                </p>
-              </span>
+            <div v-for="(product, index) in products" :key="index">
+              <nuxt-link
+                class="flex mb-5"
+                :to="`/product/${product.id}`"
+                @click.native="$emit('close')"
+              >
+                <img
+                  :src="product.image"
+                  class="w-32 md:w-32 h-40 object-cover border shadow-md"
+                  alt="product-img"
+                />
+                <span class="w-1/2 pl-6 leading-relaxed mr-4">
+                  <b class="text-gray-700">{{ product.name }}</b>
+                  <h3 class="text-gray-600">Rangi:</h3>
+                  <h3 class="text-gray-600">
+                    O'lchami: <b class="text-gray-700">{{}}</b>
+                  </h3>
+                  <p class="font-bold text-gray-600">
+                    {{ product.size }}
+                  </p>
+                  <p
+                    class="font-bold flex mt-8 ml-2 text-gray-700 text-lg"
+                    v-if="product.price"
+                  >
+                    {{ product.price.toLocaleString() }} so'm
+                  </p>
+                </span>
+              </nuxt-link>
             </div>
           </div>
         </div>
