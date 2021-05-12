@@ -113,13 +113,20 @@
 
     <span
       class="w-full text-center border-t border-gray-400 block mx-auto py-2 text-sm bg-gray-200 text-gray-500"
-      >Bahja.uz Copyright &copy; 2021
+      >AtomLab.uz Copyright &copy; {{ getCurrentYear }}
     </span>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    getCurrentYear() {
+      const date = new Date();
+      return date.getFullYear();
+    }
+  }
+};
 </script>
 
 <style></style>
