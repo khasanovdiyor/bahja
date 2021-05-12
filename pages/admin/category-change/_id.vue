@@ -1,231 +1,164 @@
 <template>
-  <div ref="formContainer">
-    <div>
-      <div
-        class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-green-400 text-lg text-white text-center"
-        v-if="showSuccess"
-      >
-        <span><i>Kategoriya yangilandi</i> </span>
-        <!-- <div
-          class="text-white px-4 cursor-pointer"
-          @click="showSuccess = false"
-        >
-          X
-        </div> -->
-      </div>
-      <div
-        class="fixed z-40 top-0 px-4 py-2 w-2/3 bg-red-400 text-lg text-white text-center"
-        v-if="showFail"
-      >
-        <span
-          ><i
-            >Kategoriya yangilashda xatolik yuz berdi, qayta urinib koring</i
-          ></span
-        >
-
-        <!-- <div class="text-white px-4 cursor-pointer" @click="showFail = false">
-          X
-        </div> -->
-      </div>
-
-      <div class="mb-6 my-10">
-        <div class="input-group block">
-          <h2 class="text-xl font-bold mb-10 text-gray-700">Tahrirlash</h2>
+  <div>
+    <div class="mb-6">
+      <h1 class="font-bold text-xl text-gray-700">Kategoriya yangilash</h1>
+      <div>
+        <BaseTextField
+          class="my-4"
+          v-model.trim="$v.newCategory.name.$model"
+          label="Nomi"
+          required
+          :required-message="
+            !$v.newCategory.name.required && $v.newCategory.name.$dirty
+          "
+        />
+        <BaseSelect
+          class="my-4 w-1/2"
+          v-model="selectedCategory"
+          label="Kategoriya"
+          :options="categories"
+          placeholder="Kategoriya tanlang"
+          @select="selectCategory"
+          @remove="removeCategory"
+          noResult="Bunday kategoriya topilmadi"
+        />
+        <BaseTextField
+          class="my-4"
+          v-model.trim="newCategory.order"
+          label="Tartib raqami"
+        />
+        <div>
           <label
             for="input"
-            class="block font-bold text-gray-600 uppercase text-sm mb-2"
-            >nom</label
+            class="block font-bold text-gray-600 uppercase text-sm mb-2 mt-4"
+            >is_slider</label
           >
-          <input
-            type="text"
-            class="border-2 rounded-md text-sm w-1/2 py-2 mb-4 pl-5"
-            v-model="newCategory.name"
-          />
-
-          <div>
-            <label
-              for="input"
-              class="block font-bold text-gray-600 uppercase text-sm mb-2"
-              >Asosiy kategoriya</label
-            >
-            <multiselect
-              v-model="parentCategory"
-              :options="categories"
-              placeholder="Kategoriya tanlang"
-              label="name"
-              class="text-sm"
-              track-by="name"
-              @select="selectCategory"
-              @remove="removeCategory"
-            ></multiselect>
-          </div>
-
-          <label
-            for="input"
-            class="block font-bold text-gray-600 uppercase text-sm mt-4 mb-2"
-            >Tartib raqam</label
-          >
-          <input
-            type="text"
-            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-            v-model="newCategory.order"
-          />
-
-          <label
-            for="input"
-            class="block font-bold text-gray-600 uppercase text-sm mt-4 mb-2"
-          >
-            is_slider
-          </label>
           <input
             type="checkbox"
-            class="border-2 text-sm w-5 h-5"
+            class="border-2 w-8"
             v-model="newCategory.is_slider"
           />
-          <label
-            class="block font-bold text-gray-600 uppercase text-sm mt-4 mb-2"
-            >Asosiy ram</label
-          ><input
-            type="file"
-            accept="image/*"
-            @change="previewImage"
-            class="w-1/2 border-2 bg-white m text-sm py-2 pl-5"
-          />
         </div>
-        <div v-if="newCategory.image">
-          <div>
-            <div class="w-56 h-64 my-5 border shadow-sm">
-              <img
-                :src="newCategory.image"
-                class="object-content w-full h-full"
-              />
-            </div>
-          </div>
-          <!-- <img src="~/assets/images/link.svg" class="w-5 inline-block" /> -->
+        <BaseImageField
+          class="my-4"
+          label="Rasmi"
+          required
+          @change="previewImage"
+          :image="preview"
+        />
+        <div class="text-red-400 text-sm" v-if="imageRequired">
+          Rasm qo'yish shart
         </div>
-
-        <base-button :clickFunction="updateCategory" class="rounded-md text-sm">
-          Kategoriyani yangilash
-        </base-button>
+        <BaseButtonLink
+          buttonText="Kategoriya yangilash"
+          @button-click="updateCategory"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
-      showDeleteDialog: false,
-      parentCategory: {},
-      showChildInput: false,
-      image: null,
+      createProductClicked: false,
       preview: null,
-      showSuccess: false,
-      showFail: false,
+      categories: [],
       image: null,
-      fullPage: true,
       newCategory: {
         name: "",
-        parent_id: 0,
-        order: 0,
-        image: 0,
-        is_slider: false
+        parent_id: null,
+        is_slider: false,
+        order: null
       }
     };
   },
+  validations: {
+    newCategory: {
+      name: {
+        required
+      }
+    }
+  },
+  computed: {
+    imageRequired() {
+      return !this.image && this.createProductClicked;
+    },
+    selectedCategory: {
+      get() {
+        return this.categories.find(el => el.id === this.newCategory.parent_id);
+      }
+    }
+  },
   methods: {
-    selectCategory(value, id) {
+    selectCategory(value) {
       this.newCategory.parent_id = value.id;
     },
-    removeCategory(value, id) {
-      this.newCategory.parent_id = 0;
+    removeCategory() {
+      this.newCategory.parent_id = null;
     },
-    previewImage: function (event) {
+    previewImage(event) {
       var input = event.target;
       if (input.files) {
         var reader = new FileReader();
         reader.onload = e => {
-          this.newCategory.image = e.target.result;
+          this.preview = e.target.result;
         };
         this.image = input.files[0];
-        reader.readAsDataURL(this.image);
+        if (this.image) reader.readAsDataURL(this.image);
       }
     },
-
     updateCategory() {
-      let loader = this.$loading.show();
-      const formData = new FormData();
-      for (const key in this.newCategory) {
-        formData.append(key, this.newCategory[key]);
-      }
-      formData.delete("image");
-      if (this.image) {
+      this.createProductClicked = true;
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        let loader = this.$loading.show();
+        delete this.newCategory.slug;
+        delete this.newCategory.image;
+        delete this.newCategory.updated_at;
+        delete this.newCategory.id;
+        const formData = new FormData();
+        if (!this.newCategory.order) this.newCategory.order = null;
+        for (let key in this.newCategory) {
+          formData.append(key, this.newCategory[key]);
+        }
         formData.append("image", this.image);
+        this.$axios
+          .patch(`product/category-update/${this.$route.params.id}`, formData)
+          .then(res => {
+            this.$toast.success("Kategoriya yangilandi");
+          })
+          .catch(err => {
+            if ((err.response.status = 404))
+              this.$toast.error("Bunday kategoriya mavjud emas");
+            else
+              this.$toast.error(
+                err.response.data || "Kategoriya yangilashda xatolik yuz berdi"
+              );
+          })
+          .finally(() => {
+            loader.hide();
+          });
       }
-      this.$axios
-        .patch(`product/category-update/${this.newCategory.id}`, formData)
-        .then(res => {
-          console.log(res.data);
-          this.getCategory();
-          loader.hide();
-          this.showSuccess = true;
-          console.log(res.data);
-          this.getCategory();
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-        })
-        .catch(err => {
-          loader.hide();
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
-        });
-    },
-    deleteCategory(id) {
-      this.$axios
-        .delete(`product/category-delete/${id}`)
-        .then(res => {
-          console.log(res.data, "ID:", id);
-          this.showDeleteDialog = false;
-          this.getCategories();
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.createProductClicked = false;
     },
     getCategory() {
-      this.getCategories();
       this.$axios
         .get(`product/category-detail/${this.$route.params.id}`)
         .then(res => {
-          if (this.categories) {
-            this.parentCategory = this.categories.find(
-              el => el.id === res.data.parent_id
-            );
-          }
           this.newCategory = res.data;
+          this.preview = res.data.image;
         })
         .catch(err => {
           console.log(err);
         });
     }
   },
-  created() {
-    this.getCategories();
-  },
   mounted() {
     this.getCategory();
+    this.getCategories();
   }
 };
 </script>
-
-<style scoped>
-.multiselect {
-  width: 50%;
-}
-</style
->>
