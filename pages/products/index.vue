@@ -27,6 +27,15 @@
         </div>
       </div>
     </div>
+    <div class="flex justify-center">
+      <BasePagination
+        class="w-1/4"
+        v-if="totalPages > 1"
+        :page-count="totalPages"
+        :page-range="totalPages > 6 ? 4 : totalPages"
+        :click-handler="getProducts"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -36,27 +45,32 @@ export default {
     return {
       products: [],
       link: "category",
+      totalPages: null
     };
   },
   methods: {
-    getProducts() {
+    getProducts(page) {
       let loader = this.$loading.show();
-
       this.$axios
-        .get(`product/list/?ordering=created_at`)
+        .get(`product/list/?ordering=created_at`, {
+          params: {
+            page
+          }
+        })
         .then(res => {
-          console.log("variation-list", res.data);
           this.products = res.data.results;
-          loader.hide();
+          this.totalPages = res.data.total_pages;
         })
         .catch(err => {
-          loader.hide();
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
-    },
+    }
   },
   mounted() {
-    this.getProducts();
-  },
+    this.getProducts(1);
+  }
 };
 </script>

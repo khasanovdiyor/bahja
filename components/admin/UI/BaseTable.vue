@@ -24,9 +24,9 @@ export default {
   props: {
     headers: {
       type: Array,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>
 

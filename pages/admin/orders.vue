@@ -92,14 +92,30 @@
                               v-for="status in statuses"
                               :key="status"
                               @click="changeStatus(status, order)"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full"
+                              :class="{
+                                'bg-green-100 text-green-800':
+                                  status === 'Tugallangan',
+                                'bg-gray-200 text-gray-800':
+                                  status === 'Kutilmoqda',
+                                'bg-red-100 text-red-800':
+                                  status === 'Bekor qilingan'
+                              }"
                               >{{ status }}</span
                             >
                           </div>
                           <span
                             @click="order.showStatus = true"
                             v-if="!order.showStatus"
-                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full"
+                            :class="{
+                              'bg-green-100 text-green-800':
+                                order.status === 'Tugallangan',
+                              'bg-gray-200 text-gray-800':
+                                order.status === 'Kutilmoqda',
+                              'bg-red-100 text-red-800':
+                                order.status === 'Bekor qilingan'
+                            }"
                             >{{ order.status }}</span
                           >
                         </div>
@@ -164,6 +180,13 @@
         </main>
       </div>
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getOrders"
+    />
   </div>
 </template>
 
@@ -177,7 +200,7 @@ export default {
         "son",
         "narx",
         "status",
-        "buyruqlar",
+        "buyruqlar"
       ],
       sidebarOpen: false,
       showDeleteDialog: false,
@@ -185,65 +208,60 @@ export default {
       orders: [],
       activeStatus: "",
       statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
-      showStatus: false,
+      totalPages: null
     };
   },
   methods: {
-    getOrders() {
+    getOrders(page) {
+      let loader = this.$loading.show();
       this.$axios
         .get("cart/orderbeta-list/", {
           params: {
-            status: this.activeStatus,
-          },
+            page,
+            status: this.activeStatus
+          }
         })
         .then(res => {
-          console.log(res.data);
-          res.data.forEach(el => {
-            el.showStatus = false;
-          });
-          this.orders = res.data;
+          res.data.results.forEach(el => (el.showStatus = false));
+          this.orders = res.data.results;
+          this.totalPages = res.data.total_pages;
         })
-        .catch(err => {
-          console.log(err);
+        .finally(() => {
+          loader.hide();
         });
     },
     deleteOrder(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`cart/orderbeta-delete/${id}`)
         .then(res => {
-          console.log(res.data, "ID:", id);
-          this.showDeleteDialog = false;
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-          this.getOrders();
+          toast.success(res.data || "Buyurtma muvaffaqiyatli o'chirildi");
+          this.getOrders(1);
         })
         .catch(err => {
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
+          toast.error(
+            err.response.data || "Buyurtma o'chirishda xatolik yuz berdi"
+          );
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
         });
     },
     changeStatus(status, order) {
-      const formData = new FormData();
-      formData.append("status", status);
+      let toast = this.$toast;
       this.$axios
-        .patch(`cart/orderbeta-update/${id}`, formData)
+        .patch(`cart/orderbeta-update/${order.id}`, { status })
         .then(res => {
-          this.showStatus = false;
-          this.getOrders();
+          toast.success("Status muvaffaqiyatli o'zgardi");
+          this.getOrders(1);
         })
         .catch(err => {
-          console.log(err);
+          toast.error(err.response.data);
         });
-    },
+    }
   },
   mounted() {
-    this.getOrders();
-  },
+    this.getOrders(1);
+  }
 };
 </script>
-<style></style>

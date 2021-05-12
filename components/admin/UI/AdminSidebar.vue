@@ -218,9 +218,9 @@ export default {
   name: "TheSidebar",
   data() {
     return {
-      sidebarOpen: false,
+      sidebarOpen: false
     };
-  },
+  }
 };
 </script>
 

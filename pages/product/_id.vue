@@ -45,17 +45,30 @@
         </svg>
       </div>
     </div>
-    <!-- <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
-      <h2
-        class="font-bold sm:text-4xl text-xl self-center"
-        @click="changeSlider"
-      ></h2>
-      <div class="flex justify-end">
-        <div>
-          <span class="font-bold">Hozirda mavjud</span>
+    <div class="px-5 md:px-16 py-6 bg-gray-200 flex flex-col">
+      <div class="flex justify-center items-center">
+        <h2 class="font-bold sm:text-4xl text-xl self-center">
+          {{ product.name }}
+        </h2>
+        <div class="ml-auto">
+          <span v-if="product.quantity > 0"
+            ><img
+              src="~/assets/images/success.svg"
+              alt=""
+              class="w-4 inline-block mr-1"
+            />Omborda mavjud</span
+          >
+          <span v-else
+            ><img
+              src="~/assets/images/cancel.svg"
+              alt=""
+              class="w-4 inline-block mr-1"
+            />
+            Omborda mavjud emas</span
+          >
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="px-5 md:px-16 py-10 block md:flex">
       <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
         <swiper
@@ -121,7 +134,7 @@
             Savatchaga qo'shish
           </button>
         </div>
-        <div class="mt-6 border-b-2 border-gray-200 pb-8">
+        <!-- <div class="mt-6 border-b-2 border-gray-200 pb-8">
           <h3 class="font-bold text-xl uppercase mb-6">
             Kafolatlangan xavfsiz to'lov
           </h3>
@@ -137,7 +150,7 @@
               class="w-24"
             />
           </div>
-        </div>
+        </div> -->
         <div class="my-6 border-b-2 border-gray-200 pb-8">
           <h3 class="uppercase font-bold mb-2">Maxsulot haqida ma'lumot</h3>
           <p>
@@ -147,31 +160,12 @@
         <div class="border-b-2 border-gray-200 pb-8">
           <h3 class="uppercase font-bold mb-2">Qo'shimcha ma'lumot</h3>
           <div>
-            <div>
-              <span class="font-bold">Rangi: </span
-              ><span
-                v-for="color in product.variations"
-                :key="color.id"
-                class="text-gray-600"
-                >{{ color.name }},
-              </span>
-            </div>
-            <div>
-              <span class="font-bold">O'lcham: </span
-              ><span
-                v-for="size in product.available_sizes"
-                :key="size.size"
-                class="text-gray-600"
-                >{{ size.size }},
-              </span>
-            </div>
-            <div>
-              <span class="font-bold">Material: </span
-              ><span class="text-gray-600">100% Paxta</span>
+            <div v-for="attr in product.attributes" :key="attr.id">
+              <span class="font-bold capitalize">{{ attr.label }}: </span
+              ><span class="text-gray-600 uppercase">{{ attr.value }} </span>
             </div>
           </div>
         </div>
-        <!-- <ProductReview v-if="false" /> -->
       </div>
     </div>
   </div>
@@ -192,13 +186,13 @@ export default {
       product: {
         id: null,
         attributes: {},
-        variations: [],
+        variations: []
       },
       product_list: [],
       selectedProduct: {
         product_id: null,
-        count: 1,
-      },
+        count: 1
+      }
     };
   },
   watch: {
@@ -206,14 +200,14 @@ export default {
       deep: true,
       handler(newVal) {
         this.selectedProduct.product_id = newVal.id;
-      },
+      }
     },
     showNotification(newVal) {
       if (newVal === true)
         setTimeout(() => {
           this.showNotification = false;
         }, 3000);
-    },
+    }
   },
 
   methods: {
@@ -224,15 +218,17 @@ export default {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
-          this.makeProductList(res.data);
-          console.log("product-list", this.product_list);
-          const product = this.product_list.find(function (el) {
-            console.log("product.id", el.id, "id", parseInt(id));
-            return el.id === parseInt(id);
-          });
-          this.product = Object.assign({}, product);
-          console.log("product", product, "this.product", this.product);
-          // this.makeProductList(this.product);
+          // this.makeProductList(res.data);
+          // console.log("product-list", this.product_list);
+          // const product = this.product_list.find(function (el) {
+          //   console.log("product.id", el.id, "id", parseInt(id));
+          //   return el.id === parseInt(id);
+          // });
+          // this.product = Object.assign({}, product);
+          // console.log("product", product, "this.product", this.product);
+          // // this.makeProductList(this.product);
+          this.product = Object.assign({}, res.data[0]);
+          this.product_list = Array.from(res.data, x => x);
           loader.hide();
         })
         .catch(err => {
@@ -240,15 +236,15 @@ export default {
           console.log(err);
         });
     },
-    makeProductList(product) {
-      console.log("making product list");
-      product.variations.forEach(element => {
-        this.product_list.push(element);
-      });
-      let p = Object.assign({}, product);
-      delete p.variations;
-      this.product_list.push(p);
-    },
+    // makeProductList(product) {
+    //   console.log("making product list");
+    //   product.variations.forEach(element => {
+    //     this.product_list.push(element);
+    //   });
+    //   let p = Object.assign({}, product);
+    //   delete p.variations;
+    //   this.product_list.push(p);
+    // },
     changeProduct(selected_attrs) {
       console.log("changing product by attrs");
       let p = this.findProduct(selected_attrs);
@@ -300,11 +296,11 @@ export default {
         this.message =
           "Mahsulotni savatchaga qo'shishda xatolik yuz berdi," + err;
       }
-    },
+    }
   },
   mounted() {
     this.getProduct();
-  },
+  }
 };
 </script>
 

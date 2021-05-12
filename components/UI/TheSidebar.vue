@@ -51,12 +51,12 @@ export default {
   props: {
     currentLink: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      categories: [],
+      categories: []
     };
   },
   methods: {
@@ -80,11 +80,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     this.getCategories();
-  },
+  }
 };
 </script>
 

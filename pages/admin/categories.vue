@@ -75,51 +75,63 @@
         />
       </div>
     </div>
+    <BasePagination
+      v-if="totalPages > 1"
+      class="mt-10"
+      :page-count="totalPages"
+      :page-range="totalPages > 6 ? 4 : totalPages"
+      :click-handler="getCategories"
+    />
   </div>
 </template>
 
 <script>
-import global from "~/mixins.js/global.js";
 export default {
-  mixins: [global],
   data() {
     return {
       tableHeaders: ["id", "nomi", "rasmi", "buyruqlar"],
       showDeleteDialog: false,
       categories: [],
       selectedCategoryID: null,
+      totalPages: null
     };
   },
 
   methods: {
     deleteCategory(id) {
+      let toast = this.$toast;
       this.$axios
         .delete(`product/category-delete/${id}`)
         .then(res => {
-          console.log(res.data, "ID:", id);
-          this.showDeleteDialog = false;
-          this.message = "Kategoriya o'chirildi";
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          this.getCategories();
+          toast.success(res.data);
+          this.getCategories(1);
         })
         .catch(err => {
-          this.message =
-            "Kategoriya o'chirishda xatolik yuz berdi, qayta urinib ko'ring";
-          console.log(err);
+          toast.error(err.response.data);
+        })
+        .finally(() => {
+          this.showDeleteDialog = false;
         });
     },
+    getCategories(page) {
+      let loader = this.$loading.show();
+      this.$axios
+        .get("product/category-all/", {
+          params: {
+            page: page
+          }
+        })
+        .then(res => {
+          this.categories = res.data.results;
+          this.totalPages = res.data.total_pages;
+        })
+        .finally(() => {
+          loader.hide();
+        });
+    }
   },
   mounted() {
-    this.getCategories();
-  },
+    this.getCategories(1);
+  }
 };
 </script>
-
-<style scoped>
-.multiselect {
-  width: 50%;
-}
-</style>

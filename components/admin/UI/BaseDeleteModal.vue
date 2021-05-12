@@ -4,6 +4,9 @@
   >
     <div class="w-1/3 rounded-md mx-auto bg-white py-4 px-10">
       <span class="font-bold text-center text-xl block mb-6">{{ text }}</span>
+      <span class="text-center text-xl block mb-6 text-red-600">{{
+        alert
+      }}</span>
       <div class="flex justify-between">
         <button
           @click="$emit('delete')"
@@ -27,9 +30,13 @@ export default {
   props: {
     text: {
       type: String,
-      required: true,
+      required: true
     },
-  },
+    alert: {
+      type: String,
+      default: ""
+    }
+  }
 };
 </script>
 

@@ -40,25 +40,25 @@ export default {
   props: {
     label: {
       type: String,
-      required: true,
+      required: true
     },
     images: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     image: {
       type: String,
-      default: "",
+      default: ""
     },
     multipe: {
       type: Boolean,
-      default: false,
+      default: false
     },
     required: {
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 };
 </script>
 

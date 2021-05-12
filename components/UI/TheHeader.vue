@@ -18,7 +18,7 @@
         </li>
         <li>
           <nuxt-link to="/products/import" class="font-semibold text-lg">
-            Import mahsulotlar {{ savedProducts }}
+            Import mahsulotlar
           </nuxt-link>
         </li>
       </ul>
@@ -52,12 +52,13 @@
             @increment="idx => products[idx].count++"
             @decrement="idx => products[idx].count--"
             @delete="idx => products.splice(idx, 1)"
+            @close="showCard = false"
           />
         </div>
       </transition>
       <transition name="slide">
         <div class="slidein" v-if="showSearch">
-          <Search @toggleSearch="toggleSearch" />
+          <Search @toggleSearch="toggleSearch" @close="showSearch = false" />
         </div>
       </transition>
     </div>
@@ -74,13 +75,13 @@ export default {
     return {
       showCard: false,
       showSearch: false,
-      products: [],
+      products: []
     };
   },
   computed: {
     ...mapGetters({
-      savedProducts: "products/savedProducts",
-    }),
+      savedProducts: "products/savedProducts"
+    })
   },
   methods: {
     toggleSearch() {
@@ -92,7 +93,7 @@ export default {
     },
     getProducts() {
       if (this.savedProducts.length > 0)
-        this.savedProducts.forEach(element => {
+        this.savedProducts.forEach((element, idx) => {
           this.products = [];
           this.totalPrice = 0;
           this.$axios
@@ -103,14 +104,17 @@ export default {
               );
             })
             .catch(err => {
-              console.log(err);
+              if (err.response.status === 404) {
+                this.$store.dispatch("products/deleteProduct", idx);
+              }
+              console.log(err.response.status);
             });
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
 

@@ -2,26 +2,21 @@
   <div>
     <div>
       <div class="mb-10">
-        <BaseNotification
-          v-if="showSuccess || showError"
-          :success="showSuccess"
-          :error="showError"
-          :text="alertText"
-        />
         <div class="pb-10">
           <div class="mt-10">
             <h2 class="font-bold text-xl text-gray-800 mb-6">
-              Buyurtma qo'shish mahsulotlar {{ $v.newOrder.$invalid }}
+              Buyurtma qo'shish mahsulotlar
             </h2>
             <BaseSelect
-              class="my-4"
+              class="my-4 w-1/2"
               v-model.trim="$v.selectedProduct.$model"
               label="Mahsulot"
               :options="products"
               select-label="codesize"
               placeholder="Mahsulot tanlang"
               noResult="Bunday mahsulot topilmadi"
-              :required="
+              required
+              :required-message="
                 !$v.selectedProduct.codesize.required &&
                 $v.selectedProduct.codesize.$dirty
               "
@@ -32,7 +27,8 @@
             class="my-4"
             v-model.trim="$v.newProduct.count.$model"
             label="Son"
-            :required="
+            required
+            :required-message="
               !$v.newProduct.count.required && $v.newProduct.count.$dirty
             "
           />
@@ -94,14 +90,18 @@
           class="my-4"
           v-model.trim="$v.newOrder.name.$model"
           label="Buyurtmachi"
-          :required="!$v.newOrder.name.required && $v.newOrder.name.$dirty"
+          required
+          :required-message="
+            !$v.newOrder.name.required && $v.newOrder.name.$dirty
+          "
         />
         <BaseTextField
           class="my-4"
           v-model.trim="$v.newOrder.phone_number.$model"
           label="Telefon raqami"
           mask="+998 ## ### ## ##"
-          :required="
+          required
+          :required-message="
             !$v.newOrder.phone_number.required &&
             $v.newOrder.phone_number.$dirty
           "
@@ -128,52 +128,46 @@ export default {
     return {
       tableHeaders: ["kod", "o'lcham", "son", "buyruqlar"],
       priceMask,
-      alertText: "",
-      showSuccess: false,
       alreadyAdded: false,
       showDeleteDialog: false,
-      showError: false,
-      selectedProduct: {
-        id: null,
-        codesize: null,
-      },
+      selectedProduct: {},
       newProduct: {
-        count: 0,
         product_id: null,
+        count: null
       },
       newOrder: {
         name: null,
         phone_number: null,
-        products: [],
+        products: []
       },
       products: [],
-      addedProducts: [],
+      addedProducts: []
     };
   },
   validations: {
     selectedProduct: {
       codesize: {
-        required,
-      },
+        required
+      }
     },
     newProduct: {
       count: {
-        required,
-      },
+        required
+      }
     },
     newOrder: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
         required,
-        minLength: minLength(17),
+        minLength: minLength(17)
       },
       products: {
-        required,
-      },
-    },
+        required
+      }
+    }
   },
   methods: {
     addProduct() {
@@ -184,31 +178,19 @@ export default {
         !this.$v.selectedProduct.$invalid &&
         !this.$v.newProduct.count.$invalid
       ) {
-        this.newOrder.products.push(this.newProduct);
-        let product = this.newProduct;
-        let codesize = this.selectedProduct.codesize;
-        console.log("olcham", codesize);
-        let product_code = codesize
-          .substring(codesize.indexOf("d: ") + 2, codesize.indexOf("o`"))
-          .trim();
-        let size = codesize
-          .substring(codesize.indexOf("m: ") + 3, codesize.length)
-          .trim();
-        product.product_code = product_code;
-        product.size = size;
         let result = this.addedProducts.find(
-          el => el.product_id == this.newProduct.product_id
+          el => el.id === this.newProduct.product_id
         );
-        console.log("result", result);
         if (result) {
           this.alreadyAdded = true;
         } else {
-          this.addedProducts.push(product);
-          this.selectedProduct = {};
-          this.newProduct = {
-            count: null,
-            product_id: null,
-          };
+          this.addedProducts.push({
+            id: this.selectedProduct.id,
+            count: this.newProduct.count,
+            size: this.selectedProduct.size,
+            product_code: this.selectedProduct.product_code
+          });
+          this.newOrder.products.push(this.newProduct);
         }
       }
     },
@@ -227,20 +209,10 @@ export default {
         this.$axios
           .post("cart/orderbeta-create/", this.newOrder)
           .then(res => {
-            console.log(res.data);
-            this.showSuccess = true;
-            this.alertText = "Buyurtma qabul qilindi!";
-            setTimeout(() => {
-              this.showSuccess = false;
-            }, 3000);
+            this.$toast.success(res.data);
           })
           .catch(err => {
-            this.showError = true;
-            this.alertText = "Buyurtma qo'shishda xatolik yuz berdi!";
-            setTimeout(() => {
-              this.showError = false;
-            }, 3000);
-            console.log(err);
+            this.$toast.error(err.response.data);
           })
           .finally(() => {
             loader.hide();
@@ -256,12 +228,10 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getProducts();
-  },
+  }
 };
 </script>
-<style>
-</style>

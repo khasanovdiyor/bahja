@@ -33,29 +33,29 @@ export default {
   props: {
     label: {
       type: String,
-      required: true,
+      required: true
     },
     value: {
       type: null,
-      required: true,
+      required: true
     },
     textarea: {
       type: Boolean,
-      default: false,
+      default: false
     },
     mask: {
       type: [String, Function],
-      required: false,
+      required: false
     },
     requiredMessage: {
       type: Boolean,
-      default: false,
+      default: false
     },
     required: {
       type: Boolean,
-      default: false,
-    },
-  },
+      default: false
+    }
+  }
 };
 </script>
 

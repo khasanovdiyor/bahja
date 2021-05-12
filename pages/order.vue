@@ -1,40 +1,6 @@
 <template>
-  <div>
+  <div v-if="!showMessage">
     <div
-      v-if="showSuccess"
-      class="flex items-center mx-auto z-40 py-2 w-9/12 bg-green-500 text-lg text-white"
-    >
-      <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-        <path
-          d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"
-        ></path>
-      </svg>
-
-      <i> Buyurtmangiz qabul qilindi</i>
-
-      <span class="absolute right-6 cursor-pointer" @click="showSuccess = false"
-        >X</span
-      >
-    </div>
-    <div
-      v-if="showFail"
-      class="flex items-center mx-auto z-100 py-2 w-9/12 bg-red-500 text-lg text-white"
-    >
-      <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current mx-5">
-        <path
-          d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
-        ></path>
-      </svg>
-      <i> Savatchada mahsulot yo'q</i>
-
-      <span
-        class="absolute font-bold right-6 cursor-pointer"
-        @click="showFail = false"
-        >X</span
-      >
-    </div>
-    <div
-      v-if="!showMessage"
       class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-12 border-gray-200 pb-8"
     >
       <div class="w-full px-5 mx-auto">
@@ -49,7 +15,7 @@
               required
               class="mt-2 w-full bg-gray-200 border-2 rounded-md text-sm w-1/2 py-2 pl-5"
               placeholder="Ism"
-              v-model="name"
+              v-model.trim="$v.order.name.$model"
             />
             <div
               class="text-red-400 text-sm"
@@ -67,8 +33,8 @@
               type="text"
               id=""
               class="mt-2 w-full bg-gray-200 border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-              v-mask="'+### ## ### ## ##'"
-              v-model="phone"
+              v-mask="'+998 ## ### ## ##'"
+              v-model.trim="$v.order.phone_number.$model"
             />
           </div>
         </form>
@@ -102,72 +68,53 @@
 <script>
 import global from "~/mixins.js/global.js";
 import { required, minLength } from "vuelidate/lib/validators";
+import { mapGetters } from "vuex";
 export default {
   layout: "user",
   mixins: [global],
   data() {
     return {
-      showMessage: false,
       errors: [],
-      name: "",
-      phone: "",
-      showSuccess: false,
-      showFail: false,
-      savedProducts: [],
+      showMessage: false,
+      order: {
+        name: "",
+        phone_number: ""
+      }
     };
-  },
-  seletedCategories: {
-    name: "",
-    phone_number: "",
-    status: "",
-
-    categories: [],
-    order: {
-      name: null,
-      phone_number: null,
-    },
   },
   validations: {
     order: {
       name: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(3)
       },
       phone_number: {
-        required,
-      },
-      order: {
-        required,
-      },
-    },
+        required
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      savedProducts: "products/savedProducts"
+    })
   },
   methods: {
     sendOrder() {
-      const products = JSON.parse(localStorage.getItem("products"));
       let orderData = {
-        name: this.name,
-        phone_number: this.phone,
-        products: products,
+        name: this.order.name,
+        phone_number: this.order.phone_number,
+        products: this.savedProducts
       };
       this.$axios
         .post(`cart/orderbeta-create/`, orderData)
         .then(res => {
-          console.log(res);
-          let products = [];
-          const parsed = JSON.stringify(products);
-          localStorage.setItem("products", parsed);
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-          this.showMessage = true;
+          this.$toast.success("Buyurtma qabul qilindi");
+          this.$store.dispatch("products/deleteAllProduct");
         })
         .catch(err => {
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
+          this.$toast.error(
+            err.response.data || "Buyurtma berishda xatolik yuz berdi"
+          );
         });
     },
 
@@ -186,19 +133,7 @@ export default {
       }
 
       e.preventDefault();
-    },
-  },
-
-  mounted() {
-    let loader = this.$loading.show();
-
-    if (localStorage.products) {
-      let json_string = localStorage.getItem("products");
-      if (json_string.length !== 0) {
-        this.savedProducts = JSON.parse(json_string);
-      }
     }
-    loader.hide();
-  },
+  }
 };
 </script>

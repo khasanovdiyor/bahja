@@ -2,137 +2,99 @@
   <div>
     <div>
       <div>
-        <div
-          v-if="showSuccess"
-          class="fixed z-40 text-lg top-0 px-4 py-2 w-2/3 bg-green-400 text-white text-center"
-        >
-          <i>Slider yangilandi</i>
-
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
-            @click="showSuccess = false"
-            >X</span
-          > -->
-        </div>
-        <div
-          v-if="showFail"
-          class="fixed z-40 text-lg top-0 px-4 py-2 w-2/3 bg-red-400 text-white text-center"
-        >
-          <i
-            >Slider ma'lumotlarini yangilashda xatolik yuz berdi, qayta urinib
-            ko'ring</i
-          >
-
-          <!-- <span
-            class="absolute right-6 cursor-pointer"
-            @click="showFail = false"
-            >X</span
-          > -->
-        </div>
-
-        <div class="my-4">
-          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
-            >Kontent</label
-          >
-          <input
-            type="text"
-            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-            v-model="slider.text"
-          />
-        </div>
-        <div class="my-4">
-          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
-            >Kategoriya
-          </label>
-          <select
-            name="category"
-            id="category"
-            v-model="slider.category"
-            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-          >
-            <option disabled selected value="choose">Kategoriya tanlang</option>
-            <option
-              :value="category.id"
-              v-for="category in categories"
-              :key="category.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-        </div>
-        <div class="my-4">
-          <label class="block text-gray-600 font-bold uppercase text-sm mb-2"
-            >rasm</label
-          ><input
-            type="file"
-            accept="image/*"
-            @change="previewImage"
-            class="border-2 rounded-md text-sm w-1/2 py-2 pl-5"
-          />
-          <div v-if="preview">
-            <div>
-              <div class="w-56 h-64 my-5 border shadow-md">
-                <img :src="preview" class="object-cover w-full h-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button
-          @click="updateSlider"
-          class="bg-gray-800 rounded-md text-sm text-white py-2 mt-1 px-4"
-        >
-          Yangilash
-        </button>
+        <h1 class="font-bold text-xl text-gray-700">Slider qo'shish</h1>
+        <BaseTextField
+          class="my-4"
+          v-model="$v.slider.text.$model"
+          label="Kontent"
+          required
+          :required-message="!$v.slider.text.required && $v.slider.text.$dirty"
+        />
+        <BaseSelect
+          class="my-4 w-1/2"
+          v-model="$v.selectedCategory.$model"
+          label="Kategoriya"
+          placeholder="Kategoriya tanlang"
+          required
+          :required-message="
+            !$v.selectedCategory.required && $v.selectedCategory.$dirty
+          "
+          :options="categories"
+          @select="selectCategory"
+        />
+        <BaseImageField
+          class="my-4"
+          label="Rasm"
+          :image="preview"
+          @change="previewImage"
+        />
+        <BaseButtonLink
+          buttonText="Slider yangilash"
+          @button-click="updateSlider"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
+import { required } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
       preview: null,
-      showSuccess: false,
-      showFail: false,
       categories: [],
       image: null,
       slider: {
         text: "",
         image: null,
-        category: null,
+        category: null
       },
+      selectedCategory: {}
     };
   },
+  validations: {
+    selectedCategory: {
+      required
+    },
+    slider: {
+      text: {
+        required
+      },
+      image: {
+        required
+      },
+      category: {
+        required
+      }
+    }
+  },
   methods: {
+    selectCategory(value) {
+      this.slider.category = value.id;
+    },
     updateSlider() {
-      let loader = this.$loading.show();
-      const formData = new FormData();
-      formData.append("text", this.slider.text);
-      if (this.image) formData.append("image", this.image);
-      formData.append("category", this.slider.category);
-      this.$axios
-        .patch(`product/slider/update/${this.$route.params.id}`, formData)
-        .then(res => {
-          loader.hide();
-          this.showSuccess = true;
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-          console.log(res.data);
-          this.getCategories();
-          setTimeout(() => {
-            this.showSuccess = false;
-          }, 3000);
-        })
-        .catch(err => {
-          loader.hide();
-          this.showFail = true;
-          setTimeout(() => {
-            this.showFail = false;
-          }, 3000);
-          console.log(err);
-        });
+      this.$v.$touch();
+      if (!this.$toast.$invalid) {
+        let loader = this.$loading.show();
+        const formData = new FormData();
+        formData.append("text", this.slider.text);
+        formData.append("category", this.slider.category);
+        if (this.image) formData.append("image", this.image);
+        this.$axios
+          .patch(`product/slider/update/${this.$route.params.id}`, formData)
+          .then(res => {
+            this.$toast.success("Slider yangilandi");
+            this.getCategories();
+          })
+          .catch(err => {
+            this.$toast.error(
+              err.response.data || "Slider yangilashda xatolik yuz berdi"
+            );
+          })
+          .finally(() => {
+            loader.hide();
+          });
+      }
     },
     previewImage(event) {
       var input = event.target;
@@ -143,24 +105,26 @@ export default {
         };
 
         this.image = input.files[0];
-        reader.readAsDataURL(input.files[0]);
+        if (this.image) reader.readAsDataURL(this.image);
       }
-      var file = event.target.files[0];
-      var reader = new FileReader();
-      reader.onloadend = function () {
-        console.log("RESULT", reader.result);
-      };
-      reader.readAsDataURL(file);
     },
     getCategories() {
+      let loader = this.$loading.show();
       this.$axios
-        .get("product/category-list/")
+        .get("product/category-all/", {
+          params: {
+            size: 1000
+          }
+        })
         .then(res => {
-          console.log(res.data);
-          this.categories = res.data;
+          this.categories = res.data.results;
+          this.getSlider();
         })
         .catch(err => {
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     getSlider() {
@@ -171,12 +135,14 @@ export default {
           this.preview = res.data.image;
           this.slider = res.data;
           this.slider.category = res.data.category.id;
+          this.selectedCategory = this.categories.find(
+            el => el.id === this.slider.category
+          );
         });
-    },
+    }
   },
   mounted() {
     this.getCategories();
-    this.getSlider();
-  },
+  }
 };
 </script>

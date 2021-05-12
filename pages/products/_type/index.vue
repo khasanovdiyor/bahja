@@ -10,25 +10,6 @@
           mahsulotlar
         </h1>
         <div class="sm:px-2 md:px-8 lg:px-16">
-          <!-- <div>
-            <h2
-              @click="showFilter = true"
-              v-if="!showFilter"
-              class="bg-gray-200 px-4 py-2 inline-block cursor-pointer mb-2"
-            >
-              Filterni korsatish
-            </h2>
-            <h2
-              @click="showFilter = false"
-              v-if="showFilter"
-              class="bg-gray-200 px-4 py-2 inline-block cursor-pointer mb-2"
-            >
-              Filterni yashirish
-            </h2>
-
-            <TheFilter v-if="showFilter" :sizes="sizes" />
-          </div> -->
-
           <div
             class="relative mb-16 outline-none"
             v-if="products.length > 0"
@@ -46,7 +27,7 @@
                 <li
                   v-for="option in sortOptions"
                   :key="option.slug"
-                  @click="getProductsBySort(option.slug, option.text)"
+                  @click="getProducts(1, option.slug, option.text)"
                   class="cursor-pointer hover:bg-gray-200 py-2 px-4"
                 >
                   {{ option.text }}
@@ -91,6 +72,15 @@
         </div>
       </div>
     </div>
+    <div class="flex justify-center">
+      <BasePagination
+        class="w-1/4"
+        v-if="totalPages > 1"
+        :page-count="totalPages"
+        :page-range="totalPages > 6 ? 4 : totalPages"
+        :click-handler="getProducts"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -103,70 +93,58 @@ export default {
       showSort: false,
       showFilter: false,
       selectedSort: "Tartiblash",
+      totalPages: null,
       sizes: [],
       savedProducts: [],
       sortOptions: [
         {
           slug: "price",
-          text: "Narx o'sish bo'yicha",
+          text: "Narx o'sish bo'yicha"
         },
         {
           slug: "-price",
-          text: "Narx kamayish bo'yicha",
+          text: "Narx kamayish bo'yicha"
         },
         {
           slug: "name",
-          text: "Mahsulot nomi bo'yicha",
-        },
-      ],
+          text: "Mahsulot nomi bo'yicha"
+        }
+      ]
     };
   },
   methods: {
-    getProductsBySort(ordering, text) {
-      this.$axios
-        .get(`product/list/`, {
-          params: {
-            is_import: true ? this.$route.params.type === "import" : false,
-            ordering: ordering,
-          },
-        })
-        .then(res => {
-          console.log("list", res.data);
-          this.products = res.data.results;
-          this.showSort = false;
-          this.selectedSort = text;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    getProducts() {
+    getProducts(page = 1, ordering = "", text = "Tartiblash") {
       let loader = this.$loading.show();
       this.$axios
         .get(`product/list/`, {
           params: {
             is_import: true ? this.$route.params.type === "import" : false,
-          },
+            ordering,
+            page
+          }
         })
         .then(res => {
           this.products = res.data.results;
-          loader.hide();
+          this.totalPages = res.data.total_pages;
+          this.showSort = false;
+          this.selectedSort = text;
         })
         .catch(err => {
-          loader.hide();
           console.log(err);
+        })
+        .finally(() => {
+          loader.hide();
         });
     },
     getSizes() {
       for (let i = 0; i < this.products.length; i++) {
         this.sizes.push(this.products[i].size);
       }
-      console.log("import sizes", this.sizes, "this.products", this.products);
-    },
+    }
   },
   mounted() {
     this.getSizes();
-    this.getProducts();
-  },
+    this.getProducts(1);
+  }
 };
 </script>

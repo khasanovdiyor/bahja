@@ -61,15 +61,15 @@ export default {
   props: {
     sizes: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
     return {
       colors: [],
       brands: [],
-      sizeList: this.sizes,
+      sizeList: this.sizes
     };
   },
   methods: {
@@ -94,13 +94,13 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   mounted() {
     this.getColors();
     this.getBrands();
     console.log("Sizes", this.sizeList);
-  },
+  }
 };
 </script>
 <style>
