@@ -250,10 +250,12 @@
                               :class="{
                                 'bg-green-100 text-green-800':
                                   status === 'Tugallangan',
-                                'bg-gray-200 text-gray-800':
+                                'bg-blue-100 text-blue-800':
                                   status === 'Kutilmoqda',
                                 'bg-red-100 text-red-800':
-                                  status === 'Bekor qilingan'
+                                  status === 'Bekor qilingan',
+                                'bg-gray-200 text-gray-800':
+                                  status === 'Tushgan'
                               }"
                               >{{ status }}</span
                             >
@@ -265,10 +267,11 @@
                             :class="{
                               'bg-green-100 text-green-800':
                                 order.status === 'Tugallangan',
-                              'bg-gray-200 text-gray-800':
+                              'bg-blue-100 text-blue-800':
                                 order.status === 'Kutilmoqda',
                               'bg-red-100 text-red-800':
-                                order.status === 'Bekor qilingan'
+                                order.status === 'Bekor qilingan',
+                              'bg-gray-200 text-gray-800': order.status === 'Tushgan'
                             }"
                             >{{ order.status }}</span
                           >
@@ -368,7 +371,7 @@ export default {
       orders: [],
       activeStatus: "Kutilmoqda",
       showStatus: false,
-      statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      statuses: ["Tushgan", "Kutilmoqda", "Bekor qilingan", "Tugallangan"],
 
       selectedSortOrder: {
         name: "1 kunlik",

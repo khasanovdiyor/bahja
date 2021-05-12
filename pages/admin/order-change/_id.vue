@@ -214,7 +214,7 @@ export default {
       priceMask,
       orderProductId: null,
       showDeleteDialog: false,
-      statuses: ["Kutilmoqda", "Bekor qilingan", "Tugallangan"],
+      statuses: ["Tushgan","Kutilmoqda", "Bekor qilingan", "Tugallangan"],
       tableHeaders: [
         "kod",
         "nom",
