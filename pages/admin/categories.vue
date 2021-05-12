@@ -38,7 +38,7 @@
                 </div>
               </td>
               <td class="px-6 py-1 border">
-                <div class="flex items-center text-sm justify-around">
+                <div class="flex items-center text-sm justify-center">
                   <nuxt-link
                     :to="`/admin/category-change/${category.id}`"
                     class="cursor-pointer w-5 h-5"
@@ -49,7 +49,7 @@
                       alt="edit"
                     />
                   </nuxt-link>
-                  <div
+                  <!-- <div
                     @click="
                       showDeleteDialog = true;
                       selectedCategoryID = category.id;
@@ -61,18 +61,18 @@
                       class="w-5 h-5"
                       alt="delete"
                     />
-                  </div>
+                  </div> -->
                 </div>
               </td>
             </tr>
           </template>
         </BaseTable>
-        <BaseDeleteModal
+        <!-- <BaseDeleteModal
           v-if="showDeleteDialog"
           text="Ushbu mahsulotni o'chirishni xohlaysizmi?"
           @delete="deleteCategory(selectedCategoryID)"
           @close="showDeleteDialog = false"
-        />
+        /> -->
       </div>
     </div>
     <BasePagination

@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="mb-6">
+      <span class="mb-6 text-red-400"
+        >Ushbu kategoriyadagi o'zgartirish bog'langan mahsulotlarga ham ta'sir
+        qiladi!</span
+      >
       <h1 class="font-bold text-xl text-gray-700">Kategoriya yangilash</h1>
       <div>
         <BaseTextField
