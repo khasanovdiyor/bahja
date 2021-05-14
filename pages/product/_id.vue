@@ -135,6 +135,7 @@
 import global from "~/mixins.js/global.js";
 import slider from "~/mixins.js/slider.js";
 export default {
+  auth: false,
   layout: "user",
   mixins: [global, slider],
   data() {

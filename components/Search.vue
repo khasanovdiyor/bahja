@@ -52,18 +52,20 @@
               >
                 <img
                   :src="product.image"
-                  class="w-32 md:w-32 h-40 object-cover border shadow-md"
+                  class="w-32 md:w-36 h-32 object-cover border shadow-md"
                   alt="product-img"
                 />
                 <span class="w-1/2 pl-6 leading-relaxed mr-4">
                   <b class="text-gray-700">{{ product.name }}</b>
-                  <h3 class="text-gray-600">Rangi:</h3>
-                  <h3 class="text-gray-600">
-                    O'lchami: <b class="text-gray-700">{{}}</b>
-                  </h3>
-                  <p class="font-bold text-gray-600">
-                    {{ product.size }}
-                  </p>
+                  <div v-if="product.attributes" class="text-sm">
+                    <p
+                      class="text-gray-600 capitalize"
+                      v-for="attr in product.attributes"
+                      :key="attr.id"
+                    >
+                      {{ attr.label }}: <b>{{ attr.value }}</b>
+                    </p>
+                  </div>
                   <p
                     class="font-bold flex mt-8 ml-2 text-gray-700 text-lg"
                     v-if="product.price"
@@ -92,22 +94,24 @@ export default {
   },
   methods: {
     searchProducts() {
-      this.$axios
-        .get(`product/list/`, {
-          params: {
-            search: this.searchKey,
-            size: 5
-          }
-        })
-        .then(res => {
-          this.products = res.data.results;
-          if (!res.data.results) {
-            this.notFound = true;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      if (this.searchKey !== "") {
+        this.$axios
+          .get(`product/list/`, {
+            params: {
+              search: this.searchKey,
+              size: 5
+            }
+          })
+          .then(res => {
+            this.products = res.data.results;
+            if (!res.data.results) {
+              this.notFound = true;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   },
   mounted() {

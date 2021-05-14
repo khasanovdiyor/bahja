@@ -37,7 +37,7 @@
               </h2>
               <div v-if="product.attributes" class="text-sm">
                 <p
-                  class="text-gray-600"
+                  class="text-gray-600 capitalize"
                   v-for="attr in product.attributes"
                   :key="attr.id"
                 >

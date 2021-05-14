@@ -109,6 +109,7 @@
 </template>
 <script>
 export default {
+  auth: false,
   layout: "user",
   data() {
     return {
