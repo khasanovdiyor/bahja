@@ -39,7 +39,7 @@
         <div class="mt-10 flex flex-wrap">
           <!-- Product card -->
           <nuxt-link
-            class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"
+            class="mb-6 cursor-pointer mr-6 transition w-64 duration-150 transform hover:scale-105"
             :to="'/product/' + product.id"
             v-for="product in products"
             :key="product.id"
@@ -94,7 +94,7 @@ export default {
       this.$axios
         .get(`product/by-category/${this.$route.params.slug}/`, {
           params: {
-            is_import: true ? this.$route.params.type === "Import" : false,
+            is_import: true ? this.$route.params.type === "import" : false,
             ordering,
             page
           }

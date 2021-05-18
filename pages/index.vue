@@ -10,7 +10,7 @@
       <div class="px-5 lg:px-16 mt-10">
         <div class="sm:flex justify-between sm:text-xl uppercase">
           <div class="flex mb-6 sm:mb-0 lg:w-2/5 justify-between">
-            <span class="mr-6 font-bold"> Yangi mahsulotlar </span>
+            <span class="mr-6 font-bold"> mahsulotlar </span>
           </div>
         </div>
 
@@ -64,7 +64,7 @@
     </div> -->
     <!-- TODAY'S HIT -->
     <div class="px-6 md:px-16 pb-10">
-      <h2 class="my-10 font-bold text-xl uppercase">ommabop tovarlar</h2>
+      <h2 class="my-10 font-bold text-xl uppercase">Yangi mahsulotlar</h2>
       <splide :options="options" :slides="products" class="mx-auto">
         <splide-slide
           v-for="product in products"

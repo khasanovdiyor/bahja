@@ -21,7 +21,7 @@
               <li
                 v-for="option in sortOptions"
                 :key="option.slug"
-                @click="getProductsBySort(1, option.slug, option.text)"
+                @click="getProducts(1, option.slug, option.text)"
                 class="cursor-pointer hover:bg-gray-200 py-2 px-4"
               >
                 {{ option.text }}
@@ -39,7 +39,7 @@
         <div class="mt-10 flex flex-wrap w-full">
           <!-- Product card -->
           <nuxt-link
-            class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"
+            class="mb-6 cursor-pointer transition w-64 mr-6 duration-150 transform hover:scale-105"
             :to="'/product/' + product.id"
             v-for="product in products"
             :key="product.id"

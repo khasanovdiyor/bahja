@@ -17,7 +17,7 @@
         <div class="mt-10 flex flex-wrap">
           <!-- Product card -->
           <nuxt-link
-            class="mb-6 cursor-pointer transition w-64 duration-150 transform hover:scale-105"
+            class="mb-6 cursor-pointer transition mr-6 w-64 duration-150 transform hover:scale-105"
             :to="'/product/' + product.parent_id"
             v-for="product in products"
             :key="product.id"
