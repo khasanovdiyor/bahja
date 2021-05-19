@@ -1,72 +1,50 @@
 <template>
   <div>
     <div>
-      <h1 class="font-bold text-xl mb-6 text-gray-900">Mahsulotlar</h1>
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="font-bold text-xl text-gray-700">Mahsulot</h1>
+        <div class="flex items-center text-sm justify-between w-24">
+          <nuxt-link :to="`/admin/product-change/${product.id}`">
+            <img
+              src="~/assets/images/pencil.svg"
+              class="w-5 h-5"
+              alt="pencil icon"
+            />
+          </nuxt-link>
+          <div
+            @click="
+              showDeleteParent = true;
+              selectedProductID = product.id;
+            "
+            class="cursor-pointer"
+          >
+            <img
+              src="~/assets/images/delete.svg"
+              class="w-5 h-5"
+              alt="pencil icon"
+            />
+          </div>
+        </div>
+      </div>
+      <BaseDeleteModal
+        v-if="showDeleteParent"
+        text="Ushbu mahsulotni o'chirishni xohlaysizmi?"
+        @delete="deleteParent"
+        @close="showDeleteParent = false"
+      />
       <div>
         <table class="min-w-full divide-x divide-gray-200 flex">
-          <thead class="bg-gray-200 w-1/4">
-            <tr class="border-gray-400 border-b">
+          <thead class="bg-gray-200 w-1/4 capitalize">
+            <tr
+              class="border-gray-400 border-b"
+              v-for="(header, idx) in productHeaders"
+              :key="idx"
+            >
               <th
                 scope="col"
                 class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
               >
-                id
-              </th>
-            </tr>
-            <tr class="border-gray-400 border-b">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                nom
-              </th>
-            </tr>
-            <tr class="border-gray-400 border-b">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                kod
-              </th>
-            </tr>
-            <tr class="border-gray-400 border-b">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                tavsif
-              </th>
-            </tr>
-            <tr class="border-gray-400 border-b">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                kategoriya
-              </th>
-            </tr>
-            <tr class="border-gray-400 border-b">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                brand
-              </th>
-            </tr>
-            <tr class="border-gray-400 border-b">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                son
-              </th>
-            </tr>
-            <tr class="border-gray-400">
-              <th
-                scope="col"
-                class="px-8 block py-2 w-72 text-left text-sm font-bold text-gray-600"
-              >
-                narx (so'm)
+                {{ header }}
               </th>
             </tr>
           </thead>
@@ -184,186 +162,103 @@
             </tr>
           </tbody>
         </table>
-        <nuxt-link
-          :to="`/admin/variation-create/${$route.params.id}`"
-          class="block bg-gray-800 w-24 text-sm text-center rounded-md px-3 text-white mt-5 py-2 mb-5"
-          >Qo'shish</nuxt-link
-        >
       </div>
       <div class="my-8">
-        <div class="flex items-center justify-between">
-          <h2 class="font-bold text-xl my-4 text-gray-700">O'zgarishlar</h2>
-        </div>
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-200">
-            <tr>
-              <th
-                scope="col"
-                class="px-6 py-2 w-40 text-left text-xs font-bold text-gray-600 uppercase"
-              >
-                Nom
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-              >
-                Kod
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-              >
-                Tavsif
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-              >
-                Kategoriya
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-              >
-                Son
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-              >
-                Narx
-              </th>
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <h1 class="font-bold text-xl text-gray-700">O'zgarishlar</h1>
+            <BaseButtonLink
+              link
+              :url="`/admin/variation-create/${$route.params.id}`"
+              buttonText="Qo'shish"
+            />
+          </div>
 
-              <th
-                scope="col"
-                class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
+          <BaseTable :headers="variationHeaders">
+            <template #body>
+              <tr
+                class="border"
+                v-for="product in variations"
+                :key="product.id"
               >
-                buyruqlar
-              </th>
-            </tr>
-          </thead>
-          <tbody class="">
-            <tr
-              class="border bg-white text-sm w-1/2"
-              v-for="variation in variations"
-              :key="variation.id"
-            >
-              <td class="px-6 py-1 border text-sm">
-                {{ variation.name }}
-              </td>
-
-              <td class="px-6 py-1 border text-sm">
-                {{ variation.product_code }}
-              </td>
-              <td class="px-6 py-1 border text-sm">
-                {{ variation.description }}
-              </td>
-              <td class="px-6 py-1 border text-sm">
-                <div v-for="categ in variation.categories" :key="categ.id">
-                  {{ categ.name }}
-                </div>
-              </td>
-              <td class="px-6 py-1 border text-sm">
-                {{ variation.quantity }}
-              </td>
-              <td class="px-6 py-1 border text-sm">
-                {{ variation.price }}
-              </td>
-              <td class="px-6 py-1 border text-sm">
-                <div class="flex justify-around">
-                  <nuxt-link
-                    class="w-6 h-6 block"
-                    :to="`/admin/product-change/${variation.id}`"
-                  >
-                    <img
-                      src="~/assets/images/pencil.svg"
-                      class="w-5 h-6"
-                      alt="edit"
-                    />
-                  </nuxt-link>
-                  <div
-                    @click="
-                      showDeleteDialog = true;
-                      selectedProductID = variation.id;
-                    "
-                    class="cursor-pointer"
-                  >
-                    <img
-                      src="~/assets/images/delete.svg"
-                      class="w-5 h-5"
-                      alt="delete"
-                    />
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm">
+                    {{ product.name }}
                   </div>
-                </div>
-              </td>
-            </tr>
-            <tr
-              class="w-9/12"
-              v-for="(variation, index) in variations"
-              :key="index"
-            >
-              <h2 class="font-bold text-xl text-gray-800 mt-10">Attributlar</h2>
-              <table class="w-full divide-y divide-gray-200 mt-5">
-                <thead class="bg-gray-200">
-                  <tr class="border">
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
-                    >
-                      is main
-                    </th>
+                </td>
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm">
+                    {{ product.product_code }}
+                  </div>
+                </td>
 
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
+                <td class="px-6 py-1 border">
+                  <div class="text-sm">
+                    <span
+                      v-for="attr in product.attributes"
+                      :key="attr.id"
+                      class="block lowercase"
                     >
-                      key
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
+                      <b>{{ attr.label }} :</b> {{ attr.value }}
+                    </span>
+                  </div>
+                </td>
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm">
+                    <div
+                      v-for="category in product.categories"
+                      :key="category.id"
                     >
-                      label
-                    </th>
-                    <th
-                      scope="col"
-                      class="px-6 py-2 text-left text-xs font-bold text-gray-600 uppercase"
+                      {{ category.name }}
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm">
+                    {{ product.price }}
+                  </div>
+                </td>
+                <td class="px-6 py-1 border">
+                  <div class="flex items-center text-sm justify-between">
+                    <nuxt-link :to="`/admin/product-detail/${product.id}`">
+                      <img
+                        src="~/assets/images/eye.svg"
+                        class="w-5 h-5"
+                        alt="eye icon"
+                      />
+                    </nuxt-link>
+                    <nuxt-link :to="`/admin/product-change/${product.id}`">
+                      <img
+                        src="~/assets/images/pencil.svg"
+                        class="w-5 h-5"
+                        alt="pencil icon"
+                      />
+                    </nuxt-link>
+                    <div
+                      @click="
+                        showDeleteDialog = true;
+                        selectedProductID = product.id;
+                      "
+                      class="cursor-pointer"
                     >
-                      value
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white">
-                  <tr
-                    class="border"
-                    v-for="(attrib, index) in variation.attributes"
-                    :key="index"
-                  >
-                    <td class="px-6 py-1 border text-sm">
-                      {{ attrib.is_main }}
-                    </td>
-
-                    <td class="px-6 py-1 border text-sm">
-                      {{ index }}
-                    </td>
-                    <td class="px-6 py-1 border text-sm">
-                      {{ attrib.label }}
-                    </td>
-                    <td class="px-6 py-1 border text-sm">
-                      {{ attrib.value }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </tr>
-          </tbody>
+                      <img
+                        src="~/assets/images/delete.svg"
+                        class="w-5 h-5"
+                        alt="pencil icon"
+                      />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </BaseTable>
           <BaseDeleteModal
             v-if="showDeleteDialog"
-            text="Ushbe mahsulotni o'chirishni xohlaysizmi?"
+            text="Ushbu mahsulotni o'chirishni xohlaysizmi?"
             @delete="deleteProduct"
             @close="showDeleteDialog = false"
           />
-        </table>
+        </div>
       </div>
       <div class="">
         <span class="font-bold mb-4 text-xl block text-gray-700"
@@ -401,16 +296,26 @@ export default {
   data() {
     return {
       priceMask: priceMask,
-      tableHeaders: [
-        "Nom",
-        "kod",
-        "tavsif",
-        "kategoriya",
-        "son",
-        "narx",
+      variationHeaders: [
+        "nomi",
+        "kodi",
+        "atributlar",
+        "Kategoriyalari",
+        "narxi",
         "buyruqlar"
       ],
+      productHeaders: [
+        "id",
+        "nom",
+        "kod",
+        "Tavsif",
+        "Kategoriya",
+        "Brend",
+        "Son",
+        "narxi"
+      ],
       showDeleteDialog: false,
+      showDeleteParent: false,
       selectedProductID: null,
       product: {
         brand: {},
@@ -441,7 +346,7 @@ export default {
         .delete(`product/delete/${this.selectedProductID}`)
         .then(res => {
           this.$toast.success(res.data || "Mahsulot muvaffaqiyatli o'chirildi");
-          this.getProduc();
+          this.getProduct();
         })
         .catch(err => {
           this.$toast.error(
@@ -451,6 +356,23 @@ export default {
         })
         .finally(() => {
           this.showDeleteDialog = false;
+        });
+    },
+    deleteParent() {
+      this.$axios
+        .delete(`product/delete/${this.selectedProductID}`)
+        .then(res => {
+          this.$toast.success(res.data || "Mahsulot muvaffaqiyatli o'chirildi");
+          this.$router.push("/admin/products");
+        })
+        .catch(err => {
+          this.$toast.error(
+            err.response.data || "Mahsulot o'chirishda xatolik yuz berdi"
+          );
+          console.log(err);
+        })
+        .finally(() => {
+          this.showDeleteParent = false;
         });
     }
   },

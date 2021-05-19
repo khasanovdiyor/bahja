@@ -77,9 +77,9 @@
     </div>
     <BasePagination
       v-if="totalPages > 1"
-      class="mt-10"
+      class="mt-10 w-96 mx-auto"
       :page-count="totalPages"
-      :page-range="totalPages > 6 ? 4 : totalPages"
+      :page-range="totalPages >= 4 ? 3 : totalPages"
       :click-handler="getCategories"
     />
   </div>

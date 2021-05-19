@@ -139,10 +139,6 @@
                   Atributlar kamida 2 ta bo'lishi kerak
                 </div>
               </div>
-              <BaseButtonLink
-                buttonText="Mahsulot yaratish"
-                @button-click="createProduct"
-              />
             </div>
           </tab>
           <tab name="O'zgartirish" class="w-full text-lg">
@@ -350,6 +346,14 @@
           </tab>
         </tabs>
       </div>
+      <BaseButtonLink
+        buttonText="Mahsulot yaratish"
+        @button-click="createAndLeave"
+      />
+      <BaseButtonLink
+        buttonText="Mahsulot yaratish va yana qo'shish"
+        @button-click="createAndAdd"
+      />
     </div>
   </div>
 </template>
@@ -619,7 +623,7 @@ export default {
           console.log(err);
         });
     },
-    createProduct() {
+    async createProduct() {
       this.createProductClicked = true;
       this.$v.product.$touch();
       if (!this.$v.product.$invalid) {
@@ -632,20 +636,53 @@ export default {
             delete el.selectedCategories;
             delete el.maskPrice;
           }
-        let loader = this.$loading.show();
-        this.$axios
-          .post("product/create/", this.product)
-          .then(res => {
-            this.$toast.success("Mahsulot yaratildi");
-            this.variations = [];
-          })
-          .catch(err => {
-            this.$toast.error(err.response.data);
-          })
-          .finally(() => {
-            loader.hide();
-          });
+
+        const response = await this.$axios.post(
+          "product/create/",
+          this.product
+        );
+
+        loader.hide();
+        return response;
       }
+    },
+    createAndLeave() {
+      let loader = this.$loading.show();
+      this.createProduct()
+        .then(() => {
+          this.$toast.success("Mahsulot yaratildi");
+          setTimeout(() => {
+            this.$router.push("/admin/products");
+          }, 500);
+        })
+        .catch(err => {
+          this.$toast.error(
+            err.response.data || "Mahsulot yaratishda xatolik yuz berdi"
+          );
+        })
+        .finally(() => loader.hide());
+    },
+    createAndAdd() {
+      let loader = this.$loading.show();
+      this.createProduct()
+        .then(() => {
+          this.$toast.success("Mahsulot yaratildi");
+          this.variations = [];
+          this.product = {};
+          this.product.categories = [];
+          this.product.attributes = [];
+          this.product.variations = [];
+          this.variation = {};
+          setTimeout(() => {
+            this.$router.push("/admin/products");
+          }, 500);
+        })
+        .catch(err => {
+          this.$toast.error(
+            err.response.data || "Mahsulot yaratishda xatolik yuz berdi"
+          );
+        })
+        .finally(() => loader.hide());
     }
   },
   mounted() {

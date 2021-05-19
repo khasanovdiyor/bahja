@@ -4,13 +4,9 @@
       <div class="flex flex-col overflow-hidden">
         <main>
           <div class="container mx-auto">
-            <h3 class="text-gray-700 text-xl font-bold font-medium mb-6">
-              Statistika
-            </h3>
-
             <div>
-              <div class="flex flex-wrap mx-6">
-                <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+              <div class="flex flex-wrap justify-between">
+                <div class="w-full sm:w-1/2 xl:w-1/3">
                   <div
                     class="relative"
                     tabindex="0"
@@ -60,7 +56,7 @@
                   </div>
                 </div>
 
-                <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+                <div class="w-full mt-6 sm:w-1/2 px-6 xl:w-1/3 sm:mt-0">
                   <div
                     class="relative"
                     tabindex="0"
@@ -110,7 +106,7 @@
                   </div>
                 </div>
 
-                <div class="w-full mt-6 px-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
+                <div class="w-full mt-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
                   <div
                     class="relative"
                     tabindex="0"
@@ -271,7 +267,8 @@
                                 order.status === 'Kutilmoqda',
                               'bg-red-100 text-red-800':
                                 order.status === 'Bekor qilingan',
-                              'bg-gray-200 text-gray-800': order.status === 'Tushgan'
+                              'bg-gray-200 text-gray-800':
+                                order.status === 'Tushgan'
                             }"
                             >{{ order.status }}</span
                           >

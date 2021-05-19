@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-gray-800"
+    class="flex justify-between items-center py-4 px-6 bg-white shadow-md"
   >
     <div class="flex items-center w-full justify-end">
       <button

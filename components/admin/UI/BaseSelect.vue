@@ -14,6 +14,7 @@
       :placeholder="placeholder"
       :label="selectLabel"
       track-by="id"
+      select-label=""
       :options="options"
       :multiple="multiple"
       :taggable="taggable"
