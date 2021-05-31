@@ -1,105 +1,62 @@
 export default {
   show: {
-    name: "Iphone 12 Pro MAX",
-    price: "13324",
-    image:
-      "https://assets.swappie.com/swappie-product-iphone-12-pro-max-silver.png",
-    images: [
-      "https://media.wired.com/photos/5fa5e735ba670daaf8e97a91/master/w_2560%2Cc_limit/GEAR-MAX-Apple-iPhone-12-Pro-Max-SOURCE-Apple.jpg"
-    ],
-    attributes: {
-      color: {
-        type: "color", // color, text, image
-        label: "Rang",
-        value: "#ffffff"
-      },
-      size: {
-        type: "text",
-        label: "O'lcham",
-        value: 32
-      },
-      type: {
-        type: "text",
-        label: "Turi",
-        value: "koja"
-      }
-    },
-    variations: [
+    finish_price: 150000,
+    name: "Mirjahon",
+    phone_number: "+998 99 999 99 99",
+    status: "Tushgan",
+    orderproducts: [
       {
-        name: "Iphone 12 Pro MAX",
-        price: "13324",
-        image:
-          "https://img.router-switch.com/media/customoptions/129/2/4/iphone-12-pro-max-blue.jpg",
-        images: [
-          "https://assets.swappie.com/swappie-product-iphone-12-pro-max-pacific-blue-back.png"
-        ],
-        attributes: {
-          color: {
-            type: "color", // color, text, image
-            label: "Rang",
-            value: "#000000"
-          },
-          size: {
-            type: "text",
-            label: "O'lcham",
-            value: 64
-          },
-          type: {
-            type: "text",
-            label: "Turi",
-            value: "koja"
+        count: 2,
+        single_overall_price: 153644,
+        product: {
+          name: "Iphone 12 Pro MAX",
+          price: 13324,
+          image:
+            "https://img.router-switch.com/media/customoptions/129/2/4/iphone-12-pro-max-blue.jpg",
+          images: [
+            "https://assets.swappie.com/swappie-product-iphone-12-pro-max-pacific-blue-back.png"
+          ],
+          attributes: {
+            color: {
+              id: 12,
+              key: "color",
+              label: "Rang",
+              value: "qora"
+            },
+            size: {
+              id: 13,
+              key: "size",
+              label: "O'lcham",
+              value: 256
+            }
           }
         }
       },
       {
-        name: "Iphone 12 Pro MAX",
-        price: "13324",
-        image:
-          "https://img.router-switch.com/media/customoptions/129/2/4/iphone-12-pro-max-blue.jpg",
-        images: [
-          "https://assets.swappie.com/swappie-product-iphone-12-pro-max-pacific-blue-back.png"
-        ],
-        attributes: {
-          color: {
-            type: "color", // color, text, image
-            label: "Rang",
-            value: "#000000"
-          },
-          size: {
-            type: "text",
-            label: "O'lcham",
-            value: 128
-          },
-          type: {
-            type: "text",
-            label: "Turi",
-            value: "koja"
-          }
-        }
-      },
-      {
-        name: "Iphone 12 Pro MAX",
-        price: "13324",
-        image:
-          "https://assets.swappie.com/swappie-product-iphone-12-pro-max-silver.png",
-        images: [
-          "https://media.wired.com/photos/5fa5e735ba670daaf8e97a91/master/w_2560%2Cc_limit/GEAR-MAX-Apple-iPhone-12-Pro-Max-SOURCE-Apple.jpg"
-        ],
-        attributes: {
-          color: {
-            type: "color", // color, text, image
-            label: "Rang",
-            value: "#ffffff"
-          },
-          size: {
-            type: "text",
-            label: "O'lcham",
-            value: 64
-          },
-          type: {
-            type: "text",
-            label: "Turi",
-            value: "koja"
+        count: 1,
+        single_overall_price: 26648,
+        product: {
+          name: "Iphone 12",
+          price: 13324,
+          count: 1,
+          image:
+            "https://img.router-switch.com/media/customoptions/129/2/4/iphone-12-pro-max-blue.jpg",
+          images: [
+            "https://assets.swappie.com/swappie-product-iphone-12-pro-max-pacific-blue-back.png"
+          ],
+          attributes: {
+            color: {
+              id: 14,
+              key: "color",
+              label: "Rang",
+              value: "qora"
+            },
+            size: {
+              id: 15,
+              key: "size",
+              label: "O'lcham",
+              value: 128
+            }
           }
         }
       }

@@ -2,7 +2,7 @@
   <div>
     <div
       class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-12 border-gray-200 pb-8"
-      v-if="!showMessage"
+      v-if="!orderSent"
     >
       <div class="w-full px-5 mx-auto">
         <form class="w-full" method="post" enctype="multipart/form-data">
@@ -49,18 +49,140 @@
         </button>
       </div>
     </div>
-    <div v-if="showMessage" class="h-96 flex justify-center items-center">
-      <div class="text-center">
-        <!-- <h3 class="font-bold mx-auto text-xl mb-6">
-          Buyurtmangiz qabul qilindi!
-        </h3> -->
+    <div v-if="orderSent" class="flex mt-16 items-center justify-center">
+      <div
+        class="md:px-36 md:w-full md:overflow-hidden w-3/4 overflow-y-scroll"
+      >
+        <div class="mb-6">
+          <div class="md:text-lg mb-6">
+            <h4 class="md:text-xl text-center mb-6">
+              Buyurtmangiz qabul qilindi!
+            </h4>
+            <h5 class="text-gray-800">
+              Buyurtmachi ismi:
+              <span class="text-black font-bold">{{ orderDetails.name }}</span>
+            </h5>
+            <h5 class="text-gray-800">
+              Buyurtmachi telefon raqami:
+              <span class="text-black font-bold">{{
+                orderDetails.phone_number
+              }}</span>
+            </h5>
+            <h5 class="text-gray-800">
+              Buyurtma qilingan mahsulotlar jami narxi:
+              <span
+                class="text-black font-bold"
+                v-if="orderDetails.finish_price"
+                >{{ orderDetails.finish_price.toLocaleString() }} so'm</span
+              >
+            </h5>
+            <h5 class="">Buyurtma qilingan mahsulotlar:</h5>
+          </div>
+          <div>
+            <BaseTable :headers="tableHeaders" class="">
+              <template #body>
+                <tr
+                  class="border"
+                  v-for="p in orderDetails.orderproducts"
+                  :key="p.id"
+                >
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-sm">
+                      {{ p.product.name }}
+                    </div>
+                  </td>
 
-        <nuxt-link to="/" class="">
-          <img src="~/assets/images/bahja.png" alt="" class="w-32 ml-14 mb-5" />
-          <b class="hover:underline text-xl text-gray-600"
-            >Bosh sahifaga qaytish</b
-          >
-        </nuxt-link>
+                  <td class="px-6 py-1 border">
+                    <div class="text-sm">
+                      <span
+                        v-for="attr in p.product.attributes"
+                        :key="attr.id"
+                        class="block lowercase"
+                      >
+                        <b>{{ attr.label }} :</b> {{ attr.value }}
+                      </span>
+                    </div>
+                  </td>
+
+                  <td class="px-6 py-1 border">
+                    <div
+                      class="flex items-center text-sm"
+                      v-if="p.product.price"
+                    >
+                      {{ p.product.price.toLocaleString() }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div class="flex items-center text-sm">
+                      {{ p.count }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-1 border">
+                    <div
+                      class="flex items-center text-sm"
+                      v-if="p.single_overall_price"
+                    >
+                      {{ p.single_overall_price.toLocaleString() }}
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </BaseTable>
+          </div>
+
+          <!-- <div class="flex wrap">
+            <div
+              class="mb-5 flex w-full"
+              v-for="(p, index) in product.show.orderproducts"
+              :key="index"
+            >
+              <span class="w-48 px-3 mr-4">
+                <h2 class="text-gray-600">
+                  <b class="">{{ p.product.name }}</b>
+                </h2>
+                <div v-if="p.product.attributes" class="text-sm">
+                  <p
+                    class="text-gray-600 capitalize"
+                    v-for="attr in p.product.attributes"
+                    :key="attr.id"
+                  >
+                    {{ attr.label }}: <b>{{ attr.value }}</b>
+                  </p>
+                </div>
+                <div class="text-gray-600">
+                  <span class="text-sm block capitalize"
+                    >Soni: <span class="font-bold">{{ p.count }}</span></span
+                  >
+                  <span class="text-sm block capitalize"
+                    >narxi:
+                    <span class="font-bold lowercase"
+                      >{{ p.product.price }} so'm</span
+                    >
+                  </span>
+                  <span class="text-sm block capitalize"
+                    >jami:
+                    <span class="font-bold lowercase"
+                      >{{ p.single_overall_price }} so'm</span
+                    >
+                  </span>
+                </div>
+              </span>
+            </div>
+          </div> -->
+        </div>
+
+        <div class="flex justify-center">
+          <nuxt-link to="/" class="">
+            <img
+              src="~/assets/images/bahja.png"
+              alt=""
+              class="w-32 ml-14 mb-5"
+            />
+            <b class="hover:underline md:text-xl text-gray-600"
+              >Bosh sahifaga qaytish</b
+            >
+          </nuxt-link>
+        </div>
       </div>
     </div>
   </div>
@@ -70,17 +192,27 @@
 import global from "~/mixins.js/global.js";
 import { required, minLength } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
+import product from "@/api/product";
 export default {
   auth: false,
   layout: "user",
   mixins: [global],
   data() {
     return {
+      tableHeaders: [
+        "mahsulot nomi",
+        "xususiyatlari",
+        "narxi (so'm)",
+        "soni",
+        "jami (so'm)"
+      ],
+      product,
       errors: [],
-      showMessage: false,
+      orderDetails: {},
+      orderSent: false,
       order: {
         name: "",
-        phone_number: ""
+        phone_number: "+998"
       }
     };
   },
@@ -114,7 +246,8 @@ export default {
           .then(res => {
             this.$toast.success("Buyurtma qabul qilindi");
             this.$store.dispatch("products/deleteAllProduct");
-            this.showMessage = true;
+            this.orderDetails = res.data;
+            this.orderSent = true;
           })
           .catch(err => {
             this.$toast.error(

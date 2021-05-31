@@ -92,9 +92,9 @@ export default {
       this.showCard = !this.showCard;
     },
     getProducts() {
+      this.products = [];
       if (this.savedProducts.length > 0)
         this.savedProducts.forEach((element, idx) => {
-          this.products = [];
           this.totalPrice = 0;
           this.$axios
             .get(`product/specific/${element.product_id}`)
@@ -118,22 +118,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.slidein {
-  /* min-width: 350px; */
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  right: 0;
-  height: 100%;
-  background: white;
-  box-shadow: 1px 1px 10px rgba(124, 87, 87, 0.5);
-  transition: all 0.5s ease-in-out;
-}
-
-/* before the element is shown, start off the screen to the right */
-.slide-enter,
-.slide-leave-active {
-  right: -100%;
-}
-</style>
