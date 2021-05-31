@@ -3,7 +3,7 @@
     <div>
       <div class="flex flex-col overflow-hidden">
         <main>
-          <div class="container mx-auto">
+          <div class="container mx-auto mt-10">
             <div>
               <div class="flex flex-wrap justify-between">
                 <div class="w-full sm:w-1/2 xl:w-1/3">

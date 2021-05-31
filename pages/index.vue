@@ -16,7 +16,7 @@
 
         <div class="">
           <!-- PRODUCTS CONTAINER -->
-          <div class="mt-10 flex gap-20 flex-wrap">
+          <div class="mt-10 flex justify-between flex-wrap">
             <!-- Product card -->
             <nuxt-link
               class="mb-6 mx-auto sm:mx-0 cursor-pointer transition duration-150 transform hover:scale-105"
