@@ -16,3 +16,20 @@ html {
   margin: 0;
   padding: 0;
 }
+.slidein {
+  /* min-width: 350px; */
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: white;
+  box-shadow: 1px 1px 10px rgba(124, 87, 87, 0.5);
+  transition: all 0.5s ease-in-out;
+}
+
+/* before the element is shown, start off the screen to the right */
+.slide-enter,
+.slide-leave-active {
+  right: -100%;
+}
