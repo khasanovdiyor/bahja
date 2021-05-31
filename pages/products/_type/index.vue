@@ -1,12 +1,41 @@
 <template>
   <div>
     <div class="sm:flex">
-      <TheSidebar :currentLink="link" />
+      <div>
+        <div
+          :class="{ block: sidebarOpen, hidden: !sidebarOpen }"
+          @click="sidebarOpen = false"
+          class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"
+        ></div>
+        <TheSidebar
+          :currentLink="link"
+          :class="{
+            'translate-x-0 ease-out': sidebarOpen,
+            '-translate-x-full ease-in': !sidebarOpen
+          }"
+          class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
+        />
+      </div>
+
       <div class="w-full">
-        <h1 class="lg:px-16 px-6 capitalize font-bold text-center text-xl my-5">
-          {{ $route.params.type }}
-          mahsulotlar
-        </h1>
+        <div
+          class="flex items-center lg:justify-center justify-between flex-wrap"
+        >
+          <div
+            class="w-24 sm:left-6 ml-8 flex lg:hidden"
+            @click="sidebarOpen = true"
+          >
+            <img class="mr-2" src="@/assets/images/menu.svg" alt="" />
+            <span>Kategoriyalar</span>
+          </div>
+          <div>
+            <h1 class="lg:px-16 px-6 capitalize font-bold text-xl my-5">
+              {{ $route.params.type }}
+              mahsulotlar
+            </h1>
+          </div>
+        </div>
+
         <!-- <div>
             <h2
               @click="showFilter = true"
@@ -43,7 +72,7 @@
             tabindex="0"
           >
             <h3
-              class="mb-2 inline-block cursor-pointer"
+              class="mb-2 sm:ml-0 sm:mt-0 mt-6 ml-6 inline-block cursor-pointer"
               @click="showSort = true"
             >
               {{ selectedSort }} &#8595;
@@ -83,10 +112,12 @@
           bo'limini tekshiring!
         </h2>
 
-        <div class="mt-10 lg:px-16 px-6 flex flex-wrap">
+        <div
+          class="mt-10 lg:px-16 px-4 flex justify-center sm:justify-between flex-wrap"
+        >
           <!-- Product card -->
           <nuxt-link
-            class="mb-6 cursor-pointer transition mr-6 w-64 duration-150 transform hover:scale-105"
+            class="mb-6 cursor-pointer transition w-64 mr-5 sm:mr-0 mr-0 duration-150 transform hover:scale-105"
             :to="'/product/' + product.id"
             v-for="product in products"
             :key="product.id"
@@ -98,7 +129,7 @@
     </div>
     <div class="flex justify-center">
       <BasePagination
-        class="w-1/4"
+        class="sm:w-1/4"
         v-if="totalPages > 1"
         :page-count="totalPages"
         :page-range="totalPages > 6 ? 4 : totalPages"
@@ -114,6 +145,7 @@ export default {
   data() {
     return {
       link: `${this.$route.params.type}/category`,
+      sidebarOpen: false,
       products: [],
       showSort: false,
       showFilter: false,
