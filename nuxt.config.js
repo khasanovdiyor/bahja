@@ -60,7 +60,7 @@ export default {
     }
   },
   axios: {
-    baseURL: "http://192.168.0.112:8000/api/"
+    baseURL: "https://bahja-api.atomlab.uz/api/"
 
     // Used as fallback if no runtime config is provided
   },
