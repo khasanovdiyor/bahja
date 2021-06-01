@@ -623,10 +623,34 @@ export default {
           console.log(err);
         });
     },
-    async createProduct() {
+    // async createProduct() {
+    //   this.createProductClicked = true;
+    //   this.$v.product.$touch();
+    //   if (!this.$v.product.$invalid) {
+    //     this.product.price = parseInt(this.product.price.replace(/\s/g, ""));
+    //     this.product.variations = this.variations;
+    //     if (this.product.variations.length > 0)
+    //       for (let el of this.product.variations) {
+    //         el.price = parseInt(el.maskPrice.toString().replace(/\s/g, ""));
+    //         el.quantity = parseInt(el.quantity.toString().replace(/\s/g, ""));
+    //         delete el.selectedCategories;
+    //         delete el.maskPrice;
+    //       }
+
+    //     const response = await this.$axios.post(
+    //       "product/create/",
+    //       this.product
+    //     );
+    //     console.log("response", response);
+    //     return response;
+    //   }
+    // },
+    createAndLeave() {
       this.createProductClicked = true;
       this.$v.product.$touch();
       if (!this.$v.product.$invalid) {
+        let loader = this.$loading.show();
+
         this.product.price = parseInt(this.product.price.replace(/\s/g, ""));
         this.product.variations = this.variations;
         if (this.product.variations.length > 0)
@@ -637,52 +661,55 @@ export default {
             delete el.maskPrice;
           }
 
-        const response = await this.$axios.post(
-          "product/create/",
-          this.product
-        );
-
-        loader.hide();
-        return response;
+        this.$axios
+          .post("product/create/", this.product)
+          .then(() => {
+            this.$toast.success("Mahsulot yaratildi!");
+            setTimeout(() => {
+              this.$router.push("/admin/products");
+            }, 500);
+          })
+          .catch(err => {
+            this.$toast.error(
+              err.response.data || "Mahsulot yaratishda xatolik yuz berdi"
+            );
+          })
+          .finally(() => loader.hide());
       }
     },
-    createAndLeave() {
-      let loader = this.$loading.show();
-      this.createProduct()
-        .then(() => {
-          this.$toast.success("Mahsulot yaratildi");
-          setTimeout(() => {
-            this.$router.push("/admin/products");
-          }, 500);
-        })
-        .catch(err => {
-          this.$toast.error(
-            err.response.data || "Mahsulot yaratishda xatolik yuz berdi"
-          );
-        })
-        .finally(() => loader.hide());
-    },
     createAndAdd() {
-      let loader = this.$loading.show();
-      this.createProduct()
-        .then(() => {
-          this.$toast.success("Mahsulot yaratildi");
-          this.variations = [];
-          this.product = {};
-          this.product.categories = [];
-          this.product.attributes = [];
-          this.product.variations = [];
-          this.variation = {};
-          setTimeout(() => {
-            this.$router.push("/admin/products");
-          }, 500);
-        })
-        .catch(err => {
-          this.$toast.error(
-            err.response.data || "Mahsulot yaratishda xatolik yuz berdi"
-          );
-        })
-        .finally(() => loader.hide());
+      this.createProductClicked = true;
+      this.$v.product.$touch();
+      if (!this.$v.product.$invalid) {
+        let loader = this.$loading.show();
+        this.product.price = parseInt(this.product.price.replace(/\s/g, ""));
+        this.product.variations = this.variations;
+        if (this.product.variations.length > 0)
+          for (let el of this.product.variations) {
+            el.price = parseInt(el.maskPrice.toString().replace(/\s/g, ""));
+            el.quantity = parseInt(el.quantity.toString().replace(/\s/g, ""));
+            delete el.selectedCategories;
+            delete el.maskPrice;
+          }
+
+        this.$axios
+          .post("product/create/", this.product)
+          .then(() => {
+            this.$toast.success("Mahsulot yaratildi");
+            this.variations = [];
+            this.product = {};
+            this.product.categories = [];
+            this.product.attributes = [];
+            this.product.variations = [];
+            this.variation = {};
+          })
+          .catch(err => {
+            this.$toast.error(
+              err.response.data || "Mahsulot yaratishda xatolik yuz berdi"
+            );
+          })
+          .finally(() => loader.hide());
+      }
     }
   },
   mounted() {
