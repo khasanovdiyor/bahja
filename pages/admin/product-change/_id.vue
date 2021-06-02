@@ -217,12 +217,10 @@ export default {
     },
     selectCategories(value, categories) {
       categories.push(value.id);
-      console.log(this.newCategories);
     },
     removeCategories(value, categories) {
       const foundIndex = categories.indexOf(value.id);
       if (foundIndex !== -1) categories.splice(foundIndex, 1);
-      console.log(this.newCategories);
     },
     addProductAttribute() {
       this.newAttributes.push(this.attribute);
@@ -233,7 +231,6 @@ export default {
       attributes.splice(index, 1);
     },
     removeImage(index, images) {
-      console.log("images", images);
       if (!images[index].includes("data:image/"))
         this.deletedImages.push(images[index]);
       images.splice(index, 1);

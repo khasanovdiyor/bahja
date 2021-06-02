@@ -169,7 +169,6 @@ export default {
     getProduct() {
       let loader = this.$loading.show();
       const id = this.$route.params.id;
-      console.log("route id", id);
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
@@ -201,7 +200,6 @@ export default {
     //   this.product_list.push(p);
     // },
     changeProduct(selected_attrs) {
-      console.log("changing product by attrs");
       let p = this.findProduct(selected_attrs);
       if (p) {
         Object.assign(this.product, p);
@@ -217,7 +215,6 @@ export default {
       return found;
     },
     isProperWithAttribute(product, attrs) {
-      console.log("check prodroper");
       for (const key in product.attributes) {
         if (
           attrs[key] !== undefined &&

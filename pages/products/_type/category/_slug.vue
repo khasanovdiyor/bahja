@@ -130,7 +130,6 @@ export default {
           }
         })
         .then(res => {
-          console.log("list", res.data);
           this.products = res.data.results;
           this.totalPages = res.data.total_pages;
           this.showSort = false;

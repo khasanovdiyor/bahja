@@ -65,11 +65,8 @@ export default {
         let response = await this.$auth.loginWith("local", {
           data: this.login
         });
-        console.log(response);
         this.$router.push("/admin/");
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     }
   }
 };

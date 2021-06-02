@@ -69,7 +69,6 @@ export default {
           this.slides = res.data;
         })
         .catch(err => {
-          console.log(err);
         });
     },
     getCategorySliders() {
@@ -79,7 +78,6 @@ export default {
           this.categorySliders = res.data.results;
         })
         .catch(err => {
-          console.log(err);
         });
     }
   },

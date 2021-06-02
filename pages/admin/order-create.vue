@@ -226,7 +226,6 @@ export default {
           this.products = res.data;
         })
         .catch(err => {
-          console.log(err);
         });
     }
   },

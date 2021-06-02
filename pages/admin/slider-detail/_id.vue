@@ -86,7 +86,6 @@ export default {
       this.$axios
         .get(`product/slider/detail/${this.$route.params.id}`)
         .then(res => {
-          console.log(res.data);
           this.slider = res.data;
         });
     }

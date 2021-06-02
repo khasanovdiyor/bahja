@@ -215,6 +215,8 @@ export default {
         });
     },
     getOptionsCategories() {
+      let loader = this.$loading.show();
+
       this.$axios
         .get("product/category-all/", {
           params: {

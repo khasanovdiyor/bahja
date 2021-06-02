@@ -59,7 +59,6 @@ export default {
       }
     },
     "selected_attrs.color"() {
-      console.log("color changed", this.selected_attrs.color);
 
       const found = this.products.find(
         el =>
@@ -102,7 +101,6 @@ export default {
       if (this.products.length > 0)
         attrs = this.convertAttributes(this.product);
       this.products.forEach(element => {
-        console.log(element);
         for (const key in attrs) {
           if (element.attributes[key]) {
             let val = element.attributes[key].value;
@@ -135,7 +133,6 @@ export default {
           }
         }
       });
-      console.log("available ", available);
       let newObj = {};
       let arr = JSON.parse(JSON.stringify(available));
       arr.forEach(el => {

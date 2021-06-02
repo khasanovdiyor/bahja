@@ -72,11 +72,9 @@ export default {
       this.$axios
         .get("product/category-list/")
         .then(res => {
-          console.log("category-list", res.data);
           this.categories = res.data;
         })
         .catch(err => {
-          console.log(err);
         });
     }
   },

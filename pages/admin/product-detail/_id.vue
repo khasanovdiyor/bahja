@@ -331,11 +331,8 @@ export default {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
-          console.log(res.data);
           this.product = res.data.find(el => el.parent_id === 0);
-          console.log(this.product);
           this.variations = res.data.filter(el => el.parent_id !== 0);
-          console.log(this.variations);
         })
         .finally(() => {
           loader.hide();

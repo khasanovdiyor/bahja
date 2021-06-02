@@ -315,10 +315,8 @@ export default {
         .get(`product/codesize/`)
         .then(res => {
           this.products = res.data;
-          console.log("Selected Product", res.data);
         })
         .catch(err => {
-          console.log(err);
         });
     },
     deleteOrderProduct() {

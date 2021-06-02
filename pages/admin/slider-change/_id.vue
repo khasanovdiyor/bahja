@@ -121,7 +121,6 @@ export default {
           this.getSlider();
         })
         .catch(err => {
-          console.log(err);
         })
         .finally(() => {
           loader.hide();
@@ -131,7 +130,6 @@ export default {
       this.$axios
         .get(`product/slider/detail/${this.$route.params.id}`)
         .then(res => {
-          console.log(res.data);
           this.preview = res.data.image;
           this.slider = res.data;
           this.slider.category = res.data.category.id;
