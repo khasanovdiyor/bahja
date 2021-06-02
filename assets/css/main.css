@@ -33,3 +33,13 @@ html {
 .slide-leave-active {
   right: -100%;
 }
+.h-24rem {
+  height: 24rem;
+}
+
+@media screen and (max-width: 600px) {
+  .swiper-slide-active {
+    display: flex;
+    justify-content: center;
+  }
+}
