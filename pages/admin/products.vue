@@ -244,7 +244,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
           this.products = res.data.results;
           this.totalPages = res.data.total_pages;
         })
@@ -276,9 +275,7 @@ export default {
         .then(res => {
           this.brands = res.data.results;
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => {});
     }
   },
   mounted() {

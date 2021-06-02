@@ -135,13 +135,11 @@ export default {
       this.$axios
         .get("product/list/")
         .then(res => {
-          console.log("variation-list", res.data);
           this.products = res.data.results;
           loader.hide();
         })
         .catch(err => {
           loader.hide();
-          console.log(err);
         });
     }
   },

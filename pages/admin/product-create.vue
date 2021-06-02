@@ -567,8 +567,6 @@ export default {
           );
         });
         this.variations.push(varProduct);
-
-        console.log(this.variations);
       }
     },
     removeVariation() {

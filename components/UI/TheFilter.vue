@@ -77,29 +77,24 @@ export default {
       this.$axios
         .get(`product/color-list/`)
         .then(res => {
-          console.log("variation-list", res.data);
           this.colors = res.data;
         })
         .catch(err => {
-          console.log(err);
         });
     },
     getBrands() {
       this.$axios
         .get(`product/brand-list/`)
         .then(res => {
-          console.log("variation-list", res.data);
           this.brands = res.data;
         })
         .catch(err => {
-          console.log(err);
         });
     }
   },
   mounted() {
     this.getColors();
     this.getBrands();
-    console.log("Sizes", this.sizeList);
   }
 };
 </script>

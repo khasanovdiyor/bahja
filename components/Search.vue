@@ -108,9 +108,7 @@ export default {
               this.notFound = true;
             }
           })
-          .catch(err => {
-            console.log(err);
-          });
+          .catch(err => {});
       }
     }
   },

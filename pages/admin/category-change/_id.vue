@@ -156,7 +156,6 @@ export default {
           this.preview = res.data.image;
         })
         .catch(err => {
-          console.log(err);
         });
     }
   },

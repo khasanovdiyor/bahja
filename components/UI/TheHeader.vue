@@ -107,7 +107,6 @@ export default {
               if (err.response.status === 404) {
                 this.$store.dispatch("products/deleteProduct", idx);
               }
-              console.log(err.response.status);
             });
         });
     }
