@@ -39,6 +39,7 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 export default {
+  layout: "admin",
   data() {
     return {
       preview: null,
@@ -120,8 +121,7 @@ export default {
           this.categories = res.data.results;
           this.getSlider();
         })
-        .catch(err => {
-        })
+        .catch(err => {})
         .finally(() => {
           loader.hide();
         });
