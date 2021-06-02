@@ -65,7 +65,7 @@
     <!-- TODAY'S HIT -->
     <div class="px-6 md:px-16 pb-10">
       <h2 class="my-10 font-bold text-xl uppercase">Yangi mahsulotlar</h2>
-      <splide :options="options" :slides="products" class="mx-auto">
+      <!-- <splide :options="options" :slides="products" class="mx-auto">
         <splide-slide
           v-for="product in products"
           :key="product.id"
@@ -78,9 +78,17 @@
             <ProductCard :product="product" class="sm:w-64 w-72 inline-block" />
           </nuxt-link>
 
-          <!-- <div class="bg-white px-10 py-5">Some text</div> -->
+
         </splide-slide>
-      </splide>
+      </splide> -->
+      <swiper class="swiper" ref="swiper" :options="swiperOption">
+        <swiper-slide v-for="product in products" :key="product.id"
+          ><ProductCard :product="product" class="sm:w-64 w-72 inline-block"
+        /></swiper-slide>
+
+        <div class="swiper-button-prev" slot="button-prev"></div>
+        <div class="swiper-button-next" slot="button-next"></div>
+      </swiper>
     </div>
     <InfoBox />
   </div>
@@ -126,6 +134,48 @@ export default {
           }
         }
       },
+      swiperOption: {
+        loop: true,
+
+        direction: "horizontal",
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        },
+        breakpoints: {
+          1180: {
+            slidesPerView: 4,
+            spaceBetween: 30
+          },
+          970: {
+            slidesPerView: 3,
+            spaceBetween: 20
+          },
+          880: {
+            slidesPerView: 2,
+            spaceBetween: 250
+          },
+          720: {
+            slidesPerView: 2,
+            spaceBetween: 200
+          },
+          660: {
+            slidesPerView: 2,
+            spaceBetween: 120
+          },
+          600: {
+            slidesPerView: 1,
+            centeredSlides: true
+          }
+        }
+        // on: {
+        //   resize: () => {
+        //     this.$refs.swiper.$swiper.changeDirection(
+        //       window.innerWidth <= 960 ? "vertical" : "horizontal"
+        //     );
+        //   }
+        // }
+      },
       products: []
     };
   },
@@ -157,9 +207,9 @@ export default {
   }
 };
 </script>
-
 <style>
-.h-24rem {
-  height: 24rem;
+.swiper-button-prev,
+.swiper-button-next {
+  color: grey;
 }
 </style>
