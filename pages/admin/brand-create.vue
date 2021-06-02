@@ -15,6 +15,7 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 export default {
+  layout: "admin",
   data() {
     return {
       showSuccess: false,

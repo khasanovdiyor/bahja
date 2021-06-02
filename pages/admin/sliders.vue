@@ -78,6 +78,7 @@
 
 <script>
 export default {
+  layout: "admin",
   data() {
     return {
       tableHeaders: ["id", "matn", "kategoriya", "buyruqlar"],

@@ -50,7 +50,7 @@
 </template>
 <script>
 export default {
-  layout: "admin",
+  layout: "admin-login",
   data() {
     return {
       login: {

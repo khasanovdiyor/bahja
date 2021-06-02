@@ -65,6 +65,7 @@
 <script>
 import { required } from "vuelidate/lib/validators";
 export default {
+  layout: "admin",
   data() {
     return {
       createProductClicked: false,
@@ -155,8 +156,7 @@ export default {
           this.newCategory = res.data;
           this.preview = res.data.image;
         })
-        .catch(err => {
-        });
+        .catch(err => {});
     }
   },
   mounted() {

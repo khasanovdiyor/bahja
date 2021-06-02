@@ -293,6 +293,7 @@
 <script>
 import priceMask from "~/mixins.js/priceMask.js";
 export default {
+  layout: "admin",
   data() {
     return {
       priceMask: priceMask,

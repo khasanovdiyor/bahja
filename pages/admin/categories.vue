@@ -159,6 +159,7 @@
 
 <script>
 export default {
+  layout: "admin",
   data() {
     return {
       tableHeaders: ["id", "nomi", "asosiy", "rasmi", "buyruqlar"],

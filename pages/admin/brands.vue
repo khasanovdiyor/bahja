@@ -55,7 +55,8 @@
             text="Ushbu brendni o'chirishni xohlaysizmi?"
             alert="Ushbu brend bilan unga bo'glangan mahsulotlar ham o'chiriladi!"
             @delete="deleteBrand(selectedBrandID)"
-            @close="showDeleteDialog = false"
+
+   @close="showDeleteDialog = false"
           />
         </div>
       </div>
@@ -74,6 +75,7 @@
 import { required } from "vuelidate/lib/validators";
 
 export default {
+  layout: "admin",
   data() {
     return {
       showDeleteDialog: false,

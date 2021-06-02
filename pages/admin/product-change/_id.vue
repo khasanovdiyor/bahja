@@ -126,6 +126,7 @@
 import priceMask from "~/mixins.js/priceMask.js";
 import { required, minLength } from "vuelidate/lib/validators";
 export default {
+  layout: "admin",
   data() {
     return {
       priceMask,
