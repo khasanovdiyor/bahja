@@ -19,7 +19,16 @@
           <div class="mt-10 flex justify-between flex-wrap">
             <!-- Product card -->
             <nuxt-link
-              class="mb-6 mx-auto sm:mx-0 cursor-pointer transition duration-150 transform hover:scale-105"
+              class="
+                mb-6
+                mx-auto
+                sm:mx-0
+                cursor-pointer
+                transition
+                duration-150
+                transform
+                hover:scale-105
+              "
               :to="'product/' + product.id"
               v-for="product in products"
               :key="product.id"
@@ -30,7 +39,17 @@
           <div class="py-5">
             <nuxt-link
               to="/products/"
-              class="w-full block text-center bg-gray-200 font-bold mx-auto uppercase py-2 px-4"
+              class="
+                w-full
+                block
+                text-center
+                bg-gray-200
+                font-bold
+                mx-auto
+                uppercase
+                py-2
+                px-4
+              "
             >
               Barchasini ko'rish
             </nuxt-link>
@@ -83,8 +102,22 @@
       </splide> -->
       <swiper class="swiper" ref="swiper" :options="swiperOption">
         <swiper-slide v-for="product in products" :key="product.id"
-          ><ProductCard :product="product" class="sm:w-64 w-72 inline-block"
-        /></swiper-slide>
+          ><nuxt-link
+            class="
+              mb-6
+              cursor-pointer
+              transition
+              duration-150
+              transform
+              hover:scale-105
+            "
+            :to="'product/' + product.id"
+          >
+            <ProductCard
+              :product="product"
+              class="sm:w-64 w-72 inline-block"
+            /> </nuxt-link
+        ></swiper-slide>
 
         <div class="swiper-button-prev" slot="button-prev"></div>
         <div class="swiper-button-next" slot="button-next"></div>
