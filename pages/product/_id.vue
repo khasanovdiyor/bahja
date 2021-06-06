@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="px-5 md:px-16 mx-auto py-10 block md:flex">
-      <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
+      <div class="md:w-1/2 mb-0 lg:mb-10" v-show="product.images">
         <swiper
           class="swiper gallery-top"
           :options="swiperOptionTop"
@@ -79,7 +79,7 @@
               +
             </button>
           </span>
-          <span class="font-bold text-2xl w-32" v-if="product.price">{{
+          <span class="font-bold text-2xl w-32" v-show="product.price">{{
             product.price.toLocaleString()
           }}</span>
           <button

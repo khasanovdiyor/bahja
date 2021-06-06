@@ -29,7 +29,7 @@
               class="w-6 h-6 cursor-pointer mr-5"
               @click="showFilter = true"
             />
-            <div v-if="showFilter" class="absolute z-40 top-10 right-0">
+            <div v-show="showFilter" class="absolute z-40 top-10 right-0">
               <div
                 class="border-2 p-4 bg-white rounded-md mx-auto w-64 relative"
               >

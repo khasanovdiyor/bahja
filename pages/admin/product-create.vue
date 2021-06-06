@@ -96,7 +96,7 @@
                 required
                 @change="value => previewImage(value, product, false)"
               />
-              <div class="text-red-400 text-sm" v-if="imageRequired">
+              <div class="text-red-400 text-sm" v-show="imageRequired">
                 Rasm qo'yish shart
               </div>
               <BaseImageField
@@ -108,7 +108,7 @@
                 @change="value => previewImage(value, product, true)"
                 @remove-image="removeImage"
               />
-              <div class="text-red-400 text-sm" v-if="imagesMinLength">
+              <div class="text-red-400 text-sm" v-show="imagesMinLength">
                 Gallereya rasmlari kamida 3 ta bo'lishi kerak
               </div>
               <div class="my-4">
@@ -135,7 +135,7 @@
                   buttonText="Qo'shish"
                   @button-click="showAddNewKey = true"
                 />
-                <div class="text-red-400 text-sm" v-if="attributesMinLength">
+                <div class="text-red-400 text-sm" v-show="attributesMinLength">
                   Atributlar kamida 2 ta bo'lishi kerak
                 </div>
               </div>
@@ -243,7 +243,7 @@
                   @button-click="showAddNewKey = true"
                 />
               </div>
-              <div class="text-red-400 text-sm" v-if="attributesMinLength">
+              <div class="text-red-400 text-sm" v-show="attributesMinLength">
                 Atributlar kamida 2 ta bo'lishi kerak
               </div>
               <BaseButtonLink

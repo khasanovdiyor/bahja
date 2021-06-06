@@ -1,6 +1,15 @@
 <template>
   <div
-    class="py-4 px-5 md:px-16 block sm:flex items-center justify-between border-b border-black"
+    class="
+      py-4
+      px-5
+      md:px-16
+      block
+      sm:flex
+      items-center
+      justify-between
+      border-b border-black
+    "
   >
     <div class="my-2 sm:my-0 w-1/2 sm:w-auto">
       <nuxt-link to="/" class="cursor-pointer">
@@ -39,13 +48,25 @@
         />
         <span
           v-if="savedProducts"
-          class="absolute top-3 left-3 w-5 h-5 flex justify-center text-sm rounded-full text-white bg-gray-700"
+          class="
+            absolute
+            top-3
+            left-3
+            w-5
+            h-5
+            flex
+            justify-center
+            text-sm
+            rounded-full
+            text-white
+            bg-gray-700
+          "
           >{{ savedProducts.length }}</span
         >
       </div>
 
       <transition name="slide">
-        <div class="slidein" v-if="showCard">
+        <div class="slidein" v-show="showCard">
           <TheShoppingCart
             @toggleCard="toggleCard"
             :products="products"
@@ -57,7 +78,7 @@
         </div>
       </transition>
       <transition name="slide">
-        <div class="slidein" v-if="showSearch">
+        <div class="slidein" v-show="showSearch">
           <Search @toggleSearch="toggleSearch" @close="showSearch = false" />
         </div>
       </transition>

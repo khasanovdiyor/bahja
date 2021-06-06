@@ -4,7 +4,15 @@
       <tr>
         <th
           scope="col"
-          class="px-6 py-2 w-40 text-left text-sm font-bold text-gray-700 uppercase"
+          class="
+            px-6
+            py-2
+            w-40
+            text-left text-sm
+            font-bold
+            text-gray-700
+            uppercase
+          "
           v-for="(head, index) in tableHeaders"
           :key="index"
         >
@@ -66,7 +74,7 @@
           </div>
         </td>
       </tr>
-      <tr class="border" v-if="showAddNewKey">
+      <tr class="border" v-show="showAddNewKey">
         <td class="px-6 py-1 border">
           <div class="flex items-center text-gray-500">
             <input

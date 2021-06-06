@@ -50,7 +50,7 @@
           @change="previewImage"
           :image="preview"
         />
-        <div class="text-red-400 text-sm" v-if="imageRequired">
+        <div class="text-red-400 text-sm" v-show="imageRequired">
           Rasm qo'yish shart
         </div>
         <BaseButtonLink
