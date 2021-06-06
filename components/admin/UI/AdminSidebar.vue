@@ -1,9 +1,15 @@
 <template>
   <div
-    :class="
-      sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'
+    class="
+      fixed
+      z-30
+      pb-10
+      left-0
+      transition
+      duration-300
+      bg-gray-900
+      overflow-y-auto
     "
-    class="fixed z-30 inset-y-0 pb-10 left-0 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
   >
     <div class="flex items-center justify-center mt-8">
       <div class="flex items-center">
@@ -35,7 +41,15 @@
 
     <nav class="mt-10">
       <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 hover:bg-gray-700 hover:bg-opacity-25 text-gray-100"
+        class="
+          flex
+          items-center
+          mt-4
+          py-2
+          px-6
+          hover:bg-gray-700 hover:bg-opacity-25
+          text-gray-100
+        "
         to="/admin/"
       >
         <svg
@@ -62,7 +76,16 @@
         <span class="mx-3">Boshqaruv paneli</span>
       </nuxt-link>
       <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+        class="
+          flex
+          items-center
+          mt-4
+          py-2
+          px-6
+          text-gray-100
+          hover:bg-gray-700 hover:bg-opacity-25
+          hover:text-gray-100
+        "
         to="/admin/orders"
       >
         <svg
@@ -101,7 +124,16 @@
         <span class="mx-3">Buyurtmalar</span>
       </nuxt-link>
       <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+        class="
+          flex
+          items-center
+          mt-4
+          py-2
+          px-6
+          text-gray-100
+          hover:bg-gray-700 hover:bg-opacity-25
+          hover:text-gray-100
+        "
         to="/admin/products"
       >
         <svg
@@ -145,7 +177,16 @@
         <span class="mx-3">Mahsulotlar</span>
       </nuxt-link>
       <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+        class="
+          flex
+          items-center
+          mt-4
+          py-2
+          px-6
+          text-gray-100
+          hover:bg-gray-700 hover:bg-opacity-25
+          hover:text-gray-100
+        "
         to="/admin/sliders"
       >
         <svg
@@ -167,7 +208,16 @@
       </nuxt-link>
 
       <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+        class="
+          flex
+          items-center
+          mt-4
+          py-2
+          px-6
+          text-gray-100
+          hover:bg-gray-700 hover:bg-opacity-25
+          hover:text-gray-100
+        "
         to="/admin/categories"
       >
         <svg
@@ -184,7 +234,16 @@
         <span class="mx-3">Kategoriyalar</span>
       </nuxt-link>
       <nuxt-link
-        class="flex items-center mt-4 py-2 px-6 text-gray-100 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+        class="
+          flex
+          items-center
+          mt-4
+          py-2
+          px-6
+          text-gray-100
+          hover:bg-gray-700 hover:bg-opacity-25
+          hover:text-gray-100
+        "
         to="/admin/brands"
       >
         <svg
