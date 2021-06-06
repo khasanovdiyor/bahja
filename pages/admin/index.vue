@@ -13,7 +13,16 @@
                     @focusout="showSortOrder = false"
                   >
                     <h3
-                      class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
+                      class="
+                        mb-2
+                        cursor-pointer
+                        text-sm
+                        border border-gray-200
+                        bg-white
+                        rounded-md
+                        inline-block
+                        px-1
+                      "
                       @click="showSortOrder = true"
                     >
                       {{ selectedSortOrder.name }} &#9660;
@@ -35,7 +44,16 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
+                    class="
+                      flex
+                      items-center
+                      px-5
+                      py-6
+                      shadow-lg
+                      rounded-md
+                      bg-white
+                      h-32
+                    "
                   >
                     <div class="p-3 rounded-full bg-opacity-75">
                       <img
@@ -63,7 +81,16 @@
                     @focusout="showSortMoney = false"
                   >
                     <h3
-                      class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
+                      class="
+                        mb-2
+                        cursor-pointer
+                        text-sm
+                        border border-gray-200
+                        bg-white
+                        rounded-md
+                        inline-block
+                        px-1
+                      "
                       @click="showSortMoney = true"
                     >
                       {{ selectedSortMoney.name }} &#9660;
@@ -85,7 +112,16 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
+                    class="
+                      flex
+                      items-center
+                      px-5
+                      py-6
+                      shadow-lg
+                      rounded-md
+                      bg-white
+                      h-32
+                    "
                   >
                     <div class="p-3 rounded-full bg-orange-600 bg-opacity-75">
                       <img
@@ -113,7 +149,16 @@
                     @focusout="showSortProduct = false"
                   >
                     <h3
-                      class="mb-2 cursor-pointer text-sm border border-gray-200 bg-white rounded-md inline-block px-1"
+                      class="
+                        mb-2
+                        cursor-pointer
+                        text-sm
+                        border border-gray-200
+                        bg-white
+                        rounded-md
+                        inline-block
+                        px-1
+                      "
                       @click="showSortProduct = true"
                     >
                       {{ selectedSortProduct.name }} &#9660;
@@ -135,7 +180,16 @@
                     </div>
                   </div>
                   <div
-                    class="flex items-center px-5 py-6 shadow-lg rounded-md bg-white h-32"
+                    class="
+                      flex
+                      items-center
+                      px-5
+                      py-6
+                      shadow-lg
+                      rounded-md
+                      bg-white
+                      h-32
+                    "
                   >
                     <div class="p-3 rounded-full bg-opacity-75">
                       <img
@@ -165,7 +219,15 @@
                   name="filter-orders"
                   v-model="activeStatus"
                   id=""
-                  class="inline-block ml-auto py-2 mr-2 border border-gray-200 text-sm rounded-md"
+                  class="
+                    inline-block
+                    ml-auto
+                    py-2
+                    mr-2
+                    border border-gray-200
+                    text-sm
+                    rounded-md
+                  "
                 >
                   <option value="">Status bo'yicha saralash</option>
                   <option
@@ -187,13 +249,26 @@
 
             <div class="flex flex-col mt-8">
               <div
-                class="my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+                class="
+                  my-2
+                  py-2
+                  overflow-x-auto
+                  sm:-mx-6
+                  sm:px-6
+                  lg:-mx-8
+                  lg:px-8
+                "
               >
                 <BaseTable :headers="tableHeaders">
                   <template #body>
                     <tr v-for="order in orders" :key="order.id">
                       <td
-                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                        class="
+                          px-6
+                          py-3
+                          whitespace-no-wrap
+                          border-b border-gray-200
+                        "
                       >
                         <div class="flex items-center">
                           <div class="flex-shrink-0 h-6 w-6">
@@ -205,7 +280,12 @@
                           </div>
                           <div class="ml-4">
                             <div
-                              class="text-sm leading-5 font-medium text-gray-700"
+                              class="
+                                text-sm
+                                leading-5
+                                font-medium
+                                text-gray-700
+                              "
                             >
                               {{ order.name }}
                             </div>
@@ -213,28 +293,48 @@
                         </div>
                       </td>
                       <td
-                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                        class="
+                          px-6
+                          py-3
+                          whitespace-no-wrap
+                          border-b border-gray-200
+                        "
                       >
                         <div class="text-sm leading-5 font text-gray-700">
                           {{ order.phone_number }}
                         </div>
                       </td>
                       <td
-                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                        class="
+                          px-6
+                          py-3
+                          whitespace-no-wrap
+                          border-b border-gray-200
+                        "
                       >
                         <div class="text-sm leading-5 text-gray-900">
                           {{ order.orderproducts.length }}
                         </div>
                       </td>
                       <td
-                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                        class="
+                          px-6
+                          py-3
+                          whitespace-no-wrap
+                          border-b border-gray-200
+                        "
                       >
                         <div class="text-sm leading-5 text-gray-900">
                           {{ order.finish_price.toLocaleString() }} so'm
                         </div>
                       </td>
                       <td
-                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-200"
+                        class="
+                          px-6
+                          py-3
+                          whitespace-no-wrap
+                          border-b border-gray-200
+                        "
                       >
                         <div class="relative">
                           <div v-if="order.showStatus" class="w-32 3 px-4">
@@ -242,7 +342,15 @@
                               v-for="status in statuses"
                               :key="status"
                               @click="changeStatus(status, order)"
-                              class="px-2 inline-flex text-xs cursor-pointer leading-5 font-semibold rounded-full"
+                              class="
+                                px-2
+                                inline-flex
+                                text-xs
+                                cursor-pointer
+                                leading-5
+                                font-semibold
+                                rounded-full
+                              "
                               :class="{
                                 'bg-green-100 text-green-800':
                                   status === 'Tugallangan',
@@ -259,7 +367,15 @@
                           <span
                             @click="order.showStatus = true"
                             v-if="!order.showStatus"
-                            class="px-2 inline-flex text-xs text-center cursor-pointer leading-5 font-semibold rounded-full"
+                            class="
+                              px-2
+                              inline-flex
+                              text-xs text-center
+                              cursor-pointer
+                              leading-5
+                              font-semibold
+                              rounded-full
+                            "
                             :class="{
                               'bg-green-100 text-green-800':
                                 order.status === 'Tugallangan',
@@ -276,10 +392,24 @@
                       </td>
 
                       <td
-                        class="px-6 py-2 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium"
+                        class="
+                          px-6
+                          py-2
+                          whitespace-no-wrap
+                          text-right
+                          border-b border-gray-200
+                          text-sm
+                          leading-5
+                          font-medium
+                        "
                       >
                         <div
-                          class="flex items-center text-gray-500 justify-between"
+                          class="
+                            flex
+                            items-center
+                            text-gray-500
+                            justify-between
+                          "
                         >
                           <nuxt-link
                             :to="`/admin/order-detail/${order.id}`"
@@ -438,7 +568,6 @@ export default {
       this.$axios
         .post("product/statistics/orders/number/", formData)
         .then(res => {
-          console.log(res.data);
           this.newOrder = res.data.number;
           this.showSortOrder = false;
           this.selectedSortOrder = option;
@@ -458,7 +587,6 @@ export default {
       this.$axios
         .post("product/statistics/products/", formData)
         .then(res => {
-          console.log(res.data);
           this.newProducts = res.data.number;
           this.showSortProduct = false;
           this.selectedSortProduct = option;
@@ -479,7 +607,6 @@ export default {
       this.$axios
         .post("product/statistics/orders/money/", formData)
         .then(res => {
-          console.log(res.data);
           this.newOrderMoney = res.data.number;
           this.showSortMoney = false;
           this.selectedSortMoney = option;
