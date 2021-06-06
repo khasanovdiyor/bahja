@@ -278,12 +278,7 @@
 
 <script>
 export default {
-  name: "TheSidebar",
-  data() {
-    return {
-      sidebarOpen: false
-    };
-  }
+  name: "TheSidebar"
 };
 </script>
 
