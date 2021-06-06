@@ -94,23 +94,6 @@
             Savatchaga qo'shish
           </button>
         </div>
-        <!-- <div class="mt-6 border-b-2 border-gray-200 pb-8">
-          <h3 class="font-bold text-xl uppercase mb-6">
-            Kafolatlangan xavfsiz to'lov
-          </h3>
-          <div class="flex">
-            <img
-              src="~/assets/images/click.png"
-              alt="click logo"
-              class="w-24 mr-10"
-            />
-            <img
-              src="~/assets/images/payme.svg"
-              alt="payme logo"
-              class="w-24"
-            />
-          </div>
-        </div> -->
         <div class="my-6 border-b-2 border-gray-200 pb-8">
           <h3 class="uppercase font-bold mb-2">Maxsulot haqida ma'lumot</h3>
           <p>
@@ -172,15 +155,6 @@ export default {
       this.$axios
         .get(`product/detail/${this.$route.params.id}`)
         .then(res => {
-          // this.makeProductList(res.data);
-          // console.log("product-list", this.product_list);
-          // const product = this.product_list.find(function (el) {
-          //   console.log("product.id", el.id, "id", parseInt(id));
-          //   return el.id === parseInt(id);
-          // });
-          // this.product = Object.assign({}, product);
-          // console.log("product", product, "this.product", this.product);
-          // // this.makeProductList(this.product);
           this.product = Object.assign({}, res.data[0]);
           this.product_list = Array.from(res.data, x => x);
           loader.hide();
@@ -190,15 +164,6 @@ export default {
           console.log(err);
         });
     },
-    // makeProductList(product) {
-    //   console.log("making product list");
-    //   product.variations.forEach(element => {
-    //     this.product_list.push(element);
-    //   });
-    //   let p = Object.assign({}, product);
-    //   delete p.variations;
-    //   this.product_list.push(p);
-    // },
     changeProduct(selected_attrs) {
       let p = this.findProduct(selected_attrs);
       if (p) {

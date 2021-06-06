@@ -1,7 +1,18 @@
 <template>
   <div>
     <div
-      class="xl:w-1/3 md:w-1/2 sm:w-3/4 sm:px-0 px-4 mx-auto border-2 my-12 border-gray-200 pb-8"
+      class="
+        xl:w-1/3
+        md:w-1/2
+        sm:w-3/4
+        sm:px-0
+        px-4
+        mx-auto
+        border-2
+        my-12
+        border-gray-200
+        pb-8
+      "
       v-if="!orderSent"
     >
       <div class="w-full px-5 mx-auto">
@@ -14,7 +25,17 @@
               type="text"
               id="username"
               required
-              class="mt-2 w-full bg-gray-200 border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+              class="
+                mt-2
+                w-full
+                bg-gray-200
+                border-2
+                rounded-md
+                text-sm
+                w-1/2
+                py-2
+                pl-5
+              "
               placeholder="Ism"
               v-model.trim="$v.order.name.$model"
             />
@@ -33,7 +54,17 @@
             <input
               type="text"
               id=""
-              class="mt-2 w-full bg-gray-200 border-2 rounded-md text-sm w-1/2 py-2 pl-5"
+              class="
+                mt-2
+                w-full
+                bg-gray-200
+                border-2
+                rounded-md
+                text-sm
+                w-1/2
+                py-2
+                pl-5
+              "
               v-mask="'+998 ## ### ## ##'"
               v-model.trim="$v.order.phone_number.$model"
             />
@@ -43,7 +74,20 @@
         <button
           type="submit"
           @click.prevent="sendOrder"
-          class="w-1/2 flex items-center justify-center mx-auto text-sm font-semibold uppercase py-6 h-8 bg-black text-white"
+          class="
+            w-1/2
+            flex
+            items-center
+            justify-center
+            mx-auto
+            text-sm
+            font-semibold
+            uppercase
+            py-6
+            h-8
+            bg-black
+            text-white
+          "
         >
           buyurtma berish
         </button>
@@ -129,46 +173,6 @@
               </template>
             </BaseTable>
           </div>
-
-          <!-- <div class="flex wrap">
-            <div
-              class="mb-5 flex w-full"
-              v-for="(p, index) in product.show.orderproducts"
-              :key="index"
-            >
-              <span class="w-48 px-3 mr-4">
-                <h2 class="text-gray-600">
-                  <b class="">{{ p.product.name }}</b>
-                </h2>
-                <div v-if="p.product.attributes" class="text-sm">
-                  <p
-                    class="text-gray-600 capitalize"
-                    v-for="attr in p.product.attributes"
-                    :key="attr.id"
-                  >
-                    {{ attr.label }}: <b>{{ attr.value }}</b>
-                  </p>
-                </div>
-                <div class="text-gray-600">
-                  <span class="text-sm block capitalize"
-                    >Soni: <span class="font-bold">{{ p.count }}</span></span
-                  >
-                  <span class="text-sm block capitalize"
-                    >narxi:
-                    <span class="font-bold lowercase"
-                      >{{ p.product.price }} so'm</span
-                    >
-                  </span>
-                  <span class="text-sm block capitalize"
-                    >jami:
-                    <span class="font-bold lowercase"
-                      >{{ p.single_overall_price }} so'm</span
-                    >
-                  </span>
-                </div>
-              </span>
-            </div>
-          </div> -->
         </div>
 
         <div class="flex justify-center">

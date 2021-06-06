@@ -17,9 +17,6 @@
         />
       </div>
       <div class="px-16 w-full relative">
-        <!-- <h1 class="capitalize font-bold text-center text-2xl my-5">
-          Yangi mahsulotlar
-        </h1> -->
         <div
           class="flex items-center lg:justify-center justify-between flex-wrap"
         >

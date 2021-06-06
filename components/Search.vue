@@ -15,15 +15,6 @@
 
     <div class="mb-5 sm:max-w-full w-96 pl-0 sm:pl-6 ml-auto">
       <div class="w-full py-5 pl-5 sm:px-0">
-        <!-- <div class="h-24 border-b-2 mb-10">
-          <multiselect
-            v-model="selectedBrand"
-            :options="categories"
-            placeholder="Kategoriya tanlang"
-            label="name"
-            track-by="name"
-          ></multiselect>
-        </div> -->
         <div class="border-b-2 sm:px-0 px-5 mx-auto pb-10 mt-6">
           <input
             type="text"

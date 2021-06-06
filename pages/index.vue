@@ -59,47 +59,9 @@
     </div>
     <!-- END OF SHOWCASE CONTAINER -->
     <!-- SALES -->
-    <!-- <div class="px-5 md:px-16 py-10">
-      <div class="flex justify-between h-56 pb-16">
-        <div
-          class="w-2/5 h-full bg-cover flex items-center justify-center"
-          :style="{ backgroundImage: 'url(' + slides[3].image + ')' }"
-        >
-          <div class="bg-white px-10 py-5">Some text</div>
-        </div>
-        <div
-          class="w-2/5 h-full bg-cover flex items-center justify-center"
-          :style="{ backgroundImage: 'url(' + slides[1].image + ')' }"
-        >
-          <div class="bg-white px-10 py-5">Some text</div>
-        </div>
-      </div>
-      <div
-        class="h-24rem bg-cover flex items-center justify-center"
-        :style="{ backgroundImage: 'url(' + slides[0].image + ')' }"
-      >
-        <div class="bg-white px-10 py-5">Some text</div>
-      </div>
-    </div> -->
     <!-- TODAY'S HIT -->
     <div class="px-6 md:px-16 pb-10">
       <h2 class="my-10 font-bold text-xl uppercase">Yangi mahsulotlar</h2>
-      <!-- <splide :options="options" :slides="products" class="mx-auto">
-        <splide-slide
-          v-for="product in products"
-          :key="product.id"
-          class="h-full"
-        >
-          <nuxt-link
-            class="mb-6 cursor-pointer transition duration-150 transform hover:scale-105"
-            :to="'product/' + product.id"
-          >
-            <ProductCard :product="product" class="sm:w-64 w-72 inline-block" />
-          </nuxt-link>
-
-
-        </splide-slide>
-      </splide> -->
       <swiper class="swiper" ref="swiper" :options="swiperOption">
         <swiper-slide v-for="product in products" :key="product.id"
           ><nuxt-link
@@ -201,13 +163,6 @@ export default {
             centeredSlides: true
           }
         }
-        // on: {
-        //   resize: () => {
-        //     this.$refs.swiper.$swiper.changeDirection(
-        //       window.innerWidth <= 960 ? "vertical" : "horizontal"
-        //     );
-        //   }
-        // }
       },
       products: []
     };

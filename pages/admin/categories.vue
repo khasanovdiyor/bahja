@@ -121,30 +121,11 @@
                       alt="edit"
                     />
                   </nuxt-link>
-                  <!-- <div
-                    @click="
-                      showDeleteDialog = true;
-                      selectedCategoryID = category.id;
-                    "
-                    class="cursor-pointer"
-                  >
-                    <img
-                      src="~/assets/images/delete.svg"
-                      class="w-5 h-5"
-                      alt="delete"
-                    />
-                  </div> -->
                 </div>
               </td>
             </tr>
           </template>
         </BaseTable>
-        <!-- <BaseDeleteModal
-          v-if="showDeleteDialog"
-          text="Ushbu mahsulotni o'chirishni xohlaysizmi?"
-          @delete="deleteCategory(selectedCategoryID)"
-          @close="showDeleteDialog = false"
-        /> -->
       </div>
     </div>
     <BasePagination

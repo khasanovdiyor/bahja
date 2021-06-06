@@ -20,23 +20,6 @@
             </ul>
           </div>
         </div>
-        <!-- <div class="leading-loose w-2/5">
-          <h2 class="font-semibold mb-3 text-gray-700">O'LCHAMI</h2>
-          <ul class="text-gray-600">
-            <li
-              class="text-sm  capitalize"
-              v-for="size in sizeList"
-              :key="size"
-            >
-              <input
-                type="checkbox"
-                class="rounded-full cursor-pointer"
-                :class="size"
-              />
-              {{ size }}
-            </li>
-          </ul>
-        </div> -->
       </div>
 
       <div

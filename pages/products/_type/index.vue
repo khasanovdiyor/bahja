@@ -5,7 +5,15 @@
         <div
           :class="{ block: sidebarOpen, hidden: !sidebarOpen }"
           @click="sidebarOpen = false"
-          class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"
+          class="
+            fixed
+            z-20
+            inset-0
+            bg-black
+            opacity-50
+            transition-opacity
+            lg:hidden
+          "
         ></div>
         <TheSidebar
           :currentLink="link"
@@ -13,7 +21,20 @@
             'translate-x-0 ease-out': sidebarOpen,
             '-translate-x-full ease-in': !sidebarOpen
           }"
-          class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform overflow-y-auto lg:translate-x-0 lg:static lg:inset-0"
+          class="
+            fixed
+            z-30
+            inset-y-0
+            left-0
+            w-64
+            transition
+            duration-300
+            transform
+            overflow-y-auto
+            lg:translate-x-0
+            lg:static
+            lg:inset-0
+          "
         />
       </div>
 
@@ -35,35 +56,6 @@
             </h1>
           </div>
         </div>
-
-        <!-- <div>
-            <h2
-              @click="showFilter = true"
-              v-if="!showFilter"
-              class="bg-gray-200 px-4 py-2 inline-block cursor-pointer mb-2"
-            >
-              Filterni korsatish
-            </h2>
-            <h2
-              @c lick="showFilter = false"
-              v-if="showFilter"
-              class="bg-gray-200 px-4 py-2 inline-block cursor-pointer mb-2"
-            >
-              Filterni yashirish
-            </h2>
-
-            <TheFilter v-if="showFilter" :sizes="sizes" />
-          </div> -->
-
-        <!-- <div class=" inline-block ml-auto">
-            <button
-              :class="sidebarOpen"
-              class="visible lg:invisible font-bold text-gray-700 z-30"
-            >
-              Bo'limlar
-            </button>
-          </div> -->
-
         <div class="sm:px-2 md:px-8 lg:px-16">
           <div
             class="relative mb-16 outline-none w-64"
@@ -113,11 +105,30 @@
         </h2>
 
         <div
-          class="mt-10 lg:px-16 px-4 flex justify-center sm:justify-between flex-wrap"
+          class="
+            mt-10
+            lg:px-16
+            px-4
+            flex
+            justify-center
+            sm:justify-between
+            flex-wrap
+          "
         >
           <!-- Product card -->
           <nuxt-link
-            class="mb-6 cursor-pointer transition w-64 mr-5 sm:mr-0 mr-0 duration-150 transform hover:scale-105"
+            class="
+              mb-6
+              cursor-pointer
+              transition
+              w-64
+              mr-5
+              sm:mr-0
+              mr-0
+              duration-150
+              transform
+              hover:scale-105
+            "
             :to="'/product/' + product.id"
             v-for="product in products"
             :key="product.id"
