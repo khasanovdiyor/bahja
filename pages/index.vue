@@ -60,31 +60,33 @@
     <!-- END OF SHOWCASE CONTAINER -->
     <!-- SALES -->
     <!-- TODAY'S HIT -->
-    <div class="px-6 md:px-16 pb-10">
-      <h2 class="my-10 font-bold text-xl uppercase">Yangi mahsulotlar</h2>
-      <swiper class="swiper" ref="swiper" :options="swiperOption">
-        <swiper-slide v-for="product in products" :key="product.id"
-          ><nuxt-link
-            class="
-              mb-6
-              cursor-pointer
-              transition
-              duration-150
-              transform
-              hover:scale-105
-            "
-            :to="'product/' + product.id"
-          >
-            <ProductCard
-              :product="product"
-              class="sm:w-64 w-72 inline-block"
-            /> </nuxt-link
-        ></swiper-slide>
+    <client-only>
+      <div class="px-6 md:px-16 pb-10">
+        <h2 class="my-10 font-bold text-xl uppercase">Yangi mahsulotlar</h2>
+        <swiper class="swiper" ref="swiper" :options="swiperOption">
+          <swiper-slide v-for="product in products" :key="product.id"
+            ><nuxt-link
+              class="
+                mb-6
+                cursor-pointer
+                transition
+                duration-150
+                transform
+                hover:scale-105
+              "
+              :to="'product/' + product.id"
+            >
+              <ProductCard
+                :product="product"
+                class="sm:w-64 w-72 inline-block"
+              /> </nuxt-link
+          ></swiper-slide>
 
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
-      </swiper>
-    </div>
+          <div class="swiper-button-prev" slot="button-prev"></div>
+          <div class="swiper-button-next" slot="button-next"></div>
+        </swiper>
+      </div>
+    </client-only>
     <InfoBox />
   </div>
   <!-- END OF CONTAINER -->
@@ -131,8 +133,6 @@ export default {
       },
       swiperOption: {
         loop: true,
-
-        direction: "horizontal",
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
@@ -195,7 +195,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .swiper-button-prev,
 .swiper-button-next {
   color: grey;

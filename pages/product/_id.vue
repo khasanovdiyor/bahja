@@ -25,43 +25,45 @@
       </div>
     </div>
     <div class="px-5 md:px-16 mx-auto py-10 block md:flex">
-      <div class="md:w-1/2 mb-0 lg:mb-10" v-show="product.images">
-        <swiper
-          class="swiper gallery-top"
-          :options="swiperOptionTop"
-          ref="swiperTop"
-        >
-          <swiper-slide
-            class="object-cover w-full"
-            v-for="image in product.images"
-            :key="image"
-            :style="{ backgroundImage: 'url(' + image + ')' }"
+      <client-only>
+        <div class="md:w-1/2 mb-0 lg:mb-10" v-if="product.images">
+          <swiper
+            class="swiper gallery-top"
+            :options="swiperOptionTop"
+            ref="swiperTop"
           >
-          </swiper-slide>
-          <div
-            class="swiper-button-next swiper-button-white"
-            slot="button-next"
-          ></div>
-          <div
-            class="swiper-button-prev swiper-button-white"
-            slot="button-prev"
-          ></div>
-        </swiper>
-        <!-- swiper2 Thumbs -->
-        <swiper
-          class="swiper gallery-thumbs"
-          :options="swiperOptionThumbs"
-          ref="swiperThumbs"
-        >
-          <swiper-slide
-            class="object-fit object-center"
-            v-for="image in product.images"
-            :key="image"
+            <swiper-slide
+              class="object-cover w-full"
+              v-for="image in product.images"
+              :key="image"
+              :style="{ backgroundImage: 'url(' + image + ')' }"
+            >
+            </swiper-slide>
+            <div
+              class="swiper-button-next swiper-button-white"
+              slot="button-next"
+            ></div>
+            <div
+              class="swiper-button-prev swiper-button-white"
+              slot="button-prev"
+            ></div>
+          </swiper>
+          <!-- swiper2 Thumbs -->
+          <swiper
+            class="swiper gallery-thumbs"
+            :options="swiperOptionThumbs"
+            ref="swiperThumbs"
           >
-            <img :src="image" alt="" class="h-28 w-40 object-cover" />
-          </swiper-slide>
-        </swiper>
-      </div>
+            <swiper-slide
+              class="object-fit object-center"
+              v-for="image in product.images"
+              :key="image"
+            >
+              <img :src="image" alt="" class="h-28 w-40 object-cover" />
+            </swiper-slide>
+          </swiper>
+        </div>
+      </client-only>
       <div class="md:ml-10 md:w-1/2 border-b-2 border-gray-200">
         <ProductAttributeSelector
           :products="product_list"
@@ -79,7 +81,7 @@
               +
             </button>
           </span>
-          <span class="font-bold text-2xl w-32" v-show="product.price">{{
+          <span class="font-bold text-2xl w-32" v-if="product.price">{{
             product.price.toLocaleString()
           }}</span>
           <button

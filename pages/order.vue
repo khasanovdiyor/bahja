@@ -100,7 +100,8 @@
         <div class="mb-6">
           <div class="md:text-lg mb-6">
             <h4 class="md:text-xl text-center mb-6">
-              Buyurtmangiz qabul qilindi!
+              Buyurtmangiz qabul qilindi! Tez orada operatorlarimiz siz bilan
+              bog'lanishadi!
             </h4>
             <h5 class="text-gray-800">
               Buyurtmachi ismi:

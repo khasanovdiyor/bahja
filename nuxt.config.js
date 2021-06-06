@@ -26,7 +26,7 @@ export default {
     { src: "~/plugins/star-rating.js", mode: "client" },
     { src: "~/plugins/vue-multiselect.js", mode: "client" },
     { src: "~/plugins/vue-tabs-component.js", mode: "client" },
-    { src: "~/plugins/swiper.js", mode: "client" },
+    { src: "~/plugins/swiper.js", ssr: false, mode: "client" },
     { src: "~/plugins/vue-mask.js", mode: "client" },
     { src: "~/plugins/vue-loading.js", mode: "client" },
     { src: "~/plugins/vuelidate.js" },
@@ -48,7 +48,11 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     "@nuxtjs/tailwindcss"
   ],
-
+  tailwindcss: {
+    configPath: "tailwind.config.js",
+    exposeConfig: false,
+    config: {}
+  },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ["@nuxtjs/google-fonts", "@nuxtjs/axios", "@nuxtjs/auth-next"],
 

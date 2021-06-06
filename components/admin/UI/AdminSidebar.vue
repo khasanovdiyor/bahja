@@ -1,16 +1,5 @@
 <template>
-  <div
-    class="
-      fixed
-      z-30
-      pb-10
-      left-0
-      transition
-      duration-300
-      bg-gray-900
-      overflow-y-auto
-    "
-  >
+  <div class="pb-10 bg-gray-900">
     <div class="flex items-center justify-center mt-8">
       <div class="flex items-center">
         <svg
