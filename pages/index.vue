@@ -60,11 +60,15 @@
     <!-- END OF SHOWCASE CONTAINER -->
     <!-- SALES -->
     <!-- TODAY'S HIT -->
+
     <client-only>
       <div class="px-6 md:px-16 pb-10">
         <h2 class="my-10 font-bold text-xl uppercase">Yangi mahsulotlar</h2>
-        <swiper class="swiper" ref="swiper" :options="swiperOption">
-          <swiper-slide v-for="product in products" :key="product.id"
+        <hooper :settings="hooperSettings" style="height: 380px">
+          <slide
+            v-for="(product, idx) in products"
+            :key="product.id"
+            :index="idx"
             ><nuxt-link
               class="
                 mb-6
@@ -79,12 +83,11 @@
               <ProductCard
                 :product="product"
                 class="sm:w-64 w-72 inline-block"
-              /> </nuxt-link
-          ></swiper-slide>
-
-          <div class="swiper-button-prev" slot="button-prev"></div>
-          <div class="swiper-button-next" slot="button-next"></div>
-        </swiper>
+              />
+            </nuxt-link>
+          </slide>
+          <hooper-navigation slot="hooper-addons"></hooper-navigation>
+        </hooper>
       </div>
     </client-only>
     <InfoBox />
@@ -93,15 +96,21 @@
 </template>
 
 <script>
+import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
+import "hooper/dist/hooper.css";
 export default {
   auth: false,
   layout: "user",
+  components: {
+    Hooper,
+    Slide,
+    HooperNavigation
+  },
   data() {
     return {
       slides: [],
       categorySliders: [],
       savedProducts: [],
-      currentImg: 0,
       options: {
         type: "fade",
         autoplay: true,
@@ -131,36 +140,21 @@ export default {
           }
         }
       },
-      swiperOption: {
-        loop: true,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        },
+      hooperSettings: {
+        itemsToShow: 1,
+        infiniteScroll: true,
         breakpoints: {
-          1180: {
-            slidesPerView: 4,
-            spaceBetween: 30
+          640: {
+            itemsToShow: 2,
+            centerMode: true
           },
-          970: {
-            slidesPerView: 3,
-            spaceBetween: 20
+          900: {
+            itemsToShow: 3,
+            centerMode: true
           },
-          880: {
-            slidesPerView: 2,
-            spaceBetween: 250
-          },
-          720: {
-            slidesPerView: 2,
-            spaceBetween: 200
-          },
-          660: {
-            slidesPerView: 2,
-            spaceBetween: 120
-          },
-          600: {
-            slidesPerView: 1,
-            centeredSlides: true
+          1200: {
+            itemsToShow: 4,
+            centerMode: true
           }
         }
       },
@@ -189,15 +183,24 @@ export default {
         this.savedProducts = JSON.parse(json_string);
       }
     }
-    setInterval(() => {
-      this.currentImg = this.currentImg + 1;
-    }, 3000);
   }
 };
 </script>
-<style scoped>
+<style>
 .swiper-button-prev,
 .swiper-button-next {
   color: grey;
+}
+button.hooper-prev svg,
+button.hooper-next svg {
+  width: 3rem !important;
+  height: 4rem !important;
+  fill: rgb(179, 179, 179);
+}
+@media screen and (max-width: 640px) {
+  .hooper-slide {
+    margin: 0 auto !important;
+    width: 500px !important;
+  }
 }
 </style>
