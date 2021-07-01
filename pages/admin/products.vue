@@ -57,7 +57,16 @@
                   <div>
                     <label
                       for=""
-                      class="w-1/2 block font-bold text-gray-600 relative uppercase text-sm mb-1"
+                      class="
+                        w-1/2
+                        block
+                        font-bold
+                        text-gray-600
+                        relative
+                        uppercase
+                        text-sm
+                        mb-1
+                      "
                       >Narx</label
                     >
                     <div class="flex justify-between">
