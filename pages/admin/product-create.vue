@@ -113,7 +113,14 @@
               </div>
               <div class="my-4">
                 <label
-                  class="block font-bold text-gray-600 text-gray-600 uppercase text-sm mb-1"
+                  class="
+                    block
+                    font-bold
+                    text-gray-600 text-gray-600
+                    uppercase
+                    text-sm
+                    mb-1
+                  "
                   >Import</label
                 >
                 <input
@@ -423,7 +430,7 @@ export default {
   },
   computed: {
     imagesMinLength() {
-      return !!(this.createProductClicked && this.product.images.length < 3);
+      return !!(this.createProductClicked && this.product && this.product.images && this.product.images.length < 3);
     },
     imageRequired() {
       return !this.product.image && this.createProductClicked;
@@ -544,7 +551,12 @@ export default {
     },
     addAttribute(attributes) {
       attributes.push(this.attribute);
-      this.attribute = {};
+      this.attribute = {
+        is_main: false,
+        key: null,
+        label: null,
+        value: null
+      };
       this.showAddNewKey = false;
     },
     removeAttribute(attributes, index) {

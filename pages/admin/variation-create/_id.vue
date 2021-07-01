@@ -199,7 +199,12 @@ export default {
     },
     addAttribute(attributes) {
       attributes.push(this.attribute);
-      this.attribute = {};
+      this.attribute = {
+        is_main: false,
+        key: null,
+        label: null,
+        value: null
+      };
       this.showAddNewKey = false;
     },
     removeAttribute(attributes, index) {
