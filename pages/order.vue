@@ -17,7 +17,7 @@
     >
       <div class="w-full px-5 mx-auto">
         <form class="w-full" method="post" enctype="multipart/form-data">
-          <div class="input-group my-8">
+          <div class="input-group my-8 w-full">
             <label for="input" class="font-semibold text-sm uppercase"
               >ismingiz</label
             >
@@ -31,8 +31,8 @@
                 bg-gray-200
                 border-2
                 rounded-md
+                block
                 text-sm
-                w-1/2
                 py-2
                 pl-5
               "
@@ -60,8 +60,8 @@
                 bg-gray-200
                 border-2
                 rounded-md
+                block
                 text-sm
-                w-1/2
                 py-2
                 pl-5
               "
